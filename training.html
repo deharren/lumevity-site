@@ -12,183 +12,159 @@
     --emerald:#0C3B33;--emerald-2:#0E5A52;--sapphire:#102A43;--amethyst:#3B2A4A;
     --white:#FBFAF6;--pearl:#F1EFE9;--page:#F4F1E9;--stone:#D9D5CC;
     --gold:#C9A24B;--champagne:#E3CE9A;--gold-deep:#A07E2E;
-    --ink:#1c2b27;--muted:#5d6b66;--ok:#2f7d5b;
+    --ink:#1c2b27;--muted:#5d6b66;--ok:#2f7d5b;--no:#c0563f;
     --serif:'Fraunces',Georgia,serif;--sans:'Mulish',system-ui,sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
-  body{font-family:var(--sans);color:var(--ink);background:var(--page);line-height:1.62;-webkit-font-smoothing:antialiased;}
-  h1,h2,h3,h4{font-family:var(--serif);font-weight:500;line-height:1.2;letter-spacing:-0.01em;}
-  a{color:inherit;text-decoration:none;}
-  button{font-family:var(--sans);cursor:pointer;border:none;}
-  .app{display:grid;grid-template-columns:268px 1fr;min-height:100vh;}
-  .side{background:linear-gradient(170deg,var(--emerald),#0a2a24 80%);color:var(--white);padding:22px 18px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;}
-  .side .brand{display:flex;align-items:center;gap:10px;padding:6px 8px 18px;}
-  .side .brand .logo{width:32px;height:32px;}
-  .side .brand .name{font-family:var(--serif);font-size:1.4rem;font-weight:600;}
+  body{font-family:var(--sans);color:var(--ink);background:var(--page);line-height:1.55;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,h4{font-family:var(--serif);font-weight:500;line-height:1.15;letter-spacing:-0.01em;}
+  a{color:inherit;text-decoration:none;} button{font-family:var(--sans);cursor:pointer;border:none;}
+  .app{display:grid;grid-template-columns:262px 1fr;min-height:100vh;}
+  .side{background:linear-gradient(170deg,var(--emerald),#0a2a24 80%);color:var(--white);padding:22px 16px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;}
+  .side .brand{display:flex;align-items:center;gap:10px;padding:6px 8px 16px;}
+  .side .brand .logo{width:30px;height:30px;}
+  .side .brand .name{font-family:var(--serif);font-size:1.35rem;font-weight:600;}
   .side .brand .name b{color:var(--champagne);font-weight:600;}
-  .side .navlbl{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(227,206,154,.7);font-weight:700;padding:12px 10px 7px;}
-  .side .nav a{display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:10px;color:rgba(251,250,246,.82);font-size:.9rem;font-weight:600;margin-bottom:2px;}
+  .side .navlbl{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(227,206,154,.7);font-weight:700;padding:12px 10px 6px;}
+  .side .nav a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;color:rgba(251,250,246,.82);font-size:.88rem;font-weight:600;margin-bottom:2px;}
   .side .nav a:hover{background:rgba(227,206,154,.08);color:#fff;}
   .side .nav a.active{background:rgba(227,206,154,.16);color:#fff;}
-  .side .nav a.lock{opacity:.5;}
-  .side .nav a .ti{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.7;}
-  .side .nav a .tag{margin-left:auto;font-size:.55rem;letter-spacing:.05em;text-transform:uppercase;background:rgba(227,206,154,.18);color:var(--champagne);padding:2px 7px;border-radius:50px;}
-  .side .nav a .gck{margin-left:auto;color:var(--champagne);font-size:.8rem;}
+  .side .nav a .ti{width:17px;height:17px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .side .nav a .tag{margin-left:auto;font-size:.54rem;letter-spacing:.05em;text-transform:uppercase;background:rgba(227,206,154,.18);color:var(--champagne);padding:2px 7px;border-radius:50px;}
+  .side .nav a .gck{margin-left:auto;color:var(--champagne);}
   .side .prog{margin-top:auto;background:rgba(251,250,246,.06);border:1px solid rgba(227,206,154,.16);border-radius:14px;padding:14px;}
-  .side .prog .pt{font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;color:var(--champagne);font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+  .side .prog .pt{font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--champagne);font-weight:700;margin-bottom:8px;}
   .side .prog .bar{height:7px;border-radius:6px;background:rgba(251,250,246,.12);overflow:hidden;}
   .side .prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--champagne),var(--gold));transition:width .4s;}
   .side .prog .pn{font-size:.74rem;color:rgba(251,250,246,.74);margin-top:8px;}
   .main{min-width:0;}
-  .ribbon{background:var(--emerald);color:rgba(251,250,246,.82);font-size:.74rem;text-align:center;padding:9px 24px;}
+  .ribbon{background:var(--emerald);color:rgba(251,250,246,.82);font-size:.72rem;text-align:center;padding:8px 20px;}
   .ribbon b{color:var(--champagne);font-weight:700;}
-  .content{padding:32px 42px 64px;max-width:920px;}
-  .crumb{font-size:.82rem;color:var(--muted);margin-bottom:14px;}
+  .content{padding:28px 40px 60px;max-width:900px;}
+  .crumb{font-size:.8rem;color:var(--muted);margin-bottom:12px;}
   .crumb a{color:var(--emerald-2);font-weight:600;}
-  .eyebrow{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--gold-deep);}
-  .headrow{margin-bottom:24px;}
-  .headrow h1{font-size:2rem;color:var(--emerald);margin:9px 0 8px;}
-  .headrow p{color:var(--muted);font-size:1.01rem;max-width:660px;}
-  .card{background:var(--white);border:1px solid var(--stone);border-radius:16px;}
-  .pad{padding:24px 26px;}
-  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:.92rem;padding:12px 22px;border-radius:50px;}
-  .btn .ti{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;}
+  .eyebrow{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--gold-deep);}
+  .head h1{font-size:1.95rem;color:var(--emerald);margin:8px 0 6px;}
+  .head p{color:var(--muted);font-size:1rem;max-width:640px;}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:.9rem;padding:12px 22px;border-radius:50px;}
+  .btn .ti{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;}
   .btn-gold{background:linear-gradient(135deg,var(--champagne),var(--gold));color:#3a2e0e;}
-  .btn-dark{background:var(--emerald);color:#fff;}
-  .btn-ghost{background:transparent;color:var(--emerald);border:1.5px solid var(--stone);}
-  .btn-light{background:rgba(251,250,246,.12);color:#fff;border:1px solid rgba(227,206,154,.4);}
+  .btn-dark{background:var(--emerald);color:#fff;} .btn-ghost{background:transparent;color:var(--emerald);border:1.5px solid var(--stone);}
   .btn[disabled]{opacity:.4;cursor:not-allowed;}
-  .trackcards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:8px;}
-  .tcard{background:var(--white);border:1px solid var(--stone);border-radius:16px;padding:22px;display:flex;flex-direction:column;cursor:pointer;transition:border-color .15s,transform .15s;}
-  .tcard:hover{border-color:var(--gold);transform:translateY(-3px);}
-  .tcard .tic{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:13px;background:linear-gradient(160deg,#0d3e36,#0a2a24);}
-  .tcard .tic svg{width:22px;height:22px;stroke:var(--champagne);fill:none;stroke-width:1.7;}
-  .tcard h3{font-size:1.12rem;color:var(--emerald);margin-bottom:3px;}
-  .tcard .ts{font-size:.8rem;color:var(--muted);margin-bottom:14px;flex:1;}
-  .tcard .tb{height:7px;border-radius:6px;background:var(--pearl);overflow:hidden;margin-bottom:7px;}
+
+  /* course cards */
+  .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px;}
+  .tcard{background:var(--white);border:1px solid var(--stone);border-radius:16px;padding:20px;cursor:pointer;transition:transform .15s,border-color .15s;}
+  .tcard:hover{transform:translateY(-3px);border-color:var(--gold);}
+  .tcard .tic{width:52px;height:52px;border-radius:13px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;background:linear-gradient(160deg,#0d3e36,#0a2a24);}
+  .tcard .tic svg{width:30px;height:30px;}
+  .tcard h3{font-size:1.1rem;color:var(--emerald);margin-bottom:3px;}
+  .tcard .ts{font-size:.78rem;color:var(--muted);margin-bottom:12px;}
+  .tcard .tb{height:7px;border-radius:6px;background:var(--pearl);overflow:hidden;margin-bottom:6px;}
   .tcard .tb i{display:block;height:100%;background:linear-gradient(90deg,var(--champagne),var(--gold));}
-  .tcard .tm{font-size:.76rem;color:var(--muted);display:flex;align-items:center;gap:6px;}
-  .tcard .gradtag{color:var(--ok);font-weight:700;}
-  .resume{display:grid;grid-template-columns:1.5fr 1fr;overflow:hidden;margin:24px 0 8px;}
-  .resume .rl{padding:26px;}
-  .resume .rtag{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--gold-deep);}
-  .resume h2{font-size:1.4rem;color:var(--emerald);margin:8px 0 6px;}
-  .resume p{color:var(--muted);font-size:.9rem;margin-bottom:16px;}
-  .resume .rr{background:linear-gradient(160deg,#0d3e36,#0a2a24);color:#fff;display:flex;flex-direction:column;justify-content:center;padding:26px;}
-  .resume .rr .stat{font-family:var(--serif);font-size:2.3rem;color:var(--champagne);line-height:1;}
-  .resume .rr .stl{font-size:.78rem;color:rgba(251,250,246,.7);margin-bottom:14px;}
-  .goalbadge{display:inline-flex;align-items:center;gap:7px;font-size:.72rem;font-weight:700;letter-spacing:.04em;color:var(--gold-deep);background:#f7f1e2;border:1px solid #e8d9b3;padding:6px 13px;border-radius:50px;margin-bottom:12px;}
-  .goalbadge .ti{width:14px;height:14px;stroke:var(--gold-deep);fill:none;stroke-width:2;}
-  .secttl{font-size:1.18rem;color:var(--emerald);margin:26px 0 13px;}
-  .stage{margin-bottom:16px;}
-  .stage .sh{display:flex;align-items:center;gap:13px;margin-bottom:9px;}
-  .stage .snum{width:36px;height:36px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1rem;color:#3a2e0e;background:linear-gradient(135deg,var(--champagne),var(--gold));}
-  .stage .sh h3{font-size:1.1rem;color:var(--emerald);}
-  .stage .sh span{font-size:.78rem;color:var(--muted);}
-  .lessons{display:flex;flex-direction:column;gap:8px;padding-left:49px;}
-  .lrow{display:flex;align-items:center;gap:13px;background:var(--white);border:1px solid var(--stone);border-radius:12px;padding:13px 17px;cursor:pointer;transition:border-color .15s,transform .15s;}
+  .tcard .tm{font-size:.74rem;color:var(--muted);} .tcard .grad{color:var(--ok);font-weight:700;}
+
+  /* stages / lessons */
+  .stage{margin-bottom:14px;}
+  .stage .sh{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+  .stage .snum{width:34px;height:34px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-family:var(--serif);color:#3a2e0e;background:linear-gradient(135deg,var(--champagne),var(--gold));}
+  .stage .sh h3{font-size:1.05rem;color:var(--emerald);}
+  .lessons{display:flex;flex-direction:column;gap:8px;}
+  .lrow{display:flex;align-items:center;gap:13px;background:var(--white);border:1px solid var(--stone);border-radius:12px;padding:13px 16px;cursor:pointer;transition:border-color .15s,transform .15s;}
   .lrow:hover{border-color:var(--gold);transform:translateX(2px);}
-  .lrow .lic{width:30px;height:30px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--pearl);color:var(--emerald-2);}
-  .lrow .lic.done{background:linear-gradient(135deg,var(--champagne),var(--gold));color:#3a2e0e;}
-  .lrow .lic .ti{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;}
-  .lrow .lt{font-weight:600;font-size:.94rem;color:var(--ink);}
-  .lrow .ld{font-size:.77rem;color:var(--muted);}
-  .lrow .lmeta{margin-left:auto;font-size:.74rem;color:var(--muted);display:flex;align-items:center;gap:10px;}
-  .pill{font-size:.58rem;letter-spacing:.07em;text-transform:uppercase;font-weight:700;padding:3px 9px;border-radius:50px;}
-  .pill.done{background:#eaf3ee;color:var(--ok);}
-  .pill.todo{background:var(--pearl);color:var(--muted);}
-  .vmini{display:flex;align-items:center;gap:14px;background:linear-gradient(160deg,#103a33,#0c2b25);border:1px solid rgba(227,206,154,.2);border-radius:12px;padding:12px 16px;margin-bottom:18px;color:#fff;}
-  .vmini .vp{width:38px;height:38px;border-radius:9px;flex:none;background:rgba(227,206,154,.16);border:1px solid var(--champagne);display:flex;align-items:center;justify-content:center;}
-  .vmini .vp .ti{width:17px;height:17px;fill:var(--champagne);stroke:var(--champagne);}
-  .vmini .vmt{font-weight:700;font-size:.86rem;color:#fff;}
-  .vmini .vms{font-size:.74rem;color:rgba(251,250,246,.6);}
-  .vmini .vtag{margin-left:auto;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--champagne);border:1px solid rgba(227,206,154,.3);padding:4px 10px;border-radius:50px;}
-  .stepwrap{background:var(--white);border:1px solid var(--stone);border-radius:16px;overflow:hidden;}
-  .stepbar{display:flex;align-items:center;gap:14px;padding:16px 24px;border-bottom:1px solid var(--pearl);}
-  .stepbar .sx{font-size:.76rem;color:var(--muted);font-weight:700;white-space:nowrap;}
-  .stepbar .track{flex:1;height:7px;border-radius:6px;background:var(--pearl);overflow:hidden;}
-  .stepbar .track i{display:block;height:100%;background:linear-gradient(90deg,var(--champagne),var(--gold));transition:width .3s;}
-  .stepbody{padding:26px 30px;}
-  .stepbody .stnum{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;}
-  .stepbody h3{font-size:1.35rem;color:var(--emerald);margin:8px 0 12px;}
-  .stepbody .sd{font-size:1rem;color:var(--ink);margin-bottom:15px;}
-  .stepbody h5{font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:800;margin:0 0 9px;}
-  .stepbody ul.keys{list-style:none;margin:0 0 18px;}
-  .stepbody ul.keys li{position:relative;padding-left:24px;margin-bottom:9px;font-size:.94rem;color:var(--ink);}
-  .stepbody ul.keys li::before{content:"";position:absolute;left:0;top:8px;width:8px;height:8px;border-radius:50%;background:var(--gold);}
-  .co{display:flex;gap:12px;border-radius:12px;padding:13px 15px;margin-top:10px;}
-  .co .ci{width:26px;height:26px;flex:none;border-radius:8px;display:flex;align-items:center;justify-content:center;}
-  .co .ci .ti{width:15px;height:15px;stroke-width:2.2;fill:none;}
-  .co .ct{font-size:.87rem;}
-  .co.safety{background:#f7f1e2;border:1px solid #e8d9b3;}
-  .co.safety .ci{background:linear-gradient(135deg,var(--champagne),var(--gold));}
-  .co.safety .ci .ti{stroke:#3a2e0e;}
-  .co.safety .ct{color:#5a4413;} .co.safety .ct b{color:#3a2e0e;}
-  .co.miss{background:#f6eee9;border:1px solid #e7cdbc;}
-  .co.miss .ci{background:#c0563f;}
-  .co.miss .ci .ti{stroke:#fff;}
-  .co.miss .ct{color:#7a3a28;} .co.miss .ct b{color:#5e2a1c;}
-  .stepnav{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-top:1px solid var(--pearl);background:#fcfbf7;}
-  .dots{display:flex;gap:5px;flex-wrap:wrap;max-width:220px;}
-  .dots span{width:7px;height:7px;border-radius:50%;background:var(--stone);}
-  .dots span.on{background:var(--gold);} .dots span.dn{background:var(--emerald-2);}
-  .q{margin-bottom:18px;}
-  .q .qt{font-weight:700;font-size:.98rem;color:var(--emerald);margin-bottom:11px;}
-  .opt{display:flex;align-items:center;gap:12px;border:1px solid var(--stone);border-radius:11px;padding:12px 15px;margin-bottom:8px;cursor:pointer;}
-  .opt:hover{border-color:var(--gold);}
-  .opt input{accent-color:var(--emerald-2);width:16px;height:16px;}
-  .opt.correct{border-color:var(--ok);background:#eef6f0;}
-  .opt.wrong{border-color:#c0563f;background:#fbeee9;}
-  .opt .mk{margin-left:auto;font-size:.76rem;font-weight:700;}
-  .opt.correct .mk{color:var(--ok);} .opt.wrong .mk{color:#c0563f;}
-  .grad{text-align:center;background:radial-gradient(600px 360px at 50% -10%, rgba(227,206,154,.22), transparent 60%),linear-gradient(160deg,var(--emerald),var(--sapphire));color:#fff;border-radius:20px;padding:46px 38px;border:1px solid rgba(227,206,154,.22);}
-  .grad .seal{width:104px;height:104px;border-radius:50%;margin:0 auto 18px;background:linear-gradient(135deg,var(--champagne),var(--gold));display:flex;align-items:center;justify-content:center;box-shadow:0 0 50px rgba(227,206,154,.5);}
-  .grad .seal .ti{width:52px;height:52px;stroke:#3a2e0e;fill:none;stroke-width:1.8;}
-  .grad .ge{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--champagne);font-weight:700;}
-  .grad h1{font-size:2.1rem;color:#fff;margin:10px 0 10px;}
-  .grad p{color:rgba(251,250,246,.84);max-width:520px;margin:0 auto 14px;}
-  .cert{background:var(--white);border:1px solid var(--stone);border-radius:14px;max-width:520px;margin:22px auto 0;padding:26px;color:var(--ink);}
-  .cert .cl{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;}
-  .cert .cn{font-family:var(--serif);font-size:1.5rem;color:var(--emerald);margin:6px 0;}
-  .cert .cd{font-size:.84rem;color:var(--muted);}
+  .lrow .lic{width:40px;height:40px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--pearl);overflow:hidden;}
+  .lrow .lic svg{width:100%;height:100%;}
+  .lrow .lic.done{background:linear-gradient(135deg,var(--champagne),var(--gold));}
+  .lrow .lic.done .ti{width:18px;height:18px;stroke:#3a2e0e;fill:none;stroke-width:2.4;}
+  .lrow .lt{font-weight:700;font-size:.95rem;color:var(--ink);}
+  .lrow .ld{font-size:.76rem;color:var(--muted);}
+  .lrow .lmeta{margin-left:auto;}
+  .pill{font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700;padding:3px 9px;border-radius:50px;}
+  .pill.done{background:#eaf3ee;color:var(--ok);} .pill.todo{background:var(--pearl);color:var(--muted);}
+
+  /* lesson view */
+  .illo{background:linear-gradient(160deg,#0e3a33,#0a2a24);border:1px solid rgba(227,206,154,.2);border-radius:16px;padding:18px;margin-bottom:16px;display:flex;justify-content:center;}
+  .illo svg{width:100%;max-width:420px;height:auto;}
+  .lead{font-size:1.05rem;color:var(--ink);margin-bottom:16px;}
+  /* reveal cards */
+  .rcard{background:var(--white);border:1px solid var(--stone);border-radius:14px;margin-bottom:10px;overflow:hidden;}
+  .rhead{display:flex;align-items:center;gap:12px;padding:15px 18px;cursor:pointer;}
+  .rhead .rn{width:26px;height:26px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;color:#3a2e0e;background:linear-gradient(135deg,var(--champagne),var(--gold));}
+  .rhead .rt{font-weight:700;font-size:1rem;color:var(--emerald);}
+  .rhead .rd{font-size:.86rem;color:var(--muted);}
+  .rhead .chev{margin-left:auto;color:var(--gold-deep);transition:transform .2s;font-size:1.1rem;}
+  .rcard.open .chev{transform:rotate(180deg);}
+  .rmore{display:none;padding:0 18px 16px 56px;}
+  .rcard.open .rmore{display:block;}
+  .rmore ul{list-style:none;margin:0 0 8px;}
+  .rmore li{position:relative;padding-left:18px;margin-bottom:6px;font-size:.9rem;}
+  .rmore li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:var(--gold);}
+  .rmore .safe{font-size:.84rem;color:#5a4413;background:#f7f1e2;border:1px solid #e8d9b3;border-radius:10px;padding:9px 12px;}
+  .rmore .safe b{color:#3a2e0e;}
+
+  /* interactive: sites */
+  .inter{background:var(--white);border:1px solid var(--stone);border-radius:16px;padding:20px;margin:16px 0;}
+  .inter .il{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--gold-deep);}
+  .inter h3{font-size:1.15rem;color:var(--emerald);margin:6px 0 4px;}
+  .inter .iq{font-size:.95rem;color:var(--ink);margin-bottom:12px;}
+  .sitebox{display:flex;justify-content:center;}
+  .sitebox svg{width:100%;max-width:420px;height:auto;}
+  .hot{cursor:pointer;transition:.15s;}
+  .hot:hover{filter:brightness(1.12);}
+  .fb{margin-top:12px;font-size:.9rem;border-radius:10px;padding:10px 13px;display:none;}
+  .fb.show{display:block;}
+  .fb.ok{background:#eef6f0;border:1px solid #cfe6d8;color:var(--ok);}
+  .fb.no{background:#fbeee9;border:1px solid #e7cdbc;color:var(--no);}
+  /* quiz */
+  .q{margin-bottom:16px;}
+  .qq{font-weight:700;font-size:.98rem;color:var(--emerald);margin-bottom:10px;}
+  .qopt{display:flex;align-items:center;gap:10px;border:1px solid var(--stone);border-radius:11px;padding:12px 15px;margin-bottom:8px;cursor:pointer;transition:.15s;font-size:.92rem;}
+  .qopt:hover{border-color:var(--gold);}
+  .qopt.correct{border-color:var(--ok);background:#eef6f0;}
+  .qopt.wrong{border-color:var(--no);background:#fbeee9;}
+  .qopt .mk{margin-left:auto;font-weight:800;font-size:.8rem;}
+  .qopt.correct .mk{color:var(--ok);} .qopt.wrong .mk{color:var(--no);}
+  .qwhy{font-size:.84rem;color:var(--muted);margin:2px 0 4px;padding-left:2px;display:none;}
+  .qwhy.show{display:block;}
+  .qscore{font-weight:700;color:var(--emerald);margin-top:6px;}
+
+  .lnav{display:flex;justify-content:space-between;align-items:center;margin-top:18px;}
+  /* grad + ce (reuse) */
+  .grad{text-align:center;background:radial-gradient(600px 340px at 50% -10%, rgba(227,206,154,.22), transparent 60%),linear-gradient(160deg,var(--emerald),var(--sapphire));color:#fff;border-radius:20px;padding:44px 34px;border:1px solid rgba(227,206,154,.22);}
+  .grad .seal{width:100px;height:100px;border-radius:50%;margin:0 auto 16px;background:linear-gradient(135deg,var(--champagne),var(--gold));display:flex;align-items:center;justify-content:center;}
+  .grad .seal .ti{width:50px;height:50px;stroke:#3a2e0e;fill:none;stroke-width:1.8;}
+  .grad .ge{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--champagne);font-weight:700;}
+  .grad h1{font-size:2rem;color:#fff;margin:8px 0;}
+  .grad p{color:rgba(251,250,246,.84);max-width:500px;margin:0 auto 14px;}
+  .cert{background:var(--white);border:1px solid var(--stone);border-radius:14px;max-width:500px;margin:20px auto 0;padding:24px;}
+  .cert .cl{font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;}
+  .cert .cn{font-family:var(--serif);font-size:1.4rem;color:var(--emerald);margin:6px 0;}
+  .cert .cd{font-size:.82rem;color:var(--muted);}
   .gradlist{display:flex;flex-direction:column;gap:12px;}
-  .gradrow{display:flex;align-items:center;gap:16px;background:var(--white);border:1px solid var(--stone);border-radius:14px;padding:18px 22px;}
-  .gradrow .gi{width:42px;height:42px;border-radius:11px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--pearl);color:var(--emerald-2);}
-  .gradrow.done .gi{background:linear-gradient(135deg,var(--champagne),var(--gold));color:#3a2e0e;}
-  .gradrow .gi .ti{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;}
-  .gradrow h4{font-size:1.05rem;color:var(--emerald);}
-  .gradrow p{font-size:.8rem;color:var(--muted);}
-  .gradrow .ga{margin-left:auto;}
-  .cehead{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;background:linear-gradient(160deg,#0d3e36,#0a2a24);color:#fff;border-radius:16px;padding:24px 28px;margin-bottom:24px;border:1px solid rgba(227,206,154,.2);}
-  .cehead .cei{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--champagne);font-weight:700;}
-  .cehead h2{font-size:1.5rem;color:#fff;margin:6px 0 4px;}
-  .cehead p{font-size:.88rem;color:rgba(251,250,246,.78);max-width:480px;}
-  .cehours{text-align:center;flex:none;}
-  .cehours .n{font-family:var(--serif);font-size:2.6rem;color:var(--champagne);line-height:1;}
-  .cehours .l{font-size:.74rem;color:rgba(251,250,246,.7);}
-  .cegrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
-  .cecard{background:var(--white);border:1px solid var(--stone);border-radius:14px;padding:20px 22px;display:flex;flex-direction:column;}
-  .cecard .ch{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-  .cecard .chrs{font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--gold-deep);background:#f7f1e2;border:1px solid #e8d9b3;padding:3px 9px;border-radius:50px;}
-  .cecard .cmonthly{font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--emerald-2);background:#eaf3ee;padding:3px 9px;border-radius:50px;}
-  .cecard h4{font-size:1.06rem;color:var(--emerald);margin-bottom:5px;}
-  .cecard p{font-size:.85rem;color:var(--muted);margin-bottom:16px;flex:1;}
-  .cecard .cebtn{align-self:flex-start;}
-  .lockmsg{background:#f7f1e2;border:1px solid #e8d9b3;border-radius:14px;padding:22px 24px;color:#5a4413;}
-  .lockmsg b{color:#3a2e0e;}
-  .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(40px);background:var(--emerald);color:#fff;padding:15px 24px;border-radius:14px;display:flex;align-items:center;gap:13px;box-shadow:0 20px 50px rgba(8,30,40,.4);opacity:0;pointer-events:none;transition:.35s;z-index:100;border:1px solid rgba(227,206,154,.3);}
+  .gradrow{display:flex;align-items:center;gap:14px;background:var(--white);border:1px solid var(--stone);border-radius:14px;padding:16px 20px;}
+  .gradrow .gi{width:40px;height:40px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--pearl);overflow:hidden;}
+  .gradrow .gi svg{width:100%;height:100%;}
+  .gradrow.done .gi{background:linear-gradient(135deg,var(--champagne),var(--gold));}
+  .gradrow.done .gi .ti{width:20px;height:20px;stroke:#3a2e0e;fill:none;stroke-width:2.2;}
+  .gradrow h4{font-size:1.02rem;color:var(--emerald);} .gradrow p{font-size:.8rem;color:var(--muted);} .gradrow .ga{margin-left:auto;}
+  .cehead{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:linear-gradient(160deg,#0d3e36,#0a2a24);color:#fff;border-radius:16px;padding:22px 26px;margin-bottom:22px;border:1px solid rgba(227,206,154,.2);}
+  .cehead h2{font-size:1.4rem;color:#fff;} .cehead p{font-size:.86rem;color:rgba(251,250,246,.78);max-width:460px;}
+  .cehead .cei{font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--champagne);font-weight:700;}
+  .cehours{text-align:center;} .cehours .n{font-family:var(--serif);font-size:2.4rem;color:var(--champagne);line-height:1;} .cehours .l{font-size:.72rem;color:rgba(251,250,246,.7);}
+  .cegrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+  .cecard{background:var(--white);border:1px solid var(--stone);border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;}
+  .cecard .chrs{font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--gold-deep);background:#f7f1e2;border:1px solid #e8d9b3;padding:3px 9px;border-radius:50px;align-self:flex-start;margin-bottom:8px;}
+  .cecard h4{font-size:1.02rem;color:var(--emerald);margin-bottom:4px;} .cecard p{font-size:.83rem;color:var(--muted);margin-bottom:14px;flex:1;}
+  .lockmsg{background:#f7f1e2;border:1px solid #e8d9b3;border-radius:14px;padding:20px 22px;color:#5a4413;} .lockmsg b{color:#3a2e0e;}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(40px);background:var(--emerald);color:#fff;padding:14px 22px;border-radius:14px;display:flex;align-items:center;gap:12px;box-shadow:0 18px 46px rgba(8,30,40,.4);opacity:0;pointer-events:none;transition:.35s;z-index:100;border:1px solid rgba(227,206,154,.3);}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-  .toast .seal{width:38px;height:38px;border-radius:50%;flex:none;background:linear-gradient(135deg,var(--champagne),var(--gold));display:flex;align-items:center;justify-content:center;}
-  .toast .seal .ti{width:21px;height:21px;stroke:#3a2e0e;fill:none;stroke-width:2.2;}
-  .toast b{color:var(--champagne);}
-  @media(max-width:880px){
-    .app{grid-template-columns:1fr;}
-    .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px;}
-    .side .brand{padding:0 8px 0 0;} .side .navlbl,.side .prog{display:none;}
-    .side .nav{display:flex;flex-wrap:wrap;gap:4px;} .side .nav a{margin:0;}
-    .content{padding:24px 20px 50px;}
-    .resume,.cegrid,.trackcards{grid-template-columns:1fr;} .lessons{padding-left:0;}
+  .toast .seal{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--champagne),var(--gold));display:flex;align-items:center;justify-content:center;}
+  .toast .seal .ti{width:19px;height:19px;stroke:#3a2e0e;fill:none;stroke-width:2.2;} .toast b{color:var(--champagne);}
+  @media(max-width:860px){
+    .app{grid-template-columns:1fr;} .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;gap:6px;}
+    .side .brand{padding:0 8px 0 0;} .side .navlbl,.side .prog{display:none;} .side .nav{display:flex;flex-wrap:wrap;gap:4px;} .side .nav a{margin:0;}
+    .content{padding:22px 18px 50px;} .tgrid,.cegrid{grid-template-columns:1fr;}
   }
 </style>
 </head>
@@ -200,14 +176,12 @@
       <span class="name">Lume<b>vity</b></span>
     </div>
     <div class="navlbl">Training Center</div>
-    <nav class="nav" id="nav">
-      <a data-view="dashboard" onclick="go('dashboard')"><svg class="ti" viewBox="0 0 24 24"><path d="M4 13h7V4H4zM13 21h7V11h-7zM4 21h7v-5H4zM13 8h7V4h-7z"/></svg>Dashboard</a>
-    </nav>
+    <nav class="nav"><a data-view="dashboard" onclick="go('dashboard')"><svg class="ti" viewBox="0 0 24 24"><path d="M4 13h7V4H4zM13 21h7V11h-7zM4 21h7v-5H4zM13 8h7V4h-7z"/></svg>Dashboard</a></nav>
     <div class="navlbl">Courses</div>
     <nav class="nav" id="navCourses">
-      <a data-track="iv" onclick="go('path','iv')"><svg class="ti" viewBox="0 0 24 24"><path d="M4 19V5l8 3 8-3v14l-8 3z"/><path d="M12 8v14"/></svg>IV Insertion<span class="gck" id="gckiv"></span></a>
-      <a data-track="im" onclick="go('path','im')"><svg class="ti" viewBox="0 0 24 24"><path d="M5 19l5-5M9 11l5-5 4 4-5 5z"/><path d="M14 6l4 4"/></svg>IM Injection<span class="gck" id="gckim"></span></a>
-      <a data-track="nad" onclick="go('path','nad')"><svg class="ti" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg>NAD+ Injection<span class="gck" id="gcknad"></span></a>
+      <a data-track="iv" onclick="go('path','iv')"><svg class="ti" viewBox="0 0 24 24"><path d="M4 19V5l8 3 8-3v14l-8 3z"/></svg>IV Insertion<span class="gck" id="gckiv"></span></a>
+      <a data-track="im" onclick="go('path','im')"><svg class="ti" viewBox="0 0 24 24"><path d="M5 19l5-5M9 11l5-5 4 4-5 5z"/></svg>IM Injection<span class="gck" id="gckim"></span></a>
+      <a data-track="subq" onclick="go('path','subq')"><svg class="ti" viewBox="0 0 24 24"><path d="M6 18l6-6M11 13l5-5 3 3-5 5z"/></svg>Subcutaneous<span class="gck" id="gcksubq"></span></a>
     </nav>
     <div class="navlbl">Progress</div>
     <nav class="nav">
@@ -215,504 +189,305 @@
       <a data-view="ce" id="ceNav" onclick="go('ce')"><svg class="ti" viewBox="0 0 24 24"><path d="M12 2l2.4 5 5.6.8-4 4 .9 5.6L12 19l-5 2.4.9-5.6-4-4 5.6-.8z"/></svg>CE Center<span class="tag" id="ceTag">Locked</span></a>
       <a data-view="video" onclick="go('video')"><svg class="ti" viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M10 9l5 3-5 3z"/></svg>Video Library</a>
     </nav>
-    <div class="prog">
-      <div class="pt"><svg class="ti" viewBox="0 0 24 24" style="width:13px;height:13px;stroke:var(--champagne);fill:none;stroke-width:2"><path d="M2 9l10-5 10 5-10 5z"/></svg><span id="goalLbl">Goal: Graduate</span></div>
-      <div class="bar"><i id="sideProg" style="width:0%"></i></div>
-      <div class="pn" id="sideProgN">0 of 10 lessons</div>
-    </div>
+    <div class="prog"><div class="pt" id="goalLbl">Goal: Graduate</div><div class="bar"><i id="sideProg" style="width:0%"></i></div><div class="pn" id="sideProgN">0 of 0</div></div>
   </aside>
   <div class="main">
-    <div class="ribbon">Educational training for healthcare learners · Practice hands-on skills <b>only under qualified supervision</b> within your scope of practice.</div>
+    <div class="ribbon">Educational training · Practice hands-on skills <b>only under qualified supervision</b> within your scope of practice.</div>
     <div class="content" id="view"></div>
   </div>
 </div>
 <div class="toast" id="toast"><div class="seal"><svg class="ti" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div id="toastMsg">Done</div></div>
 
 <script>
-const SAFE="Safety";
+/* ---------- SVG illustrations ---------- */
+function svgArm(interactive){
+  var hot=interactive?'hot':'';
+  return '<svg viewBox="0 0 340 190">'
+    +'<rect x="18" y="55" width="304" height="80" rx="40" fill="#f3ecdb" stroke="#d9d5cc"/>'
+    +'<path d="M40 100 C130 78,210 116,300 92" stroke="#5f8ea0" stroke-width="7" fill="none" opacity=".55"/>'
+    +'<path d="M40 118 C140 134,215 104,300 124" stroke="#5f8ea0" stroke-width="5" fill="none" opacity=".4"/>'
+    +'<circle class="'+hot+'" data-id="good" cx="158" cy="106" r="13" fill="#C9A24B" opacity=".9"/>'
+    +'<circle class="'+hot+'" data-id="valve" cx="245" cy="96" r="13" fill="#C9A24B" opacity=".9"/>'
+    +'<circle class="'+hot+'" data-id="hand" cx="62" cy="103" r="13" fill="#C9A24B" opacity=".9"/>'
+    +(interactive?'':'<text x="158" y="150" fill="#E3CE9A" font-size="11" text-anchor="middle" font-family="Mulish">forearm vein — ideal</text>')
+    +'</svg>';
+}
+function svgIM(interactive){
+  var hot=interactive?'hot':'';
+  return '<svg viewBox="0 0 340 210">'
+    +'<circle cx="80" cy="34" r="16" fill="#f3ecdb" stroke="#d9d5cc"/>'
+    +'<rect x="58" y="54" width="44" height="86" rx="16" fill="#f3ecdb" stroke="#d9d5cc"/>'
+    +'<rect x="40" y="60" width="20" height="64" rx="10" fill="#f3ecdb" stroke="#d9d5cc"/>'
+    +'<rect x="64" y="138" width="34" height="60" rx="14" fill="#f3ecdb" stroke="#d9d5cc"/>'
+    +'<ellipse class="'+hot+'" data-id="deltoid" cx="50" cy="72" rx="12" ry="14" fill="#C9A24B" opacity=".9"/>'
+    +'<ellipse class="'+hot+'" data-id="ventro" cx="88" cy="150" rx="13" ry="12" fill="#C9A24B" opacity=".9"/>'
+    +'<ellipse class="'+hot+'" data-id="vastus" cx="80" cy="176" rx="12" ry="15" fill="#C9A24B" opacity=".9"/>'
+    +'<text x="150" y="70" fill="#E3CE9A" font-size="12" font-family="Mulish">Deltoid — small volumes</text>'
+    +'<text x="150" y="150" fill="#E3CE9A" font-size="12" font-family="Mulish">Ventrogluteal — preferred</text>'
+    +'<text x="150" y="180" fill="#E3CE9A" font-size="12" font-family="Mulish">Vastus lateralis — thigh</text>'
+    +'</svg>';
+}
+function svgSubQ(interactive){
+  var hot=interactive?'hot':'';
+  return '<svg viewBox="0 0 340 200">'
+    +'<rect x="120" y="24" width="100" height="150" rx="30" fill="#f3ecdb" stroke="#d9d5cc"/>'
+    +'<rect x="86" y="40" width="26" height="80" rx="13" fill="#f3ecdb" stroke="#d9d5cc"/>'
+    +'<rect x="228" y="40" width="26" height="80" rx="13" fill="#f3ecdb" stroke="#d9d5cc"/>'
+    +'<ellipse class="'+hot+'" data-id="abdomen" cx="170" cy="120" rx="26" ry="18" fill="#C9A24B" opacity=".85"/>'
+    +'<circle class="'+hot+'" data-id="navel" cx="170" cy="120" r="5" fill="#0a2a24"/>'
+    +'<ellipse class="'+hot+'" data-id="arm" cx="99" cy="70" rx="9" ry="14" fill="#C9A24B" opacity=".9"/>'
+    +'<text x="150" y="122" fill="#0a2a24" font-size="10" text-anchor="middle" font-family="Mulish">abdomen</text>'
+    +'</svg>';
+}
+function svgAngle(){
+  return '<svg viewBox="0 0 340 150">'
+    +'<rect x="20" y="96" width="300" height="34" rx="6" fill="#f3ecdb" stroke="#d9d5cc"/>'
+    +'<line x1="20" y1="96" x2="320" y2="96" stroke="#C9A24B" stroke-width="2"/>'
+    +'<line x1="120" y1="96" x2="120" y2="40" stroke="#E3CE9A" stroke-width="4"/>'
+    +'<text x="128" y="52" fill="#E3CE9A" font-size="12" font-family="Mulish">90&#176; — IM</text>'
+    +'<line x1="235" y1="96" x2="195" y2="52" stroke="#E3CE9A" stroke-width="4"/>'
+    +'<text x="205" y="46" fill="#E3CE9A" font-size="12" font-family="Mulish">45&#176; — SubQ</text>'
+    +'</svg>';
+}
+function svgMini(kind){
+  if(kind==='arm') return '<svg viewBox="0 0 40 40"><rect x="4" y="14" width="32" height="12" rx="6" fill="#0e3a33"/><path d="M6 20h28" stroke="#C9A24B" stroke-width="2"/></svg>';
+  if(kind==='im') return '<svg viewBox="0 0 40 40"><circle cx="20" cy="12" r="5" fill="#0e3a33"/><rect x="15" y="18" width="10" height="16" rx="4" fill="#0e3a33"/><circle cx="27" cy="22" r="3" fill="#C9A24B"/></svg>';
+  if(kind==='subq') return '<svg viewBox="0 0 40 40"><rect x="12" y="10" width="16" height="22" rx="7" fill="#0e3a33"/><circle cx="20" cy="21" r="4" fill="#C9A24B"/></svg>';
+  if(kind==='angle') return '<svg viewBox="0 0 40 40"><rect x="6" y="24" width="28" height="6" rx="2" fill="#0e3a33"/><line x1="16" y1="24" x2="16" y2="10" stroke="#C9A24B" stroke-width="3"/></svg>';
+  return '<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="10" fill="#0e3a33"/></svg>';
+}
+
+/* ---------- Data ---------- */
 const TRACKS={
-  iv:{ short:"IV", name:"Peripheral IV Insertion", title:"Become a Graduate: Peripheral IV Insertion",
-    sub:"A complete, clinically detailed pathway — from venous anatomy to confident, supervised competency. Finish all ten lessons and pass the graduation exam to earn your Lumevity Graduate credential.",
-    stages:[
-      {n:1,title:"Foundations",sub:"Anatomy, equipment & infection control",ids:["anatomy","equip","asepsis"]},
-      {n:2,title:"Preparation",sub:"Assess, communicate, set up",ids:["assess","setup"]},
-      {n:3,title:"Technique",sub:"The insertion itself",ids:["insert"]},
-      {n:4,title:"Aftercare & Troubleshooting",sub:"Secure, document, manage problems",ids:["aftercare","trouble"]},
-      {n:5,title:"Mastery & Graduation",sub:"Difficult access, then graduate",ids:["mastery","capstone_iv"]},
-    ]},
-  im:{ short:"IM", name:"Intramuscular Injection", title:"Become a Graduate: Intramuscular Injection",
-    sub:"Master safe, confident IM injection — from landmarking the right muscle to flawless Z-track technique. Complete the path and pass the exam to graduate.",
-    stages:[
-      {n:1,title:"Foundations",sub:"Why IM, and where",ids:["im_fund","im_sites"]},
-      {n:2,title:"Preparation",sub:"Needle & medication",ids:["im_equip"]},
-      {n:3,title:"Technique",sub:"The injection",ids:["im_technique"]},
-      {n:4,title:"Aftercare",sub:"Monitor & manage",ids:["im_after"]},
-      {n:5,title:"Graduation",sub:"Capstone & exam",ids:["im_capstone"]},
-    ]},
-  nad:{ short:"NAD+", name:"NAD+ Injection", title:"Become a Graduate: NAD+ Injection",
-    sub:"Learn to safely administer subcutaneous NAD+ injections (50–100 mg) as offered at IV Wellness — including the slow-injection technique that keeps clients comfortable. Complete the path and pass the exam to graduate.",
-    stages:[
-      {n:1,title:"Foundations",sub:"What NAD+ is, and where to inject",ids:["nad_fund","nad_sites"]},
-      {n:2,title:"Preparation",sub:"Dose, draw-up & needle",ids:["nad_equip"]},
-      {n:3,title:"Technique",sub:"The injection",ids:["nad_technique"]},
-      {n:4,title:"Aftercare",sub:"Reactions & education",ids:["nad_after"]},
-      {n:5,title:"Graduation",sub:"Capstone & exam",ids:["nad_capstone"]},
-    ]},
+  iv:{short:"IV",name:"IV Insertion",title:"Peripheral IV Insertion",sub:"Place a peripheral IV with confidence — from picking the vein to a secure, patent line.",
+    stages:[{n:1,title:"Foundations",ids:["iv_veins"]},{n:2,title:"Prepare",ids:["iv_prep"]},{n:3,title:"Insert",ids:["iv_insert"]},{n:4,title:"Aftercare",ids:["iv_after"]},{n:5,title:"Graduate",ids:["iv_exam"]}]},
+  im:{short:"IM",name:"IM Injection",title:"Intramuscular Injection",sub:"Land the right muscle, every time — safe sites, correct needle, clean Z-track technique.",
+    stages:[{n:1,title:"Sites",ids:["im_sites"]},{n:2,title:"Prepare",ids:["im_prep"]},{n:3,title:"Inject",ids:["im_tech"]},{n:4,title:"Graduate",ids:["im_exam"]}]},
+  subq:{short:"SubQ",name:"Subcutaneous Injection",title:"Subcutaneous Injection",sub:"Give comfortable subcutaneous injections — the right sites, angle, and a slow, gentle push.",
+    stages:[{n:1,title:"Sites",ids:["sq_sites"]},{n:2,title:"Technique",ids:["sq_tech"]},{n:3,title:"Aftercare",ids:["sq_after"]},{n:4,title:"Graduate",ids:["sq_exam"]}]},
 };
 
-const L = {
-  anatomy:{ title:"Venous anatomy & vein assessment", stage:"IV · Foundations", dur:"20 min",
-    overview:"The single biggest predictor of a successful, comfortable IV is the vein you choose — long before the catheter touches skin. This lesson trains your eyes and fingertips to find the right target every time.",
-    objectives:["Describe the vein-wall layers and valves that affect cannulation","Map the peripheral veins of the hand and forearm and their trade-offs","Assess a vein by inspection and palpation","Recognize veins, sites, and limbs to avoid"],
-    steps:[
-      {t:"How a vein is built — and why it matters",d:"A peripheral vein has three layers: the inner tunica intima (smooth endothelium), the muscular tunica media, and the outer tunica adventitia. Veins also contain one-way valves, often felt as small firm bumps.",keys:["The media lets veins constrict (spasm) when cold, anxious, or roughly handled","Valves sit at branch points — insert above or below them, not into them","Thin-walled, mobile veins 'roll' unless anchored"],miss:"Aiming directly at a visible valve 'bump' — it blocks advancement and causes pain.",safety:"Gentle handling keeps veins dilated; rough palpation triggers spasm and shrinks your target."},
-      {t:"The peripheral road map",d:"Know your options and their trade-offs so site choice is deliberate, not lucky.",keys:["Dorsal metacarpal (back of hand): accessible, good for short therapy, but more fragile","Cephalic & basilic (forearm): larger, well-supported — often the ideal adult site","Antecubital fossa: large and easy but crosses the elbow — reserve for draws/emergencies, not dwelling lines"],miss:"Defaulting to the antecubital fossa for a dwelling IV — elbow flexion kinks the catheter.",safety:"Choose the most distal suitable vein first; you can always move proximally if needed."},
-      {t:"What makes a 'good' vein",d:"Seek specific qualities rather than the first vein you see.",keys:["Straight segment at least ~2.5 cm long","Palpable, soft, and springy (bounces back when pressed)","Well-anchored and away from joints of flexion","Large enough for the smallest catheter the therapy needs"],miss:"Choosing a vein you can see but not feel — visible does not mean cannulatable.",safety:"If the best vein is small, downsize the catheter rather than forcing a large gauge."},
-      {t:"Inspection and palpation",d:"Palpation tells you far more than sight. A vein you can feel bounce is usually a better target than one you can only see.",keys:["Use good lighting; warm the limb and let gravity help (arm below heart)","Palpate with light, rolling fingertip pressure — feel for soft refill","An artery pulses; a tendon is hard and cord-like; a vein springs back"],miss:"Pressing hard or 'digging' — it flattens the vein and obscures it.",safety:"If you feel a pulse, stop — that is an artery, never your target."},
-      {t:"Veins, sites, and limbs to avoid",d:"Knowing where NOT to go is half of expertise.",keys:["Avoid valves, bifurcations, bruised, sclerosed, or previously infiltrated veins","Avoid joints of flexion when a forearm option exists","Avoid an affected limb: mastectomy with node removal, AV fistula/graft, stroke-affected side, or lymphedema","Avoid infection, burns, or skin breakdown"],miss:"Missing a documented arm restriction before applying the tourniquet.",safety:"When two attempts fail or options are poor, pause and escalate — that is good care, not failure."},
-      {t:"Encouraging veins to fill",d:"Several gentle techniques dilate veins; a few common 'tricks' actually harm.",keys:["Lower the limb and apply warmth for a minute or two","Light tapping or stroking toward the site can help","Have the patient gently open and close the fist a few times"],miss:"Vigorous slapping or hard fist-pumping — it bruises tissue and can skew lab values.",safety:"Warmth is the safest, most reliable dilator — reach for it before anything aggressive."},
-    ]},
-  equip:{ title:"Indications, catheter gauges & equipment", stage:"IV · Foundations", dur:"18 min",
-    overview:"Choosing the right catheter and assembling the right supplies turns a stressful improvisation into a smooth, controlled procedure.",
-    objectives:["State indications and contraindications for a peripheral IV","Identify the parts of a safety over-the-needle catheter","Select catheter gauge by clinical purpose","Assemble a complete, organized supply tray"],
-    steps:[
-      {t:"When a peripheral IV is appropriate in our setting",d:"A PIV provides short-term venous access for fluids, medications, blood products, and contrast. It is not right for everything.",keys:["Good for: hydration, vitamin and mineral drips, NAD+ infusions, and IV add-ons","Reconsider for: vesicant/irritant infusions, long-term therapy, or TPN — often need central/midline access","Always confirm a current order and a clear clinical indication"],miss:"Placing a PIV 'just in case' with no order or indication.",safety:"If the therapy is a known vesicant or long-term, raise the question of a different device first."},
-      {t:"Anatomy of a safety catheter",d:"Modern PIVs are over-the-needle catheters with engineered sharps protection.",keys:["A flexible catheter sits over a sharp stylet (needle)","A flashback chamber shows blood return when the tip enters the vein","A safety mechanism shields or retracts the needle after use"],miss:"Not test-loosening the catheter on the stylet beforehand — it can stick and fail to advance.",safety:"Never reinsert the stylet into the catheter once withdrawn — it can shear off a catheter fragment (embolus)."},
-      {t:"Choosing the gauge",d:"Gauge is counter-intuitive: the larger the number, the smaller the catheter. Pick the smallest gauge that delivers the therapy, in the smallest suitable vein.",keys:["14–16 G: trauma, rapid resuscitation","18 G: surgery, blood products, rapid fluids","20 G: general use; transfuses most adults","22 G: most medical adults, smaller/fragile veins","24 G: neonates, pediatrics, very fragile elderly veins"],miss:"Reaching for a large gauge by habit — oversized catheters damage veins and hurt more.",safety:"Smaller gauges lower phlebitis and infiltration risk; up-size only when the therapy requires it."},
-      {t:"Build your tray and prime the set",d:"Lay everything out and open packaging first so the tourniquet-to-cannulation window stays short.",keys:["Gloves, chlorhexidine-alcohol, tourniquet, catheter(s) plus a backup","Extension set/J-loop and a prefilled sterile saline flush — primed to clear air","Transparent dressing, securement, gauze, tape, label, and a sharps container at hand"],miss:"Realizing mid-procedure that the flush or dressing is across the room.",safety:"The sharps container must be at the point of use before you uncap any needle."},
-    ]},
-  asepsis:{ title:"Infection prevention & sharps safety", stage:"IV · Foundations", dur:"16 min",
-    overview:"Every cannulation breaches the skin's barrier. Disciplined aseptic technique and sharps safety protect your patient from infection and protect you from needlestick injury.",
-    objectives:["Apply hand-hygiene moments around the procedure","Perform aseptic non-touch technique (ANTT)","Disinfect skin correctly and let it work","Handle sharps safely and respond to a needlestick"],
-    steps:[
-      {t:"Hand hygiene and why it matters",d:"Contamination at insertion is a leading cause of catheter-related infection, and hand hygiene is the most effective single action to prevent it.",keys:["Clean hands before touching the patient and before the procedure","Clean again after the procedure and after glove removal","Use alcohol rub or soap and water per policy"],miss:"Donning gloves without first performing hand hygiene.",safety:"Gloves complement hand hygiene — they never replace it."},
-      {t:"Aseptic Non-Touch Technique (ANTT)",d:"ANTT means protecting the 'key parts' (catheter tip, needle, anything contacting the bloodstream) and the 'key site' (prepped skin) from contamination.",keys:["Identify key parts and key sites; never touch them with anything non-sterile","Once skin is prepped, do not re-palpate it with an ungloved finger","Keep a clean, uncluttered field"],miss:"Re-touching the cleaned insertion site to 'recheck' the vein.",safety:"If you must re-palpate after prepping, disinfect again before insertion."},
-      {t:"Skin antisepsis — done right",d:"Antiseptic only works if applied with friction and allowed to dry.",keys:["Use chlorhexidine-alcohol where available (alcohol or povidone-iodine per policy/allergy)","Apply with friction for the recommended time (commonly ~30 seconds)","Allow it to air-dry completely — do not wipe, blow, or fan"],miss:"Inserting while the prep is still wet — it stings and is less effective.",safety:"Confirm no chlorhexidine, iodine, or alcohol allergy before applying."},
-      {t:"Sharps safety and needlestick response",d:"The withdrawn stylet is a contaminated sharp. Treat it with immediate, deliberate care.",keys:["Activate the safety mechanism the instant the needle leaves the skin","Never recap a needle; never set a bare stylet down","Dispose directly into the sharps container at the point of use"],miss:"Laying the stylet on the tray 'for a second' — the leading cause of needlestick.",safety:"If stuck: encourage bleeding, wash with soap and water, and report immediately for post-exposure protocol."},
-    ]},
-  assess:{ title:"Patient assessment, consent & communication", stage:"IV · Preparation", dur:"15 min",
-    overview:"A calm, well-assessed, informed patient makes for an easier, kinder, safer stick. Preparation here prevents most downstream problems.",
-    objectives:["Verify order, patient identity, and allergies","Obtain informed consent and reduce anxiety","Gather history that changes your approach","Position the patient and yourself for success"],
-    steps:[
-      {t:"Verify order, identity, and allergies",d:"Disciplined practice begins with verification, every time.",keys:["Confirm the order and the clinical reason for access","Identify the patient with two identifiers","Check allergies that matter here: chlorhexidine, latex, adhesive, local anesthetics"],miss:"Skipping the allergy check and applying chlorhexidine to a sensitized patient.",safety:"Right patient, right order — confirm both before proceeding."},
-      {t:"Explain, gain consent, and ease fear",d:"Needle anxiety is extremely common; how you communicate changes the experience and the veins.",keys:["Explain in plain language what you will do and why","Obtain consent and answer questions honestly","Acknowledge fear; offer to talk them through it or look away"],miss:"Rushing a frightened patient — tension causes vasoconstriction and harder sticks.",safety:"Honor a patient's right to decline or request another clinician."},
-      {t:"History that changes your plan",d:"A few questions can reshape your whole approach.",keys:["Anticoagulants or bleeding tendency (more pressure after)","Prior difficult access or many past IVs","Lymphedema, mastectomy, AV fistula, dialysis, or dehydration"],miss:"Ignoring a 'hard stick' history and repeating others' failed approach.",safety:"A known difficult-access patient warrants planning and early escalation, not repeated blind attempts."},
-      {t:"Position the patient — and yourself",d:"Ergonomics protect both your success rate and your back.",keys:["Support the arm, extended, and below heart level","Adjust bed/chair height and lighting","Sit or stand stable; you may be still for a minute or more"],miss:"Working hunched in an awkward position that ruins fine motor control.",safety:"A supported, relaxed limb dilates veins and reduces sudden movement."},
-    ]},
-  setup:{ title:"Tray setup, tourniquet & final vein selection", stage:"IV · Preparation", dur:"14 min",
-    overview:"The minute before insertion is decisive. Set up so your window is short, your tourniquet is correct, and your vein choice is final.",
-    objectives:["Assemble and open supplies on a clean field","Apply the tourniquet correctly and safely","Use dilation maneuvers appropriately","Make a final, committed vein selection"],
-    steps:[
-      {t:"Open and arrange your supplies",d:"Everything ready and reachable keeps the tourniquet-to-cannulation time short.",keys:["Open packaging to create a clean working field","Position the primed flush, dressing, and tape within reach","Place the sharps container at the point of use"],miss:"Applying the tourniquet first, then fumbling for supplies while the arm goes numb.",safety:"A short working window keeps the patient comfortable and veins healthy."},
-      {t:"Apply the tourniquet",d:"The tourniquet should engorge veins without cutting off arterial flow.",keys:["Place 4–6 inches (10–15 cm) above the intended site","Snug, but a radial pulse should remain palpable","Apply smoothly to avoid pinching or skin tears"],miss:"Over-tightening until the limb blanches — that occludes arteries and worsens filling.",safety:"If the patient reports numbness or the hand pales, loosen it — it is too tight."},
-      {t:"Encourage filling — gently, then commit",d:"Use safe dilation maneuvers, then choose one vein and a clear plan.",keys:["Lower the limb; apply warmth; have the patient open and close the fist a few times","Re-palpate to confirm the chosen vein's path, depth, and direction","Have a backup vein in mind and note your entry point and angle"],miss:"Vigorous fist-pumping/slapping, or changing your mind mid-insertion.",safety:"Limit tourniquet time to about a minute; release and rest if it runs long."},
-      {t:"Don gloves and run a final check",d:"A last mental checklist before skin contact.",keys:["Perform hand hygiene and don clean gloves","Confirm patient, site, catheter, flush, and dressing are ready","Confirm the sharps container is at hand"],miss:"Realizing after the stick that the flush was never primed.",safety:"This 10-second pause prevents most mid-procedure scrambles."},
-    ]},
-  insert:{ title:"Step-by-step: performing a peripheral IV insertion", stage:"IV · Technique", dur:"24 min", flagship:true,
-    overview:"This is the procedure itself, broken into deliberate, repeatable steps. Master the sequence here in theory, then build the hands-on motor skill under supervision until it is second nature.",
-    objectives:["Sequence the full insertion from antisepsis to securement","Recognize and respond to flashback correctly","Advance the catheter and manage the stylet safely","Confirm patency and secure the line"],
-    steps:[
-      {t:"Final verification and clean baseline",d:"Reset to a clean starting point with everything confirmed.",keys:["Re-confirm patient, order, and site","Perform hand hygiene and don clean gloves","Confirm the flush is primed and the dressing is open and ready"],miss:"Skipping the re-check because you 'just did it' during setup.",safety:"If anything feels off, stop and restart the check — never rush the setup."},
-      {t:"Disinfect the site and let it dry",d:"Aseptic technique is what separates a safe stick from an infection risk.",keys:["Cleanse with chlorhexidine-alcohol using friction for the full time","Allow it to air-dry completely","Do not re-palpate the cleaned site with an ungloved finger"],miss:"Touching the prepped skin again right before inserting.",safety:"Letting the antiseptic dry is essential — wiping or fanning defeats it."},
-      {t:"Anchor the vein",d:"A vein that cannot move is a vein you can hit.",keys:["With your non-dominant thumb, pull the skin taut 2–3 cm below the site","Anchor to the side of the vein, not directly over your target","Maintain steady traction throughout insertion"],miss:"Releasing traction as you advance — the vein rolls off the needle.",safety:"Hold anchoring until the catheter is well into the vein."},
-      {t:"Insert at the correct angle",d:"Bevel up, shallow and deliberate — this is where skill shows.",keys:["Hold bevel-up at roughly 10–30°, depending on vein depth","Warn the patient ('small sharp scratch')","Move smoothly through the skin toward the vein in one controlled motion"],miss:"Hesitant, repeated shallow jabs — they hurt and miss.",safety:"Watch the flashback chamber, not your hand, as you advance."},
-      {t:"Confirm flashback",d:"Blood in the chamber tells you the needle tip has entered the vein.",keys:["Watch for blood return in the chamber","Flashback confirms the needle — not yet the catheter — is in the lumen","Stop advancing the whole unit the moment you see it"],miss:"Continuing to push the needle deep after flashback — you blow through the back wall.",safety:"No flashback? Stop, withdraw slightly, reassess — do not fan or dig sideways."},
-      {t:"Drop the angle and seat the catheter tip",d:"A small extra advance ensures the catheter — not just the needle — is in the vein.",keys:["Lower the angle nearly flat to the skin","Advance the whole unit 1–2 mm further","This places the catheter tip past the needle tip, inside the lumen"],miss:"Threading the catheter when only the needle tip was in — it won't advance and infiltrates.",safety:"If resistance appears here, stop and reassess rather than forcing."},
-      {t:"Advance the catheter off the stylet",d:"Thread the soft catheter home while keeping the vein anchored.",keys:["Hold the stylet still; slide the catheter forward off it into the vein","Advance smoothly to the hub","Keep your anchoring hand steady the whole time"],miss:"Moving the needle forward with the catheter — re-puncturing the vein wall.",safety:"Never advance against firm resistance; never reinsert the stylet."},
-      {t:"Release the tourniquet",d:"Restore normal flow before you open the system.",keys:["Release once the catheter is seated","This reduces back-pressure and bleeding when you remove the stylet","Keep the limb still"],miss:"Forgetting the tourniquet — prolonged occlusion and a bloody field.",safety:"A forgotten tourniquet is a patient-safety event — make release a fixed habit."},
-      {t:"Remove the stylet safely",d:"Control bleeding and contain the sharp in one smooth move.",keys:["Apply light pressure over the vein just beyond the catheter tip","Withdraw the stylet fully and activate its safety mechanism immediately","Dispose directly into the sharps container"],miss:"Setting the bare stylet on the bed — needlestick risk.",safety:"Engage the safety device before your attention moves anywhere else."},
-      {t:"Connect, flush, and assess for infiltration",d:"Prove the line works before you trust it.",keys:["Connect the primed extension set/flush","Gently aspirate for blood return, then flush with saline — flow should be easy and painless","Watch for swelling, coolness, or pain (infiltration) and stop if present"],miss:"Forcing a flush against resistance or taping down a line you never assessed.",safety:"When in doubt, take it out — an infiltrating line only worsens."},
-      {t:"Secure, dress, and label",d:"A well-secured line is a line that lasts.",keys:["Apply the transparent dressing without obscuring the site","Loop and tape the tubing to prevent accidental tug-out","Label with date, time, gauge, and your initials"],miss:"Burying the insertion site under tape so it can't be monitored.",safety:"A clean, visible site lets you and the next clinician catch problems early."},
-      {t:"Dispose, document, and educate",d:"Finish like a professional — nothing left undone.",keys:["Confirm all sharps are contained; remove gloves; perform hand hygiene","Document site, side, gauge, attempts, time, and patient tolerance","Teach the patient what to report: pain, swelling, redness, or leaking"],miss:"Leaving documentation 'for later' and forgetting attempt count or site.",safety:"Ongoing monitoring is part of the procedure, not an afterthought."},
-    ]},
-  aftercare:{ title:"Securing, flushing, dressing & documentation", stage:"IV · Aftercare", dur:"15 min",
-    overview:"The work isn't over when the catheter is in. Proper securement, flushing, documentation, and patient teaching determine whether the line lasts and stays safe.",
-    objectives:["Confirm and maintain patency","Apply best-practice securement and dressing","Document completely and accurately","Set up monitoring and patient education"],
-    steps:[
-      {t:"Confirm patency the right way",d:"A line is only useful if it flushes and draws without trouble.",keys:["Aspirate gently for blood return where appropriate","Flush with saline using a gentle, pulsatile technique per policy","No resistance, no swelling, no pain = patent"],miss:"Accepting a sluggish flush as 'good enough.'",safety:"Resistance or swelling on flush is a stop signal — reassess before use."},
-      {t:"Securement, dressing, and labeling",d:"Stabilizing the catheter prevents movement that causes phlebitis and dislodgement.",keys:["Apply a transparent semipermeable dressing so the site stays visible","Use an engineered securement device or technique per policy","Label with date, time, gauge, and initials"],miss:"Relying on a loop of plain tape that loosens and lets the catheter piston in and out.",safety:"Never cover the insertion site so completely that it can't be inspected."},
-      {t:"Document completely",d:"Good documentation protects the patient and the clinician.",keys:["Record site and side, gauge, number of attempts, date/time, and who placed it","Note patient tolerance and any complications","Record dressing type and education provided"],miss:"Omitting the number of attempts or the exact site.",safety:"Accurate records let the next clinician assess trends, not guess."},
-      {t:"Patient education and ongoing assessment",d:"The patient is your partner in keeping the line safe between checks.",keys:["Teach them to report pain, swelling, redness, warmth, or leaking","Advise protecting the site and not tugging the tubing","Assess the site each shift (or per policy) and with every use"],miss:"Walking away without telling the patient what 'wrong' looks like.",safety:"Early patient-reported symptoms catch infiltration and phlebitis before harm."},
-    ]},
-  trouble:{ title:"Complications, troubleshooting & escalation", stage:"IV · Aftercare", dur:"20 min",
-    overview:"Even experts miss and complications happen. What defines expertise is recognizing problems early, responding correctly, and knowing exactly when to escalate.",
-    objectives:["Troubleshoot misses and rolling veins","Differentiate and manage infiltration vs extravasation","Recognize phlebitis, hematoma, and other complications","Apply an attempt limit and escalate appropriately"],
-    steps:[
-      {t:"The miss and the rolling vein",d:"A miss is information, not failure — respond methodically.",keys:["Stop advancing; do not 'fish' the needle side to side under the skin","Anchor more firmly and choose a better-supported vein next time","If unsuccessful, remove fully, apply pressure, and reselect a fresh site/catheter"],miss:"Sweeping the needle around blindly, which damages tissue and hurts.",safety:"Set an attempt limit (commonly two) and honor it."},
-      {t:"Infiltration vs extravasation",d:"Both mean fluid is entering tissue instead of the vein; the danger depends on the fluid.",keys:["Signs: swelling, coolness, tightness, leaking, sluggish/painful flow","Infiltration = a non-vesicant fluid; extravasation = a vesicant (tissue-damaging) drug","Action: stop the infusion, disconnect, remove the catheter, elevate"],miss:"Continuing to run fluid into an obviously swelling site.",safety:"Extravasation of a vesicant is an emergency — stop and escalate immediately per protocol."},
-      {t:"Phlebitis and hematoma",d:"Recognize inflammation and bleeding into tissue early.",keys:["Phlebitis: redness, warmth, tenderness, a palpable cord — discontinue, grade, document, notify","Hematoma: remove tourniquet and catheter, apply firm sustained pressure, elevate","Hold pressure longer for anticoagulated patients"],miss:"Leaving a red, tender line in place because it still flushes.",safety:"A line showing phlebitis comes out — patency does not override inflammation."},
-      {t:"Rarer but serious, and knowing your limits",d:"Some complications are uncommon but must be recognized instantly — and escalation is competence.",keys:["Never reinsert the stylet (catheter-fragment embolus risk)","Bright red, pulsatile, rapidly filling blood suggests arterial puncture — remove and hold prolonged firm pressure","Lay a faint/vasovagal patient flat; escalate difficult access early"],miss:"Repeated attempts that exhaust the patient's veins and trust.",safety:"Escalating is patient-centered care — never treat it as failure."},
-    ]},
-  mastery:{ title:"Difficult access & the challenging client", stage:"IV · Mastery", dur:"18 min",
-    overview:"In a wellness setting you will meet clients whose veins are hard to access — the dehydrated, the anxious, and those with a history of tough sticks. This lesson is about adapting within a peripheral, outpatient scope and knowing when to reschedule or refer.",
-    objectives:["Identify difficult access early and plan for it","Adapt technique for fragile and small veins within scope","Optimize comfort and success in clinic and mobile settings","Know when to stop, reschedule, or refer"],
-    steps:[
-      {t:"Spotting difficult access early",d:"Recognizing a hard stick before the first attempt lets you plan instead of react.",keys:["History of many failed sticks, dehydration, or chronic illness","Few palpable or visible veins on assessment","Plan your single best target and set a firm attempt limit"],miss:"Treating a known hard stick like a routine one and using up veins.",safety:"Set your attempt limit before you start, and honor it."},
-      {t:"Maximizing your odds within scope",d:"Stack the conditions in your favor with the tools an outpatient setting actually has.",keys:["Warmth and gravity are your most reliable dilators","A well-hydrated client has better veins — hydration status matters","Choose a smaller gauge in a fragile vein; patience beats aggression"],miss:"Relying on aggressive maneuvers instead of warmth and patience.",safety:"Only use adjuncts you are trained and authorized to use; stay within your scope."},
-      {t:"Older adults and fragile veins",d:"Aging skin and veins reward a gentler, lower-angle approach.",keys:["Use a lower insertion angle and minimal tourniquet pressure","Provide firm but gentle skin traction to stabilize mobile veins","Protect against skin tears from tape and tourniquets"],miss:"Standard tourniquet pressure that ruptures fragile veins on contact.",safety:"Less tourniquet, lower angle, gentle traction — fragile veins reward restraint."},
-      {t:"Comfort, anxiety, and the mobile setting",d:"A calm client and a good environment quietly raise your success rate.",keys:["Reduce anxiety with clear communication and unhurried pacing","In mobile and group settings, ensure good lighting, a stable surface, and your kit within reach","Position the arm supported and dependent to help veins fill"],miss:"Rushing an anxious client, which causes veins to constrict.",safety:"If a mobile setting cannot be made safe and workable, reschedule rather than improvise."},
-      {t:"Knowing when to stop, reschedule, or refer",d:"Expertise includes recognizing when today is not the day.",keys:["Honor your attempt limit and stop before the client's veins are exhausted","A hydrated client on another day is often an easy stick — reschedule kindly","Refer clients who repeatedly cannot be accessed, or who fall outside clinic criteria, to their provider"],miss:"Repeated attempts that exhaust the client's veins and trust.",safety:"Stopping and rescheduling is good, client-centered care — never treat it as failure."},
-    ]},
-  capstone_iv:{ title:"Capstone review & graduation exam", stage:"IV · Graduation", dur:"15 min", capstone:true,
-    overview:"You've completed the IV curriculum. This capstone walks the full competency checklist, then opens your graduation exam. Pass it to earn your Lumevity Graduate credential and unlock the CE Center.",
-    objectives:["Self-assess against the full IV insertion competency checklist","Synthesize knowledge across all five stages","Pass the graduation exam to graduate"],
-    steps:[
-      {t:"Competency checklist — preparation",d:"Run the full mental checklist for everything before the stick.",keys:["Order, identity, allergies, and consent verified","Vein assessed by sight and palpation; site and limb appropriate","Right gauge; tray assembled; flush primed; sharps bin at hand","Hand hygiene done; tourniquet correct; antiseptic applied and dry"],miss:"Treating preparation as a formality rather than the foundation of success.",safety:"Most failed or unsafe sticks trace back to a skipped preparation step."},
-      {t:"Competency checklist — insertion & aftercare",d:"Confirm you can sequence the procedure and its follow-through.",keys:["Anchor, insert bevel-up, confirm flashback, drop angle, advance catheter","Release tourniquet, remove and safely dispose the stylet","Confirm patency, assess for infiltration, secure, dress, label, document"],miss:"Knowing the steps out of order — sequence is part of the skill.",safety:"Hands-on competency must still be validated in person by your supervisor."},
-      {t:"You're ready — take the graduation exam",d:"The exam draws from all ten lessons. You need 6 of 8 correct. Retake as many times as you need.",keys:["8 questions across foundations, technique, and troubleshooting","Passing earns your Graduate credential","Graduating unlocks the CE Center"],miss:"Rushing in without reviewing the stages you found hardest.",safety:"Graduation reflects knowledge readiness — never a substitute for supervised hands-on sign-off."},
-    ]},
+const L={
+  iv_veins:{title:"Reading the vein",stage:"IV · Foundations",illo:"arm",lead:"The vein you pick decides the whole stick. Aim for straight, springy, well-supported forearm veins.",
+    cards:[
+      {t:"What good looks like",d:"Straight, soft, springy, ~2.5 cm long.",more:["Bounces back when pressed","Away from joints and valves"],safe:"If you can only see it but not feel it, keep looking."},
+      {t:"Sites to skip",d:"Valves, bruises, hard cords, joints.",more:["Avoid the affected arm (mastectomy, fistula, stroke side)"],safe:"When two attempts fail, pause and escalate."},
+      {t:"Bring veins up",d:"Warmth, gravity, gentle fist.",more:["Lower the arm; warm pack for a minute"],safe:"No hard slapping — it bruises and skews labs."}],
+    inter:{type:"sites",svg:svgArm(true),q:"Tap the best target vein.",correct:"good",fb:{good:"Yes — a straight, well-supported forearm vein is ideal.",valve:"That sits near a branch/valve — avoid it.",hand:"Hand veins are fragile and roll — not first choice."}}},
+  iv_prep:{title:"Prep & tourniquet",stage:"IV · Prepare",illo:"angle",lead:"Set up so your window is short: supplies open, tourniquet snug, vein chosen.",
+    cards:[
+      {t:"Verify & consent",d:"Order, two IDs, allergies, consent.",more:["Check chlorhexidine, latex, tape allergies"],safe:"Verification is never optional."},
+      {t:"Tourniquet",d:"4–6 in above, snug — pulse still present.",more:["Too tight blanches the limb and hurts filling"],safe:"Limit to ~1 minute; loosen if numb."},
+      {t:"Clean & dry",d:"Chlorhexidine, friction, air-dry fully.",more:["Don't re-touch the prepped skin"],safe:"Wet antiseptic stings and works less."}]},
+  iv_insert:{title:"The insertion",stage:"IV · Insert",illo:"arm",lead:"Anchor, bevel-up, watch for flashback — one smooth, controlled motion.",
+    cards:[
+      {t:"Anchor & enter",d:"Skin taut, 10–30°, bevel up.",more:["Anchor beside the vein, not on it"],safe:"Steady beats a hesitant jab."},
+      {t:"Flashback",d:"Blood in the chamber = you're in.",more:["Drop the angle, advance 1–2 mm, thread the catheter"],safe:"No flash? Withdraw slightly — don't fish."},
+      {t:"Release & secure",d:"Tourniquet off, stylet safe, flush, dress.",more:["Engage the needle safety and bin it immediately","Label date/time/gauge/initials"],safe:"Swelling or resistance = infiltration; stop."}]},
+  iv_after:{title:"Aftercare & problems",stage:"IV · Aftercare",illo:"arm",lead:"Keep it patent and catch trouble early.",
+    cards:[
+      {t:"Confirm patency",d:"Easy flush, no swelling, no pain.",more:["Aspirate for blood return where appropriate"],safe:"Resistance is a stop signal."},
+      {t:"Spot complications",d:"Infiltration, phlebitis, hematoma.",more:["Redness, warmth, a cord, or leaking = remove & document"],safe:"A red, tender line comes out — patency doesn't override it."}],
+    inter:{type:"quiz",questions:[
+      {q:"You feel a pulse at your target. You should:",opts:["Insert quickly","Choose a different site — it's an artery","Tighten the tourniquet"],a:1,why:"A pulse means artery — never your target."},
+      {q:"After flashback, the next move is:",opts:["Pull straight out","Lower the angle and advance slightly","Push deeper at the same angle"],a:1,why:"Drop the angle so the catheter tip enters the lumen."}]}},
+  iv_exam:{title:"Graduation exam",stage:"IV · Graduate",illo:"arm",lead:"Get 4 of 6 to earn your IV Graduate credential.",capstone:true,
+    inter:{type:"exam",pass:4,questions:[
+      {q:"Best gauge for a typical adult with average veins?",opts:["14 G","22 G","16 G"],a:1,why:"Smallest that does the job — 22 G suits most adults."},
+      {q:"Antiseptic must be:",opts:["Wiped off","Fanned dry","Allowed to air-dry"],a:2,why:"Let it air-dry fully."},
+      {q:"After two failed attempts:",opts:["Keep trying","Hand off to a specialist","Use the biggest gauge"],a:1,why:"Honor your attempt limit and escalate."},
+      {q:"A swelling, cool, painful site on flush means:",opts:["Normal","Infiltration — stop","Flush harder"],a:1,why:"Stop and reassess — suspect infiltration."},
+      {q:"The tourniquet should:",opts:["Blanch the limb","Stay snug with a pulse present","Be as tight as possible"],a:1,why:"Snug, radial pulse present."},
+      {q:"After removing the stylet you:",opts:["Set it down briefly","Engage safety & bin it now","Recap it"],a:1,why:"Activate safety and dispose immediately."}]}},
 
-  im_fund:{ title:"IM fundamentals & indications", stage:"IM · Foundations", dur:"15 min",
-    overview:"Intramuscular injection delivers medication deep into well-perfused muscle for faster absorption than the subcutaneous route, and for drugs that would irritate fat or skin. This lesson sets the clinical foundation.",
-    objectives:["State common indications for the IM route","Explain IM absorption and volume limits","Recognize contraindications and cautions"],
-    steps:[
-      {t:"Why and when we use the IM route",d:"Muscle is highly vascular, so IM medication is absorbed faster than subcutaneous and can handle more irritating or slightly larger-volume drugs.",keys:["Common uses: many vaccines, some antibiotics, B12, certain hormones and depot medications","Faster onset than a subcutaneous injection; suitable for irritant drugs unsuited to the fat layer","Always confirm the drug is ordered by the IM route"],miss:"Giving a medication by the wrong route (e.g., one meant for subcutaneous injection given IM).",safety:"Confirm the right drug, dose, and route before drawing up — wrong-route errors can be dangerous."},
-      {t:"Absorption and volume limits",d:"How much you can safely inject depends on the muscle and the patient.",keys:["Deltoid (small muscle): typically up to ~1 mL in adults","Ventrogluteal and vastus lateralis (large): up to ~3 mL in adults","Smaller volumes for children, the elderly, and low muscle mass"],miss:"Forcing 2–3 mL into the small deltoid — it causes pain and poor absorption.",safety:"Split large volumes into two sites/injections rather than overfilling one muscle."},
-      {t:"Contraindications and cautions",d:"The IM route isn't appropriate for every patient or drug.",keys:["Use caution with anticoagulation or bleeding disorders (bruising/hematoma risk)","Avoid sites with muscle atrophy, inflammation, edema, or skin breakdown","Some medications are specifically labeled not for IM use"],miss:"Injecting into atrophied or compromised muscle that absorbs poorly.",safety:"In bleeding disorders, weigh the route, use the smallest needle, and apply firm pressure after."},
-    ]},
-  im_sites:{ title:"Sites & landmarking", stage:"IM · Foundations", dur:"18 min",
-    overview:"Correct landmarking is the safety core of IM injection — it keeps the needle in muscle and away from major nerves and vessels. This is the most important skill in the whole path.",
-    objectives:["Landmark the ventrogluteal, vastus lateralis, and deltoid sites","Choose a site by age and volume","Understand why the dorsogluteal site is avoided"],
-    steps:[
-      {t:"Ventrogluteal — the preferred adult site",d:"The ventrogluteal site is recommended for most adult IM injections because it is free of major nerves and vessels and has thick muscle.",keys:["Place your palm on the greater trochanter, index finger toward the anterior superior iliac spine","Spread the middle finger back along the iliac crest to form a 'V'","Inject into the center of the V"],miss:"Confusing the ventrogluteal with the old dorsogluteal (buttock) site.",safety:"Ventrogluteal avoids the sciatic nerve — make it your default for larger-volume adult IMs."},
-      {t:"Vastus lateralis — thigh",d:"The vastus lateralis is the preferred site for infants and a reliable adult alternative.",keys:["Use the middle third of the lateral (outer) thigh","Large, accessible, and away from major nerves and vessels","Preferred site for infants and young children"],miss:"Injecting too high or too medial, toward the femoral vessels and nerve.",safety:"Stay in the middle third, lateral aspect — it is the safe muscle belly."},
-      {t:"Deltoid — small volumes and vaccines",d:"The deltoid is convenient for vaccines and small volumes but is a small muscle near the radial nerve.",keys:["Find the acromion process; the injection site is ~2–3 finger-widths (about 2.5–5 cm) below it","Inject into the densest part of the triangle-shaped muscle","Reserve for volumes around 1 mL"],miss:"Injecting too high (into the shoulder joint/acromion) or too low (toward the radial nerve).",safety:"Too-high deltoid injections are linked to shoulder injury (SIRVA) — land in the muscle belly, not the joint."},
-      {t:"Why we avoid the dorsogluteal site",d:"The traditional buttock (dorsogluteal) site is now generally avoided.",keys:["It overlies the sciatic nerve and superior gluteal vessels","The fat layer there is often thick, so injections miss the muscle","Ventrogluteal is safer and better absorbed"],miss:"Defaulting to the buttock out of habit.",safety:"Choose ventrogluteal over dorsogluteal to avoid sciatic nerve injury."},
-      {t:"Choosing the right site",d:"Match the site to the patient and the volume.",keys:["Large volume or adult: ventrogluteal or vastus lateralis","Vaccine or small volume in an adult: deltoid","Infant/young child: vastus lateralis"],miss:"Using the deltoid for a 2–3 mL injection.",safety:"Reassess the chosen muscle for adequate mass before committing."},
-    ]},
-  im_equip:{ title:"Needle selection & medication preparation", stage:"IM · Preparation", dur:"15 min",
-    overview:"The right needle reaches the muscle without going too deep, and clean medication preparation prevents dosing and contamination errors.",
-    objectives:["Select needle length and gauge by site and body habitus","Draw up medication aseptically and accurately","Prepare the syringe correctly for IM delivery"],
-    steps:[
-      {t:"Needle length and gauge",d:"The needle must pass through skin and fat into muscle — length depends on the site and the patient's size.",keys:["Common adult IM lengths: ~1 inch (deltoid), 1–1.5 inch (ventrogluteal/vastus), longer for larger patients","Typical gauges 22–25 G (thinner for less viscous drugs)","Too short = injection into fat; too long = into bone/nerve territory"],miss:"Using a short vaccine needle on a large patient and depositing the drug in fat.",safety:"Match needle length to the muscle depth for that patient — under-reaching causes poor absorption and irritation."},
-      {t:"Draw up the medication aseptically",d:"Accurate, clean preparation protects the patient.",keys:["Clean the vial top; use aseptic technique from vial or ampoule","Reconstitute per directions if it is a powder","Draw the exact ordered dose and double-check it"],miss:"Contaminating the needle or drawing an incorrect dose.",safety:"Verify drug, dose, concentration, and expiry against the order before injecting."},
-      {t:"Prepare the syringe",d:"Finish prep so the injection itself is smooth.",keys:["Expel air bubbles and confirm the exact dose","Change to a fresh needle after drawing up if the drug is irritant or per policy","Label the syringe if not given immediately"],miss:"Injecting medication that has coated the outside of an unchanged needle, irritating the track.",safety:"A clean, correct-length needle and verified dose are your last checks before the patient."},
-    ]},
-  im_technique:{ title:"Step-by-step IM injection (with Z-track)", stage:"IM · Technique", dur:"20 min", flagship:true,
-    overview:"This is the IM procedure itself. The Z-track method — now recommended for most IM injections — seals medication in the muscle and reduces leakage, pain, and staining.",
-    objectives:["Sequence the IM injection from rights-check to disposal","Perform the Z-track technique","Manage the needle safely and monitor the patient"],
-    steps:[
-      {t:"Verify the rights of medication administration",d:"Begin every injection with the medication-safety checks.",keys:["Right patient (two identifiers), right drug, right dose","Right route (IM), right time, right documentation","Check allergies and the order one more time"],miss:"Skipping the rights check on a 'routine' injection.",safety:"Wrong-patient and wrong-route errors are prevented here — never bypass it."},
-      {t:"Position, landmark, and prep",d:"Set the patient up and confirm your safe target.",keys:["Position to relax the target muscle (e.g., side-lying for ventrogluteal)","Re-landmark the site precisely","Hand hygiene, gloves, then cleanse with alcohol and let it air-dry"],miss:"Injecting into a tense muscle, which hurts more.",safety:"A relaxed muscle absorbs better and reduces pain."},
-      {t:"Apply Z-track",d:"Z-track displaces the skin so the needle track seals after withdrawal.",keys:["With the side of your non-dominant hand, pull the skin and subcutaneous tissue ~2.5 cm to one side","Hold it there throughout the injection","This offsets the skin entry from the muscle entry"],miss:"Forgetting Z-track and letting irritant medication track back to the surface.",safety:"Z-track reduces leakage and discomfort — use it for most IM injections."},
-      {t:"Insert at 90 degrees",d:"A swift, dartlike insertion into the muscle belly.",keys:["Hold the syringe like a dart and insert at a 90° angle","Use one quick, smooth motion through skin into muscle","Insert to the appropriate depth for the needle/site"],miss:"Slow, hesitant insertion that increases pain.",safety:"Steady, confident insertion is less painful than a tentative one."},
-      {t:"Inject (aspiration note) and withdraw",d:"Deliver the medication slowly and steadily.",keys:["Routine aspiration is no longer recommended for vaccines and standard IM sites (ventrogluteal/deltoid/vastus have no large vessels); follow your local policy","Inject the medication slowly and steadily","Withdraw the needle at the same 90° angle, then release the Z-track"],miss:"Injecting too fast, which causes pressure pain and leakage.",safety:"Slow injection into the correct muscle is comfortable and well absorbed."},
-      {t:"Safety, pressure, and disposal",d:"Contain the sharp and care for the site.",keys:["Engage the needle safety device immediately and dispose at the point of use","Apply gentle pressure with gauze; do not massage (especially Z-track or per drug)","Apply a small dressing if needed"],miss:"Recapping the needle or massaging a Z-track site.",safety:"Never recap; never massage when the drug or Z-track contraindicates it."},
-      {t:"Document and monitor",d:"Finish with records and observation.",keys:["Document drug, dose, site, route, time, and patient response","For vaccines, observe for an allergic reaction (commonly ~15 minutes)","Educate the patient on expected soreness and what to report"],miss:"Letting a vaccine recipient leave immediately with no observation.",safety:"Be ready to recognize and treat anaphylaxis after any injection."},
-    ]},
-  im_after:{ title:"Aftercare, complications & special considerations", stage:"IM · Aftercare", dur:"15 min",
-    overview:"Good aftercare catches reactions early and supports the patient. This lesson covers monitoring, complications, and adapting for special populations.",
-    objectives:["Provide appropriate aftercare and monitoring","Recognize local and systemic complications","Adapt IM technique for special populations"],
-    steps:[
-      {t:"Immediate aftercare and monitoring",d:"The minutes after an injection matter, especially for vaccines and new drugs.",keys:["Observe vaccine recipients for an allergic reaction (commonly ~15 minutes)","Advise on normal, expected soreness and how to ease it","Tell the patient what abnormal symptoms to report"],miss:"No observation period after a first-time injectable.",safety:"Have anaphylaxis management immediately available where injections are given."},
-      {t:"Local complications",d:"Recognize problems at the injection site.",keys:["Expected: brief soreness, minor redness","Concerning: spreading redness, warmth, swelling, abscess, or a hard lump","Nerve injury signs: shooting pain, numbness, or tingling on injection"],miss:"Dismissing shooting pain during injection as normal.",safety:"Stop immediately if the patient reports electric/shooting pain — withdraw and reassess for nerve proximity."},
-      {t:"Systemic and allergic reactions",d:"Some reactions are immediate and serious.",keys:["Watch for hives, swelling, wheeze, or faintness","Anaphylaxis is an emergency requiring immediate treatment","Vasovagal fainting can occur — be ready to support the patient"],miss:"Confusing anaphylaxis with simple anxiety and delaying treatment.",safety:"When in doubt, treat for anaphylaxis and call for help — minutes matter."},
-      {t:"Special populations",d:"Adapt technique to the patient.",keys:["Pediatrics: vastus lateralis for infants, smaller needles, comfort and distraction","Older adults: assess for adequate muscle mass; may need a shorter needle","Anticoagulated patients: smallest needle, firm pressure, watch for hematoma"],miss:"Using an adult deltoid approach on an infant.",safety:"Only inject pediatric patients if trained and within your scope of practice."},
-    ]},
-  im_capstone:{ title:"Capstone review & graduation exam", stage:"IM · Graduation", dur:"12 min", capstone:true,
-    overview:"You've completed the IM curriculum. Review the competency checklist, then take the graduation exam to earn your IM Graduate credential.",
-    objectives:["Self-assess against the IM competency checklist","Synthesize site, needle, and technique decisions","Pass the IM graduation exam"],
-    steps:[
-      {t:"Competency checklist",d:"Run the full IM checklist in your mind.",keys:["Rights of medication administration verified; allergies checked","Correct site landmarked (ventrogluteal/vastus/deltoid) with right needle length","Z-track applied; 90° insertion; slow injection; safe disposal","Patient monitored and documented"],miss:"Treating landmarking as approximate rather than precise.",safety:"Precise landmarking is the safety core of IM — never rush it."},
-      {t:"Take the IM graduation exam",d:"Eight questions across the IM path. You need 6 of 8 to graduate.",keys:["Covers sites, volumes, needle choice, and technique","Passing earns your IM Graduate credential","You can retake it freely"],miss:"Skipping a review of site landmarks before the exam.",safety:"Graduation reflects knowledge readiness — hands-on competency is validated by your supervisor."},
-    ]},
+  im_sites:{title:"The three sites",stage:"IM · Sites",illo:"im",lead:"Landmarking keeps the needle in muscle and away from nerves. Ventrogluteal is the adult go-to.",
+    cards:[
+      {t:"Ventrogluteal",d:"Preferred adult site — safe and thick.",more:["Palm on greater trochanter, fingers to the crest, inject in the V"],safe:"Avoids the sciatic nerve."},
+      {t:"Vastus lateralis",d:"Outer mid-thigh; best for infants.",more:["Large and away from major vessels"],safe:"Stay in the middle third, lateral aspect."},
+      {t:"Deltoid",d:"Small volumes and vaccines.",more:["2–3 finger-widths below the acromion"],safe:"Too high risks shoulder injury (SIRVA)."}],
+    inter:{type:"sites",svg:svgIM(true),q:"Tap the preferred site for a larger-volume adult IM.",correct:"ventro",fb:{ventro:"Correct — ventrogluteal is preferred for adults.",deltoid:"Deltoid is for small volumes/vaccines only.",vastus:"Vastus works, but ventrogluteal is preferred for adults."}}},
+  im_prep:{title:"Needle & dose",stage:"IM · Prepare",illo:"angle",lead:"Reach the muscle, not the fat — length by site and body size.",
+    cards:[
+      {t:"Needle length",d:"~1 in deltoid; 1–1.5 in gluteal/thigh.",more:["Too short lands in fat and irritates"],safe:"Match length to the muscle depth."},
+      {t:"Gauge & volume",d:"22–25 G. Deltoid ~1 mL; large muscles up to ~3 mL.",more:["Split large volumes rather than overfill"],safe:"Verify drug, dose, route before drawing up."}]},
+  im_tech:{title:"Z-track injection",stage:"IM · Inject",illo:"angle",lead:"Z-track seals the medication in the muscle. Insert at 90°, inject slowly.",
+    cards:[
+      {t:"Z-track",d:"Displace skin ~2.5 cm to the side; hold.",more:["Offsets skin entry from muscle entry so it can't leak back"],safe:"Use Z-track for most IM injections."},
+      {t:"Insert & inject",d:"Dart at 90°, inject slowly, withdraw, release.",more:["Routine aspiration is no longer recommended for standard sites — follow policy"],safe:"Engage safety and bin the sharp immediately."},
+      {t:"Watch after",d:"Observe ~15 min after vaccines.",more:["Be ready for an allergic reaction"],safe:"Shooting/electric pain = stop and reassess."}],
+    inter:{type:"quiz",questions:[
+      {q:"Z-track is used to:",opts:["Speed absorption","Stop medication leaking back to the surface","Allow a bigger volume"],a:1,why:"It seals the needle track."},
+      {q:"IM insertion angle is:",opts:["15°","45°","90°"],a:2,why:"Straight in at 90°."}]}},
+  im_exam:{title:"Graduation exam",stage:"IM · Graduate",illo:"im",lead:"Get 4 of 6 to earn your IM Graduate credential.",capstone:true,
+    inter:{type:"exam",pass:4,questions:[
+      {q:"Preferred adult IM site?",opts:["Dorsogluteal","Ventrogluteal","Antecubital"],a:1,why:"Ventrogluteal — away from the sciatic nerve."},
+      {q:"Deltoid max volume is about:",opts:["1 mL","3 mL","5 mL"],a:0,why:"~1 mL in the small deltoid."},
+      {q:"IM insertion angle:",opts:["45°","90°","Parallel"],a:1,why:"90°."},
+      {q:"Z-track prevents:",opts:["Pain only","Leak-back of medication","Bleeding"],a:1,why:"Seals the track."},
+      {q:"Observe a vaccine recipient for about:",opts:["1 min","15 min","2 hr"],a:1,why:"~15 minutes for a reaction."},
+      {q:"Deltoid site is:",opts:["At the acromion","2–3 finger-widths below the acromion","Near the elbow"],a:1,why:"In the muscle belly below the acromion."}]}},
 
-  nad_fund:{ title:"NAD+ therapy fundamentals", stage:"NAD+ · Foundations", dur:"14 min",
-    overview:"NAD+ (nicotinamide adenine dinucleotide) is a coenzyme in every cell, central to energy production and cellular repair; levels decline with age. IV Wellness offers NAD+ as subcutaneous injections (50 and 100 mg) and as IV infusions. This course covers safe subcutaneous NAD+ injection.",
-    objectives:["Explain what NAD+ is and why clients seek it","Describe the injection vs infusion options and typical doses","Recognize screening and who must consult a provider first"],
-    steps:[
-      {t:"What NAD+ is and why clients want it",d:"NAD+ is a coenzyme involved in cellular energy and repair that naturally declines with age. Clients seek it for energy, mental clarity, recovery, and anti-aging support.",keys:["A coenzyme present in every cell; supports energy metabolism and cellular repair","Clients commonly report energy, focus, and recovery benefits","Offered at IV Wellness as injections (50/100 mg) and infusions (250-1000 mg)"],miss:"Making medical or disease claims about NAD+ — keep to general wellness education.",safety:"NAD+ is a wellness offering, not a treatment for disease, and statements are not FDA-evaluated. Keep client communication accurate and non-diagnostic."},
-      {t:"Injection vs infusion, and dosing",d:"NAD+ is given two ways at the clinic: a quick subcutaneous injection or a slow IV infusion. This course focuses on the subcutaneous injection.",keys:["Subcutaneous injection: small volume, 50 mg or 100 mg, quick to administer","IV infusion: larger doses (250-1000 mg) given slowly over 2-4 hours","The injection is the routine, low-friction option many clients choose"],miss:"Giving a NAD+ injection at infusion-sized doses.",safety:"Give only the ordered dose by the ordered route; the NAD+ infusion is a separate, slow IV procedure."},
-      {t:"Screening and provider oversight",d:"Every client is screened before a NAD+ injection, and some should speak with a provider first.",keys:["Confirm the client's intake and health screening is complete","Pregnancy, nursing, significant medical conditions, or medications warrant provider consultation","Confirm no allergy to the product or its components"],miss:"Injecting before screening or provider authorization is in place.",safety:"Work within your license and the clinic's protocols; when unsure, pause and check with the supervising provider."},
-    ]},
-  nad_sites:{ title:"Subcutaneous sites & rotation", stage:"NAD+ · Foundations", dur:"12 min",
-    overview:"NAD+ injections go into the subcutaneous fat layer. Choosing healthy, rotated sites keeps absorption reliable and the client comfortable.",
-    objectives:["Identify the subcutaneous sites used for NAD+ injections","Rotate sites to protect the tissue","Recognize areas to avoid"],
-    steps:[
-      {t:"The subcutaneous sites",d:"Use fleshy areas with a reliable fat layer.",keys:["Abdomen (avoid ~2 inches / 5 cm around the navel)","Outer or back of the upper arm","Front or outer thigh"],miss:"Injecting over bone or into thin, muscular areas.",safety:"Choose areas with adequate subcutaneous tissue and intact, healthy skin."},
-      {t:"Rotate to protect the tissue",d:"Repeated injections in one spot cause lumpy, scarred tissue (lipohypertrophy) that absorbs poorly.",keys:["Rotate systematically for repeat clients","Inspect and palpate for lumps, bruising, or scarring before injecting","Space injections apart within a region"],miss:"Always using the same favorite spot on a regular client.",safety:"Rotation keeps absorption reliable and protects the client's skin."},
-      {t:"Areas and clients to avoid",d:"Some sites and situations are not appropriate.",keys:["Avoid bruised, scarred, inflamed, or broken skin","Avoid the area near the navel and over bony prominences","Defer clients whose screening flags a contraindication"],miss:"Injecting into a compromised or lumpy site.",safety:"When a site or client is not right, choose another site or defer and consult the provider."},
-    ]},
-  nad_equip:{ title:"Dose, draw-up & needle selection", stage:"NAD+ · Preparation", dur:"13 min",
-    overview:"The right small needle and an accurate dose make NAD+ injections quick and comfortable. Aseptic preparation protects the client.",
-    objectives:["Select the correct needle and syringe","Draw up the correct 50 or 100 mg dose","Prepare aseptically and expel air"],
-    steps:[
-      {t:"Needle and syringe",d:"NAD+ subcutaneous injections use a short, fine needle.",keys:["Short needle for the subcutaneous layer (e.g., about 5/8 inch)","Fine gauge (about 25-30 G) for comfort","A syringe sized to the small injection volume"],miss:"Using a long IM needle for a subcutaneous injection.",safety:"A short, fine needle keeps NAD+ in the fat layer and reduces discomfort."},
-      {t:"Draw up the correct dose",d:"Prepare the exact ordered dose using aseptic technique.",keys:["Clean the vial top; use aseptic non-touch technique","Draw up the ordered 50 mg or 100 mg","Reconstitute per directions if the product is supplied as a powder"],miss:"Guessing the dose or contaminating the needle.",safety:"Verify product, concentration, dose, and expiry against the order before injecting."},
-      {t:"Finish the prep",d:"Ready the syringe so the injection is smooth.",keys:["Expel air and confirm the exact dose","Keep the needle sterile until use","Label the syringe if it is not given immediately"],miss:"Leaving air in the syringe or an unlabeled syringe on the tray.",safety:"A verified dose and a clean needle are your last checks before the client."},
-    ]},
-  nad_technique:{ title:"Step-by-step subcutaneous NAD+ injection", stage:"NAD+ · Technique", dur:"18 min", flagship:true,
-    overview:"This is the subcutaneous NAD+ injection itself. The one rule that defines a good NAD+ injection: inject slowly — fast injection is what causes the flushing, cramping, or nausea clients dislike.",
-    objectives:["Sequence the NAD+ injection from rights-check to disposal","Apply the pinch and correct angle","Inject slowly to keep the client comfortable"],
-    steps:[
-      {t:"Verify the rights",d:"Start with the medication-safety checks.",keys:["Right client (two identifiers), right product, right dose (50/100 mg)","Right route (subcutaneous), right time, right documentation","Confirm screening and provider authorization"],miss:"Skipping the rights check on a routine injection.",safety:"Confirm the client, product, and dose every time — no exceptions."},
-      {t:"Select, assess, and prep the site",d:"Choose a healthy, rotated subcutaneous site.",keys:["Pick a site per rotation; inspect and palpate for lumps or bruising","Hand hygiene and gloves","Cleanse with alcohol and let it air-dry"],miss:"Reusing a lumpy, overused site.",safety:"Healthy, rotated tissue gives comfortable, reliable absorption."},
-      {t:"Pinch and insert",d:"Lift the tissue and insert at the correct angle.",keys:["Pinch a fold of subcutaneous tissue","Insert swiftly at 45-90 degrees depending on needle length and body fat","Hold the pinch during insertion"],miss:"A steep angle in a lean client that reaches muscle.",safety:"The pinch keeps NAD+ in the fat layer, not the muscle."},
-      {t:"Inject slowly — the NAD+ rule",d:"NAD+ can cause a flushing or warm sensation, mild cramping, or nausea, and these are far worse with fast injection. Go slow.",keys:["Do not aspirate for subcutaneous injections","Inject the NAD+ slowly and steadily","Watch the client and pace to their comfort"],miss:"Pushing the injection quickly — the top cause of NAD+ discomfort.",safety:"If the client feels flushed, warm, or crampy, slow down or pause — it typically eases quickly."},
-      {t:"Withdraw, secure, and dispose",d:"Finish cleanly and safely.",keys:["Withdraw, release the pinch, and engage the needle safety device","Apply gentle pressure with gauze","Dispose of the sharp at the point of use"],miss:"Recapping or setting down a bare needle.",safety:"Never recap; activate the safety device and dispose immediately."},
-      {t:"Document",d:"Record the injection.",keys:["Document product, dose, site, route, time, and client response","Note any reaction and how it was managed","Update the rotation record for repeat clients"],miss:"Leaving documentation for later and forgetting the site.",safety:"Accurate records support safe repeat visits and continuity."},
-    ]},
-  nad_after:{ title:"Aftercare, reactions & client education", stage:"NAD+ · Aftercare", dur:"12 min",
-    overview:"NAD+ injections are usually well tolerated, but clients often feel a brief flushing or warmth. Good aftercare sets expectations and catches the rare problem early.",
-    objectives:["Provide aftercare and set expectations","Recognize and manage common and serious reactions","Educate the client"],
-    steps:[
-      {t:"Expected NAD+ sensations",d:"Set expectations so a normal reaction does not alarm the client.",keys:["A flushing, warm, or mildly crampy feeling can occur, especially if injected quickly","These sensations are usually brief and self-limiting","Reassure the client and inject even more slowly next time"],miss:"Not warning the client, so a normal flush feels frightening.",safety:"Prevention is the fix: slower injection means fewer and milder sensations."},
-      {t:"When to escalate",d:"Distinguish the common flush from a true adverse reaction.",keys:["Concerning: hives, swelling, difficulty breathing, faintness, or chest tightness","Stop and get help immediately for signs of an allergic reaction","Have emergency protocols and equipment available"],miss:"Confusing a serious allergic reaction with a routine flush and waiting.",safety:"Any true allergic reaction is an emergency — stop, get help, and follow protocol."},
-      {t:"Aftercare and client education",d:"Send the client off informed.",keys:["Apply gentle pressure; no vigorous rubbing","Advise on normal, brief after-effects and what to report","Confirm follow-up or membership/package scheduling as appropriate"],miss:"Discharging a first-time client with no guidance.",safety:"An informed client knows what is normal and when to call — that is part of safe care."},
-    ]},
-  nad_capstone:{ title:"Capstone review & graduation exam", stage:"NAD+ · Graduation", dur:"12 min", capstone:true,
-    overview:"You have completed the NAD+ curriculum. Review the competency checklist, then take the graduation exam to earn your NAD+ Graduate credential.",
-    objectives:["Self-assess against the NAD+ competency checklist","Synthesize dose, site, and slow-injection technique","Pass the NAD+ graduation exam"],
-    steps:[
-      {t:"Competency checklist",d:"Run the full NAD+ checklist in your mind.",keys:["Screening and authorization confirmed; rights verified (50/100 mg, subcutaneous)","Healthy rotated site; short fine needle; pinch and 45-90 degree angle","Injected slowly; safe disposal; client reassured and documented"],miss:"Treating the slow-injection rule as optional.",safety:"Slow injection and correct site are where NAD+ comfort and safety live."},
-      {t:"Take the NAD+ graduation exam",d:"Eight questions across the NAD+ path. You need 6 of 8 to graduate.",keys:["Covers dosing, sites, technique, and reactions","Passing earns your NAD+ Graduate credential","You can retake it freely"],miss:"Skipping a review of the reaction-management step.",safety:"Graduation reflects knowledge readiness — hands-on competency is validated by your supervising provider."},
-    ]},
+  sq_sites:{title:"Where to inject",stage:"SubQ · Sites",illo:"subq",lead:"Subcutaneous goes into the fat layer. Rotate healthy sites; skip the skin around the navel.",
+    cards:[
+      {t:"The sites",d:"Abdomen, outer arm, thigh.",more:["Abdomen: avoid ~2 in around the navel"],safe:"Pick fleshy areas with intact skin."},
+      {t:"Rotate",d:"Move around to protect the tissue.",more:["Repeated same-spot use causes lumps (lipohypertrophy) and poor absorption"],safe:"Inspect for lumps before injecting."}],
+    inter:{type:"sites",svg:svgSubQ(true),q:"Tap a good place to start on the abdomen.",correct:"abdomen",fb:{abdomen:"Yes — a fleshy abdomen site (away from the navel).",navel:"Too close to the navel — avoid ~2 inches around it.",arm:"The outer arm works too, but the abdomen was asked."}}},
+  sq_tech:{title:"Pinch & angle",stage:"SubQ · Technique",illo:"angle",lead:"Pinch a fold, insert 45–90°, and inject slowly — slow is what keeps it comfortable.",
+    cards:[
+      {t:"Pinch & insert",d:"Lift a fold; 90° with short needles, 45° if lean.",more:["The pinch keeps it in fat, not muscle"],safe:"Steep angle in a lean patient can reach muscle."},
+      {t:"Inject slowly",d:"No aspiration; steady, gentle push.",more:["For prefilled anticoagulants: keep the air bubble, don't rub after"],safe:"Slow injection = far more comfortable."}],
+    inter:{type:"quiz",questions:[
+      {q:"Subcutaneous depth is:",opts:["Muscle","The fat layer under the skin","A vein"],a:1,why:"Into the subcutaneous fat."},
+      {q:"To keep a client comfortable, you should:",opts:["Inject fast","Inject slowly","Aspirate first"],a:1,why:"Slow, steady injection."}]}},
+  sq_after:{title:"Aftercare",stage:"SubQ · Aftercare",illo:"subq",lead:"Simple aftercare and clear teaching, especially for self-injectors.",
+    cards:[
+      {t:"After the shot",d:"Gentle pressure; no massage for anticoagulants.",more:["Bruising is common with blood thinners"],safe:"Rotate sites to avoid lumps."},
+      {t:"Teach it",d:"Many patients self-inject — show them.",more:["Technique, rotation, safe sharps disposal"],safe:"Confirm understanding with teach-back."}]},
+  sq_exam:{title:"Graduation exam",stage:"SubQ · Graduate",illo:"subq",lead:"Get 4 of 6 to earn your Subcutaneous Graduate credential.",capstone:true,
+    inter:{type:"exam",pass:4,questions:[
+      {q:"Subcutaneous injections go into:",opts:["Muscle","The fat layer","A vein"],a:1,why:"The subcutaneous fat."},
+      {q:"Best comfort technique:",opts:["Inject fast","Inject slowly","Massage after"],a:1,why:"Slow injection."},
+      {q:"To protect the tissue over time:",opts:["Use the same spot","Rotate sites","Use a longer needle"],a:1,why:"Rotate to prevent lipohypertrophy."},
+      {q:"On the abdomen, avoid within about:",opts:["2 in of the navel","6 in of the navel","the whole left side"],a:0,why:"~2 inches around the navel."},
+      {q:"SubQ insertion angle:",opts:["Always 15°","45–90° by needle/tissue","Parallel"],a:1,why:"45–90° depending on needle and body fat."},
+      {q:"After an anticoagulant SubQ injection:",opts:["Rub the site","Apply gentle pressure, no rubbing","Aspirate"],a:1,why:"Gentle pressure, no massage."}]}},
 };
 
-const CE_LESSONS = {
-  ce_infusion:{ title:"Infusion therapy & IV medication safety", stage:"CE · 1.0 contact hour", ceHours:1.0,
-    overview:"Placing the line is only the start. This module covers the safe administration of hydration, vitamin, and mineral infusions — rates, compatibility, and recognizing irritation at the site.",
-    objectives:["Apply the basics of safe infusion and compatibility","Recognize and prevent site irritation and infiltration","Monitor infusions safely"],
-    steps:[
-      {t:"Infusion basics and compatibility",d:"Fluids and additives must be given at the right rate and only in compatible combinations.",keys:["Confirm diluent, concentration, and infusion rate against the order","Check that additives are compatible with the base fluid and each other","Use the right delivery method for the infusion"],miss:"Combining incompatible additives and causing precipitation.",safety:"When unsure about a combination, keep additives separate or check with the provider."},
-      {t:"Site irritation and infiltration",d:"Some vitamin and mineral infusions can irritate the vein or tissue if they leak.",keys:["Confirm patency and good blood return before and during the infusion","Watch for swelling, coolness, pain, or sluggish flow","At any sign of infiltration, stop, remove the catheter, and restart if needed"],miss:"Continuing to run fluid into a swelling or painful site.",safety:"When in doubt, take it out — an infiltrating line only worsens."},
-      {t:"Safe administration and monitoring",d:"Active monitoring keeps infusions safe from start to finish.",keys:["Re-verify the client, product, and rate","Some additives are given slowly — pace to the order and the client","Monitor the client and site throughout; document"],miss:"Setting a rate and walking away.",safety:"Slow the rate or stop for any discomfort, site irritation, or reaction."},
-    ]},
-  ce_addons:{ title:"IV nutrient add-ons & custom drips", stage:"CE · 1.0 contact hour", ceHours:1.0,
-    overview:"IV Wellness lets clients customize infusions with add-ons like glutathione, vitamin C, amino and mineral blends, and anti-nausea agents. This module covers safe add-on and custom-drip administration.",
-    objectives:["Describe common IV add-ons and their purpose","Apply compatibility and mixing safety","Administer and monitor custom infusions safely"],
-    steps:[
-      {t:"The add-on menu",d:"Clients can enhance a base infusion with targeted nutrients.",keys:["Common add-ons: glutathione, vitamin C, amino blend, mineral blend, B-vitamins","Comfort add-ons: anti-nausea (ondansetron), anti-inflammatory (ketorolac)","Each add-on is chosen to match the client's goal"],miss:"Adding ingredients that were not ordered or screened for.",safety:"Only add what is authorized and appropriate for the client's screening."},
-      {t:"Compatibility and mixing",d:"Not everything mixes safely.",keys:["Confirm each add-on is compatible with the base fluid and other add-ons","Never infuse a cloudy or color-changed solution","Follow the clinic's recipes and concentrations"],miss:"Combining incompatible additives and causing precipitation.",safety:"When unsure about a combination, keep additives separate or check with the provider."},
-      {t:"Administer and monitor",d:"Give the custom infusion at the right rate and watch the client.",keys:["Set an appropriate rate; some additives are given slowly","Monitor the site for irritation and the client for comfort","Document the exact recipe, rate, and response"],miss:"Running a custom drip too fast.",safety:"Slow the rate or stop for any discomfort, site irritation, or reaction."},
-    ]},
-  ce_nad:{ title:"NAD+ infusion administration", stage:"CE · 1.5 contact hours", ceHours:1.5,
-    overview:"Beyond the injection, IV Wellness offers NAD+ IV infusions (250-1000 mg over 2-4 hours). The infusion is defined by careful rate titration to manage NAD+'s strong flushing.",
-    objectives:["Describe NAD+ infusion dosing and duration","Titrate the rate to client tolerance","Recognize and manage infusion reactions"],
-    steps:[
-      {t:"NAD+ infusion basics",d:"NAD+ infusions deliver larger doses slowly.",keys:["Doses commonly 250-1000 mg","Given slowly over 2-4 hours","The larger, slower counterpart to the injection"],miss:"Treating a NAD+ infusion like a quick drip.",safety:"NAD+ infusions must run slowly — speed causes strong reactions."},
-      {t:"Rate titration is everything",d:"NAD+ can cause strong flushing, chest tightness, cramping, or nausea if infused too fast; the rate is titrated to comfort.",keys:["Start slow and increase only as tolerated","Slow down or pause the moment the client feels the reaction","Client comfort sets the rate, not the clock"],miss:"Speeding up to finish on time and overwhelming the client.",safety:"The rate follows the client's tolerance — a longer, comfortable infusion beats a fast, miserable one."},
-      {t:"Monitoring and safety",d:"Stay with the client and watch the line.",keys:["Monitor the client and IV site throughout","Distinguish the expected NAD+ flush from a true allergic reaction","Keep emergency protocols available; document rate changes and response"],miss:"Leaving a NAD+ infusion unmonitored.",safety:"A true allergic reaction is an emergency — stop and get help; otherwise, slow the rate for discomfort."},
-    ]},
-  ce_monthly:{ title:"This month: securement & site-infection prevention", stage:"CE · 0.5 contact hour · Monthly", ceHours:0.5,
-    overview:"Your recurring monthly update. This edition reviews current best practice in securing peripheral IV catheters and preventing site infection in an outpatient setting.",
-    objectives:["Review current securement best practice","Connect securement to infection prevention","Apply the update to daily practice"],
-    steps:[
-      {t:"Securement and infection are linked",d:"A catheter that pistons in and out carries skin organisms inward — securement is infection prevention.",keys:["Engineered securement reduces movement and dislodgement","Transparent dressings keep the site visible for assessment","Keep the site clean, dry, and monitored"],miss:"Viewing securement as cosmetic rather than protective.",safety:"Stabilize the catheter and keep the site visible — both reduce infection risk."},
-      {t:"Daily practice this month",d:"Small habits compound into safer care.",keys:["Assess the site before and during every infusion","Replace loose or soiled dressings promptly","Remove the catheter as soon as the infusion is complete"],miss:"Leaving a catheter in longer than the visit requires.",safety:"In outpatient care the catheter comes out when the infusion is done — the safest line is one that is removed."},
-    ]},
-  ce_mobile:{ title:"Mobile & group IV service safety", stage:"CE · 1.0 contact hour", ceHours:1.0,
-    overview:"IV Wellness brings services to homes, events, and group gatherings. Delivering safe care outside the clinic takes extra planning.",
-    objectives:["Set up a safe field environment","Maintain asepsis and sharps safety off-site","Prepare for emergencies away from the clinic"],
-    steps:[
-      {t:"Set up the environment",d:"A safe mobile setup mirrors clinic standards.",keys:["Choose a clean, well-lit area with a stable surface and seating","Lay out a clean field; keep supplies organized and off the floor","Confirm each client's screening and authorization before starting"],miss:"Improvising on an unstable or dirty surface.",safety:"If a setting cannot be made safe and clean, do not proceed — reschedule."},
-      {t:"Asepsis and sharps off-site",d:"Infection control and sharps safety do not relax outside the clinic.",keys:["Full hand hygiene and aseptic technique as in the clinic","Bring and use a portable sharps container at the point of use","Account for every sharp before you leave"],miss:"Leaving a sharp behind or skipping hand hygiene because it is mobile.",safety:"Never leave a sharp behind; count them in and out."},
-      {t:"Emergency readiness away from help",d:"You are the first responder off-site.",keys:["Carry an emergency kit and know your reaction protocols","Have a plan to activate emergency services and share the exact address","Know when a client or setting is not appropriate for mobile service"],miss:"Going mobile without an emergency plan.",safety:"If you cannot respond safely to an emergency at a location, the service should not happen there."},
-    ]},
+const CE_LESSONS={
+  ce_addons:{title:"IV nutrient add-ons & custom drips",stage:"CE · 1.0 hr",ceHours:1.0,illo:"arm",lead:"Glutathione, vitamin C, amino & mineral blends — compatibility and safe custom drips.",
+    cards:[{t:"Compatibility",d:"Confirm additives mix with the base and each other.",more:["Never infuse a cloudy or color-changed solution"],safe:"Unsure? Keep separate or ask the provider."},{t:"Give it right",d:"Appropriate rate; some additives go slowly.",more:["Monitor the site and the client"],safe:"Slow or stop for any discomfort."}]},
+  ce_nad:{title:"NAD+ infusion administration",stage:"CE · 1.5 hr",ceHours:1.5,illo:"arm",lead:"NAD+ infusions (250–1000 mg) run slowly — the rate is titrated to comfort.",
+    cards:[{t:"Rate is everything",d:"Fast NAD+ causes flushing, cramping, nausea.",more:["Start slow, increase only as tolerated"],safe:"Client comfort sets the rate, not the clock."},{t:"Monitor",d:"Watch the client and line throughout.",more:["Tell the flush from a true allergic reaction"],safe:"A true reaction is an emergency — stop, get help."}]},
+  ce_mobile:{title:"Mobile & group service safety",stage:"CE · 1.0 hr",ceHours:1.0,illo:"subq",lead:"Delivering safe IV and injections in homes, events, and groups.",
+    cards:[{t:"Set up clean",d:"Good light, stable surface, clean field.",more:["Screening and authorization before you start"],safe:"Can't make it safe? Reschedule."},{t:"Sharps & emergencies",d:"Portable sharps bin; count them in and out.",more:["Carry an emergency kit; know the address"],safe:"Never leave a sharp behind."}]},
 };
-
-const EXAMS = {
-  iv:{ pass:6, questions:[
-    {q:"Which gauge is generally most appropriate for a typical medical adult with average veins?",opts:["14 G","16 G","22 G","18 G is always required"],a:2},
-    {q:"After you see flashback, what is the correct next move?",opts:["Pull the needle straight out","Lower the angle and advance the unit 1–2 mm so the catheter tip enters the lumen","Push the needle deeper at the same angle","Immediately remove the stylet"],a:1},
-    {q:"What must happen to skin antiseptic before insertion?",opts:["Wipe it off with gauze","Fan it dry quickly","Allow it to air-dry completely","Re-palpate the site to spread it"],a:2},
-    {q:"You feel a pulse where you intended to insert. You should:",opts:["Insert quickly before it moves","Recognize it as an artery and choose a different site","Apply a tighter tourniquet","Insert at a steeper angle"],a:1},
-    {q:"A vesicant is leaking into the tissue (extravasation). The priority is to:",opts:["Keep infusing to dilute it","Stop the infusion, disconnect, remove the catheter, and escalate per protocol","Massage the area vigorously","Apply a tourniquet above the site"],a:1},
-    {q:"Best practice for sharps after stylet removal is to:",opts:["Recap and discard later","Set it on the tray briefly","Activate the safety device immediately and dispose at the point of use","Hand it to a colleague"],a:2},
-    {q:"After two unsuccessful attempts on a patient, the best action is to:",opts:["Keep trying until successful","Hand off to a more experienced or specialist clinician","Switch to the largest gauge and retry","Stop all care for the day"],a:1},
-    {q:"For an older adult with fragile veins, you should generally:",opts:["Use maximum tourniquet pressure and a steep angle","Use minimal/low tourniquet pressure, a lower angle, and gentle traction","Always use a 16 G catheter","Skip skin antisepsis to save the vein"],a:1},
-  ]},
-  im:{ pass:6, questions:[
-    {q:"Which IM site is preferred for most adult injections?",opts:["Dorsogluteal (buttock)","Ventrogluteal","Antecubital","Abdomen"],a:1},
-    {q:"Which site should generally be avoided because it overlies the sciatic nerve?",opts:["Ventrogluteal","Vastus lateralis","Dorsogluteal","Deltoid"],a:2},
-    {q:"What is the typical maximum volume for a deltoid IM injection in an adult?",opts:["About 1 mL","3 mL","5 mL","10 mL"],a:0},
-    {q:"The Z-track technique is used to:",opts:["Speed up absorption","Seal the needle track so medication doesn't leak back to the surface","Allow a larger volume","Reduce the needed needle length"],a:1},
-    {q:"For routine IM vaccines at standard sites, aspiration before injecting is:",opts:["Always required","No longer routinely recommended","Required only in adults","Required only for the deltoid"],a:1},
-    {q:"The standard insertion angle for an IM injection is:",opts:["15°","45°","90°","Parallel to the skin"],a:2},
-    {q:"After giving a vaccine, you should observe the patient for an allergic reaction for about:",opts:["1 minute","15 minutes","2 hours","No observation needed"],a:1},
-    {q:"The deltoid injection site is located approximately:",opts:["At the tip of the shoulder (acromion)","2–3 finger-widths below the acromion, in the muscle belly","Near the elbow","At the lower third of the upper arm"],a:1},
-  ]},
-  nad:{ pass:6, questions:[
-    {q:"At IV Wellness, NAD+ is offered as:",opts:["Injections only","IV infusions only","Both subcutaneous injections and IV infusions","Oral tablets"],a:2},
-    {q:"Typical subcutaneous NAD+ injection doses are:",opts:["50 or 100 mg","250 mg","500 mg","1000 mg"],a:0},
-    {q:"The single most important technique to keep a client comfortable during a NAD+ injection is to:",opts:["Inject as fast as possible","Inject slowly","Use a long needle","Aspirate first"],a:1},
-    {q:"A subcutaneous NAD+ injection is deposited into:",opts:["Muscle","A vein","The subcutaneous fat layer","The dermis only"],a:2},
-    {q:"To protect the tissue across repeat visits you should:",opts:["Use the same spot each time","Rotate injection sites","Inject more quickly","Use a larger needle"],a:1},
-    {q:"On the abdomen you should avoid injecting within about:",opts:["2 inches (5 cm) of the navel","6 inches of the navel","the entire left side","anywhere below the ribs"],a:0},
-    {q:"A client feels warm and flushed during the NAD+ injection. You should:",opts:["Finish as fast as possible","Slow down or pause; it usually eases","Remove the needle and stop all care","Massage the site vigorously"],a:1},
-    {q:"Which sign means you must STOP and get help immediately?",opts:["A brief warm flush","Mild, momentary cramping","Difficulty breathing, swelling, or hives","A small amount of redness at the site"],a:2},
-  ]},
-};
-
-const CE = [
-  {id:"ce_infusion", hours:1.0, status:"available", desc:"Rates, compatibility, irritants, and safe administration of hydration, vitamin, and mineral infusions."},
-  {id:"ce_addons", hours:1.0, status:"available", desc:"Glutathione, vitamin C, amino & mineral blends and anti-nausea add-ons — compatibility and safe custom drips."},
-  {id:"ce_nad", hours:1.5, status:"available", desc:"NAD+ IV infusion administration — dosing, rate titration, and managing the flush."},
-  {id:"ce_monthly", hours:0.5, status:"available", monthly:true, desc:"Your recurring clinical update — securement, site care, and reducing site infection."},
-  {id:"ce_mobile", hours:1.0, status:"available", desc:"Delivering safe IV and injection services in homes, events, and group settings."},
+const CE=[
+  {id:"ce_addons",hours:1.0,status:"available",desc:"Glutathione, vitamin C, blends — compatibility and safe custom drips."},
+  {id:"ce_nad",hours:1.5,status:"available",desc:"NAD+ IV infusion — dosing, rate titration, managing the flush."},
+  {id:"ce_mobile",hours:1.0,status:"available",desc:"Safe IV and injection services in homes, events, and groups."},
 ];
 
-
-const state={ view:"dashboard", track:"iv", lessonId:null, step:0, from:"path", completed:new Set(), examPicks:{}, examChecked:false, examTrack:"iv", gradTracks:new Set(), ceHours:0, ceDone:new Set() };
+const PATHIDS=t=>TRACKS[t].stages.flatMap(s=>s.ids);
+const state={view:"dashboard",track:"iv",lessonId:null,from:"path",completed:new Set(),gradTracks:new Set(),ceHours:0,ceDone:new Set(),examTrack:"iv",lastScore:0};
 const el=id=>document.getElementById(id);
 const getLesson=id=>L[id]||CE_LESSONS[id];
-const trackIds=t=>TRACKS[t].stages.flatMap(s=>s.ids);
-const pathPct=t=>{const ids=trackIds(t);let d=0;ids.forEach(i=>{if(state.completed.has(i))d++;});return{done:d,total:ids.length,p:Math.round(d/ids.length*100)};};
+const trackIds=t=>PATHIDS(t);
+const pct=t=>{const ids=PATHIDS(t);let d=0;ids.forEach(i=>{if(state.completed.has(i))d++;});return{done:d,total:ids.length,p:Math.round(d/ids.length*100)};};
 const anyGrad=()=>state.gradTracks.size>0;
+function examScore(){return state.lastScore;}
 
-function setActive(view,track){ document.querySelectorAll('#nav a[data-view],#navCourses a[data-track]').forEach(a=>{ a.classList.toggle('active', (a.dataset.view&&a.dataset.view===view) || (a.dataset.track&&a.dataset.track===track)); }); }
+function setActive(view,track){document.querySelectorAll('.side .nav a[data-view],#navCourses a[data-track]').forEach(a=>{a.classList.toggle('active',(a.dataset.view&&a.dataset.view===view)||(a.dataset.track&&a.dataset.track===track));});}
+function go(view,track){if(view==='ce'&&!anyGrad()){flash('Graduate any course to unlock CE');return;}if(track)state.track=track;state.view=view;setActive(view,view==='path'?state.track:null);render();window.scrollTo(0,0);}
+function openLesson(id,from,track){if(track)state.track=track;state.lessonId=id;state.from=from||'path';state.view='lesson';setActive(from==='ce'?'ce':null,from==='ce'?null:state.track);render();window.scrollTo(0,0);}
 
-function go(view, track){
-  if(view==='ce' && !anyGrad()){ flash('Graduate any course to unlock the CE Center'); return; }
-  if(track) state.track=track;
-  state.view=view;
-  setActive(view, view==='path'?state.track:null);
-  render(); window.scrollTo(0,0);
-}
-function openLesson(id, from, track){
-  if(track) state.track=track;
-  state.lessonId=id; state.step=0; state.from=from||'path'; state.view='lesson';
-  setActive(from==='ce'?'ce':null, from==='ce'?null:state.track);
-  render(); window.scrollTo(0,0);
-}
+function syncSide(){const{done,total,p}=pct(state.track);el('sideProg').style.width=p+'%';
+  el('goalLbl').textContent=state.gradTracks.has(state.track)?TRACKS[state.track].short+' Graduate ✓':'Goal: '+TRACKS[state.track].short+' Graduate';
+  el('sideProgN').textContent=done+' of '+total+' lessons';
+  ['iv','im','subq'].forEach(t=>{el('gck'+t).textContent=state.gradTracks.has(t)?'✓':'';});
+  el('ceTag').textContent=anyGrad()?'Open':'Locked';}
 
-function syncSide(){
-  const {done,total,p}=pathPct(state.track);
-  el('sideProg').style.width=p+'%';
-  el('goalLbl').textContent = state.gradTracks.has(state.track)? TRACKS[state.track].short+' Graduate ✓' : 'Goal: '+TRACKS[state.track].short+' Graduate';
-  el('sideProgN').textContent = done+' of '+total+' lessons';
-  ['iv','im','nad'].forEach(t=>{ el('gck'+t).textContent = state.gradTracks.has(t)?'✓':''; });
-  el('ceTag').textContent = anyGrad()?'Open':'Locked';
-  el('ceNav').classList.toggle('lock', !anyGrad());
-}
-
-function render(){ el('view').innerHTML=({dashboard:tplDash,path:tplPath,lesson:tplLesson,exam:tplExam,grad:tplGrad,ce:tplCE,video:tplVideo})[state.view](); syncSide(); }
-
-function trackIcon(t){ return ({iv:'<path d="M4 19V5l8 3 8-3v14l-8 3z"/><path d="M12 8v14"/>',im:'<path d="M5 19l5-5M9 11l5-5 4 4-5 5z"/><path d="M14 6l4 4"/>',nad:'<path d="M13 2 4 14h6l-1 8 9-12h-6z"/>'})[t]; }
+function render(){el('view').innerHTML=({dashboard:tplDash,path:tplPath,lesson:tplLesson,grad:tplGrad,ce:tplCE,video:tplVideo})[state.view]();syncSide();wire();}
 
 function tplDash(){
-  const cards=['iv','im','nad'].map(t=>{const{done,total,p}=pathPct(t);const grad=state.gradTracks.has(t);
-    return `<div class="tcard" onclick="go('path','${t}')"><div class="tic"><svg viewBox="0 0 24 24">${trackIcon(t)}</svg></div>
-      <h3>${TRACKS[t].name}</h3><div class="ts">${TRACKS[t].short} injection skills pathway</div>
-      <div class="tb"><i style="width:${p}%"></i></div>
-      <div class="tm">${grad?'<span class="gradtag">Graduate ✓</span>':done+' / '+total+' lessons · '+p+'%'}</div></div>`;}).join('');
-  const headBadge = anyGrad()
-    ? `<span class="goalbadge"><svg class="ti" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>${state.gradTracks.size} credential${state.gradTracks.size>1?'s':''} earned</span>`
-    : `<span class="goalbadge"><svg class="ti" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/></svg>Your first goal: Graduate</span>`;
+  const cards=['iv','im','subq'].map(t=>{const{done,total,p}=pct(t);const g=state.gradTracks.has(t);
+    return '<div class="tcard" onclick="go(\'path\',\''+t+'\')"><div class="tic">'+svgMini(t==='iv'?'arm':t==='im'?'im':'subq')+'</div><h3>'+TRACKS[t].name+'</h3><div class="ts">'+TRACKS[t].sub.split('—')[0]+'</div><div class="tb"><i style="width:'+p+'%"></i></div><div class="tm">'+(g?'<span class="grad">Graduate ✓</span>':done+' / '+total+' lessons · '+p+'%')+'</div></div>';}).join('');
   let ce='';
-  if(anyGrad()){
-    ce=`<div class="card resume"><div class="rl"><div class="rtag">Keep learning · CE Center</div><h2>Your continuing education</h2><p>You've earned <b>${state.ceHours.toFixed(1)} contact hours</b>. Fresh modules drop monthly to keep your practice current.</p>
-      <button class="btn btn-gold" onclick="go('ce')">Go to CE Center <svg class="ti" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
-      <div class="rr"><div class="stat">${state.ceHours.toFixed(1)}</div><div class="stl">CE contact hours</div><button class="btn btn-light" onclick="go('grad')">View credentials</button></div></div>`;
-  }
-  return `<div class="headrow">${headBadge}<h1>Your training center</h1>
-    <p>Three procedural pathways, each leading to a graduation credential. Pick a course, finish the lessons, and pass the exam to graduate — then keep your skills current in the CE Center. Everything here is educational; hands-on competency is validated by your instructor or employer.</p></div>
-  <h3 class="secttl" style="margin-top:0">Your courses</h3>
-  <div class="trackcards">${cards}</div>
-  ${ce}`;
+  if(anyGrad())ce='<h3 class="head" style="font-size:1.15rem;color:var(--emerald);margin:26px 0 12px">Keep going</h3><p style="color:var(--muted);margin-bottom:10px">You\'ve earned <b>'+state.ceHours.toFixed(1)+' CE hours</b>. Fresh modules monthly.</p><button class="btn btn-gold" onclick="go(\'ce\')">CE Center</button>';
+  return '<div class="head" style="margin-bottom:22px"><span class="eyebrow">Your training</span><h1>Pick a course</h1><p>Short, visual, hands-on lessons. Finish a course and pass its quiz to graduate — then keep current in CE. Everything is educational; competency is validated by your supervisor.</p></div><div class="tgrid">'+cards+'</div>'+ce;
+}
+function tplPath(){
+  const T=TRACKS[state.track];const{p,done,total}=pct(state.track);const g=state.gradTracks.has(state.track);
+  let h='<div class="head" style="margin-bottom:18px"><span class="eyebrow">'+T.short+' · Course</span><h1>'+T.title+'</h1><p>'+T.sub+'</p></div>';
+  h+='<div style="background:var(--white);border:1px solid var(--stone);border-radius:14px;padding:16px 18px;margin-bottom:20px;display:flex;align-items:center;gap:16px"><div style="flex:1"><div style="font-weight:700;color:var(--emerald);margin-bottom:8px">'+(g?'Graduated ✓':'Progress')+'</div><div class="tb" style="height:8px;background:var(--pearl);border-radius:6px;overflow:hidden"><i style="display:block;height:100%;width:'+p+'%;background:linear-gradient(90deg,var(--champagne),var(--gold))"></i></div></div><div style="font-family:var(--serif);font-size:1.5rem;color:var(--emerald)">'+p+'%</div></div>';
+  T.stages.forEach(s=>{h+='<div class="stage"><div class="sh"><div class="snum">'+s.n+'</div><h3>'+s.title+'</h3></div><div class="lessons">';s.ids.forEach(id=>{h+=lrow(id,'path');});h+='</div></div>';});
+  return h;
+}
+function lrow(id,from){const L0=getLesson(id);const done=state.completed.has(id);
+  return '<div class="lrow" onclick="openLesson(\''+id+'\',\''+from+'\')"><div class="lic '+(done?'done':'')+'">'+(done?'<svg class="ti" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>':svgMini(L0.illo))+'</div><div><div class="lt">'+L0.title+'</div><div class="ld">'+L0.stage+'</div></div><div class="lmeta"><span class="pill '+(done?'done':'todo')+'">'+(done?'Done':'Start')+'</span></div></div>';
 }
 
-function tplPath(){
-  const T=TRACKS[state.track]; const {done,total,p}=pathPct(state.track); const grad=state.gradTracks.has(state.track);
-  let h=`<div class="headrow"><span class="eyebrow">${T.short} · Graduation Pathway</span><h1>${T.title}</h1><p>${T.sub}</p></div>`;
-  h+=`<div class="card pad" style="margin-bottom:22px;display:flex;align-items:center;gap:18px"><div style="flex:1"><div style="font-weight:700;color:var(--emerald);margin-bottom:8px">${grad?'Graduated ✓':'Progress to graduation'}</div><div class="tb" style="height:8px"><i style="width:${p}%"></i></div></div><div style="font-family:var(--serif);font-size:1.6rem;color:var(--emerald)">${p}%</div></div>`;
-  T.stages.forEach(s=>{ h+=`<div class="stage"><div class="sh"><div class="snum">${s.n}</div><div><h3>${s.title}</h3><span>${s.sub}</span></div></div><div class="lessons">`;
-    s.ids.forEach(id=>{ h+=lrow(id,'path'); }); h+=`</div></div>`; });
-  if(done===total && !grad){ h+=`<div class="card pad" style="margin-top:18px;text-align:center"><p style="color:var(--muted);margin-bottom:12px">All lessons complete — you're ready.</p><button class="btn btn-gold" onclick="startExam('${state.track}')">Start graduation exam</button></div>`; }
+let _wire=[];
+function wire(){_wire.forEach(f=>{try{f();}catch(e){}});_wire=[];}
+
+function tplLesson(){
+  const L0=getLesson(state.lessonId);if(!L0)return tplPath();
+  const back=state.from==='ce'?'ce':'path';const backName=state.from==='ce'?'CE Center':TRACKS[state.track].short+' Course';
+  let h='<div class="crumb"><a onclick="go(\''+back+'\')">'+backName+'</a> / '+L0.stage+'</div>';
+  h+='<div class="head" style="margin-bottom:14px"><span class="eyebrow">'+L0.stage+'</span><h1>'+L0.title+'</h1></div>';
+  if(L0.illo)h+='<div class="illo">'+ ({arm:svgArm(false),im:svgIM(false),subq:svgSubQ(false),angle:svgAngle()}[L0.illo]||'') +'</div>';
+  h+='<p class="lead">'+L0.lead+'</p>';
+  if(L0.cards)L0.cards.forEach((c,i)=>{h+='<div class="rcard" data-rc="'+i+'"><div class="rhead"><div class="rn">'+(i+1)+'</div><div><div class="rt">'+c.t+'</div><div class="rd">'+c.d+'</div></div><div class="chev">⌄</div></div><div class="rmore"><ul>'+c.more.map(m=>'<li>'+m+'</li>').join('')+'</ul><div class="safe"><b>Safety:</b> '+c.safe+'</div></div></div>';});
+  if(L0.inter){h+='<div id="interzone"></div>';}
+  h+='<div class="lnav"><button class="btn btn-ghost" onclick="go(\''+back+'\')">Back</button><button class="btn btn-gold" id="doneBtn" onclick="'+(L0.capstone?'':'completeLesson(\''+state.lessonId+'\')')+'">'+(L0.capstone?'Complete the quiz to graduate':'Mark complete')+' <svg class="ti" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>';
+  // deferred wiring for reveal cards + interactive
+  _wire.push(function(){
+    document.querySelectorAll('.rcard .rhead').forEach(hd=>hd.onclick=function(){hd.parentElement.classList.toggle('open');});
+    if(L0.inter)buildInter(L0);
+    if(L0.capstone){var b=el('doneBtn');b.disabled=true;}
+  });
   return h;
 }
 
-function lrow(id, from){ const lesson=getLesson(id); const done=state.completed.has(id); const dur=L[id]&&L[id].dur?' · '+L[id].dur:'';
-  return `<div class="lrow" onclick="openLesson('${id}','${from}')">
-    <div class="lic ${done?'done':''}"><svg class="ti" viewBox="0 0 24 24">${done?'<path d=\"M5 13l4 4L19 7\"/>':'<path d=\"M8 5v14l11-7z\"/>'}</svg></div>
-    <div><div class="lt">${lesson.title}</div><div class="ld">${lesson.stage}${dur}</div></div>
-    <div class="lmeta"><span class="pill ${done?'done':'todo'}">${done?'Done':'Start'}</span></div></div>`;
+function buildInter(L0){
+  const zone=el('interzone');if(!zone)return;const it=L0.inter;
+  if(it.type==='sites'){
+    zone.innerHTML='<div class="inter"><div class="il">Try it</div><h3>Injection site</h3><div class="iq">'+it.q+'</div><div class="sitebox">'+it.svg+'</div><div class="fb" id="sfb"></div></div>';
+    zone.querySelectorAll('.hot').forEach(el2=>{el2.addEventListener('click',function(){
+      var id=el2.getAttribute('data-id');var ok=id===it.correct;var fb=el('sfb');
+      zone.querySelectorAll('.hot').forEach(x=>x.setAttribute('stroke','none'));
+      el2.setAttribute('stroke',ok?'#2f7d5b':'#c0563f');el2.setAttribute('stroke-width','4');
+      fb.className='fb show '+(ok?'ok':'no');fb.textContent=it.fb[id]||'';
+    });});
+  } else if(it.type==='quiz'||it.type==='exam'){
+    const isExam=it.type==='exam';const total=it.questions.length;
+    let inner='<div class="inter"><div class="il">'+(isExam?'Graduation quiz':'Quick check')+'</div><h3>'+(isExam?'Pass '+it.pass+' of '+total+' to graduate':'Instant feedback')+'</h3>';
+    it.questions.forEach((q,qi)=>{inner+='<div class="q" data-qi="'+qi+'"><div class="qq">'+(qi+1)+'. '+q.q+'</div>'+q.opts.map((o,oi)=>'<div class="qopt" data-oi="'+oi+'">'+o+'<span class="mk"></span></div>').join('')+'<div class="qwhy"></div></div>';});
+    inner+='<div class="qscore" id="qscore"></div></div>';
+    zone.innerHTML=inner;
+    const answered={};
+    zone.querySelectorAll('.q').forEach(qEl=>{
+      const qi=+qEl.getAttribute('data-qi');const q=it.questions[qi];
+      qEl.querySelectorAll('.qopt').forEach(opt=>{opt.addEventListener('click',function(){
+        if(answered[qi]!==undefined)return;const oi=+opt.getAttribute('data-oi');answered[qi]=oi;
+        qEl.querySelectorAll('.qopt').forEach((o2,i2)=>{if(i2===q.a){o2.classList.add('correct');o2.querySelector('.mk').textContent='✓';}else if(i2===oi){o2.classList.add('wrong');o2.querySelector('.mk').textContent='✕';}});
+        const why=qEl.querySelector('.qwhy');why.textContent=q.why;why.classList.add('show');
+        updateScore();
+      });});
+    });
+    function updateScore(){let s=0;Object.keys(answered).forEach(k=>{if(answered[k]===it.questions[k].a)s++;});const done=Object.keys(answered).length;
+      const sc=el('qscore');
+      if(done===total){state.lastScore=s;
+        if(isExam){const pass=s>=it.pass;sc.innerHTML=s+' / '+total+' — '+(pass?'<span style="color:var(--ok)">passed!</span>':'<span style="color:var(--no)">need '+it.pass+' to pass</span>');
+          const b=el('doneBtn');
+          if(pass){b.disabled=false;b.textContent='Claim your graduation';b.onclick=function(){graduate(state.track);};}
+          else{b.disabled=false;b.textContent='Retake the quiz';b.onclick=function(){render();};}
+        } else {sc.textContent=s+' / '+total+' correct';}
+      } else {sc.textContent=done+' / '+total+' answered';}
+    }
+  }
 }
 
-function tplLesson(){
-  const L0=getLesson(state.lessonId); if(!L0) return tplPath();
-  const intro=state.step===0; const steps=L0.steps; const total=steps.length+1; const idx=state.step;
-  const prog=Math.round(((idx+1)/total)*100); const last=idx===total-1; const backTo=state.from==='ce'?'ce':'path';
-  let dots=''; for(let k=0;k<total;k++) dots+=`<span class="${k===idx?'on':(k<idx?'dn':'')}"></span>`;
-  let body;
-  if(intro){ body=`<div class="stnum">Lesson overview</div><h3>${L0.title}</h3><p class="sd">${L0.overview}</p><h5>By the end of this lesson you will be able to</h5><ul class="keys">${L0.objectives.map(o=>`<li>${o}</li>`).join('')}</ul>`; }
-  else{ const st=steps[idx-1]; body=`<div class="stnum">Step ${idx} of ${steps.length}</div><h3>${st.t}</h3><p class="sd">${st.d}</p><h5>Key points</h5><ul class="keys">${st.keys.map(k=>`<li>${k}</li>`).join('')}</ul>
-    ${st.miss?`<div class="co miss"><div class="ci"><svg class="ti" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></div><div class="ct"><b>Common mistake:</b> ${st.miss}</div></div>`:''}
-    <div class="co safety"><div class="ci"><svg class="ti" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></div><div class="ct"><b>${SAFE}:</b> ${st.safety}</div></div>`; }
-  const nextLabel=last?(L0.capstone?'Start graduation exam':'Complete lesson'):(intro?'Begin lesson':'Next step');
-  const nextFn=last?(L0.capstone?`startExam('${state.track}')`:`completeLesson('${state.lessonId}')`):'nextStep()';
-  return `<div class="crumb"><a onclick="go('${backTo}')">${backTo==='ce'?'CE Center':TRACKS[state.track].short+' Path'}</a> &nbsp;/&nbsp; ${L0.stage}</div>
-  <div class="headrow" style="margin-bottom:16px"><span class="eyebrow">${L0.stage}${L0.flagship?' · Flagship lesson':''}</span><h1>${L0.title}</h1></div>
-  <div class="vmini"><div class="vp"><svg class="ti" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><div><div class="vmt">Demonstration video</div><div class="vms">Optional filmed walkthrough — in production</div></div><span class="vtag">Coming soon</span></div>
-  <div class="stepwrap"><div class="stepbar"><div class="sx">${intro?'Overview':'Step '+idx+' / '+steps.length}</div><div class="track"><i style="width:${prog}%"></i></div></div>
-    <div class="stepbody">${body}</div>
-    <div class="stepnav"><button class="btn btn-ghost" onclick="prevStep()" ${idx===0?'disabled':''}>Back</button><div class="dots">${dots}</div>
-      <button class="btn ${last?'btn-gold':'btn-dark'}" onclick="${nextFn}">${nextLabel} <svg class="ti" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div></div>`;
-}
-function nextStep(){ const t=getLesson(state.lessonId).steps.length+1; if(state.step<t-1){state.step++;render();window.scrollTo(0,0);} }
-function prevStep(){ if(state.step>0){state.step--;render();window.scrollTo(0,0);} }
-function completeLesson(id){ const wasNew=!state.completed.has(id); state.completed.add(id);
-  if(CE_LESSONS[id]&&wasNew){ state.ceHours+=CE_LESSONS[id].ceHours; state.ceDone.add(id); }
-  toast(getLesson(id).title+' complete'); go(state.from==='ce'?'ce':'path'); }
-
-function startExam(track){ state.examTrack=track||state.track; state.view='exam'; state.examPicks={}; state.examChecked=false; render(); window.scrollTo(0,0); }
-function tplExam(){ const T=TRACKS[state.examTrack]; const EX=EXAMS[state.examTrack];
-  return `<div class="crumb"><a onclick="go('path','${state.examTrack}')">${T.short} Path</a> &nbsp;/&nbsp; Graduation exam</div>
-  <div class="headrow" style="margin-bottom:16px"><span class="eyebrow">${T.short} · Graduation exam</span><h1>Earn your ${T.short} Graduate credential</h1><p>Answer all ${EX.questions.length}. You need ${EX.pass} of ${EX.questions.length} correct to graduate. Retake as many times as you like.</p></div>
-  <div class="card pad">${EX.questions.map((q,qi)=>`<div class="q"><div class="qt">${qi+1}. ${q.q}</div>${q.opts.map((o,oi)=>{let cls='opt',mk='';if(state.examChecked){if(oi===q.a){cls+=' correct';mk='<span class="mk">Correct</span>';}else if(state.examPicks[qi]===oi){cls+=' wrong';mk='<span class="mk">Not quite</span>';}}return `<label class="${cls}"><input type="radio" name="e${qi}" ${state.examPicks[qi]===oi?'checked':''} onchange="epick(${qi},${oi})" ${state.examChecked?'disabled':''}>${o}${mk}</label>`;}).join('')}</div>`).join('')}
-    <div style="display:flex;gap:12px;align-items:center;margin-top:8px">${state.examChecked?examButtons():`<button class="btn btn-dark" onclick="checkExam()">Submit exam</button>`}</div></div>`;
-}
-function epick(qi,oi){ state.examPicks[qi]=oi; }
-function examScore(){ let s=0; EXAMS[state.examTrack].questions.forEach((q,i)=>{if(state.examPicks[i]===q.a)s++;}); return s; }
-function checkExam(){ const EX=EXAMS[state.examTrack]; if(Object.keys(state.examPicks).length<EX.questions.length){flash('Answer all questions first');return;} state.examChecked=true; render(); window.scrollTo(0,0); }
-function examButtons(){ const EX=EXAMS[state.examTrack]; const s=examScore(); const pass=s>=EX.pass;
-  if(pass) return `<button class="btn btn-gold" onclick="graduate('${state.examTrack}')">Claim your graduation <svg class="ti" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><span style="font-weight:700;color:var(--ok)">${s} / ${EX.questions.length} — passed!</span>`;
-  return `<button class="btn btn-dark" onclick="startExam('${state.examTrack}')">Retake exam</button><span style="font-weight:700;color:#c0563f">${s} / ${EX.questions.length} — need ${EX.pass} to pass</span>`;
-}
-function graduate(track){ state.gradTracks.add(track); trackIds(track).forEach(i=>state.completed.add(i)); state.track=track; state.view='grad'; setActive('grad',null); render(); window.scrollTo(0,0); toast('Congratulations — '+TRACKS[track].short+' Graduate!'); }
+function completeLesson(id){const wasNew=!state.completed.has(id);state.completed.add(id);if(CE_LESSONS[id]&&wasNew){state.ceHours+=CE_LESSONS[id].ceHours;state.ceDone.add(id);}toast(getLesson(id).title+' complete');go(state.from==='ce'?'ce':'path');}
+function graduate(track){state.gradTracks.add(track);trackIds(track).forEach(i=>state.completed.add(i));state.track=track;state._celebrate=track;state.view='grad';setActive('grad',null);render();window.scrollTo(0,0);toast('Congratulations — '+TRACKS[track].short+' Graduate!');}
 
 function tplGrad(){
-  if(state.gradTracks.size===0 || state.view!=='grad' || !state._justGrad){}
-  // If the most recent action was a graduation, show celebration for state.track; else show overview list.
-  const justGrad = state.gradTracks.has(state.track) && state._celebrate===state.track;
-  if(state._celebrate && state.gradTracks.has(state._celebrate)){
-    const t=state._celebrate; state._celebrate=null;
-    return gradCelebrate(t);
+  if(state._celebrate&&state.gradTracks.has(state._celebrate)){const t=state._celebrate;state._celebrate=null;
+    return '<div class="grad"><div class="seal"><svg class="ti" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v4c0 1.6 3 3 6 3s6-1.4 6-3v-4"/></svg></div><div class="ge">Lumevity Graduate</div><h1>Congratulations!</h1><p>You\'ve completed the '+TRACKS[t].name+' course. This reflects knowledge readiness — hands-on competency is validated by your supervisor.</p><div class="cert"><div class="cl">Certificate of Graduation</div><div class="cn">'+TRACKS[t].name+'</div><div class="cd">Awarded by Lumevity · Lacey Smith, FNP-C · '+new Date().toLocaleDateString()+'</div></div><div style="margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn btn-gold" onclick="go(\'ce\')">Enter the CE Center</button><button class="btn btn-ghost" style="border-color:rgba(227,206,154,.5);color:#fff" onclick="go(\'grad\')">All credentials</button></div></div>';
   }
-  let rows=['iv','im','nad'].map(t=>{const{done,total}=pathPct(t);const grad=state.gradTracks.has(t);
-    return `<div class="gradrow ${grad?'done':''}"><div class="gi"><svg class="ti" viewBox="0 0 24 24">${grad?'<path d=\"M5 13l4 4L19 7\"/>':trackIcon(t)}</svg></div>
-      <div><h4>${TRACKS[t].name}</h4><p>${grad?'Graduated — credential earned':done+' of '+total+' lessons complete'}</p></div>
-      <div class="ga">${grad?'<span class="pill done">Graduate</span>':(done===total?`<button class="btn btn-gold" onclick="startExam('${t}')">Take exam</button>`:`<button class="btn btn-ghost" onclick="go('path','${t}')">Continue</button>`)}</div></div>`;}).join('');
-  return `<div class="headrow"><span class="eyebrow">Graduation</span><h1>Your credentials</h1><p>Graduate from each pathway to earn its credential. Your first credential also unlocks the CE Center for ongoing learning.</p></div><div class="gradlist">${rows}</div>`;
+  const rows=['iv','im','subq'].map(t=>{const{done,total}=pct(t);const g=state.gradTracks.has(t);
+    return '<div class="gradrow '+(g?'done':'')+'"><div class="gi">'+(g?'<svg class="ti" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>':svgMini(t==='iv'?'arm':t==='im'?'im':'subq'))+'</div><div><h4>'+TRACKS[t].name+'</h4><p>'+(g?'Graduated — credential earned':done+' of '+total+' lessons')+'</p></div><div class="ga">'+(g?'<span class="pill done">Graduate</span>':'<button class="btn btn-ghost" onclick="go(\'path\',\''+t+'\')">Continue</button>')+'</div></div>';}).join('');
+  return '<div class="head"><span class="eyebrow">Graduation</span><h1>Your credentials</h1><p>Graduate from each course to earn its credential. Your first one unlocks the CE Center.</p></div><div class="gradlist">'+rows+'</div>';
 }
-function gradCelebrate(t){
-  return `<div class="grad"><div class="seal"><svg class="ti" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v4c0 1.6 3 3 6 3s6-1.4 6-3v-4"/><path d="M22 9v5"/></svg></div>
-    <div class="ge">Lumevity Graduate</div><h1>Congratulations — you've graduated!</h1>
-    <p>You've completed the ${TRACKS[t].name} pathway and passed the graduation exam. This credential reflects your knowledge readiness — your hands-on competency is validated by your instructor or employer.</p>
-    <div class="cert"><div class="cl">Certificate of Graduation</div><div class="cn">${TRACKS[t].name}</div><div class="cd">Awarded by Lumevity · Lacey Smith, FNP-C · ${new Date().toLocaleDateString()}</div></div>
-    <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><button class="btn btn-gold" onclick="go('ce')">Enter the CE Center <svg class="ti" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><button class="btn btn-light" onclick="go('grad')">View all credentials</button><button class="btn btn-light" onclick="nextCourse('${t}')">Start another course</button></div></div>`;
-}
-function nextCourse(t){ const order=['iv','im','nad']; const next=order.find(x=>!state.gradTracks.has(x))||'im'; go('path',next); }
-
 function tplCE(){
-  if(!anyGrad()) return `<div class="headrow"><span class="eyebrow">CE Center</span><h1>Unlocks at graduation</h1></div><div class="lockmsg"><b>The CE Center opens once you graduate from any pathway.</b> Finish a course and pass its graduation exam to access continuing-education modules — then come back each month for fresh credit.</div>`;
-  return `<div class="cehead"><div><div class="cei">Continuing Education</div><h2>Keep your skills sharp</h2><p>New CE modules are released every month. Earn contact hours, stay current, and keep your practice graduate-strong.</p></div><div class="cehours"><div class="n">${state.ceHours.toFixed(1)}</div><div class="l">contact hours earned</div></div></div>
-  <div class="cegrid">${CE.map(m=>{const ls=CE_LESSONS[m.id];const done=state.ceDone.has(m.id);return `<div class="cecard"><div class="ch">${m.monthly?'<span class="cmonthly">Monthly</span>':''}<span class="chrs">${m.hours.toFixed(1)} CE hr</span></div><h4>${ls.title}</h4><p>${m.desc}</p><button class="btn ${done?'btn-ghost':'btn-gold'} cebtn" onclick="openLesson('${m.id}','ce')">${done?'Revisit':'Start module'}</button></div>`;}).join('')}</div>
-  <p style="text-align:center;color:var(--muted);font-size:.84rem;margin-top:22px">CE credit is pursued through appropriate accreditors. Contact hours shown are illustrative for this MVP.</p>`;
+  if(!anyGrad())return '<div class="head"><span class="eyebrow">CE Center</span><h1>Unlocks at graduation</h1></div><div class="lockmsg"><b>Finish a course and pass its quiz</b> to open the CE Center — then come back monthly for fresh credit.</div>';
+  return '<div class="cehead"><div><div class="cei">Continuing Education</div><h2>Keep your skills sharp</h2><p>New modules monthly. Earn contact hours and stay current.</p></div><div class="cehours"><div class="n">'+state.ceHours.toFixed(1)+'</div><div class="l">contact hours</div></div></div><div class="cegrid">'+CE.map(m=>{const ls=CE_LESSONS[m.id];const done=state.ceDone.has(m.id);return '<div class="cecard"><span class="chrs">'+m.hours.toFixed(1)+' CE hr</span><h4>'+ls.title+'</h4><p>'+m.desc+'</p><button class="btn '+(done?'btn-ghost':'btn-gold')+'" onclick="openLesson(\''+m.id+'\',\'ce\')">'+(done?'Revisit':'Start module')+'</button></div>';}).join('')+'</div><p style="text-align:center;color:var(--muted);font-size:.82rem;margin-top:20px">CE credit pursued through appropriate accreditors. Hours shown are illustrative for this MVP.</p>';
+}
+function tplVideo(){const v=[{t:"Reading & choosing a vein",s:"IV"},{t:"The IV insertion, start to finish",s:"IV"},{t:"IM landmarking the ventrogluteal",s:"IM"},{t:"Subcutaneous pinch & angle",s:"SubQ"}];
+  return '<div class="head"><span class="eyebrow">Video Library</span><h1>Demonstration videos</h1><p>Filmed walkthroughs to pair with each lesson — in production.</p></div><div class="cegrid">'+v.map(x=>'<div class="cecard"><span class="chrs" style="background:#eef1ee;color:var(--emerald-2);border-color:#dfe5df">Video</span><h4>'+x.t+'</h4><p>'+x.s+'</p><button class="btn btn-ghost" disabled>Coming soon</button></div>').join('')+'</div>';
 }
 
-function tplVideo(){ const vids=[{t:"Vein assessment & site selection",s:"IV · Foundations"},{t:"The IV insertion, start to finish",s:"IV · Technique"},{t:"IM landmarking the ventrogluteal site",s:"IM · Foundations"},{t:"NAD+ subcutaneous injection technique",s:"NAD+ · Technique"}];
-  return `<div class="headrow"><span class="eyebrow">Video Library</span><h1>Demonstration videos</h1><p>Optional filmed walkthroughs to complement the written lessons. The library is in production — these slots will fill with HD demonstrations led by Lacey Smith, FNP-C.</p></div>
-  <div class="cegrid">${vids.map(v=>`<div class="cecard"><div class="ch"><span class="chrs" style="background:#eef1ee;color:var(--emerald-2);border-color:#dfe5df">Video</span></div><h4>${v.t}</h4><p>${v.s}</p><button class="btn btn-ghost cebtn" disabled>Coming soon</button></div>`).join('')}</div>`;
-}
-
-let tT;
-function toast(msg){ el('toastMsg').innerHTML='<b>Nice work.</b> '+msg; const t=el('toast'); t.classList.add('show'); clearTimeout(tT); tT=setTimeout(()=>t.classList.remove('show'),3000); }
-function flash(msg){ el('toastMsg').textContent=msg; const t=el('toast'); t.classList.add('show'); clearTimeout(tT); tT=setTimeout(()=>t.classList.remove('show'),2200); }
-
-// celebrate flag wiring
-const _graduate=graduate;
-graduate=function(track){ state._celebrate=track; _graduate(track); };
+let tT;function toast(m){el('toastMsg').innerHTML='<b>Nice work.</b> '+m;const t=el('toast');t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2800);}
+function flash(m){el('toastMsg').textContent=m;const t=el('toast');t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2000);}
 
 render();
 </script>
@@ -725,57 +500,33 @@ render();
   var SB_KEY="sb_publishable_MX9URc_fMZ37AEHEHYyIDg_bXZK3UHZ";
   if(!window.supabase){ console.warn("Supabase JS not loaded (offline demo mode)."); return; }
   var sb = window.supabase.createClient(SB_URL, SB_KEY);
-  window._sb = sb;
-  var userId = null;
-
+  window._sb = sb; var userId = null;
   var bar=document.createElement('div'); bar.id='authbar';
   bar.style.cssText='position:fixed;top:8px;right:12px;z-index:300;display:flex;align-items:center;gap:8px;background:rgba(12,59,51,.96);color:#FBFAF6;border:1px solid rgba(227,206,154,.3);border-radius:50px;padding:6px 12px;font:600 12px Mulish,system-ui,sans-serif;box-shadow:0 8px 24px rgba(8,30,40,.35)';
   document.body.appendChild(bar);
   function renderBar(email){
-    if(email){
-      bar.innerHTML='<span style="color:#E3CE9A">&#9679;</span> '+email+' <button id="lo" style="margin-left:4px;background:transparent;border:1px solid rgba(227,206,154,.4);color:#E3CE9A;border-radius:50px;padding:4px 10px;cursor:pointer;font:inherit">Sign out</button>';
-      document.getElementById('lo').onclick=async function(){ await sb.auth.signOut(); location.reload(); };
-    } else {
-      bar.innerHTML='<input id="em" placeholder="you@email.com" style="background:rgba(251,250,246,.1);border:1px solid rgba(227,206,154,.3);color:#fff;border-radius:50px;padding:6px 10px;font:inherit;width:150px" /> <button id="si" style="background:linear-gradient(135deg,#E3CE9A,#C9A24B);border:none;color:#3a2e0e;border-radius:50px;padding:6px 12px;cursor:pointer;font:inherit;font-weight:700">Save progress</button>';
-      document.getElementById('si').onclick=async function(){
-        var em=document.getElementById('em').value.trim(); if(!em) return;
-        var r=await sb.auth.signInWithOtp({email:em, options:{emailRedirectTo:location.href}});
-        bar.innerHTML = r.error ? ('<span>'+r.error.message+'</span>') : '<span style="color:#E3CE9A">Check your email for a sign-in link &#9993;</span>';
-      };
-    }
+    if(email){ bar.innerHTML='<span style="color:#E3CE9A">&#9679;</span> '+email+' <button id="lo" style="margin-left:4px;background:transparent;border:1px solid rgba(227,206,154,.4);color:#E3CE9A;border-radius:50px;padding:4px 10px;cursor:pointer;font:inherit">Sign out</button>';
+      document.getElementById('lo').onclick=async function(){ await sb.auth.signOut(); location.reload(); }; }
+    else { bar.innerHTML='<input id="em" placeholder="you@email.com" style="background:rgba(251,250,246,.1);border:1px solid rgba(227,206,154,.3);color:#fff;border-radius:50px;padding:6px 10px;font:inherit;width:150px" /> <button id="si" style="background:linear-gradient(135deg,#E3CE9A,#C9A24B);border:none;color:#3a2e0e;border-radius:50px;padding:6px 12px;cursor:pointer;font:inherit;font-weight:700">Save progress</button>';
+      document.getElementById('si').onclick=async function(){ var em=document.getElementById('em').value.trim(); if(!em) return; var r=await sb.auth.signInWithOtp({email:em, options:{emailRedirectTo:location.href}}); bar.innerHTML = r.error ? ('<span>'+r.error.message+'</span>') : '<span style="color:#E3CE9A">Check your email for a sign-in link &#9993;</span>'; }; }
   }
   function trackOf(id){ try{ for(var t in TRACKS){ if(TRACKS[t].stages.some(function(s){return s.ids.indexOf(id)>=0;})) return t; } }catch(e){} return null; }
   async function persist(table,row,oc){ if(!userId) return; try{ row.user_id=userId; await sb.from(table).upsert(row, oc?{onConflict:oc}:undefined);}catch(e){console.warn('persist',table,e);} }
-
   var _complete = completeLesson;
-  completeLesson = function(id){
-    _complete(id);
-    if(!userId) return;
+  completeLesson = function(id){ _complete(id); if(!userId) return;
     if(typeof CE_LESSONS!=='undefined' && CE_LESSONS[id]) persist('ce_completions',{module_id:id,hours:CE_LESSONS[id].ceHours},'user_id,module_id');
-    else persist('lesson_progress',{lesson_id:id,track:trackOf(id)},'user_id,lesson_id');
-  };
+    else persist('lesson_progress',{lesson_id:id,track:trackOf(id)},'user_id,lesson_id'); };
   var _grad = graduate;
-  graduate = function(track){
-    _grad(track);
-    if(!userId) return;
-    persist('enrollments',{track:track},'user_id,track');
-    persist('graduations',{track:track},'user_id,track');
+  graduate = function(track){ _grad(track); if(!userId) return;
+    persist('enrollments',{track:track},'user_id,track'); persist('graduations',{track:track},'user_id,track');
     try{ var sc=(typeof examScore==='function')?examScore():null; sb.from('exam_results').insert({user_id:userId,track:track,score:sc,passed:true}); }catch(e){}
-    try{ trackIds(track).forEach(function(id){ persist('lesson_progress',{lesson_id:id,track:track},'user_id,lesson_id'); }); }catch(e){}
-  };
-  async function loadProgress(){
-    if(!userId) return;
-    try{
-      var lp=await sb.from('lesson_progress').select('lesson_id');
-      var gr=await sb.from('graduations').select('track');
-      var ce=await sb.from('ce_completions').select('module_id,hours');
-      (lp.data||[]).forEach(function(r){ state.completed.add(r.lesson_id); });
-      (gr.data||[]).forEach(function(r){ state.gradTracks.add(r.track); });
-      state.ceHours=0; state.ceDone=new Set();
-      (ce.data||[]).forEach(function(r){ state.ceDone.add(r.module_id); state.ceHours+=Number(r.hours)||0; });
+    try{ trackIds(track).forEach(function(id){ persist('lesson_progress',{lesson_id:id,track:track},'user_id,lesson_id'); }); }catch(e){} };
+  async function loadProgress(){ if(!userId) return; try{
+      var lp=await sb.from('lesson_progress').select('lesson_id'); var gr=await sb.from('graduations').select('track'); var ce=await sb.from('ce_completions').select('module_id,hours');
+      (lp.data||[]).forEach(function(r){ state.completed.add(r.lesson_id); }); (gr.data||[]).forEach(function(r){ state.gradTracks.add(r.track); });
+      state.ceHours=0; state.ceDone=new Set(); (ce.data||[]).forEach(function(r){ state.ceDone.add(r.module_id); state.ceHours+=Number(r.hours)||0; });
       if(typeof render==='function') render();
-    }catch(e){ console.warn('load',e); }
-  }
+    }catch(e){ console.warn('load',e); } }
   sb.auth.getSession().then(function(res){ var s=res.data.session; userId=s?s.user.id:null; renderBar(s?s.user.email:null); if(userId) loadProgress(); });
   sb.auth.onAuthStateChange(function(_e,s){ userId=s?s.user.id:null; renderBar(s?s.user.email:null); if(userId) loadProgress(); });
 })();
