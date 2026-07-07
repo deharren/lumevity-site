@@ -183,10 +183,67 @@
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
   .toast .seal{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--champagne),var(--gold));display:flex;align-items:center;justify-content:center;}
   .toast .seal .ti{width:19px;height:19px;stroke:#3a2e0e;fill:none;stroke-width:2.2;} .toast b{color:var(--champagne);}
+  /* ===== Gamification HUD (sidebar) ===== */
+  .hud{background:rgba(251,250,246,.06);border:1px solid rgba(227,206,154,.16);border-radius:14px;padding:12px 13px;margin-top:14px;}
+  .hud .lvline{display:flex;align-items:center;gap:9px;margin-bottom:9px;}
+  .hud .lvbadge{width:32px;height:32px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--champagne),var(--gold));color:#3a2e0e;font-weight:800;font-family:var(--serif);font-size:.95rem;}
+  .hud .lvname{font-weight:800;font-size:.82rem;color:#fff;line-height:1.1;} .hud .lvsub{font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(227,206,154,.75);}
+  .hud .xpb{height:6px;border-radius:6px;background:rgba(251,250,246,.12);overflow:hidden;margin-bottom:5px;} .hud .xpb i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--champagne),var(--gold));transition:width .5s;}
+  .hud .xtxt{font-size:.62rem;color:rgba(251,250,246,.7);display:flex;justify-content:space-between;}
+  .hud .strk{display:flex;align-items:center;gap:7px;margin-top:9px;padding-top:9px;border-top:1px solid rgba(227,206,154,.14);font-size:.76rem;color:rgba(251,250,246,.88);font-weight:700;}
+  .hud .strk .fl{font-size:1.05rem;}
+  /* ===== Rings ===== */
+  .ring{position:relative;display:inline-flex;align-items:center;justify-content:center;}
+  .ring svg{transform:rotate(-90deg);}
+  .ring .rt{position:absolute;text-align:center;} .ring .rt .rp{font-family:var(--serif);color:var(--emerald);line-height:1;font-weight:600;}
+  /* ===== Dashboard home ===== */
+  .dashhero{display:grid;grid-template-columns:auto 1fr;gap:22px;background:linear-gradient(160deg,#0e3a33,#0a2a24);border:1px solid rgba(227,206,154,.2);border-radius:20px;padding:24px 28px;color:#fff;margin-bottom:22px;align-items:center;}
+  .dashhero .dh-lv{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--champagne);font-weight:700;} .dashhero h2{color:#fff;font-size:1.7rem;margin:2px 0 2px;}
+  .dashhero .lvbar{height:8px;border-radius:6px;background:rgba(251,250,246,.14);overflow:hidden;max-width:320px;margin-top:8px;} .dashhero .lvbar i{display:block;height:100%;background:linear-gradient(90deg,var(--champagne),var(--gold));transition:width .5s;}
+  .dashhero .hstats{display:flex;gap:26px;flex-wrap:wrap;margin-top:16px;}
+  .dashhero .hs .n{font-family:var(--serif);font-size:1.5rem;color:var(--champagne);line-height:1;} .dashhero .hs .l{font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(251,250,246,.72);margin-top:2px;}
+  .dashring .rp{color:#fff !important;}
+  .badgewrap{margin-top:28px;} .badgewrap h3{font-size:1.2rem;color:var(--emerald);}
+  .badgegrid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:14px;}
+  .badge{background:var(--white);border:1px solid var(--stone);border-radius:14px;padding:14px 8px;text-align:center;transition:transform .15s;}
+  .badge:not(.locked):hover{transform:translateY(-2px);border-color:var(--gold);}
+  .badge .bi{font-size:1.8rem;line-height:1;} .badge .bn{font-size:.72rem;font-weight:800;color:var(--emerald);margin-top:7px;} .badge .bd{font-size:.6rem;color:var(--muted);margin-top:2px;}
+  .badge.locked{opacity:.5;filter:grayscale(1);}
+  .tcardrow{display:flex;align-items:center;gap:14px;}
+  /* ===== Lesson deck (horizontal cards) ===== */
+  .deck{display:flex;flex-direction:column;height:calc(100vh - 148px);}
+  .deckhead{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+  .deckback{width:36px;height:36px;border-radius:50%;flex:none;background:var(--white);border:1px solid var(--stone);color:var(--muted);font-size:1.05rem;cursor:pointer;line-height:1;}
+  .deckbar{flex:1;height:8px;border-radius:6px;background:var(--pearl);overflow:hidden;} .deckbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--champagne),var(--gold));transition:width .35s;}
+  .deckstep{font-size:.72rem;color:var(--muted);font-weight:800;white-space:nowrap;letter-spacing:.03em;}
+  .deckviewport{flex:1;overflow:hidden;position:relative;border-radius:18px;background:var(--white);border:1px solid var(--stone);}
+  .decktrack{display:flex;height:100%;transition:transform .4s cubic-bezier(.22,.61,.36,1);}
+  .card{min-width:100%;height:100%;overflow-y:auto;display:flex;justify-content:center;}
+  .cardinner{width:100%;max-width:680px;padding:24px 26px 30px;align-self:flex-start;}
+  .decknav{display:flex;justify-content:space-between;gap:12px;margin-top:14px;}
+  .deckviewport.shake{animation:shake .32s;} @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+  .cardbig{text-align:center;padding-top:14px;} .cardbig .ci{margin:0 auto 16px;}
+  .cardtag{font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--gold-deep);margin-bottom:6px;}
+  .card h2.ct{font-size:1.5rem;color:var(--emerald);margin:2px 0 14px;}
+  .card .sec{margin-bottom:6px;} .card .sec h3{font-size:1.3rem;}
+  /* ===== Celebrate ===== */
+  .celebrate{position:fixed;inset:0;z-index:400;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transition:.25s;}
+  .celebrate.show{opacity:1;}
+  .celebrate .pop{background:linear-gradient(160deg,var(--emerald),var(--sapphire));border:1px solid rgba(227,206,154,.4);border-radius:20px;padding:26px 36px;text-align:center;color:#fff;box-shadow:0 30px 70px rgba(8,30,40,.55);transform:scale(.6);transition:transform .4s cubic-bezier(.2,.9,.3,1.5);min-width:240px;}
+  .celebrate.show .pop{transform:scale(1);}
+  .celebrate .pop .ci{font-size:3.2rem;line-height:1;} .celebrate .pop .ct{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--champagne);font-weight:700;margin-top:10px;} .celebrate .pop .cs{font-family:var(--serif);font-size:1.35rem;color:#fff;margin-top:4px;}
+  .confetti{position:fixed;inset:0;pointer-events:none;z-index:399;overflow:hidden;}
+  .confetti i{position:absolute;top:-12px;width:9px;height:14px;border-radius:2px;animation:fall linear forwards;}
+  @keyframes fall{to{transform:translateY(110vh) rotate(560deg);opacity:.85}}
+  .xpfloat{position:fixed;z-index:401;font-weight:800;color:var(--gold-deep);font-size:1.05rem;pointer-events:none;animation:xpup 1s ease forwards;text-shadow:0 1px 2px rgba(255,255,255,.7);}
+  @keyframes xpup{0%{opacity:0;transform:translateY(8px)}20%{opacity:1}100%{opacity:0;transform:translateY(-30px)}}
   @media(max-width:860px){
     .app{grid-template-columns:1fr;} .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;gap:6px;}
-    .side .brand{padding:0 8px 0 0;} .side .navlbl,.side .prog{display:none;} .side .nav{display:flex;flex-wrap:wrap;gap:4px;} .side .nav a{margin:0;}
-    .content{padding:22px 18px 50px;} .tgrid,.cegrid{grid-template-columns:1fr;} .ltable{font-size:.8rem;}
+    .side .brand{padding:0 8px 0 0;} .side .navlbl,.side .prog,.side .hud{display:none;} .side .nav{display:flex;flex-wrap:wrap;gap:4px;} .side .nav a{margin:0;}
+    .content{padding:18px 14px 30px;} .tgrid,.cegrid{grid-template-columns:1fr;} .ltable{font-size:.8rem;}
+    .dashhero{grid-template-columns:1fr;text-align:center;} .dashhero .dashring{margin:0 auto;} .dashhero .hstats{justify-content:center;} .dashhero .lvbar{margin-left:auto;margin-right:auto;}
+    .badgegrid{grid-template-columns:repeat(3,1fr);}
+    .deck{height:calc(100vh - 120px);} .cardinner{padding:18px 16px 26px;} .card h2.ct{font-size:1.3rem;}
   }
 </style>
 </head>
@@ -211,6 +268,12 @@
       <a data-view="ce" id="ceNav" onclick="go('ce')"><svg class="ti" viewBox="0 0 24 24"><path d="M12 2l2.4 5 5.6.8-4 4 .9 5.6L12 19l-5 2.4.9-5.6-4-4 5.6-.8z"/></svg>CE Center<span class="tag" id="ceTag">Locked</span></a>
       <a data-view="video" onclick="go('video')"><svg class="ti" viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M10 9l5 3-5 3z"/></svg>Video Library</a>
     </nav>
+    <div class="hud">
+      <div class="lvline"><div class="lvbadge" id="hudLv">1</div><div><div class="lvname" id="hudLvName">Student</div><div class="lvsub">Level · <span id="hudOverall">0%</span> overall</div></div></div>
+      <div class="xpb"><i id="hudXpFill" style="width:0%"></i></div>
+      <div class="xtxt"><span id="hudXpA">0 XP</span><span id="hudXpB">150 → Trainee</span></div>
+      <div class="strk"><span class="fl">🔥</span> <span id="hudStreak">0</span>-day streak</div>
+    </div>
     <div class="prog"><div class="pt" id="goalLbl">Goal: Graduate</div><div class="bar"><i id="sideProg" style="width:0%"></i></div><div class="pn" id="sideProgN">0 of 0</div></div>
   </aside>
   <div class="main">
@@ -219,6 +282,8 @@
   </div>
 </div>
 <div class="toast" id="toast"><div class="seal"><svg class="ti" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div id="toastMsg">Done</div></div>
+<div class="confetti" id="confetti"></div>
+<div class="celebrate" id="celebrate"><div class="pop"><div class="ci" id="celeIcon">🎉</div><div class="ct" id="celeTitle">Achievement</div><div class="cs" id="celeSub">Unlocked</div></div></div>
 
 <script>
 /* ================= SVG ILLUSTRATIONS ================= */
@@ -989,8 +1054,52 @@ const L=Object.assign({},IV_LESSONS,IM_LESSONS,SQ_LESSONS,CE_LESSONS);
 
 /* ================= STATE + ENGINE ================= */
 const PATHIDS=t=>TRACKS[t].stages.flatMap(s=>s.ids);
-const state={view:"dashboard",track:"iv",lessonId:null,from:"path",completed:new Set(),gradTracks:new Set(),ceHours:0,ceDone:new Set(),examTrack:"iv",lastScore:0};
+const state={view:"dashboard",track:"iv",lessonId:null,from:"path",completed:new Set(),gradTracks:new Set(),ceHours:0,ceDone:new Set(),examTrack:"iv",lastScore:0,
+  xp:0,streak:0,lastStudy:null,badges:new Set(),awardedQ:new Set(),perfLessons:new Set()};
 const el=id=>document.getElementById(id);
+
+/* ===== Gamification config ===== */
+const LEVELS=[{n:"Student",x:0},{n:"Trainee",x:150},{n:"Practitioner",x:400},{n:"Clinician",x:750},{n:"Expert",x:1200},{n:"Master Clinician",x:1800}];
+const BADGES={
+  first_module:{i:"🎓",n:"First Steps",d:"First module done"},
+  perfect:{i:"💯",n:"Perfectionist",d:"Perfect quiz score"},
+  scholar:{i:"📚",n:"Scholar",d:"10 modules complete"},
+  half:{i:"⚖️",n:"Halfway There",d:"50% overall"},
+  streak3:{i:"🔥",n:"On a Roll",d:"3-day streak"},
+  streak7:{i:"⚡",n:"Committed",d:"7-day streak"},
+  iv_grad:{i:"🩸",n:"IV Graduate",d:"IV course done"},
+  im_grad:{i:"💉",n:"IM Graduate",d:"IM course done"},
+  subq_grad:{i:"🧴",n:"SubQ Graduate",d:"SubQ course done"},
+  all_grad:{i:"🏅",n:"Fully Certified",d:"All 3 courses"},
+};
+const BADGE_ORDER=["first_module","perfect","scholar","half","streak3","streak7","iv_grad","im_grad","subq_grad","all_grad"];
+
+/* ===== Persistence ===== */
+function save(){try{localStorage.setItem("lumevity_v2",JSON.stringify({completed:[...state.completed],gradTracks:[...state.gradTracks],ceHours:state.ceHours,ceDone:[...state.ceDone],xp:state.xp,streak:state.streak,lastStudy:state.lastStudy,badges:[...state.badges],awardedQ:[...state.awardedQ],perfLessons:[...state.perfLessons]}));}catch(e){}}
+function load(){try{var d=JSON.parse(localStorage.getItem("lumevity_v2")||"null");if(!d)return;state.completed=new Set(d.completed||[]);state.gradTracks=new Set(d.gradTracks||[]);state.ceHours=d.ceHours||0;state.ceDone=new Set(d.ceDone||[]);state.xp=d.xp||0;state.streak=d.streak||0;state.lastStudy=d.lastStudy||null;state.badges=new Set(d.badges||[]);state.awardedQ=new Set(d.awardedQ||[]);state.perfLessons=new Set(d.perfLessons||[]);}catch(e){}}
+
+/* ===== Level / streak / progress helpers ===== */
+function levelIndex(x){var i=0;for(var k=0;k<LEVELS.length;k++){if(x>=LEVELS[k].x)i=k;}return i;}
+function today(){return new Date().toISOString().slice(0,10);}
+function yesterday(){var d=new Date();d.setDate(d.getDate()-1);return d.toISOString().slice(0,10);}
+function currentStreak(){return (state.lastStudy===today()||state.lastStudy===yesterday())?state.streak:0;}
+function allProgress(){var d=0,t=0;['iv','im','subq'].forEach(function(k){var r=pct(k);d+=r.done;t+=r.total;});return{done:d,total:t,p:t?Math.round(d/t*100):0};}
+function moduleCount(){var n=0;state.completed.forEach(function(id){if(L[id]&&!L[id].capstone&&!CE_LESSONS[id])n++;});return n;}
+
+/* ===== XP / badges / celebrate ===== */
+function awardXP(n,anchor){if(!n||n<=0)return;var before=levelIndex(state.xp);state.xp+=n;var after=levelIndex(state.xp);xpFloat(n,anchor);save();syncSide();if(after>before){celebrate("⬆️","Level up",LEVELS[after].n);}}
+function touchStreak(){var t=today();if(state.lastStudy===t){return;}state.streak=(state.lastStudy===yesterday())?state.streak+1:1;state.lastStudy=t;save();}
+function grant(id){if(state.badges.has(id))return;state.badges.add(id);save();celebrate(BADGES[id].i,"Achievement unlocked",BADGES[id].n);}
+function checkBadges(){if(state.completed.size>=1)grant("first_module");if(moduleCount()>=10)grant("scholar");if(allProgress().p>=50)grant("half");if(currentStreak()>=3)grant("streak3");if(currentStreak()>=7)grant("streak7");['iv','im','subq'].forEach(function(t){if(state.gradTracks.has(t))grant(t+"_grad");});if(state.gradTracks.size>=3)grant("all_grad");}
+var _celeQ=[],_celeBusy=false;
+function celebrate(icon,title,sub){_celeQ.push({icon:icon,title:title,sub:sub});if(!_celeBusy)nextCele();}
+function nextCele(){if(!_celeQ.length){_celeBusy=false;return;}_celeBusy=true;var c=_celeQ.shift();el("celeIcon").textContent=c.icon;el("celeTitle").textContent=c.title;el("celeSub").textContent=c.sub;var o=el("celebrate");o.classList.add("show");confettiBurst();setTimeout(function(){o.classList.remove("show");setTimeout(nextCele,320);},1700);}
+function confettiBurst(){var box=el("confetti");if(!box)return;var cols=["#C9A24B","#E3CE9A","#0E5A52","#2f7d5b","#A07E2E"];for(var i=0;i<26;i++){var s=document.createElement("i");s.style.left=(Math.random()*100)+"%";s.style.background=cols[i%cols.length];s.style.animationDuration=(1.1+Math.random()*1.1)+"s";s.style.animationDelay=(Math.random()*.25)+"s";box.appendChild(s);(function(el2){setTimeout(function(){el2.remove();},2600);})(s);}}
+function xpFloat(n,anchor){var f=document.createElement("div");f.className="xpfloat";f.textContent="+"+n+" XP";var x=window.innerWidth/2,y=window.innerHeight*0.4;if(anchor){var r=anchor.getBoundingClientRect();x=r.right-40;y=r.top-4;}f.style.left=x+"px";f.style.top=y+"px";document.body.appendChild(f);setTimeout(function(){f.remove();},1000);}
+
+/* ===== Ring component ===== */
+function ring(p,size,stroke,txt,track,prog){var r=(size-stroke)/2;var c=2*Math.PI*r;var off=c*(1-p/100);track=track||"var(--pearl)";prog=prog||"#C9A24B";
+  return '<div class="ring" style="width:'+size+'px;height:'+size+'px"><svg width="'+size+'" height="'+size+'"><circle cx="'+(size/2)+'" cy="'+(size/2)+'" r="'+r+'" fill="none" stroke="'+track+'" stroke-width="'+stroke+'"/><circle cx="'+(size/2)+'" cy="'+(size/2)+'" r="'+r+'" fill="none" stroke="'+prog+'" stroke-width="'+stroke+'" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+off+'"/></svg><div class="rt"><div class="rp" style="font-size:'+txt+'">'+p+'%</div></div></div>';}
 const getLesson=id=>L[id];
 const trackIds=t=>PATHIDS(t);
 const pct=t=>{const ids=PATHIDS(t);let d=0;ids.forEach(i=>{if(state.completed.has(i))d++;});return{done:d,total:ids.length,p:Math.round(d/ids.length*100)};};
@@ -1005,17 +1114,41 @@ function syncSide(){const{done,total,p}=pct(state.track);el('sideProg').style.wi
   el('goalLbl').textContent=state.gradTracks.has(state.track)?TRACKS[state.track].short+' Graduate ✓':'Goal: '+TRACKS[state.track].short+' Graduate';
   el('sideProgN').textContent=done+' of '+total+' modules';
   ['iv','im','subq'].forEach(t=>{el('gck'+t).textContent=state.gradTracks.has(t)?'✓':'';});
-  el('ceTag').textContent=anyGrad()?'Open':'Locked';}
+  el('ceTag').textContent=anyGrad()?'Open':'Locked';
+  var li=levelIndex(state.xp),cur=LEVELS[li],nxt=LEVELS[li+1];
+  el('hudLv').textContent=li+1;el('hudLvName').textContent=cur.n;
+  el('hudOverall').textContent=allProgress().p+'%';
+  var lo=cur.x,hi=nxt?nxt.x:cur.x,fp=nxt?Math.round((state.xp-lo)/(hi-lo)*100):100;
+  el('hudXpFill').style.width=fp+'%';
+  el('hudXpA').textContent=state.xp+' XP';
+  el('hudXpB').textContent=nxt?(nxt.x+' → '+nxt.n):'Max level';
+  el('hudStreak').textContent=currentStreak();}
 
 function render(){el('view').innerHTML=({dashboard:tplDash,path:tplPath,lesson:tplLesson,grad:tplGrad,ce:tplCE,video:tplVideo})[state.view]();syncSide();wire();}
 
 /* ---------- Dashboard ---------- */
 function tplDash(){
-  const cards=['iv','im','subq'].map(t=>{const{done,total,p}=pct(t);const g=state.gradTracks.has(t);
-    return '<div class="tcard" onclick="go(\'path\',\''+t+'\')"><div class="tic">'+svgMini(TRACKS[t].mini)+'</div><h3>'+TRACKS[t].name+'</h3><div class="ts">'+TRACKS[t].sub.split('—')[0]+'</div><div class="tb"><i style="width:'+p+'%"></i></div><div class="tm">'+(g?'<span class="grad">Graduate ✓</span>':done+' / '+total+' modules · '+p+'%')+'</div></div>';}).join('');
-  let ce='';
-  if(anyGrad())ce='<h3 class="head" style="font-size:1.15rem;color:var(--emerald);margin:26px 0 12px">Keep going</h3><p style="color:var(--muted);margin-bottom:10px">You\'ve earned <b>'+state.ceHours.toFixed(1)+' CE hours</b>. Fresh modules monthly.</p><button class="btn btn-gold" onclick="go(\'ce\')">CE Center</button>';
-  return '<div class="head" style="margin-bottom:22px"><span class="eyebrow">Your training</span><h1>Pick a course</h1><p>Three comprehensive, skills-lab-grade courses — each with ten in-depth modules, clinical-reasoning checks, and a graduation exam. Everything here is educational; hands-on competency is validated by your supervisor.</p></div><div class="tgrid">'+cards+'</div>'+ce;
+  const ov=allProgress();const li=levelIndex(state.xp);const cur=LEVELS[li];const nxt=LEVELS[li+1];
+  const lo=cur.x,hi=nxt?nxt.x:cur.x,fp=nxt?Math.round((state.xp-lo)/(hi-lo)*100):100;const strk=currentStreak();
+  let h='<div class="head" style="margin-bottom:16px"><span class="eyebrow">Your training</span><h1>Welcome back</h1></div>';
+  h+='<div class="dashhero"><div class="dashring">'+ring(ov.p,124,12,'1.8rem','rgba(255,255,255,.15)','#E3CE9A')+'</div>'
+    +'<div><div class="dh-lv">Level '+(li+1)+' · '+cur.n+'</div><h2>'+state.xp+' XP</h2>'
+    +'<div class="lvbar"><i style="width:'+fp+'%"></i></div>'
+    +'<div style="font-size:.74rem;color:rgba(251,250,246,.72);margin-top:7px">'+(nxt?((nxt.x-state.xp)+' XP to '+nxt.n):'Top level reached — Master Clinician')+'</div>'
+    +'<div class="hstats"><div class="hs"><div class="n">'+ov.done+'<span style="font-size:1rem;opacity:.7">/'+ov.total+'</span></div><div class="l">Modules done</div></div>'
+    +'<div class="hs"><div class="n">'+strk+' 🔥</div><div class="l">Day streak</div></div>'
+    +'<div class="hs"><div class="n">'+state.gradTracks.size+'<span style="font-size:1rem;opacity:.7">/3</span></div><div class="l">Credentials</div></div>'
+    +'<div class="hs"><div class="n">'+state.badges.size+'</div><div class="l">Badges</div></div></div></div></div>';
+  h+='<h3 style="font-size:1.2rem;color:var(--emerald);margin:6px 0 12px">Your courses</h3><div class="tgrid">';
+  h+=['iv','im','subq'].map(t=>{const r=pct(t);const g=state.gradTracks.has(t);
+    return '<div class="tcard" onclick="go(\'path\',\''+t+'\')"><div class="tcardrow"><div>'+ring(r.p,60,7,'.82rem','var(--pearl)','#C9A24B')+'</div><div class="tic" style="width:44px;height:44px;margin:0;border-radius:11px">'+svgMini(TRACKS[t].mini)+'</div></div><h3 style="margin-top:12px">'+TRACKS[t].name+'</h3><div class="tm" style="margin-top:4px">'+(g?'<span class="grad">Graduate ✓</span>':r.done+' / '+r.total+' modules')+'</div></div>';}).join('');
+  h+='</div>';
+  h+=badgeGrid();
+  if(anyGrad())h+='<div style="margin-top:26px;background:linear-gradient(160deg,#f7f4ea,#f1ede1);border:1px solid #e6ddc4;border-radius:16px;padding:18px 22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap"><div style="flex:1;min-width:200px"><div style="font-weight:800;color:var(--emerald)">Keep your edge — CE Center is open</div><div style="color:var(--muted);font-size:.85rem">You\'ve earned <b>'+state.ceHours.toFixed(1)+' CE hours</b>. Fresh modules monthly.</div></div><button class="btn btn-gold" onclick="go(\'ce\')">CE Center</button></div>';
+  return h;
+}
+function badgeGrid(){
+  return '<div class="badgewrap"><h3>Achievements</h3><p style="color:var(--muted);font-size:.85rem;margin-top:2px">'+state.badges.size+' of '+BADGE_ORDER.length+' unlocked — keep going to collect them all.</p><div class="badgegrid">'+BADGE_ORDER.map(id=>{const b=BADGES[id];const has=state.badges.has(id);return '<div class="badge '+(has?'':'locked')+'"><div class="bi">'+b.i+'</div><div class="bn">'+b.n+'</div><div class="bd">'+b.d+'</div></div>';}).join('')+'</div></div>';
 }
 /* ---------- Path ---------- */
 function tplPath(){
@@ -1035,28 +1168,48 @@ function wire(){_wire.forEach(f=>{try{f();}catch(e){console.warn(e);}});_wire=[]
 /* ---------- Lesson ---------- */
 function tplLesson(){
   const L0=getLesson(state.lessonId);if(!L0)return tplPath();
-  const back=state.from==='ce'?'ce':'path';const backName=state.from==='ce'?'CE Center':TRACKS[state.track].short+' Course';
-  let h='<div class="crumb"><a onclick="go(\''+back+'\')">'+backName+'</a> / '+L0.stage+'</div>';
-  h+='<div class="head" style="margin-bottom:14px"><span class="eyebrow">'+L0.stage+'</span><h1>'+L0.title+'</h1></div>';
-  if(L0.objectives)h+='<div class="obj"><div class="ol"><svg class="ti" viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>Learning objectives</div><ul>'+L0.objectives.map(o=>'<li>'+o+'</li>').join('')+'</ul></div>';
-  if(L0.illo)h+='<div class="illo">'+illoSVG(L0.illo)+'</div>';
-  if(L0.lead)h+='<p class="lead">'+L0.lead+'</p>';
-  if(L0.sections)L0.sections.forEach(s=>{h+=renderSection(s);});
-  if(L0.inter){h+='<div id="interzone"></div>';}
-  if(L0.tips)h+='<div class="block tips"><div class="bl"><svg class="ti" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-4 10c1 1 1 2 1 3h6c0-1 0-2 1-3a6 6 0 00-4-10z"/></svg>Clinical tips &amp; judgment</div><ul>'+L0.tips.map(t=>'<li>'+t+'</li>').join('')+'</ul></div>';
-  if(L0.mistakes)h+='<div class="block mistakes"><div class="bl"><svg class="ti" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>Common mistakes to avoid</div><ul>'+L0.mistakes.map(m=>'<li>'+m+'</li>').join('')+'</ul></div>';
-  if(L0.quiz){h+='<div class="kc"><div class="il">Knowledge check</div><h3>Test your clinical reasoning</h3><div id="kczone"></div></div>';}
-  if(L0.takeaways)h+='<div class="block takeaways"><div class="bl"><svg class="ti" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Key takeaways</div><ul>'+L0.takeaways.map(t=>'<li>'+t+'</li>').join('')+'</ul></div>';
-  if(L0.refs)h+='<div class="refs"><b>Sources:</b> '+L0.refs+'</div>';
-  h+='<div class="lnav"><button class="btn btn-ghost" onclick="go(\''+back+'\')">← Back to course</button><button class="btn btn-gold" id="doneBtn" onclick="'+(L0.capstone?'':'completeLesson(\''+state.lessonId+'\')')+'">'+(L0.capstone?'Pass the exam to graduate':'Mark module complete')+' <svg class="ti" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>';
-  _wire.push(function(){
-    document.querySelectorAll('.rcard .rhead').forEach(hd=>hd.onclick=function(){hd.parentElement.classList.toggle('open');});
-    if(L0.inter)buildInter(L0);
-    if(L0.quiz)buildQuiz(el('kczone'),L0.quiz,false);
-    if(L0.capstone){var b=el('doneBtn');if(b)b.disabled=true;}
-  });
+  const back=state.from==='ce'?'ce':'path';
+  const deck=buildDeck(L0);window._deck={cards:deck,idx:0,ans:{}};
+  let h='<div class="deck" id="deck">';
+  h+='<div class="deckhead"><button class="deckback" title="Exit lesson" onclick="go(\''+back+'\')">✕</button><div class="deckbar"><i id="deckfill"></i></div><div class="deckstep" id="deckstep">1 / '+deck.length+'</div></div>';
+  h+='<div class="deckviewport" id="deckvp"><div class="decktrack" id="decktrack">'+deck.map((c,i)=>'<div class="card" data-ci="'+i+'"><div class="cardinner">'+c.html+'</div></div>').join('')+'</div></div>';
+  h+='<div class="decknav"><button class="btn btn-ghost" id="cardPrev">← Back</button><button class="btn btn-gold" id="cardNext">Next →</button></div>';
+  h+='</div>';
+  _wire.push(function(){initDeck(L0);});
   return h;
 }
+function buildDeck(L0){
+  const cards=[];
+  cards.push({kind:'intro',html:introCard(L0)});
+  if(L0.sections)L0.sections.forEach(s=>cards.push({kind:'sec',html:'<div class="cardtag">Learn</div>'+renderSection(s)}));
+  if(L0.inter&&L0.inter.type==='sites')cards.push({kind:'site',it:L0.inter,html:siteCard(L0.inter)});
+  if(L0.tips)cards.push({kind:'tips',html:'<div class="cardtag">Apply</div>'+blockTips(L0.tips)});
+  if(L0.mistakes)cards.push({kind:'mist',html:'<div class="cardtag">Watch out</div>'+blockMist(L0.mistakes)});
+  if(L0.capstone&&L0.inter&&L0.inter.type==='exam'){
+    L0.inter.questions.forEach((q,i)=>cards.push({kind:'exam',gate:true,q:q,qi:i,html:quizCard(q,i,'Exam question '+(i+1)+' of '+L0.inter.questions.length)}));
+    cards.push({kind:'examresult',pass:L0.inter.pass,html:'<div class="cardbig" id="examresultcard"></div>'});
+  } else {
+    if(L0.quiz)L0.quiz.forEach((q,i)=>cards.push({kind:'quiz',gate:true,q:q,qi:i,html:quizCard(q,i,'Knowledge check')}));
+    if(L0.takeaways)cards.push({kind:'take',html:'<div class="cardtag">Remember</div>'+blockTake(L0.takeaways)+(L0.refs?'<div class="refs"><b>Sources:</b> '+L0.refs+'</div>':'')});
+    cards.push({kind:'finish',html:finishCard(L0)});
+  }
+  return cards;
+}
+function introCard(L0){
+  let h='<div class="cardbig"><div class="cardtag">'+L0.stage+'</div><h2 class="ct">'+L0.title+'</h2>';
+  if(L0.illo)h+='<div class="illo" style="margin:0 auto 6px;max-width:440px">'+illoSVG(L0.illo)+'</div>';
+  h+='</div>';
+  if(L0.lead)h+='<p class="lead" style="margin-top:14px">'+L0.lead+'</p>';
+  if(L0.objectives)h+='<div class="obj"><div class="ol"><svg class="ti" viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>Learning objectives</div><ul>'+L0.objectives.map(o=>'<li>'+o+'</li>').join('')+'</ul></div>';
+  h+='<p style="text-align:center;color:var(--muted);font-size:.82rem;margin-top:16px">Swipe or tap <b>Next</b> to begin →</p>';
+  return h;
+}
+function siteCard(it){return '<div class="cardtag">Interactive · try it</div><h2 class="ct" style="font-size:1.3rem">'+(it.h||'Site selection')+'</h2><div class="iq" style="margin-bottom:14px;font-size:.98rem">'+it.q+'</div><div class="sitebox">'+it.svg+'</div><div class="fb" id="sfb"></div>';}
+function blockTips(a){return '<div class="block tips"><div class="bl"><svg class="ti" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-4 10c1 1 1 2 1 3h6c0-1 0-2 1-3a6 6 0 00-4-10z"/></svg>Clinical tips &amp; judgment</div><ul>'+a.map(t=>'<li>'+t+'</li>').join('')+'</ul></div>';}
+function blockMist(a){return '<div class="block mistakes"><div class="bl"><svg class="ti" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>Common mistakes to avoid</div><ul>'+a.map(m=>'<li>'+m+'</li>').join('')+'</ul></div>';}
+function blockTake(a){return '<div class="block takeaways"><div class="bl"><svg class="ti" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Key takeaways</div><ul>'+a.map(t=>'<li>'+t+'</li>').join('')+'</ul></div>';}
+function quizCard(q,qi,tag){return '<div class="cardtag">'+tag+'</div><div class="qq" style="font-size:1.14rem;margin:8px 0 16px">'+q.q+'</div>'+q.opts.map((o,oi)=>'<div class="qopt" data-oi="'+oi+'">'+o+'<span class="mk"></span></div>').join('')+'<div class="qwhy"></div>';}
+function finishCard(L0){var isCE=!!CE_LESSONS[state.lessonId];var xp=isCE?40:50;return '<div class="cardbig"><div class="ci">'+ring(100,112,11,'1.5rem','var(--pearl)','#C9A24B')+'</div><div class="cardtag">Module complete</div><h2 class="ct">You\'ve got this</h2><p style="color:var(--muted);max-width:430px;margin:0 auto 20px">You\'ve reached the end of this module. Mark it complete to bank <b style="color:var(--gold-deep)">+'+xp+' XP</b> and grow your progress.</p><button class="btn btn-gold" id="finishBtn">Mark module complete ✓</button></div>';}
 function renderSection(s){
   let h='<div class="sec">';
   if(s.h)h+='<h3>'+s.h+'</h3>';
@@ -1067,54 +1220,77 @@ function renderSection(s){
   h+='</div>';return h;
 }
 
-/* ---------- Interactive (site diagrams + exams) ---------- */
-function buildInter(L0){
-  const zone=el('interzone');if(!zone)return;const it=L0.inter;
-  if(it.type==='sites'){
-    zone.innerHTML='<div class="inter"><div class="il">Interactive · try it</div><h3>'+(it.h||'Site selection')+'</h3><div class="iq">'+it.q+'</div><div class="sitebox">'+it.svg+'</div><div class="fb" id="sfb"></div></div>';
-    zone.querySelectorAll('.hot').forEach(el2=>{el2.addEventListener('click',function(){
-      var id=el2.getAttribute('data-id');var ok=id===it.correct;var fb=el('sfb');
-      zone.querySelectorAll('.hot').forEach(x=>x.setAttribute('stroke','none'));
-      el2.setAttribute('stroke',ok?'#2f7d5b':'#c0563f');el2.setAttribute('stroke-width','4');
-      fb.className='fb show '+(ok?'ok':'no');fb.textContent=it.fb[id]||'';
-    });});
-  } else if(it.type==='exam'){
-    const total=it.questions.length;
-    let inner='<div class="inter"><div class="il">Graduation exam</div><h3>Pass '+it.pass+' of '+total+' to graduate</h3><p style="font-size:.88rem;color:var(--muted);margin-bottom:6px">Answer every question. You can retake the exam as many times as you need.</p><div id="examq"></div></div>';
-    zone.innerHTML=inner;
-    buildQuiz(el('examq'),it.questions,true,it.pass);
+/* ---------- Lesson deck engine (horizontal swipe cards) ---------- */
+function initDeck(L0){
+  var cards=window._deck.cards, total=cards.length, idx=0;
+  var track=el('decktrack'), vp=el('deckvp'), fill=el('deckfill'), step=el('deckstep');
+  var prev=el('cardPrev'), next=el('cardNext');
+  function gatedNow(){return cards[idx].gate&&!window._deck.ans['g'+idx];}
+  function upd(){
+    track.style.transform='translateX(-'+(idx*100)+'%)';
+    fill.style.width=Math.round((idx+1)/total*100)+'%';
+    step.textContent=(idx+1)+' / '+total;
+    prev.style.visibility=idx===0?'hidden':'visible';
+    if(idx===total-1){next.style.visibility='hidden';}else{next.style.visibility='visible';next.disabled=gatedNow();next.style.opacity=gatedNow()?'.4':'1';}
+    if(cards[idx].kind==='examresult')showExamResult();
+    var card=track.querySelector('.card[data-ci="'+idx+'"]');if(card)card.scrollTop=0;
   }
-}
-function buildQuiz(zone,questions,isExam,passN){
-  if(!zone)return;const total=questions.length;
-  let inner='';
-  questions.forEach((q,qi)=>{inner+='<div class="q" data-qi="'+qi+'"><div class="qq">'+(qi+1)+'. '+q.q+'</div>'+q.opts.map((o,oi)=>'<div class="qopt" data-oi="'+oi+'">'+o+'<span class="mk"></span></div>').join('')+'<div class="qwhy"></div></div>';});
-  inner+='<div class="qscore" id="'+(isExam?'examscore':'kcscore')+'"></div>';
-  zone.innerHTML=inner;
-  const answered={};
-  zone.querySelectorAll('.q').forEach(qEl=>{
-    const qi=+qEl.getAttribute('data-qi');const q=questions[qi];
-    qEl.querySelectorAll('.qopt').forEach(opt=>{opt.addEventListener('click',function(){
-      if(answered[qi]!==undefined)return;const oi=+opt.getAttribute('data-oi');answered[qi]=oi;
-      qEl.querySelectorAll('.qopt').forEach((o2,i2)=>{if(i2===q.a){o2.classList.add('correct');o2.querySelector('.mk').textContent='✓';}else if(i2===oi){o2.classList.add('wrong');o2.querySelector('.mk').textContent='✕';}});
-      const why=qEl.querySelector('.qwhy');why.innerHTML='<b>Why: </b>'+q.why;why.classList.add('show');
-      updateScore();
-    });});
+  function move(n){if(n>idx&&gatedNow()){shake();return;}idx=Math.max(0,Math.min(total-1,n));window._deck.idx=idx;upd();}
+  next.onclick=function(){move(idx+1);};prev.onclick=function(){move(idx-1);};
+  document.onkeydown=function(e){if(state.view!=='lesson')return;if(e.key==='ArrowRight')move(idx+1);else if(e.key==='ArrowLeft')move(idx-1);};
+  var sx=null;
+  vp.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});
+  vp.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>48){if(dx<0)move(idx+1);else move(idx-1);}sx=null;});
+  var px=null;
+  vp.addEventListener('mousedown',function(e){px=e.clientX;});
+  window.addEventListener('mouseup',function(e){if(px===null)return;var dx=e.clientX-px;if(Math.abs(dx)>90){if(dx<0)move(idx+1);else move(idx-1);}px=null;});
+  function shake(){vp.classList.add('shake');setTimeout(function(){vp.classList.remove('shake');},320);}
+  cards.forEach(function(c,i){var cardEl=track.querySelector('.card[data-ci="'+i+'"]');
+    if(c.kind==='site')wireSite(cardEl,c.it);
+    else if(c.kind==='quiz')wireQuiz(cardEl,c,i,L0,false);
+    else if(c.kind==='exam')wireQuiz(cardEl,c,i,L0,true);
+    else if(c.kind==='finish'){var b=cardEl.querySelector('#finishBtn');if(b)b.onclick=function(){completeLesson(state.lessonId);};}
   });
-  function updateScore(){let s=0;Object.keys(answered).forEach(k=>{if(answered[k]===questions[k].a)s++;});const done=Object.keys(answered).length;
-    const sc=zone.querySelector('.qscore');
-    if(done===total){state.lastScore=s;
-      if(isExam){const pass=s>=passN;sc.innerHTML=s+' / '+total+' — '+(pass?'<span style="color:var(--ok)">passed!</span>':'<span style="color:var(--no)">need '+passN+' to pass — review and retake</span>');
-        const b=el('doneBtn');
-        if(pass){b.disabled=false;b.textContent='Claim your graduation';b.onclick=function(){graduate(state.track);};}
-        else{b.disabled=false;b.textContent='Retake the exam';b.onclick=function(){render();};}
-      } else {sc.innerHTML=s+' / '+total+' correct'+(s===total?' — <span style="color:var(--ok)">perfect!</span>':'');}
-    } else {sc.textContent=done+' / '+total+' answered';}
+  window._deck.markAnswered=function(i){window._deck.ans['g'+i]=true;if(i===idx)upd();};
+  function showExamResult(){var host=el('examresultcard');if(!host)return;
+    var exCards=cards.map(function(c,i){return{c:c,i:i};}).filter(function(o){return o.c.kind==='exam';});
+    var s=0;exCards.forEach(function(o){if(window._deck.ans['c'+o.i])s++;});
+    var total2=exCards.length;var passN=cards[idx].pass;var pass=s>=passN;state.lastScore=s;
+    var col=pass?'#2f7d5b':'#c0563f';
+    var htm='<div class="ci">'+ring(Math.round(s/total2*100),120,12,'1.5rem','var(--pearl)',col)+'</div>';
+    htm+='<div class="cardtag">Exam result</div><h2 class="ct">'+s+' of '+total2+' correct</h2>';
+    if(pass){
+      if(s===total2&&!state.perfLessons.has(state.lessonId)){state.perfLessons.add(state.lessonId);awardXP(50);grant('perfect');}
+      htm+='<p style="color:var(--muted);max-width:420px;margin:0 auto 18px">You passed! Claim your credential to earn <b style="color:var(--gold-deep)">+200 XP</b> and graduate this course.</p><button class="btn btn-gold" id="gradBtn">Claim your graduation 🎓</button>';
+    } else {
+      htm+='<p style="color:var(--muted);max-width:420px;margin:0 auto 18px">You need '+passN+' of '+total2+' to pass. Review the modules and try again — you\'ve got this.</p><button class="btn btn-gold" id="retryBtn">Retake the exam</button>';
+    }
+    host.innerHTML=htm;
+    var gb=host.querySelector('#gradBtn');if(gb)gb.onclick=function(){graduate(state.track);};
+    var rb=host.querySelector('#retryBtn');if(rb)rb.onclick=function(){render();};
   }
+  window._deck.showExamResult=showExamResult;
+  upd();
 }
+function wireSite(cardEl,it){var fb=cardEl.querySelector('.fb');cardEl.querySelectorAll('.hot').forEach(function(elh){elh.addEventListener('click',function(){var id=elh.getAttribute('data-id');var ok=id===it.correct;cardEl.querySelectorAll('.hot').forEach(function(x){x.setAttribute('stroke','none');});elh.setAttribute('stroke',ok?'#2f7d5b':'#c0563f');elh.setAttribute('stroke-width','4');fb.className='fb show '+(ok?'ok':'no');fb.textContent=it.fb[id]||'';});});}
+function wireQuiz(cardEl,c,i,L0,isExam){var q=c.q;var opts=cardEl.querySelectorAll('.qopt');var why=cardEl.querySelector('.qwhy');var done=false;
+  opts.forEach(function(opt,oi){opt.addEventListener('click',function(){if(done)return;done=true;
+    opts.forEach(function(o2,j){if(j===q.a){o2.classList.add('correct');o2.querySelector('.mk').textContent='✓';}else if(j===oi){o2.classList.add('wrong');o2.querySelector('.mk').textContent='✕';}});
+    why.innerHTML='<b>Why: </b>'+q.why;why.classList.add('show');
+    var correct=oi===q.a;window._deck.ans['c'+i]=correct;
+    if(correct){var key=state.lessonId+':'+c.qi+(isExam?':x':'');if(!state.awardedQ.has(key)){state.awardedQ.add(key);awardXP(5,opt);}touchStreak();save();}
+    window._deck.markAnswered(i);
+    if(!isExam)maybePerfectKC(L0);
+  });});
+}
+function maybePerfectKC(L0){if(!L0.quiz)return;var qc=window._deck.cards.map(function(c,i){return{c:c,i:i};}).filter(function(o){return o.c.kind==='quiz';});var allAns=qc.every(function(o){return window._deck.ans['g'+o.i];});if(!allAns)return;var allC=qc.every(function(o){return window._deck.ans['c'+o.i];});if(allC&&!state.perfLessons.has(state.lessonId)){state.perfLessons.add(state.lessonId);awardXP(20);grant('perfect');}}
 
-function completeLesson(id){const wasNew=!state.completed.has(id);state.completed.add(id);if(CE_LESSONS[id]&&wasNew){state.ceHours+=CE_LESSONS[id].ceHours;state.ceDone.add(id);}toast(getLesson(id).title+' complete');go(state.from==='ce'?'ce':'path');}
-function graduate(track){state.gradTracks.add(track);trackIds(track).forEach(i=>state.completed.add(i));state.track=track;state._celebrate=track;state.view='grad';setActive('grad',null);render();window.scrollTo(0,0);toast('Congratulations — '+TRACKS[track].short+' Graduate!');}
+function completeLesson(id){const wasNew=!state.completed.has(id);state.completed.add(id);if(CE_LESSONS[id]&&wasNew){state.ceHours+=CE_LESSONS[id].ceHours;state.ceDone.add(id);}
+  if(wasNew)awardXP(CE_LESSONS[id]?40:50);touchStreak();checkBadges();save();
+  toast(getLesson(id).title+' complete');go(state.from==='ce'?'ce':'path');}
+function graduate(track){const wasNew=!state.gradTracks.has(track);state.gradTracks.add(track);trackIds(track).forEach(i=>state.completed.add(i));
+  if(wasNew)awardXP(200);touchStreak();checkBadges();save();
+  state.track=track;state._celebrate=track;state.view='grad';setActive('grad',null);render();window.scrollTo(0,0);toast('Congratulations — '+TRACKS[track].short+' Graduate!');}
 
 /* ---------- Graduation ---------- */
 function tplGrad(){
@@ -1137,6 +1313,7 @@ function tplVideo(){const v=[{t:"Reading &amp; choosing a vein",s:"IV Insertion"
 let tT;function toast(m){el('toastMsg').innerHTML='<b>Nice work.</b> '+m;const t=el('toast');t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2800);}
 function flash(m){el('toastMsg').textContent=m;const t=el('toast');t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2000);}
 
+load();
 render();
 </script>
 
@@ -1173,7 +1350,7 @@ render();
       var lp=await sb.from('lesson_progress').select('lesson_id'); var gr=await sb.from('graduations').select('track'); var ce=await sb.from('ce_completions').select('module_id,hours');
       (lp.data||[]).forEach(function(r){ state.completed.add(r.lesson_id); }); (gr.data||[]).forEach(function(r){ state.gradTracks.add(r.track); });
       state.ceHours=0; state.ceDone=new Set(); (ce.data||[]).forEach(function(r){ state.ceDone.add(r.module_id); state.ceHours+=Number(r.hours)||0; });
-      if(typeof render==='function') render();
+      if(typeof checkBadges==='function')checkBadges(); if(typeof save==='function')save(); if(typeof render==='function') render();
     }catch(e){ console.warn('load',e); } }
   sb.auth.getSession().then(function(res){ var s=res.data.session; userId=s?s.user.id:null; renderBar(s?s.user.email:null); if(userId) loadProgress(); });
   sb.auth.onAuthStateChange(function(_e,s){ userId=s?s.user.id:null; renderBar(s?s.user.email:null); if(userId) loadProgress(); });
