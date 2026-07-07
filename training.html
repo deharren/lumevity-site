@@ -237,6 +237,12 @@
   @keyframes fall{to{transform:translateY(110vh) rotate(560deg);opacity:.85}}
   .xpfloat{position:fixed;z-index:401;font-weight:800;color:var(--gold-deep);font-size:1.05rem;pointer-events:none;animation:xpup 1s ease forwards;text-shadow:0 1px 2px rgba(255,255,255,.7);}
   @keyframes xpup{0%{opacity:0;transform:translateY(8px)}20%{opacity:1}100%{opacity:0;transform:translateY(-30px)}}
+  /* ===== Immersive full-screen lesson mode ===== */
+  body.lesson-mode .side{display:none;}
+  body.lesson-mode .ribbon{display:none;}
+  body.lesson-mode .app{grid-template-columns:1fr;}
+  body.lesson-mode .content{padding:14px 22px 14px;max-width:none;}
+  body.lesson-mode .deck{height:calc(100vh - 28px);}
   @media(max-width:860px){
     .app{grid-template-columns:1fr;} .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;gap:6px;}
     .side .brand{padding:0 8px 0 0;} .side .navlbl,.side .prog,.side .hud{display:none;} .side .nav{display:flex;flex-wrap:wrap;gap:4px;} .side .nav a{margin:0;}
@@ -244,6 +250,7 @@
     .dashhero{grid-template-columns:1fr;text-align:center;} .dashhero .dashring{margin:0 auto;} .dashhero .hstats{justify-content:center;} .dashhero .lvbar{margin-left:auto;margin-right:auto;}
     .badgegrid{grid-template-columns:repeat(3,1fr);}
     .deck{height:calc(100vh - 120px);} .cardinner{padding:18px 16px 26px;} .card h2.ct{font-size:1.3rem;}
+    body.lesson-mode .content{padding:8px 12px;} body.lesson-mode .deck{height:calc(100vh - 16px);}
   }
 </style>
 </head>
@@ -1124,7 +1131,7 @@ function syncSide(){const{done,total,p}=pct(state.track);el('sideProg').style.wi
   el('hudXpB').textContent=nxt?(nxt.x+' → '+nxt.n):'Max level';
   el('hudStreak').textContent=currentStreak();}
 
-function render(){el('view').innerHTML=({dashboard:tplDash,path:tplPath,lesson:tplLesson,grad:tplGrad,ce:tplCE,video:tplVideo})[state.view]();syncSide();wire();}
+function render(){document.body.classList.toggle('lesson-mode',state.view==='lesson');el('view').innerHTML=({dashboard:tplDash,path:tplPath,lesson:tplLesson,grad:tplGrad,ce:tplCE,video:tplVideo})[state.view]();syncSide();wire();}
 
 /* ---------- Dashboard ---------- */
 function tplDash(){
@@ -1329,11 +1336,14 @@ render();
   var bar=document.createElement('div'); bar.id='authbar';
   bar.style.cssText='position:fixed;top:8px;right:12px;z-index:300;display:flex;align-items:center;gap:8px;background:rgba(12,59,51,.96);color:#FBFAF6;border:1px solid rgba(227,206,154,.3);border-radius:50px;padding:6px 12px;font:600 12px Mulish,system-ui,sans-serif;box-shadow:0 8px 24px rgba(8,30,40,.35)';
   document.body.appendChild(bar);
+  function syncAuthVis(){ try{ bar.style.display = document.body.classList.contains('lesson-mode') ? 'none' : 'flex'; }catch(e){} }
+  window._syncAuthVis = syncAuthVis;
   function renderBar(email){
     if(email){ bar.innerHTML='<span style="color:#E3CE9A">&#9679;</span> '+email+' <button id="lo" style="margin-left:4px;background:transparent;border:1px solid rgba(227,206,154,.4);color:#E3CE9A;border-radius:50px;padding:4px 10px;cursor:pointer;font:inherit">Sign out</button>';
       document.getElementById('lo').onclick=async function(){ await sb.auth.signOut(); location.reload(); }; }
     else { bar.innerHTML='<input id="em" placeholder="you@email.com" style="background:rgba(251,250,246,.1);border:1px solid rgba(227,206,154,.3);color:#fff;border-radius:50px;padding:6px 10px;font:inherit;width:150px" /> <button id="si" style="background:linear-gradient(135deg,#E3CE9A,#C9A24B);border:none;color:#3a2e0e;border-radius:50px;padding:6px 12px;cursor:pointer;font:inherit;font-weight:700">Save progress</button>';
       document.getElementById('si').onclick=async function(){ var em=document.getElementById('em').value.trim(); if(!em) return; var r=await sb.auth.signInWithOtp({email:em, options:{emailRedirectTo:location.href}}); bar.innerHTML = r.error ? ('<span>'+r.error.message+'</span>') : '<span style="color:#E3CE9A">Check your email for a sign-in link &#9993;</span>'; }; }
+    syncAuthVis();
   }
   function trackOf(id){ try{ for(var t in TRACKS){ if(TRACKS[t].stages.some(function(s){return s.ids.indexOf(id)>=0;})) return t; } }catch(e){} return null; }
   async function persist(table,row,oc){ if(!userId) return; try{ row.user_id=userId; await sb.from(table).upsert(row, oc?{onConflict:oc}:undefined);}catch(e){console.warn('persist',table,e);} }
@@ -1346,6 +1356,8 @@ render();
     persist('enrollments',{track:track},'user_id,track'); persist('graduations',{track:track},'user_id,track');
     try{ var sc=(typeof examScore==='function')?examScore():null; sb.from('exam_results').insert({user_id:userId,track:track,score:sc,passed:true}); }catch(e){}
     try{ trackIds(track).forEach(function(id){ persist('lesson_progress',{lesson_id:id,track:track},'user_id,lesson_id'); }); }catch(e){} };
+  var _render = window.render;
+  window.render = function(){ _render.apply(null,arguments); syncAuthVis(); };
   async function loadProgress(){ if(!userId) return; try{
       var lp=await sb.from('lesson_progress').select('lesson_id'); var gr=await sb.from('graduations').select('track'); var ce=await sb.from('ce_completions').select('module_id,hours');
       (lp.data||[]).forEach(function(r){ state.completed.add(r.lesson_id); }); (gr.data||[]).forEach(function(r){ state.gradTracks.add(r.track); });
