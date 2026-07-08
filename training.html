@@ -218,8 +218,10 @@
   .deckstep{font-size:.72rem;color:var(--muted);font-weight:800;white-space:nowrap;letter-spacing:.03em;}
   .deckviewport{flex:1;overflow:hidden;position:relative;border-radius:18px;background:var(--white);border:1px solid var(--stone);}
   .decktrack{display:flex;height:100%;transition:transform .4s cubic-bezier(.22,.61,.36,1);}
-  .card{min-width:100%;height:100%;overflow-y:auto;display:flex;justify-content:center;}
-  .cardinner{width:100%;max-width:680px;padding:24px 26px 30px;align-self:flex-start;}
+  .card{min-width:100%;height:100%;overflow:hidden;display:flex;justify-content:center;align-items:center;}
+  .cardinner{width:100%;max-width:680px;padding:20px 26px;align-self:center;max-height:100%;}
+  .card .illo{margin-top:6px;} .card .illo svg{max-height:32vh;}
+  .card .lp{font-size:.98rem;} .card .slist li{margin-bottom:6px;}
   .decknav{display:flex;justify-content:space-between;gap:12px;margin-top:14px;}
   .deckviewport.shake{animation:shake .32s;} @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
   .cardbig{text-align:center;padding-top:14px;} .cardbig .ci{margin:0 auto 16px;}
@@ -251,6 +253,8 @@
     .badgegrid{grid-template-columns:repeat(3,1fr);}
     .deck{height:calc(100vh - 120px);} .cardinner{padding:18px 16px 26px;} .card h2.ct{font-size:1.3rem;}
     body.lesson-mode .content{padding:8px 12px;} body.lesson-mode .deck{height:calc(100vh - 16px);}
+    .cardinner{padding:12px 14px;} .card .lp{font-size:.9rem;} .card h2.ct{font-size:1.2rem;margin-bottom:10px;} .card .slist li{font-size:.9rem;}
+    body.lesson-mode .ltable{font-size:.75rem;} body.lesson-mode .ltable td,body.lesson-mode .ltable th{padding:6px 8px;line-height:1.35;} body.lesson-mode .card .note{padding:9px 12px;font-size:.85rem;}
   }
 </style>
 </head>
@@ -1188,7 +1192,9 @@ function tplLesson(){
 function buildDeck(L0){
   const cards=[];
   cards.push({kind:'intro',html:introCard(L0)});
-  if(L0.sections)L0.sections.forEach(s=>cards.push({kind:'sec',html:'<div class="cardtag">Learn</div>'+renderSection(s)}));
+  if(L0.lead)cards.push({kind:'lead',html:leadCard(L0)});
+  if(L0.objectives)cards.push({kind:'obj',html:objCard(L0)});
+  if(L0.sections)L0.sections.forEach(s=>{expandSection(s).forEach(c=>cards.push(c));});
   if(L0.inter&&L0.inter.type==='sites')cards.push({kind:'site',it:L0.inter,html:siteCard(L0.inter)});
   if(L0.tips)cards.push({kind:'tips',html:'<div class="cardtag">Apply</div>'+blockTips(L0.tips)});
   if(L0.mistakes)cards.push({kind:'mist',html:'<div class="cardtag">Watch out</div>'+blockMist(L0.mistakes)});
@@ -1196,27 +1202,45 @@ function buildDeck(L0){
     L0.inter.questions.forEach((q,i)=>cards.push({kind:'exam',gate:true,q:q,qi:i,html:quizCard(q,i,'Exam question '+(i+1)+' of '+L0.inter.questions.length)}));
     cards.push({kind:'examresult',pass:L0.inter.pass,html:'<div class="cardbig" id="examresultcard"></div>'});
   } else {
-    if(L0.quiz)L0.quiz.forEach((q,i)=>cards.push({kind:'quiz',gate:true,q:q,qi:i,html:quizCard(q,i,'Knowledge check')}));
-    if(L0.takeaways)cards.push({kind:'take',html:'<div class="cardtag">Remember</div>'+blockTake(L0.takeaways)+(L0.refs?'<div class="refs"><b>Sources:</b> '+L0.refs+'</div>':'')});
+    if(L0.quiz)L0.quiz.forEach((q,i)=>cards.push({kind:'quiz',gate:true,q:q,qi:i,html:quizCard(q,i,'Knowledge check '+(i+1))}));
+    if(L0.takeaways)cards.push({kind:'take',html:'<div class="cardtag">Remember</div>'+blockTake(L0.takeaways)});
+    if(L0.refs)cards.push({kind:'refs',html:'<div class="cardtag">Sources</div><div class="refs" style="border:none;margin-top:8px;font-size:.85rem">'+L0.refs+'</div>'});
     cards.push({kind:'finish',html:finishCard(L0)});
   }
   return cards;
 }
-function introCard(L0){
-  let h='<div class="cardbig"><div class="cardtag">'+L0.stage+'</div><h2 class="ct">'+L0.title+'</h2>';
-  if(L0.illo)h+='<div class="illo" style="margin:0 auto 6px;max-width:440px">'+illoSVG(L0.illo)+'</div>';
-  h+='</div>';
-  if(L0.lead)h+='<p class="lead" style="margin-top:14px">'+L0.lead+'</p>';
-  if(L0.objectives)h+='<div class="obj"><div class="ol"><svg class="ti" viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>Learning objectives</div><ul>'+L0.objectives.map(o=>'<li>'+o+'</li>').join('')+'</ul></div>';
-  h+='<p style="text-align:center;color:var(--muted);font-size:.82rem;margin-top:16px">Swipe or tap <b>Next</b> to begin →</p>';
-  return h;
+function noteHTML(n){return '<div class="note '+n.k+'"><b>'+(n.k==='safe'?'Safety: ':n.k==='tip'?'Tip: ':'Evidence: ')+'</b>'+n.t+'</div>';}
+function expandSection(s){
+  var out=[]; var head=s.h||''; var usedBig=false;
+  var tag='<div class="cardtag">'+(head||'Learn')+'</div>';
+  function bigHead(){ if(!usedBig&&head){usedBig=true;return '<h2 class="ct" style="font-size:1.22rem">'+head+'</h2>';} return ''; }
+  // paragraphs — pack up to ~340 chars per card
+  if(s.p&&s.p.length){var buf=[],len=0;
+    s.p.forEach(function(p){ if(len>0&&len+p.length>340){out.push({kind:'sec',html:tag+bigHead()+buf.map(function(x){return '<p class="lp">'+x+'</p>';}).join('')});buf=[];len=0;} buf.push(p);len+=p.length; });
+    if(buf.length)out.push({kind:'sec',html:tag+bigHead()+buf.map(function(x){return '<p class="lp">'+x+'</p>';}).join('')});
+  }
+  // list — chunk into <=4 items / <=320 chars
+  if(s.list){var chunk=[],clen=0;
+    var flush=function(){var sub=(usedBig||!head)?'<h2 class="ct" style="font-size:1.1rem">Key points</h2>':''; out.push({kind:'sec',html:tag+(bigHead()||sub)+'<ul class="slist">'+chunk.map(function(i){return '<li>'+i+'</li>';}).join('')+'</ul>'});chunk=[];clen=0;};
+    s.list.forEach(function(i){ if(chunk.length>=4||(clen>0&&clen+i.length>320))flush(); chunk.push(i);clen+=i.length; });
+    if(chunk.length)flush();
+  }
+  // table — own card
+  if(s.table){out.push({kind:'sec',html:tag+(bigHead()||'<h2 class="ct" style="font-size:1.1rem">Reference</h2>')+'<table class="ltable"><thead><tr>'+s.table.head.map(function(c){return '<th>'+c+'</th>';}).join('')+'</tr></thead><tbody>'+s.table.rows.map(function(r){return '<tr>'+r.map(function(c){return '<td>'+c+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table>'});}
+  // note — own card
+  if(s.note)out.push({kind:'sec',html:tag+bigHead()+noteHTML(s.note)});
+  if(out.length===0&&head)out.push({kind:'sec',html:tag+'<h2 class="ct" style="font-size:1.22rem">'+head+'</h2>'});
+  return out;
 }
+function introCard(L0){var h='<div class="cardbig"><div class="cardtag">'+L0.stage+'</div><h2 class="ct">'+L0.title+'</h2>';if(L0.illo)h+='<div class="illo" style="margin:6px auto 0;max-width:440px">'+illoSVG(L0.illo)+'</div>';h+='<p style="text-align:center;color:var(--muted);font-size:.85rem;margin-top:16px">Swipe through every card to complete this module →</p></div>';return h;}
+function leadCard(L0){return '<div class="cardtag">Overview</div><p class="lead" style="font-size:1.18rem;margin:0">'+L0.lead+'</p>';}
+function objCard(L0){return '<div class="cardtag">Goals</div><div class="obj"><div class="ol"><svg class="ti" viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>Learning objectives</div><ul>'+L0.objectives.map(function(o){return '<li>'+o+'</li>';}).join('')+'</ul></div>';}
 function siteCard(it){return '<div class="cardtag">Interactive · try it</div><h2 class="ct" style="font-size:1.3rem">'+(it.h||'Site selection')+'</h2><div class="iq" style="margin-bottom:14px;font-size:.98rem">'+it.q+'</div><div class="sitebox">'+it.svg+'</div><div class="fb" id="sfb"></div>';}
 function blockTips(a){return '<div class="block tips"><div class="bl"><svg class="ti" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-4 10c1 1 1 2 1 3h6c0-1 0-2 1-3a6 6 0 00-4-10z"/></svg>Clinical tips &amp; judgment</div><ul>'+a.map(t=>'<li>'+t+'</li>').join('')+'</ul></div>';}
 function blockMist(a){return '<div class="block mistakes"><div class="bl"><svg class="ti" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>Common mistakes to avoid</div><ul>'+a.map(m=>'<li>'+m+'</li>').join('')+'</ul></div>';}
 function blockTake(a){return '<div class="block takeaways"><div class="bl"><svg class="ti" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Key takeaways</div><ul>'+a.map(t=>'<li>'+t+'</li>').join('')+'</ul></div>';}
-function quizCard(q,qi,tag){return '<div class="cardtag">'+tag+'</div><div class="qq" style="font-size:1.14rem;margin:8px 0 16px">'+q.q+'</div>'+q.opts.map((o,oi)=>'<div class="qopt" data-oi="'+oi+'">'+o+'<span class="mk"></span></div>').join('')+'<div class="qwhy"></div>';}
-function finishCard(L0){var isCE=!!CE_LESSONS[state.lessonId];var xp=isCE?40:50;return '<div class="cardbig"><div class="ci">'+ring(100,112,11,'1.5rem','var(--pearl)','#C9A24B')+'</div><div class="cardtag">Module complete</div><h2 class="ct">You\'ve got this</h2><p style="color:var(--muted);max-width:430px;margin:0 auto 20px">You\'ve reached the end of this module. Mark it complete to bank <b style="color:var(--gold-deep)">+'+xp+' XP</b> and grow your progress.</p><button class="btn btn-gold" id="finishBtn">Mark module complete ✓</button></div>';}
+function quizCard(q,qi,tag){return '<div class="cardtag">'+tag+'</div><div class="qq" style="font-size:1.16rem;margin:8px 0 16px">'+q.q+'</div>'+q.opts.map(function(o,oi){return '<div class="qopt" data-oi="'+oi+'">'+o+'<span class="mk"></span></div>';}).join('')+'<div class="qwhy"></div>';}
+function finishCard(L0){var isCE=!!CE_LESSONS[state.lessonId];var xp=isCE?40:50;return '<div class="cardbig"><div class="ci">'+ring(100,112,11,'1.5rem','var(--pearl)','#2f7d5b')+'</div><div class="cardtag">Module complete</div><h2 class="ct">Nicely done</h2><p style="color:var(--muted);max-width:430px;margin:0 auto 20px">You worked through every card and passed the checks. <b style="color:var(--gold-deep)">+'+xp+' XP</b> earned — your progress saves automatically.</p><button class="btn btn-gold" id="backBtn">Back to course →</button></div>';}
 function renderSection(s){
   let h='<div class="sec">';
   if(s.h)h+='<h3>'+s.h+'</h3>';
@@ -1240,7 +1264,7 @@ function initDeck(L0){
     prev.style.visibility=idx===0?'hidden':'visible';
     if(idx===total-1){next.style.visibility='hidden';}else{next.style.visibility='visible';next.disabled=gatedNow();next.style.opacity=gatedNow()?'.4':'1';}
     if(cards[idx].kind==='examresult')showExamResult();
-    var card=track.querySelector('.card[data-ci="'+idx+'"]');if(card)card.scrollTop=0;
+    if(cards[idx].kind==='finish'&&!window._deck.done){window._deck.done=true;markLessonDone(state.lessonId);toast(getLesson(state.lessonId).title+' complete');}
   }
   function move(n){if(n>idx&&gatedNow()){shake();return;}idx=Math.max(0,Math.min(total-1,n));window._deck.idx=idx;upd();}
   next.onclick=function(){move(idx+1);};prev.onclick=function(){move(idx-1);};
@@ -1256,7 +1280,7 @@ function initDeck(L0){
     if(c.kind==='site')wireSite(cardEl,c.it);
     else if(c.kind==='quiz')wireQuiz(cardEl,c,i,L0,false);
     else if(c.kind==='exam')wireQuiz(cardEl,c,i,L0,true);
-    else if(c.kind==='finish'){var b=cardEl.querySelector('#finishBtn');if(b)b.onclick=function(){completeLesson(state.lessonId);};}
+    else if(c.kind==='finish'){var b=cardEl.querySelector('#backBtn');if(b)b.onclick=function(){go(state.from==='ce'?'ce':'path');};}
   });
   window._deck.markAnswered=function(i){window._deck.ans['g'+i]=true;if(i===idx)upd();};
   function showExamResult(){var host=el('examresultcard');if(!host)return;
@@ -1280,21 +1304,29 @@ function initDeck(L0){
   upd();
 }
 function wireSite(cardEl,it){var fb=cardEl.querySelector('.fb');cardEl.querySelectorAll('.hot').forEach(function(elh){elh.addEventListener('click',function(){var id=elh.getAttribute('data-id');var ok=id===it.correct;cardEl.querySelectorAll('.hot').forEach(function(x){x.setAttribute('stroke','none');});elh.setAttribute('stroke',ok?'#2f7d5b':'#c0563f');elh.setAttribute('stroke-width','4');fb.className='fb show '+(ok?'ok':'no');fb.textContent=it.fb[id]||'';});});}
-function wireQuiz(cardEl,c,i,L0,isExam){var q=c.q;var opts=cardEl.querySelectorAll('.qopt');var why=cardEl.querySelector('.qwhy');var done=false;
-  opts.forEach(function(opt,oi){opt.addEventListener('click',function(){if(done)return;done=true;
-    opts.forEach(function(o2,j){if(j===q.a){o2.classList.add('correct');o2.querySelector('.mk').textContent='✓';}else if(j===oi){o2.classList.add('wrong');o2.querySelector('.mk').textContent='✕';}});
-    why.innerHTML='<b>Why: </b>'+q.why;why.classList.add('show');
-    var correct=oi===q.a;window._deck.ans['c'+i]=correct;
-    if(correct){var key=state.lessonId+':'+c.qi+(isExam?':x':'');if(!state.awardedQ.has(key)){state.awardedQ.add(key);awardXP(5,opt);}touchStreak();save();}
-    window._deck.markAnswered(i);
-    if(!isExam)maybePerfectKC(L0);
-  });});
+function wireQuiz(cardEl,c,i,L0,isExam){var q=c.q;var opts=cardEl.querySelectorAll('.qopt');var why=cardEl.querySelector('.qwhy');
+  if(isExam){var done=false;
+    opts.forEach(function(opt,oi){opt.addEventListener('click',function(){if(done)return;done=true;
+      opts.forEach(function(o2,j){if(j===q.a){o2.classList.add('correct');o2.querySelector('.mk').textContent='✓';}else if(j===oi){o2.classList.add('wrong');o2.querySelector('.mk').textContent='✕';}});
+      why.innerHTML='<b>Why: </b>'+q.why;why.className='qwhy show';
+      window._deck.ans['c'+i]=(oi===q.a);window._deck.markAnswered(i);
+    });});
+  } else {var solved=false;
+    opts.forEach(function(opt,oi){opt.addEventListener('click',function(){if(solved)return;
+      if(oi===q.a){solved=true;opt.classList.remove('wrong');opt.classList.add('correct');opt.querySelector('.mk').textContent='✓';
+        why.innerHTML='<b>Correct — </b>'+q.why;why.className='qwhy show';
+        window._deck.ans['c'+i]=true;
+        var key=state.lessonId+':'+c.qi;if(!state.awardedQ.has(key)){state.awardedQ.add(key);awardXP(5,opt);}touchStreak();save();
+        window._deck.markAnswered(i);
+      } else {opt.classList.add('wrong');opt.querySelector('.mk').textContent='✕';
+        why.innerHTML='Not quite — read the options again and choose the best answer to continue.';why.className='qwhy show';}
+    });});
+  }
 }
-function maybePerfectKC(L0){if(!L0.quiz)return;var qc=window._deck.cards.map(function(c,i){return{c:c,i:i};}).filter(function(o){return o.c.kind==='quiz';});var allAns=qc.every(function(o){return window._deck.ans['g'+o.i];});if(!allAns)return;var allC=qc.every(function(o){return window._deck.ans['c'+o.i];});if(allC&&!state.perfLessons.has(state.lessonId)){state.perfLessons.add(state.lessonId);awardXP(20);grant('perfect');}}
 
-function completeLesson(id){const wasNew=!state.completed.has(id);state.completed.add(id);if(CE_LESSONS[id]&&wasNew){state.ceHours+=CE_LESSONS[id].ceHours;state.ceDone.add(id);}
-  if(wasNew)awardXP(CE_LESSONS[id]?40:50);touchStreak();checkBadges();save();
-  toast(getLesson(id).title+' complete');go(state.from==='ce'?'ce':'path');}
+function markLessonDone(id){const wasNew=!state.completed.has(id);state.completed.add(id);if(CE_LESSONS[id]&&wasNew){state.ceHours+=CE_LESSONS[id].ceHours;state.ceDone.add(id);}
+  if(wasNew)awardXP(CE_LESSONS[id]?40:50);touchStreak();checkBadges();save();syncSide();}
+function completeLesson(id){markLessonDone(id);go(state.from==='ce'?'ce':'path');}
 function graduate(track){const wasNew=!state.gradTracks.has(track);state.gradTracks.add(track);trackIds(track).forEach(i=>state.completed.add(i));
   if(wasNew)awardXP(200);touchStreak();checkBadges();save();
   state.track=track;state._celebrate=track;state.view='grad';setActive('grad',null);render();window.scrollTo(0,0);toast('Congratulations — '+TRACKS[track].short+' Graduate!');}
