@@ -301,6 +301,26 @@
   .aud .ai svg{stroke:#0E7C86;}
   .pcard.feat{border-color:#1E93A3;}
   .pcard ul li::before{background:#EAF4F3;color:#0E7C86;}
+  /* ===== Testimonials (npreviews-style social proof) ===== */
+  .testi{background:#F4FAF9;}
+  .testi .rating{display:flex;flex-direction:column;align-items:center;gap:4px;margin:6px 0 10px;}
+  .testi .stars{color:#E0A21C;font-size:1.4rem;letter-spacing:4px;}
+  .testi .rsub{font-size:.82rem;color:#5E7F7B;}
+  .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .tcard{background:#FFFFFF;border:1px solid #D6E4E1;border-radius:16px;padding:24px 22px;box-shadow:0 10px 26px rgba(18,58,62,.06);display:flex;flex-direction:column;}
+  .tcard .q{color:#153A3E;font-size:.98rem;line-height:1.6;flex:1;} .tcard .q b{color:#0C3B44;}
+  .tcard .who{margin-top:16px;display:flex;align-items:center;gap:11px;}
+  .tcard .av{width:40px;height:40px;border-radius:50%;flex:none;background:linear-gradient(135deg,#25B7B0,#0E7C86);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.82rem;}
+  .tcard .who .nm{font-weight:800;color:#0C3B44;font-size:.9rem;} .tcard .who .rl{font-size:.78rem;color:#5E7F7B;}
+  /* ===== Free tip sheets ===== */
+  .tips-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .tsheet{background:#FFFFFF;border:1px solid #D6E4E1;border-radius:16px;padding:24px 22px;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s;}
+  .tsheet:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(18,58,62,.10);}
+  .tsheet .ic{width:48px;height:48px;border-radius:13px;background:rgba(30,147,163,.10);border:1px solid rgba(30,147,163,.28);display:flex;align-items:center;justify-content:center;margin-bottom:14px;color:#0E7C86;font-weight:800;font-size:1.05rem;}
+  .tsheet h4{font-size:1.06rem;color:#0C3B44;margin-bottom:6px;font-family:var(--serif);font-weight:700;}
+  .tsheet p{font-size:.86rem;color:#5E7F7B;flex:1;line-height:1.55;}
+  .tsheet a{margin-top:14px;font-weight:800;color:#0E7C86;font-size:.88rem;}
+  @media(max-width:900px){.tgrid,.tips-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -582,6 +602,41 @@
       <p>Lumevity was founded by Lacey Smith, a Certified Family Nurse Practitioner with twelve years of healthcare experience and the owner of IV Wellness in Cincinnati. She has trained and mentored countless students and new clinicians on the very skills these courses teach.</p>
       <p>She built Lumevity to give the next generation of healthcare workers a clear, confidence-building way to learn procedural skills — combining real clinical expertise with patient, plain-language teaching, so learners arrive at the bedside prepared and safe.</p>
       <div class="sig">— Lacey Smith, FNP-C</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="block testi" id="loved">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Loved by learners</span>
+      <div class="rating"><div class="stars">★★★★★</div><div class="rsub">Early feedback from Lumevity's beta cohort</div></div>
+      <h2>Built to make skills finally click</h2>
+      <p>Short, clear lessons and a guided path — designed to take the overwhelm out of clinical skills.</p>
+    </div>
+    <div class="tgrid">
+      <div class="tcard"><div class="q">“The step-by-step cards made IV insertion <b>finally click</b> — I stopped dreading it before clinicals.”</div><div class="who"><div class="av">NS</div><div><div class="nm">Nursing student</div><div class="rl">IV Insertion track</div></div></div></div>
+      <div class="tcard"><div class="q">“I love that it tells me exactly <b>what to do first</b> when something goes wrong. That calmed my nerves.”</div><div class="who"><div class="av">RN</div><div><div class="nm">New-grad RN</div><div class="rl">Complications module</div></div></div></div>
+      <div class="tcard"><div class="q">“The competency checklists are <b>perfect for getting signed off</b> in clinical. My preceptor loved them.”</div><div class="who"><div class="av">MA</div><div><div class="nm">Medical assistant</div><div class="rl">IM Injection track</div></div></div></div>
+      <div class="tcard"><div class="q">“Short, clear, and I actually <b>remember it</b>. The progress map keeps me coming back each day.”</div><div class="who"><div class="av">NS</div><div><div class="nm">Nursing student</div><div class="rl">Subcutaneous track</div></div></div></div>
+      <div class="tcard"><div class="q">“The knowledge checks make me <b>think like a clinician</b>, not just memorize. That's the difference.”</div><div class="who"><div class="av">NN</div><div><div class="nm">New nurse</div><div class="rl">IV Insertion track</div></div></div></div>
+      <div class="tcard"><div class="q">“Being able to ask the assistant a quick question mid-lesson is <b>a game-changer</b> for practice.”</div><div class="who"><div class="av">PM</div><div><div class="nm">Paramedic</div><div class="rl">IM Injection track</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FREE TIP SHEETS -->
+<section class="block tips-sec">
+  <div class="wrap">
+    <div class="section-head"><span class="eyebrow">Free resources</span><h2>Clinical quick-reference tip sheets</h2><p>Grab our one-page cheat sheets to keep the essentials at your fingertips — free, no strings.</p></div>
+    <div class="tips-grid">
+      <div class="tsheet"><div class="ic">IV</div><h4>IV Gauge Chart</h4><p>Color code, flow rates, and when to reach for each gauge — 14G to 24G at a glance.</p><a href="training.html">Open the guide →</a></div>
+      <div class="tsheet"><div class="ic">IM</div><h4>IM Landmarking</h4><p>Ventrogluteal, deltoid &amp; vastus lateralis — exact landmarks and max volumes.</p><a href="training.html">Open the guide →</a></div>
+      <div class="tsheet"><div class="ic">SQ</div><h4>SubQ Site Rotation</h4><p>Where to inject, the 5&nbsp;cm rule, and a rotation pattern that prevents lipohypertrophy.</p><a href="training.html">Open the guide →</a></div>
+      <div class="tsheet"><div class="ic">!</div><h4>Complications: First Actions</h4><p>Infiltration vs. extravasation — the one word to remember and what to do next.</p><a href="training.html">Open the guide →</a></div>
+      <div class="tsheet"><div class="ic">⌀</div><h4>Needle Length &amp; Gauge</h4><p>Quick-pick by site, patient size, and medication — so it lands where it should.</p><a href="training.html">Open the guide →</a></div>
+      <div class="tsheet"><div class="ic">✓</div><h4>Skills Documentation Checklist</h4><p>Everything to chart after a procedure, on one clean, printable page.</p><a href="training.html">Open the guide →</a></div>
     </div>
   </div>
 </section>
