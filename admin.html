@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex,nofollow" />
+<title>Lumevity Admin</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 48'%3E%3Cpath d='M20 2C20 2 36 22 36 33A16 16 0 1 1 4 33C4 22 20 2 20 2Z' fill='%230C3B33'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{--paper:#F4F1E9;--white:#fff;--pearl:#F1EFE9;--stone:#dcd8ce;--emerald:#0C3B33;--emerald2:#0E5A52;--gold:#C9A24B;--gold2:#E3CE9A;--gold-deep:#A07E2E;--ink:#1c2b27;--muted:#5d6b66;--good:#2f7d5b;--bad:#c0563f;--amber:#b7791f;--serif:'Fraunces',Georgia,serif;--sans:'Mulish',system-ui,sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0;} body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.5;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;} a{color:inherit;} button{font-family:var(--sans);cursor:pointer;border:none;}
+  .btn{display:inline-flex;align-items:center;gap:7px;font-weight:800;font-size:.85rem;padding:9px 16px;border-radius:9px;transition:.12s;}
+  .btn:active{transform:scale(.97);} .btn-gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#3a2e0e;} .btn-dark{background:var(--emerald);color:#fff;} .btn-ghost{background:var(--white);color:var(--emerald);border:1.5px solid var(--stone);} .btn-danger{background:#fbeee9;color:var(--bad);border:1.5px solid #e7cdbc;} .btn-sm{padding:6px 11px;font-size:.78rem;border-radius:8px;}
+  /* login */
+  .login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(900px 500px at 50% -10%, rgba(227,206,154,.18), transparent 60%),var(--paper);}
+  .loginbox{background:var(--white);border:1px solid var(--stone);border-radius:20px;padding:38px 40px;max-width:420px;text-align:center;box-shadow:0 20px 60px rgba(20,40,35,.12);}
+  .loginbox .logo{width:48px;height:58px;margin:0 auto 14px;} .loginbox h1{color:var(--emerald);font-size:1.5rem;} .loginbox p{color:var(--muted);font-size:.9rem;margin:8px 0 22px;}
+  .gbtn{display:inline-flex;align-items:center;gap:10px;background:#fff;border:1.5px solid var(--stone);border-radius:10px;padding:11px 20px;font-weight:800;color:#3c4043;box-shadow:0 2px 6px rgba(0,0,0,.06);}
+  .gbtn img,.gbtn svg{width:20px;height:20px;}
+  .lockmsg{color:var(--bad);font-size:.85rem;margin-top:14px;}
+  /* shell */
+  .top{position:sticky;top:0;z-index:30;background:var(--emerald);color:#fff;padding:11px 20px;display:flex;align-items:center;gap:14px;}
+  .top .logo{width:26px;height:31px;} .top .nm{font-family:var(--serif);font-weight:600;font-size:1.15rem;} .top .nm b{color:var(--gold2);}
+  .top .who{margin-left:auto;font-size:.8rem;color:rgba(251,250,246,.85);display:flex;align-items:center;gap:10px;}
+  .top .who .dot{width:8px;height:8px;border-radius:50%;background:var(--gold2);}
+  .wrap{max-width:1200px;margin:0 auto;padding:22px 20px 70px;}
+  .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px;}
+  .stat{background:var(--white);border:1px solid var(--stone);border-radius:14px;padding:14px 16px;} .stat .l{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--gold-deep);} .stat .n{font-family:var(--serif);font-size:1.7rem;color:var(--emerald);line-height:1.1;margin-top:3px;} .stat .s{font-size:.72rem;color:var(--muted);}
+  .tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;} .tab{background:var(--white);border:1.5px solid var(--stone);border-radius:9px;padding:8px 15px;font-weight:800;font-size:.85rem;color:var(--muted);} .tab.on{background:var(--emerald);color:#fff;border-color:var(--emerald);}
+  .toolbar{display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap;} .toolbar input.search{flex:1;min-width:180px;border:1px solid var(--stone);border-radius:9px;padding:9px 13px;font:inherit;outline:none;} .toolbar select{border:1px solid var(--stone);border-radius:9px;padding:9px 11px;font:inherit;background:#fff;}
+  .card{background:var(--white);border:1px solid var(--stone);border-radius:14px;overflow:hidden;}
+  table{width:100%;border-collapse:collapse;font-size:.86rem;} th{text-align:left;background:var(--pearl);color:var(--emerald);font-weight:800;font-size:.72rem;letter-spacing:.03em;text-transform:uppercase;padding:10px 12px;position:sticky;top:0;} td{padding:10px 12px;border-top:1px solid var(--stone);vertical-align:middle;} tr:hover td{background:#fbfaf6;}
+  .pill{font-size:.66rem;font-weight:800;padding:3px 9px;border-radius:50px;text-transform:capitalize;white-space:nowrap;}
+  .p-active{background:#eaf3ee;color:var(--good);} .p-trialing{background:#eef1f6;color:#2c5a8a;} .p-past_due{background:#fdf1e3;color:var(--amber);} .p-canceled,.p-expired{background:#f2eeea;color:var(--muted);} .p-failed{background:#fbeee9;color:var(--bad);} .p-succeeded{background:#eaf3ee;color:var(--good);} .p-refunded{background:#f2eeea;color:var(--muted);} .p-pending{background:#eef1f6;color:#2c5a8a;}
+  .t-beta{background:#efeaf6;color:#5b3ea6;} .t-customer{background:#eef1f6;color:#2c5a8a;} .t-comp{background:#f7f1e2;color:var(--gold-deep);}
+  .em{font-weight:700;color:var(--emerald);} .sub{color:var(--muted);font-size:.78rem;}
+  .rowact{display:flex;gap:6px;justify-content:flex-end;}
+  .exp-soon{color:var(--amber);font-weight:700;} .exp-none{color:var(--muted);}
+  .empty{padding:40px;text-align:center;color:var(--muted);}
+  /* drawer */
+  .drawer{position:fixed;top:0;right:0;height:100vh;width:460px;max-width:94vw;background:var(--white);border-left:1px solid var(--stone);box-shadow:-16px 0 44px rgba(20,40,35,.16);z-index:40;transform:translateX(100%);transition:transform .28s;overflow-y:auto;} .drawer.show{transform:translateX(0);}
+  .drawer .dh{position:sticky;top:0;background:var(--emerald);color:#fff;padding:16px 20px;} .drawer .dh h2{font-size:1.2rem;} .drawer .dh .x{position:absolute;top:14px;right:16px;cursor:pointer;font-size:1.2rem;opacity:.85;} .drawer .dh .sub{color:rgba(251,250,246,.8);font-size:.82rem;}
+  .drawer .db{padding:18px 20px;} .sect{margin-bottom:18px;} .sect h3{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:8px;}
+  .kv{display:flex;justify-content:space-between;font-size:.85rem;padding:5px 0;border-bottom:1px dashed var(--stone);} .kv b{color:var(--emerald);}
+  .hist{font-size:.82rem;padding:8px 10px;background:var(--pearl);border-radius:9px;margin-bottom:6px;} .hist .when{color:var(--muted);font-size:.72rem;}
+  /* modal */
+  .modal{position:fixed;inset:0;background:rgba(10,25,22,.5);backdrop-filter:blur(3px);z-index:60;display:none;align-items:center;justify-content:center;padding:20px;} .modal.show{display:flex;}
+  .modal .box{background:var(--white);border-radius:16px;max-width:440px;width:100%;padding:24px;border:1px solid var(--stone);max-height:92vh;overflow-y:auto;} .modal h3{color:var(--emerald);font-size:1.25rem;margin-bottom:14px;}
+  .field{margin-bottom:12px;} .field label{display:block;font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;} .field input,.field select,.field textarea{width:100%;border:1px solid var(--stone);border-radius:9px;padding:9px 12px;font:inherit;outline:none;background:#fff;} .field textarea{min-height:56px;resize:vertical;}
+  .modrow{display:flex;gap:10px;} .modrow .field{flex:1;}
+  .modact{display:flex;gap:8px;justify-content:flex-end;margin-top:10px;}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(30px);background:var(--emerald);color:#fff;padding:12px 20px;border-radius:11px;font-weight:700;font-size:.86rem;opacity:0;pointer-events:none;transition:.3s;z-index:80;} .toast.show{opacity:1;transform:translateX(-50%) translateY(0);} .toast.bad{background:var(--bad);}
+  @media(max-width:820px){ .stats{grid-template-columns:repeat(2,1fr);} table{font-size:.8rem;} .hide-sm{display:none;} }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="drawer" id="drawer"></div>
+<div class="modal" id="modal"><div class="box" id="modalBox"></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SB_URL="https://dnjvsfwdrffzawrlrrma.supabase.co";
+const SB_KEY="sb_publishable_MX9URc_fMZ37AEHEHYyIDg_bXZK3UHZ";
+const LOGO='<svg viewBox="0 0 40 48"><defs><linearGradient id="lg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#0E5A52"/><stop offset=".55" stop-color="#C9A24B"/><stop offset="1" stop-color="#E3CE9A"/></linearGradient></defs><path d="M20 2C20 2 36 22 36 33A16 16 0 1 1 4 33C4 22 20 2 20 2Z" fill="url(#lg)"/><path d="M20 16C20 16 28 27 28 33A8 8 0 1 1 12 33C12 27 20 16 20 16Z" fill="#FBFAF6" opacity=".2"/></svg>';
+const GICON='<svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.6 30.2 0 24 0 14.6 0 6.4 5.4 2.5 13.3l7.8 6.1C12.2 13.7 17.6 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.5 3-2.2 5.5-4.7 7.2l7.3 5.7C43.7 37.9 46.5 31.8 46.5 24.5z"/><path fill="#FBBC05" d="M10.3 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.8-6.1C.9 16.5 0 20.1 0 24s.9 7.5 2.5 10.7l7.8-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.3-5.7c-2 1.4-4.7 2.3-8.6 2.3-6.4 0-11.8-4.2-13.7-9.9l-7.8 6.1C6.4 42.6 14.6 48 24 48z"/></svg>';
+const PLANS=["free","pro_annual","pro_monthly","student_annual","student_monthly","single_course","team"];
+const PLAN_LABEL={free:"Free",pro_annual:"Pro · Annual",pro_monthly:"Pro · Monthly",student_annual:"Student · Annual",student_monthly:"Student · Monthly",single_course:"Single course",team:"Team"};
+const PLAN_PRICE={free:0,pro_annual:49900,pro_monthly:5900,student_annual:29900,student_monthly:3400,single_course:24900,team:0};
+const STATUSES=["active","trialing","past_due","canceled","expired"];
+const TYPES=["customer","beta","comp"];
+
+const sb=window.supabase?window.supabase.createClient(SB_URL,SB_KEY):null;
+let ME=null, DATA={customers:[],payments:[],usage:[],subs:[],log:[]}, TAB="customers", FILTER="all", Q="";
+
+const $=id=>document.getElementById(id);
+const esc=t=>(t==null?"":String(t)).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const money=c=>"$"+((c||0)/100).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+const fdate=d=>d?new Date(d).toLocaleDateString():"—";
+const fdt=d=>d?new Date(d).toLocaleString():"—";
+function toast(m,bad){var t=$("toast");t.textContent=m;t.className="toast show"+(bad?" bad":"");setTimeout(()=>t.className="toast",2400);}
+
+/* ============ AUTH ============ */
+async function boot(){
+  if(!sb){renderLogin("Couldn't load the sign-in library. Check your connection and reload.");return;}
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){renderLogin();return;}
+  ME=session.user.email;
+  // Admin check via RLS-protected admins table (non-admins get 0 rows)
+  const {data,error}=await sb.from("admins").select("email");
+  const ok=!error&&data&&data.some(a=>(a.email||"").toLowerCase()===(ME||"").toLowerCase());
+  if(!ok){renderDenied(ME);return;}
+  await loadAll(); renderApp();
+}
+if(sb)sb.auth.onAuthStateChange((_e,_s)=>{boot();});
+async function signIn(){if(!sb){toast("Sign-in library not loaded",true);return;}await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+location.pathname}});}
+async function signOut(){await sb.auth.signOut();ME=null;renderLogin();}
+
+function renderLogin(msg){
+  $("app").innerHTML='<div class="login"><div class="loginbox"><div class="logo">'+LOGO+'</div><h1>Lumevity Admin</h1><p>Sign in with your authorized Google account to manage customers, subscriptions, and beta testers.</p><button class="gbtn" onclick="signIn()">'+GICON+' Sign in with Google</button>'+(msg?'<div class="lockmsg">'+esc(msg)+'</div>':'')+'</div></div>';
+}
+function renderDenied(email){
+  $("app").innerHTML='<div class="login"><div class="loginbox"><div class="logo">'+LOGO+'</div><h1>Not authorized</h1><p><b>'+esc(email)+'</b> is not on the admin allow-list. Ask an existing admin to add you, or sign in with an authorized account.</p><button class="btn btn-ghost" onclick="signOut()">Sign out</button></div></div>';
+}
+
+/* ============ DATA ============ */
+async function loadAll(){
+  const [c,p,u,s,l]=await Promise.all([
+    sb.from("customers").select("*").order("created_at",{ascending:false}),
+    sb.from("payments").select("*, customers(email,name)").order("paid_at",{ascending:false}),
+    sb.from("usage_events").select("*, customers(email,name)").order("at",{ascending:false}).limit(200),
+    sb.from("subscriptions").select("*").order("created_at",{ascending:false}),
+    sb.from("admin_log").select("*").order("at",{ascending:false}).limit(50)
+  ]);
+  DATA.customers=c.data||[];DATA.payments=p.data||[];DATA.usage=u.data||[];DATA.subs=s.data||[];DATA.log=l.data||[];
+}
+async function logAction(action,target,detail){try{await sb.from("admin_log").insert({actor:ME,action:action,target:target,detail:detail||{}});}catch(e){}}
+
+/* ============ APP SHELL ============ */
+function renderApp(){
+  $("app").innerHTML=
+   '<div class="top"><div class="logo">'+LOGO+'</div><div class="nm">Lume<b>vity</b> · Admin</div>'
+   +'<div class="who"><span class="dot"></span>'+esc(ME)+' <button class="btn btn-sm btn-ghost" onclick="signOut()">Sign out</button></div></div>'
+   +'<div class="wrap"><div id="stats"></div>'
+   +'<div class="tabs">'+[["customers","Customers"],["beta","Beta testers"],["payments","Billing & payments"],["usage","Usage"],["activity","Admin activity"]].map(t=>'<button class="tab'+(TAB===t[0]?" on":"")+'" onclick="setTab(\''+t[0]+'\')">'+t[1]+'</button>').join('')+'</div>'
+   +'<div id="panel"></div></div>';
+  renderStats();renderPanel();
+}
+function setTab(t){TAB=t;FILTER="all";Q="";renderApp();}
+function renderStats(){
+  const cs=DATA.customers;
+  const totalCust=cs.filter(c=>c.type!=="beta").length;
+  const beta=cs.filter(c=>c.type==="beta").length;
+  const activeSubs=cs.filter(c=>["active","trialing"].includes(c.status)&&c.plan!=="free"&&c.plan!=="single_course").length;
+  const revenue=DATA.payments.filter(p=>p.status==="succeeded").reduce((a,p)=>a+(p.amount_cents||0),0);
+  const mrr=cs.filter(c=>["active","trialing"].includes(c.status)).reduce((a,c)=>{var pr=PLAN_PRICE[c.plan]||0;if(c.plan.indexOf("annual")>=0)return a+pr/12;if(c.plan.indexOf("monthly")>=0)return a+pr;return a;},0);
+  $("stats").innerHTML='<div class="stats">'
+   +stat("Customers",totalCust,"paying + free")
+   +stat("Beta testers",beta,"active cohort")
+   +stat("Active subs",activeSubs,"recurring plans")
+   +stat("Est. MRR",money(Math.round(mrr)),"monthly recurring")
+   +stat("Revenue",money(revenue),"all-time collected")
+   +'</div>';
+}
+function stat(l,n,s){return '<div class="stat"><div class="l">'+l+'</div><div class="n">'+n+'</div><div class="s">'+s+'</div></div>';}
+
+/* ============ PANELS ============ */
+function renderPanel(){
+  if(TAB==="customers"||TAB==="beta")return renderCustomers();
+  if(TAB==="payments")return renderPayments();
+  if(TAB==="usage")return renderUsage();
+  if(TAB==="activity")return renderActivity();
+}
+function matchQ(c){if(!Q)return true;var s=(c.email+" "+(c.name||"")+" "+(c.notes||"")).toLowerCase();return s.indexOf(Q.toLowerCase())>=0;}
+function renderCustomers(){
+  const beta=TAB==="beta";
+  let rows=DATA.customers.filter(c=>beta?c.type==="beta":true).filter(c=>FILTER==="all"?true:c.status===FILTER).filter(matchQ);
+  let h='<div class="toolbar"><input class="search" placeholder="Search email, name, notes…" value="'+esc(Q)+'" oninput="Q=this.value;refreshPanel()"/>'
+   +'<select onchange="FILTER=this.value;refreshPanel()"><option value="all"'+(FILTER==="all"?" selected":"")+'>All statuses</option>'+STATUSES.map(s=>'<option'+(FILTER===s?" selected":"")+'>'+s+'</option>').join('')+'</select>'
+   +'<button class="btn btn-gold btn-sm" onclick="openEdit(null,'+(beta?"'beta'":"'customer'")+')">+ Add '+(beta?"beta tester":"customer")+'</button></div>';
+  h+='<div class="card">';
+  if(!rows.length){h+='<div class="empty">No '+(beta?"beta testers":"customers")+' yet.</div>';}
+  else{
+    h+='<table><thead><tr><th>Customer</th><th>Type</th><th>Plan</th><th>Status</th><th class="hide-sm">Access expires</th><th class="hide-sm">Joined</th><th></th></tr></thead><tbody>';
+    rows.forEach(c=>{
+      var exp=expCell(c.access_expires);
+      h+='<tr><td><div class="em" style="cursor:pointer" onclick="openDrawer(\''+c.id+'\')">'+esc(c.name||"—")+'</div><div class="sub">'+esc(c.email)+'</div></td>'
+       +'<td><span class="pill t-'+c.type+'">'+c.type+'</span></td>'
+       +'<td>'+PLAN_LABEL[c.plan]+'</td>'
+       +'<td><span class="pill p-'+c.status+'">'+c.status.replace("_"," ")+'</span></td>'
+       +'<td class="hide-sm">'+exp+'</td>'
+       +'<td class="hide-sm sub">'+fdate(c.created_at)+'</td>'
+       +'<td><div class="rowact"><button class="btn btn-sm btn-ghost" onclick="openEdit(\''+c.id+'\')">Edit</button><button class="btn btn-sm btn-danger" onclick="delCustomer(\''+c.id+'\')">Delete</button></div></td></tr>';
+    });
+    h+='</tbody></table>';
+  }
+  h+='</div>';
+  $("panel").innerHTML=h;
+}
+function expCell(d){if(!d)return '<span class="exp-none">No expiration</span>';var days=Math.ceil((new Date(d)-new Date())/86400000);if(days<0)return '<span class="p-expired pill">expired</span>';if(days<=14)return '<span class="exp-soon">'+fdate(d)+' ('+days+'d)</span>';return fdate(d);}
+function refreshPanel(){renderPanel();}
+
+function renderPayments(){
+  let rows=DATA.payments;
+  let h='<div class="card">';
+  if(!rows.length){h+='<div class="empty">No payments recorded.</div>';}
+  else{h+='<table><thead><tr><th>Customer</th><th>Description</th><th>Amount</th><th>Status</th><th class="hide-sm">Date</th></tr></thead><tbody>';
+    rows.forEach(p=>{var c=p.customers||{};h+='<tr><td><div class="em">'+esc(c.name||"—")+'</div><div class="sub">'+esc(c.email||"")+'</div></td><td>'+esc(p.description||"—")+'</td><td class="em">'+money(p.amount_cents)+'</td><td><span class="pill p-'+p.status+'">'+p.status+'</span></td><td class="hide-sm sub">'+fdt(p.paid_at)+'</td></tr>';});
+    h+='</tbody></table>';}
+  h+='</div>';$("panel").innerHTML=h;
+}
+function renderUsage(){
+  let rows=DATA.usage;let h='<div class="card">';
+  if(!rows.length){h+='<div class="empty">No usage events yet.</div>';}
+  else{h+='<table><thead><tr><th>Customer</th><th>Event</th><th class="hide-sm">Detail</th><th class="hide-sm">When</th></tr></thead><tbody>';
+    rows.forEach(u=>{var c=u.customers||{};h+='<tr><td><div class="em">'+esc(c.name||"—")+'</div><div class="sub">'+esc(c.email||"")+'</div></td><td>'+esc(u.event||"")+'</td><td class="hide-sm sub">'+esc(JSON.stringify(u.meta||{}))+'</td><td class="hide-sm sub">'+fdt(u.at)+'</td></tr>';});
+    h+='</tbody></table>';}
+  h+='</div>';$("panel").innerHTML=h;
+}
+function renderActivity(){
+  let h='<div class="card">';
+  if(!DATA.log.length){h+='<div class="empty">No admin activity yet.</div>';}
+  else{h+='<table><thead><tr><th>When</th><th>Admin</th><th>Action</th><th>Target</th></tr></thead><tbody>';
+    DATA.log.forEach(l=>{h+='<tr><td class="sub">'+fdt(l.at)+'</td><td class="sub">'+esc(l.actor||"")+'</td><td class="em">'+esc(l.action||"")+'</td><td class="sub">'+esc(l.target||"")+'</td></tr>';});
+    h+='</tbody></table>';}
+  h+='</div>';$("panel").innerHTML=h;
+}
+
+/* ============ DRAWER (customer detail + history) ============ */
+function openDrawer(id){
+  var c=DATA.customers.find(x=>x.id===id);if(!c)return;
+  var subs=DATA.subs.filter(s=>s.customer_id===id);
+  var pays=DATA.payments.filter(p=>p.customer_id===id);
+  var use=DATA.usage.filter(u=>u.customer_id===id);
+  var d=$("drawer");
+  var h='<div class="dh"><div class="x" onclick="closeDrawer()">✕</div><h2>'+esc(c.name||c.email)+'</h2><div class="sub">'+esc(c.email)+' · <span class="pill t-'+c.type+'">'+c.type+'</span></div></div><div class="db">';
+  h+='<div style="display:flex;gap:8px;margin-bottom:16px"><button class="btn btn-sm btn-gold" onclick="openEdit(\''+id+'\')">Edit</button><button class="btn btn-sm btn-danger" onclick="delCustomer(\''+id+'\')">Delete</button></div>';
+  h+='<div class="sect"><h3>Account</h3>'
+    +kv("Plan",PLAN_LABEL[c.plan])+kv("Status",'<span class="pill p-'+c.status+'">'+c.status.replace("_"," ")+'</span>')
+    +kv("Access expires",c.access_expires?expCell(c.access_expires):'<span class="exp-none">No expiration</span>')
+    +kv("Stripe customer",esc(c.stripe_customer_id||"—"))+kv("Joined",fdate(c.created_at))+kv("Updated",fdt(c.updated_at))
+    +(c.notes?'<div class="hist" style="margin-top:8px">'+esc(c.notes)+'</div>':'')+'</div>';
+  h+='<div class="sect"><h3>Subscriptions</h3>'+(subs.length?subs.map(s=>'<div class="hist"><b>'+PLAN_LABEL[s.plan]+'</b> · '+(s.status||"")+'<div class="when">since '+fdate(s.started_at)+(s.current_period_end?' · renews '+fdate(s.current_period_end):"")+'</div></div>').join(''):'<div class="sub">No subscription records.</div>')+'</div>';
+  h+='<div class="sect"><h3>Payments</h3>'+(pays.length?pays.map(p=>'<div class="hist"><b>'+money(p.amount_cents)+'</b> · <span class="pill p-'+p.status+'">'+p.status+'</span> '+esc(p.description||"")+'<div class="when">'+fdt(p.paid_at)+'</div></div>').join(''):'<div class="sub">No payments.</div>')+'</div>';
+  h+='<div class="sect"><h3>Usage history</h3>'+(use.length?use.slice(0,20).map(u=>'<div class="hist">'+esc(u.event||"")+' <span class="when">'+fdt(u.at)+'</span></div>').join(''):'<div class="sub">No usage recorded.</div>')+'</div>';
+  h+='</div>';
+  d.innerHTML=h;d.classList.add("show");
+}
+function kv(k,v){return '<div class="kv"><span>'+k+'</span><b>'+v+'</b></div>';}
+function closeDrawer(){$("drawer").classList.remove("show");}
+
+/* ============ ADD / EDIT ============ */
+function openEdit(id,forceType){
+  var c=id?DATA.customers.find(x=>x.id===id):{type:forceType||"customer",plan:"free",status:"active"};
+  var exp=c.access_expires?new Date(new Date(c.access_expires).getTime()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,16):"";
+  var h='<h3>'+(id?"Edit ":"Add ")+(c.type==="beta"?"beta tester":"customer")+'</h3>'
+   +'<div class="modrow"><div class="field"><label>Name</label><input id="f_name" value="'+esc(c.name||"")+'"/></div><div class="field"><label>Email</label><input id="f_email" value="'+esc(c.email||"")+'" '+(id?"disabled":"")+'/></div></div>'
+   +'<div class="modrow"><div class="field"><label>Type</label><select id="f_type">'+TYPES.map(t=>'<option'+(c.type===t?" selected":"")+'>'+t+'</option>').join('')+'</select></div>'
+   +'<div class="field"><label>Plan</label><select id="f_plan">'+PLANS.map(p=>'<option value="'+p+'"'+(c.plan===p?" selected":"")+'>'+PLAN_LABEL[p]+'</option>').join('')+'</select></div></div>'
+   +'<div class="modrow"><div class="field"><label>Status</label><select id="f_status">'+STATUSES.map(s=>'<option'+(c.status===s?" selected":"")+'>'+s+'</option>').join('')+'</select></div>'
+   +'<div class="field"><label>Access expires</label><input id="f_exp" type="datetime-local" value="'+exp+'"/></div></div>'
+   +'<div class="field"><label>Notes</label><textarea id="f_notes">'+esc(c.notes||"")+'</textarea></div>'
+   +'<div class="modact"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-gold" onclick="saveCustomer('+(id?"'"+id+"'":"null")+')">'+(id?"Save changes":"Create")+'</button></div>';
+  $("modalBox").innerHTML=h;$("modal").classList.add("show");
+}
+async function saveCustomer(id){
+  var rec={name:$("f_name").value.trim(),type:$("f_type").value,plan:$("f_plan").value,status:$("f_status").value,notes:$("f_notes").value.trim(),access_expires:$("f_exp").value?new Date($("f_exp").value).toISOString():null};
+  if(!id){rec.email=$("f_email").value.trim().toLowerCase();if(!rec.email){toast("Email required",true);return;}}
+  let res;
+  if(id){res=await sb.from("customers").update(rec).eq("id",id);}
+  else{res=await sb.from("customers").insert(rec);}
+  if(res.error){toast(res.error.message,true);return;}
+  await logAction(id?"update_customer":"create_customer",rec.email||id,rec);
+  closeModal();await loadAll();renderApp();closeDrawer();toast(id?"Customer updated":"Customer added");
+}
+async function delCustomer(id){
+  var c=DATA.customers.find(x=>x.id===id);
+  openModal('<h3>Delete customer?</h3><p style="color:var(--muted);font-size:.9rem;margin-bottom:14px">This permanently removes <b>'+esc(c?c.email:id)+'</b> and their subscriptions, payments, and usage. This cannot be undone.</p><div class="modact"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-danger" onclick="doDelCustomer(\''+id+'\')">Delete</button></div>');
+}
+async function doDelCustomer(id){
+  var c=DATA.customers.find(x=>x.id===id);
+  var res=await sb.from("customers").delete().eq("id",id);
+  if(res.error){toast(res.error.message,true);return;}
+  await logAction("delete_customer",c?c.email:id,{});
+  closeModal();closeDrawer();await loadAll();renderApp();toast("Customer deleted");
+}
+function openModal(h){$("modalBox").innerHTML=h;$("modal").classList.add("show");}
+function closeModal(){$("modal").classList.remove("show");}
+$("modal").addEventListener("click",e=>{if(e.target===$("modal"))closeModal();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closeDrawer();}});
+
+boot();
+</script>
+</body>
+</html>
