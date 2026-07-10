@@ -10,22 +10,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --paper:#0A2E38;--white:#0F3E49;--pearl:#0D3A44;--stone:rgba(248,215,126,.22);
-    --emerald:#0C3B44;--emerald2:#0E5A66;--sapphire:#103A5A;
-    --teal:#1E93A3;--teal-deep:#0E5A69;--turq:#1FC8C0;--turq2:#5CE6DC;
-    --gold:#F0B429;--gold2:#F8D77E;--gold-deep:#EEB63A;--chrome:#c9cdc7;
-    --ink:#EFEADC;--head:#F5EFDF;--muted:#9BC0C4;--tealtext:#8CEDE4;
-    --good:#18A56E;--good-soft:rgba(24,165,110,.20);--bad:#E0575A;--bad-soft:rgba(224,87,90,.18);
+    --paper:#FFFFFF;--white:#FFFFFF;--pearl:#EFF6F5;--stone:#D6E4E1;
+    --emerald:#0C3B44;--emerald2:#127C86;--sapphire:#103A5A;
+    --teal:#1E93A3;--teal-deep:#0E5A69;--turq:#1FC8C0;--turq2:#12A7A0;
+    --gold:#E0A21C;--gold2:#F0B429;--gold-deep:#B07E0E;--chrome:#c9cdc7;
+    --ink:#153A3E;--head:#0C3B44;--muted:#5E7F7B;--tealtext:#127C86;
+    --good:#18A56E;--good-soft:#E4F5EE;--bad:#D8474B;--bad-soft:#FBE7E7;
     --fdisp:'Plus Jakarta Sans',system-ui,sans-serif;--fhead:'Plus Jakarta Sans',system-ui,sans-serif;--fbody:'Inter',system-ui,sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html,body{overflow-x:hidden;}
   html{scroll-behavior:smooth;}
   body{font-family:var(--fbody);color:var(--ink);background:
-    radial-gradient(1100px 640px at 100% -8%, rgba(31,200,192,.34), transparent 60%),
-    radial-gradient(980px 600px at -12% 108%, rgba(16,58,90,.36), transparent 62%),
-    radial-gradient(760px 520px at 50% 118%, rgba(240,180,41,.07), transparent 60%),
-    linear-gradient(160deg,#0A2E38 0%,#0A2E3E 52%,#0B2A48 100%);background-attachment:fixed;min-height:100vh;line-height:1.6;-webkit-font-smoothing:antialiased;}
+    radial-gradient(1000px 560px at 100% -10%, rgba(30,147,163,.06), transparent 60%),
+    radial-gradient(900px 520px at -10% 108%, rgba(30,147,163,.05), transparent 62%),
+    #FFFFFF;min-height:100vh;line-height:1.6;-webkit-font-smoothing:antialiased;}
   h1,h2,h3,h4{font-family:var(--fhead);font-weight:700;line-height:1.15;letter-spacing:-.02em;color:var(--head);}
   a{color:inherit;text-decoration:none;} button{font-family:var(--fbody);cursor:pointer;border:none;}
   .wrap{max-width:1080px;margin:0 auto;padding:0 22px;}
@@ -250,6 +249,34 @@
   .ov .bar i,.stepbar i,.xpstrip .xb i{box-shadow:0 0 10px rgba(31,200,192,.55);}
   .gauge .big,.ring .rc b,.hero .badges b,.tier .price,.ov .pc,.deckstep,.stepn{font-weight:800;}
   .cert .who{font-weight:700;}
+
+  /* ================= LIGHT THEME ================= */
+  .topbar{background:rgba(255,255,255,.92);border-bottom:1px solid var(--stone);}
+  .ov .bar,.stepbar,.xpstrip .xb{background:rgba(18,58,62,.10);}
+  .btn-gold,.tbtn.pro,.pbtn.gold{background:linear-gradient(135deg,#25B7B0,#0E7C86);color:#fff;box-shadow:0 10px 24px rgba(18,124,134,.28);}
+  .btn-ghost{background:transparent;color:#0E7C86;border:1.5px solid #A6CFCF;}
+  .gauge{box-shadow:0 10px 26px rgba(18,58,62,.08);}
+  .slidebox{background:#FFFFFF;box-shadow:0 12px 34px rgba(18,58,62,.12);}
+  .qwhy{background:#EEF6F5;color:var(--muted);} .qwhy b{color:var(--head);}
+  .passban{background:#E4F5EE;border:1px solid #BEE6D3;color:#12603F;}
+  .reviewban{background:#FBE7E7;border:1px solid #EEC9C9;color:#9A3229;} .reviewban b{color:#6E2019;}
+  .note.safe{background:#FBF3DE;border-color:#EBD9A6;color:#6E5310;} .note.safe b{color:#8A6410;}
+  .note.tip{background:#E4F5EE;border-color:#BEE6D3;color:#186B4A;} .note.tip b{color:#0F5537;}
+  .note.evidence{background:#E8EFF9;border-color:#C7D7EE;color:#2C4A72;} .note.evidence b{color:#1D3559;}
+  .obj{background:#FBF4E0;border:1px solid #ECDCA9;}
+  .block.tips{background:#E4F5EE;border:1px solid #BEE6D3;} .block.tips .bl{color:#186B4A;}
+  .block.mist{background:#FBE7E7;border:1px solid #EEC9C9;} .block.mist .bl{color:#A6382F;}
+  .cswitch .cpill.on{border-color:var(--teal);background:rgba(30,147,163,.12);}
+  .chip{background:#E8F3F2;border:1px solid #C6E0DD;color:#12655C;}
+  .mask input{background:#F4FAFA;color:var(--ink);}
+  .tier.pop{border-color:var(--teal);box-shadow:0 14px 34px rgba(18,124,134,.16);}
+  .toggle button.on{background:var(--teal);}
+  .btn-dark,.pbtn.dark{background:#0E7C86;color:#fff;}
+  /* dark feature panels keep light inner text */
+  .mapcard .maphead h2{color:#F4EEDD;} .mapcard .mh{color:#B4D0CB;}
+  .mapcard .mapeyebrow{color:#F1C862;} .mapcard .mapeyebrow::before{background:linear-gradient(90deg,#F1C862,transparent);}
+  .mapcard .modlbl{color:#EAF1EF;} .mapcard .modlbl .mp{color:#9FB8B2;} .mapcard .nlabel{color:#BAD0CB;}
+  .mapcard .dot:not(.done):not(.cur){color:#CFE3DE;}
 </style>
 </head>
 <body>
@@ -991,7 +1018,7 @@ function render(){
 function syncBar(){var p=Math.round(overallFraction()*100);el("ovBar").style.width=p+"%";el("ovPct").textContent=p+"%";}
 
 /* ============ Ring helper ============ */
-function ring(p,size,stroke,txt,sub,track,prog){var r=(size-stroke)/2;var c=2*Math.PI*r;var off=c*(1-p/100);track=track||"rgba(255,255,255,.14)";prog=prog||"#D8B24C";return '<div class="ring" style="width:'+size+'px;height:'+size+'px"><svg width="'+size+'" height="'+size+'"><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="'+track+'" stroke-width="'+stroke+'"/><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="'+prog+'" stroke-width="'+stroke+'" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+off+'"/></svg><div class="rc"><b style="font-size:'+txt+'">'+p+'%</b>'+(sub?'<s>'+sub+'</s>':'')+'</div></div>';}
+function ring(p,size,stroke,txt,sub,track,prog){var r=(size-stroke)/2;var c=2*Math.PI*r;var off=c*(1-p/100);track=track||"rgba(18,58,62,.12)";prog=prog||"#1E93A3";return '<div class="ring" style="width:'+size+'px;height:'+size+'px"><svg width="'+size+'" height="'+size+'"><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="'+track+'" stroke-width="'+stroke+'"/><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="'+prog+'" stroke-width="'+stroke+'" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+off+'"/></svg><div class="rc"><b style="font-size:'+txt+'">'+p+'%</b>'+(sub?'<s>'+sub+'</s>':'')+'</div></div>';}
 
 /* ============ HOME ============ */
 function vHome(){
