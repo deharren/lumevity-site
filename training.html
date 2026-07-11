@@ -293,6 +293,19 @@
   .mapcard .node:hover .dot:not(.lock),.mapcard .dot:not(.lock):hover{transform:translateY(-3px) scale(1.07);border-color:rgba(255,210,64,.9);box-shadow:0 0 24px rgba(245,197,24,.6),0 8px 18px rgba(0,0,0,.4);}
   .mapcard .flag:hover{transform:translateY(-3px) scale(1.05);border-color:rgba(255,210,64,.9);box-shadow:0 0 26px rgba(245,197,24,.55),0 8px 18px rgba(0,0,0,.4);cursor:pointer;}
   .mapcard .node:hover .nlabel,.mapcard .node:hover .modlbl,.mapcard .mod:hover .modlbl,.mapcard .flag:hover + .modlbl{color:#FFDD7A;text-shadow:0 0 10px rgba(245,197,24,.5);}
+  /* ---- SWIPE AFFORDANCES ---- */
+  .mapcard .mhwrap{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+  .mapcard .swipetag{font-size:.58rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#122A33;background:linear-gradient(135deg,#FFE58A,#F5C518);border:1px solid rgba(245,197,24,.5);padding:4px 10px;border-radius:20px;white-space:nowrap;box-shadow:0 0 14px rgba(245,197,24,.35);transition:opacity .4s;}
+  .mapcard .swipetag span{display:inline-block;animation:swipeArrow 1.3s ease-in-out infinite;}
+  @keyframes swipeArrow{0%,100%{transform:translateX(0);}50%{transform:translateX(4px);}}
+  .mapcard .mapfade{position:absolute;top:64px;bottom:44px;right:0;width:88px;pointer-events:none;z-index:4;background:linear-gradient(90deg,transparent,rgba(9,36,44,.55) 55%,rgba(9,36,44,.92));transition:opacity .35s;}
+  .mapcard .swipehint{position:absolute;top:52%;right:12px;z-index:5;pointer-events:none;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#FFE58A,#F5C518);border:1px solid rgba(255,255,255,.35);box-shadow:0 0 18px rgba(245,197,24,.6),0 6px 14px rgba(0,0,0,.35);animation:swipeBounce 1.4s ease-in-out infinite;transition:opacity .35s;}
+  @keyframes swipeBounce{0%,100%{transform:translate(0,-50%);}50%{transform:translate(8px,-50%);}}
+  .mapcard.atend .mapfade,.mapcard.atend .swipehint,.mapcard.atend .swipetag{opacity:0;}
+  .mapdots{display:flex;justify-content:center;gap:7px;margin:6px 0 2px;position:relative;z-index:3;min-height:9px;}
+  .mapdots .md{width:8px;height:8px;border-radius:50%;background:rgba(180,220,215,.28);transition:.25s;cursor:pointer;}
+  .mapdots .md:hover{background:rgba(245,197,24,.6);}
+  .mapdots .md.on{background:#FFD24A;box-shadow:0 0 10px rgba(245,197,24,.75);width:22px;border-radius:5px;}
 </style>
 </head>
 <body>
@@ -1029,7 +1042,33 @@ function render(){
   syncBar();
   if(S.view==="lesson")wireLesson();
   if(S.view==="exam")wireExam();
+  if(S.view==="home")requestAnimationFrame(initMapSwipe);
   mascotContext();
+}
+function initMapSwipe(){
+  var mc=document.querySelector('.mapcard'); if(!mc)return;
+  var track=mc.querySelector('.track'); var dotsWrap=mc.querySelector('#mapdots'); if(!track)return;
+  function maxScroll(){return track.scrollWidth-track.clientWidth;}
+  function upd(){
+    var mx=maxScroll(); if(mx<=0)return;
+    var frac=track.scrollLeft/mx;
+    if(dotsWrap&&dotsWrap._n){var ai=Math.round(frac*(dotsWrap._n-1));[].forEach.call(dotsWrap.children,function(el,i){el.classList.toggle('on',i===ai);});}
+    mc.classList.toggle('atend',track.scrollLeft>=mx-4);
+  }
+  function buildDots(){
+    var mx=maxScroll();
+    if(!dotsWrap)return;
+    if(mx<=8){dotsWrap.innerHTML='';mc.classList.add('atend');mc.classList.add('scrolled');return;}
+    var n=Math.min(8,Math.max(2,Math.ceil(track.scrollWidth/track.clientWidth)));
+    dotsWrap._n=n;var html='';for(var i=0;i<n;i++){html+='<div class="md" data-i="'+i+'"></div>';}
+    dotsWrap.innerHTML=html;
+    [].forEach.call(dotsWrap.querySelectorAll('.md'),function(el){el.addEventListener('click',function(){var i=+el.getAttribute('data-i');track.scrollTo({left:maxScroll()*(i/(n-1)),behavior:'smooth'});});});
+    upd();
+  }
+  if(!track._swipeHooked){track._swipeHooked=1;track.addEventListener('scroll',function(){mc.classList.add('scrolled');upd();},{passive:true});}
+  buildDots();
+  if(!window._mapResizeHooked){window._mapResizeHooked=1;window.addEventListener('resize',function(){if(S.view==="home")initMapSwipe();});}
+  if(!window._mapNudged){window._mapNudged=1;var mx=maxScroll();if(mx>24){setTimeout(function(){track.scrollTo({left:Math.min(150,mx),behavior:'smooth'});setTimeout(function(){track.scrollTo({left:0,behavior:'smooth'});},760);},650);}}
 }
 function syncBar(){var p=Math.round(overallFraction()*100);el("ovBar").style.width=p+"%";el("ovPct").textContent=p+"%";}
 
@@ -1063,7 +1102,7 @@ function vHome(){
   h+='<div class="cswitch">'+COURSE_IDS.map(function(c){var cd=courseDone(c);return '<div class="cpill '+(S.course===c?'on':'')+'" onclick="selCourse(\''+c+'\')"><span class="ci">'+svgMini(COURSES[c].mini)+'</span><span>'+COURSES[c].name+'</span><span class="pct">'+cd.p+'%</span></div>';}).join('')+'</div>';
   // journey map
   var _pc='';var _cols=['rgba(34,195,214,.75)','rgba(150,240,232,.7)','rgba(20,201,198,.4)'];for(var _i=0;_i<9;_i++){_pc+='<i class="mpar" style="left:'+(6+_i*10)+'%;top:'+(20+((_i*37)%75))+'%;width:'+(3+_i%3)+'px;height:'+(3+_i%3)+'px;background:'+_cols[_i%3]+';--d:'+(5+_i%4)+'s"></i>';}
-  h+='<div class="mapcard">'+_pc+'<div class="maphead"><div><div class="mapeyebrow">Your learning journey</div><h2>'+COURSES[S.course].name+'</h2></div><div class="mh">'+COURSES[S.course].modules.length+' modules · ~'+COURSES[S.course].hrs+' hrs</div></div>'+journeyMap(S.course)+'</div>';
+  h+='<div class="mapcard">'+_pc+'<div class="maphead"><div><div class="mapeyebrow">Your learning journey</div><h2>'+COURSES[S.course].name+'</h2></div><div class="mhwrap"><div class="mh">'+COURSES[S.course].modules.length+' modules · ~'+COURSES[S.course].hrs+' hrs</div><div class="swipetag">Swipe to explore <span>→</span></div></div></div>'+journeyMap(S.course)+'<div class="mapdots" id="mapdots"></div><div class="mapfade"></div><div class="swipehint"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#122A33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></div></div>';
   return h;
 }
 function selCourse(c){S.course=c;render();var t=document.querySelector('.track');if(t){var cur=t.querySelector('.dot.cur')||t.querySelector('.finish');}}
