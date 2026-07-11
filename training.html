@@ -277,6 +277,22 @@
   .mapcard .mapeyebrow{color:#33E3DC;} .mapcard .mapeyebrow::before{background:linear-gradient(90deg,#33E3DC,transparent);}
   .mapcard .modlbl{color:#EAF1EF;} .mapcard .modlbl .mp{color:#9FB8B2;} .mapcard .nlabel{color:#BAD0CB;}
   .mapcard .dot:not(.done):not(.cur){color:#CFE3DE;}
+  /* ---- MAP GOLD HIGHLIGHTS (logo accent) ---- */
+  .mapcard .dot{position:relative;}
+  .mapcard .dot,.mapcard .flag{transition:transform .18s cubic-bezier(.2,.8,.3,1.2),box-shadow .25s ease,border-color .25s ease;}
+  .mapcard .asphalt::before{content:"";position:absolute;top:3px;left:0;right:0;height:6px;border-radius:20px;pointer-events:none;
+    background:linear-gradient(90deg,transparent 0,rgba(245,197,24,0) 44%,rgba(255,214,74,.92) 50%,rgba(245,197,24,0) 56%,transparent 100%);
+    background-size:240px 100%;background-repeat:no-repeat;filter:blur(1px) drop-shadow(0 0 7px rgba(245,197,24,.75));
+    animation:goldFlow 3.8s linear infinite;}
+  @keyframes goldFlow{0%{background-position:-280px 0;}100%{background-position:calc(100% + 280px) 0;}}
+  .mapcard .traveled::after{content:"";position:absolute;right:-3px;top:50%;transform:translateY(-50%);width:13px;height:13px;border-radius:50%;
+    background:radial-gradient(circle at 40% 35%,#FFE58A,#EDA31C);box-shadow:0 0 14px rgba(245,197,24,.9),0 0 4px rgba(255,229,138,.9);animation:goldBead 2s ease-in-out infinite;}
+  @keyframes goldBead{0%,100%{box-shadow:0 0 12px rgba(245,197,24,.75),0 0 4px rgba(255,229,138,.8);}50%{box-shadow:0 0 20px rgba(245,197,24,1),0 0 8px rgba(255,229,138,1);}}
+  .mapcard .dot.cur::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(245,197,24,.78);pointer-events:none;animation:goldRing 2.6s ease-out infinite;}
+  @keyframes goldRing{0%{transform:scale(.85);opacity:.95;}70%{transform:scale(1.6);opacity:0;}100%{opacity:0;}}
+  .mapcard .node:hover .dot:not(.lock),.mapcard .dot:not(.lock):hover{transform:translateY(-3px) scale(1.07);border-color:rgba(255,210,64,.9);box-shadow:0 0 24px rgba(245,197,24,.6),0 8px 18px rgba(0,0,0,.4);}
+  .mapcard .flag:hover{transform:translateY(-3px) scale(1.05);border-color:rgba(255,210,64,.9);box-shadow:0 0 26px rgba(245,197,24,.55),0 8px 18px rgba(0,0,0,.4);cursor:pointer;}
+  .mapcard .node:hover .nlabel,.mapcard .node:hover .modlbl,.mapcard .mod:hover .modlbl,.mapcard .flag:hover + .modlbl{color:#FFDD7A;text-shadow:0 0 10px rgba(245,197,24,.5);}
 </style>
 </head>
 <body>
