@@ -309,6 +309,16 @@
   .mapdots .md{width:8px;height:8px;border-radius:50%;background:rgba(180,220,215,.28);transition:.25s;cursor:pointer;}
   .mapdots .md:hover{background:rgba(245,197,24,.6);}
   .mapdots .md.on{background:#FFD24A;box-shadow:0 0 10px rgba(245,197,24,.75);width:22px;border-radius:5px;}
+  /* ---- NODE SUMMARY POPOVER ---- */
+  .maptip{position:fixed;z-index:9999;max-width:252px;min-width:174px;background:#ffffff;color:#153A3E;border:1px solid rgba(245,197,24,.55);border-radius:14px;padding:11px 13px;box-shadow:0 20px 46px rgba(0,0,0,.42);opacity:0;transform:translateY(6px) scale(.97);pointer-events:none;transition:opacity .16s ease,transform .16s ease;font-family:var(--fbody);}
+  .maptip.show{opacity:1;transform:translateY(0) scale(1);}
+  .maptip .tt-t{font-family:var(--fhead);font-weight:800;font-size:.92rem;color:#0C3B44;margin-bottom:3px;line-height:1.2;}
+  .maptip .tt-s{font-size:.76rem;line-height:1.42;color:#4a6763;}
+  .maptip .tt-st{margin-top:8px;font-size:.6rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#9A7B00;display:inline-block;background:rgba(245,197,24,.16);padding:3px 9px;border-radius:20px;}
+  .maptip .tt-st.done{color:#0E8A93;background:rgba(14,138,147,.14);}
+  .maptip .tt-st.lock{color:#7d8ba0;background:rgba(125,139,160,.14);}
+  .maptip::after{content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%) rotate(45deg);width:12px;height:12px;background:#fff;border-right:1px solid rgba(245,197,24,.55);border-bottom:1px solid rgba(245,197,24,.55);}
+  .maptip.below::after{bottom:auto;top:-6px;border:none;border-left:1px solid rgba(245,197,24,.55);border-top:1px solid rgba(245,197,24,.55);}
 </style>
 </head>
 <body>
@@ -1068,7 +1078,24 @@ function initMapSwipe(){
     [].forEach.call(dotsWrap.querySelectorAll('.md'),function(el){el.addEventListener('click',function(){var i=+el.getAttribute('data-i');track.scrollTo({left:maxScroll()*(i/(n-1)),behavior:'smooth'});});});
     upd();
   }
-  if(!track._swipeHooked){track._swipeHooked=1;track.addEventListener('scroll',function(){mc.classList.add('scrolled');upd();},{passive:true});}
+  if(!track._swipeHooked){track._swipeHooked=1;track.addEventListener('scroll',function(){mc.classList.add('scrolled');upd();hideTip();},{passive:true});}
+  var tip=document.getElementById('mapTip');
+  if(!tip){tip=document.createElement('div');tip.id='mapTip';tip.className='maptip';document.body.appendChild(tip);}
+  function showTip(node){ var i=node.getAttribute('data-ti'); if(i==null)return; var o=window._mapTips&&window._mapTips[+i]; if(!o)return;
+    tip.innerHTML='<div class="tt-t">'+o.t+'</div><div class="tt-s">'+o.s+'</div><div class="tt-st '+(o.c||'')+'">'+o.st+'</div>';
+    tip.classList.remove('below'); tip.style.left='0px'; tip.style.top='0px'; tip.classList.add('show');
+    var nr=node.getBoundingClientRect(), tw=tip.offsetWidth, th=tip.offsetHeight;
+    var left=nr.left+nr.width/2-tw/2, top=nr.top-th-12;
+    if(top<8){ top=nr.bottom+12; tip.classList.add('below'); }
+    left=Math.max(8,Math.min(left, window.innerWidth-tw-8));
+    tip.style.left=left+'px'; tip.style.top=top+'px';
+  }
+  function hideTip(){ if(tip)tip.classList.remove('show'); }
+  if(!track._tipHooked){ track._tipHooked=1;
+    track.addEventListener('mouseover',function(e){var n=e.target.closest('[data-ti]');if(n)showTip(n);});
+    track.addEventListener('mouseout',function(e){var n=e.target.closest('[data-ti]');if(n && !n.contains(e.relatedTarget))hideTip();});
+    track.addEventListener('click',function(e){var n=e.target.closest('[data-ti]');if(n){showTip(n);clearTimeout(track._tipT);track._tipT=setTimeout(hideTip,2800);}});
+  }
   buildDots();
   if(!window._mapResizeHooked){window._mapResizeHooked=1;window.addEventListener('resize',function(){if(S.view==="home")initMapSwipe();});}
   if(!window._mapNudged){window._mapNudged=1;var mx=maxScroll();if(mx>24){setTimeout(function(){track.scrollTo({left:Math.min(150,mx),behavior:'smooth'});setTimeout(function(){track.scrollTo({left:0,behavior:'smooth'});},760);},650);}}
@@ -1115,22 +1142,26 @@ function journeyMap(c){
   var mods=COURSES[c].modules, ls=courseLessons(c);
   var doneN=courseDone(c).done, totalN=ls.length;
   var pos=0; // running lesson index for up/down alternation
-  var nodesHTML='<div class="mk"><div class="flag" style="border-color:var(--gold)"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#A9EFEA" stroke-width="1.7"><circle cx="12" cy="12" r="4.4" fill="#A9EFEA" fill-opacity=".3"/><g stroke-linecap="round"><path d="M12 3.4v2.2M12 18.4v2.2M3.4 12h2.2M18.4 12h2.2M6 6l1.5 1.5M16.5 16.5 18 18M18 6l-1.5 1.5M7.5 16.5 6 18"/></g></svg></div><div class="modlbl">START</div></div>';
+  window._mapTips=[];
+  function _ti(o){window._mapTips.push(o);return window._mapTips.length-1;}
+  function _sh(s,n){s=(s||'').replace(/<[^>]+>/g,'');return s.length>n?s.slice(0,n-1).trim()+'…':s;}
+  var _cn=COURSES[c].name;
+  var nodesHTML='<div class="mk" data-ti="'+_ti({t:"Start here",s:"Your "+_cn+" journey begins here — move left to right through each module, complete every lesson, and finish at your certificate.",st:"Begin",c:""})+'"><div class="flag" style="border-color:var(--gold)"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#A9EFEA" stroke-width="1.7"><circle cx="12" cy="12" r="4.4" fill="#A9EFEA" fill-opacity=".3"/><g stroke-linecap="round"><path d="M12 3.4v2.2M12 18.4v2.2M3.4 12h2.2M18.4 12h2.2M6 6l1.5 1.5M16.5 16.5 18 18M18 6l-1.5 1.5M7.5 16.5 6 18"/></g></svg></div><div class="modlbl">START</div></div>';
   mods.forEach(function(m){
     var md=0;m.lessons.forEach(function(i){if(S.done.has(i))md++;});
     var allDone=md===m.lessons.length;
-    nodesHTML+='<div class="mk"><div class="flag '+(allDone?'done':'')+'"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#7FE6F0" stroke-width="1.6"><path d="M12 4C7 6.5 5 11 6 18 13 17 18 12.5 18 6 15 6 13 5 12 4Z"/><path d="M8.5 15.5C10.5 12 13 9.5 16 8.5"/></svg></div><div class="modlbl">'+m.title+'<span class="mp">'+md+'/'+m.lessons.length+' done</span></div></div>';
+    nodesHTML+='<div class="mk" data-ti="'+_ti({t:m.title,s:"Module — covers "+m.lessons.map(function(x){return L[x].title;}).join(", ")+".",st:md+"/"+m.lessons.length+" lessons done",c:(allDone?"done":"")})+'"><div class="flag '+(allDone?'done':'')+'"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#7FE6F0" stroke-width="1.6"><path d="M12 4C7 6.5 5 11 6 18 13 17 18 12.5 18 6 15 6 13 5 12 4Z"/><path d="M8.5 15.5C10.5 12 13 9.5 16 8.5"/></svg></div><div class="modlbl">'+m.title+'<span class="mp">'+md+'/'+m.lessons.length+' done</span></div></div>';
     m.lessons.forEach(function(id){
       var n=pos+1;var up=(pos%2===0);
       var st='lock',click='';
       if(S.done.has(id)){st='done';click='openLesson(\''+id+'\')';}
       else if(lessonUnlocked(c,id)){st='cur';click='openLesson(\''+id+'\')';}
-      nodesHTML+='<div class="node '+(up?'up':'down')+'"><div class="dot '+st+'" '+(click?'onclick="'+click+'"':'')+'>'+(st==='done'?'✓':n)+'</div><div class="nlabel">'+L[id].title+'</div></div>';
+      nodesHTML+='<div class="node '+(up?'up':'down')+'" data-ti="'+_ti({t:L[id].title,s:_sh(L[id].lead||(L[id].objectives&&L[id].objectives[0])||"Open this lesson to learn more.",150),st:(st==="done"?"Completed":st==="cur"?"Ready — tap to start":"Locked"),c:(st==="done"?"done":st==="lock"?"lock":"")})+'"><div class="dot '+st+'" '+(click?'onclick="'+click+'"':'')+'>'+(st==='done'?'✓':n)+'</div><div class="nlabel">'+L[id].title+'</div></div>';
       pos++;
     });
   });
   var examDone=S.exams[c]&&S.exams[c].passed;
-  nodesHTML+='<div class="mk"><div class="finish '+(doneN===totalN?'on':'')+'" '+(doneN===totalN?'onclick="go(\'exam\',\''+c+'\')"':'')+' style="cursor:'+(doneN===totalN?'pointer':'default')+'"><svg class="seal" viewBox="0 0 64 80" fill="none"><defs><radialGradient id="sealF" cx="50%" cy="42%" r="62%"><stop offset="0" stop-color="#FFE9A6"/><stop offset=".55" stop-color="#F5C518"/><stop offset="1" stop-color="#C79008"/></radialGradient></defs><path d="M29 44 L22 78 L27.5 71 L31 79 L34 50 Z" fill="#0B6E76"/><path d="M35 44 L42 78 L36.5 71 L33 79 L30 50 Z" fill="#12A0AE"/><circle cx="32" cy="29" r="22" fill="none" stroke="#C79008" stroke-width="6" stroke-dasharray="2 4.4" stroke-linecap="round"/><circle cx="32" cy="29" r="20" fill="url(#sealF)" stroke="#B07E0E" stroke-width="1"/><circle cx="32" cy="29" r="16.5" fill="none" stroke="#fff6d6" stroke-width="1.1" opacity=".65"/><path d="M32 20 L45 25.5 L32 31 L19 25.5 Z" fill="#173A3E"/><path d="M24.5 28 L24.5 33.5 Q32 37.6 39.5 33.5 L39.5 28 L32 31 Z" fill="#0E5A66"/><path d="M45 25.5 L45 33.4" stroke="#173A3E" stroke-width="1.4" stroke-linecap="round"/><circle cx="45" cy="35" r="1.9" fill="#173A3E"/></svg></div><div class="modlbl">'+(examDone?'CERTIFIED ✓':'FINAL EXAM')+'</div></div>';
+  nodesHTML+='<div class="mk" data-ti="'+_ti({t:"Final exam & certificate",s:"Complete every lesson, then pass the final exam (80%) to earn your verifiable "+_cn+" certificate.",st:(examDone?"Certified":"Certification"),c:(examDone?"done":"")})+'"><div class="finish '+(doneN===totalN?'on':'')+'" '+(doneN===totalN?'onclick="go(\'exam\',\''+c+'\')"':'')+' style="cursor:'+(doneN===totalN?'pointer':'default')+'"><svg class="seal" viewBox="0 0 64 80" fill="none"><defs><radialGradient id="sealF" cx="50%" cy="42%" r="62%"><stop offset="0" stop-color="#FFE9A6"/><stop offset=".55" stop-color="#F5C518"/><stop offset="1" stop-color="#C79008"/></radialGradient></defs><path d="M29 44 L22 78 L27.5 71 L31 79 L34 50 Z" fill="#0B6E76"/><path d="M35 44 L42 78 L36.5 71 L33 79 L30 50 Z" fill="#12A0AE"/><circle cx="32" cy="29" r="22" fill="none" stroke="#C79008" stroke-width="6" stroke-dasharray="2 4.4" stroke-linecap="round"/><circle cx="32" cy="29" r="20" fill="url(#sealF)" stroke="#B07E0E" stroke-width="1"/><circle cx="32" cy="29" r="16.5" fill="none" stroke="#fff6d6" stroke-width="1.1" opacity=".65"/><path d="M32 20 L45 25.5 L32 31 L19 25.5 Z" fill="#173A3E"/><path d="M24.5 28 L24.5 33.5 Q32 37.6 39.5 33.5 L39.5 28 L32 31 Z" fill="#0E5A66"/><path d="M45 25.5 L45 33.4" stroke="#173A3E" stroke-width="1.4" stroke-linecap="round"/><circle cx="45" cy="35" r="1.9" fill="#173A3E"/></svg></div><div class="modlbl">'+(examDone?'CERTIFIED ✓':'FINAL EXAM')+'</div></div>';
   var travel=Math.round(doneN/totalN*100);
   return '<div class="track" id="track"><div class="road"><div class="asphalt"></div><div class="traveled" style="width:calc('+travel+'% )"></div>'+nodesHTML+'</div></div>';
 }
