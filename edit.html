@@ -233,11 +233,11 @@ function tabTo(i){ if(i===state.cur)return; openCourse(i); }
 
 function renderOutline(){
   var d=state.doc;
-  var h='<div class="oh"><div class="ct">'+esc(d.title||'Course')+'</div></div>';
+  var h='<div class="oh"><div class="ct">'+esc(d.title||'Course')+'</div><button class="btn sm" onclick="addModule()">+ Section</button></div>';
   d.modules.forEach(function(m,mi){
     m._mid=mi;
     h+='<div class="mod" data-mid="'+mi+'"><div class="mh"><span class="grip mgrip">⋮⋮</span>'
-      +'<input value="'+esc(m.title||'')+'" oninput="setModTitle('+mi+',this.value)" placeholder="Module title"/>'
+      +'<input value="'+esc(m.title||'')+'" oninput="setModTitle('+mi+',this.value)" placeholder="Section title"/>'
       +'<button class="del" title="Delete module" onclick="delModule('+mi+')">🗑</button></div>'
       +'<div class="les-list" data-mid="'+mi+'">';
     (m.lessons||[]).forEach(function(l,li){
@@ -249,7 +249,7 @@ function renderOutline(){
     });
     h+='</div><div style="padding:0 6px 8px"><button class="addbtn" onclick="addLesson('+mi+')">+ Add lesson</button></div></div>';
   });
-  h+='<button class="addbtn" onclick="addModule()">+ Add module</button>';
+  h+='<button class="addbtn" onclick="addModule()">+ Add section</button>';
   document.getElementById('outline').innerHTML=h;
 }
 
@@ -278,8 +278,8 @@ function syncFromDom(){
 }
 
 function setModTitle(mi,v){ state.doc.modules[mi].title=v; scheduleSave(); }
-function addModule(){ state.doc.modules.push({title:'New module',lessons:[]}); renderOutline(); wireSortables(); scheduleSave(); }
-function delModule(mi){ if(!confirm('Delete this module and its lessons?'))return; state.doc.modules.splice(mi,1); state.sel=null; renderOutline(); wireSortables(); document.getElementById('panel').innerHTML='<p style="color:var(--muted)">Select a lesson to edit it.</p>'; scheduleSave(); }
+function addModule(){ state.doc.modules.push({title:'New section',lessons:[]}); renderOutline(); wireSortables(); scheduleSave(); }
+function delModule(mi){ if(!confirm('Delete this section and its lessons?'))return; state.doc.modules.splice(mi,1); state.sel=null; renderOutline(); wireSortables(); document.getElementById('panel').innerHTML='<p style="color:var(--muted)">Select a lesson to edit it.</p>'; scheduleSave(); }
 function addLesson(mi){ var id='l_'+Math.random().toString(36).slice(2,9); state.doc.modules[mi].lessons.push({id:id,title:'New lesson',lead:'',sections:[],quiz:[]}); renderOutline(); wireSortables(); selectLesson(mi,state.doc.modules[mi].lessons.length-1); scheduleSave(); }
 function delLesson(mi,li){ if(!confirm('Delete this lesson?'))return; state.doc.modules[mi].lessons.splice(li,1); state.sel=null; renderOutline(); wireSortables(); document.getElementById('panel').innerHTML='<p style="color:var(--muted)">Select a lesson to edit it.</p>'; scheduleSave(); }
 function selectLesson(mi,li){ state.sel={mi:mi,li:li}; renderOutline(); wireSortables(); renderLessonPanel(); }
