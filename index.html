@@ -48,7 +48,7 @@
   header.nav{position:sticky;top:0;z-index:50;background:rgba(9,42,50,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(120,235,228,.15);}
   .nav-inner{display:flex;align-items:center;justify-content:space-between;height:74px;}
   .brand{display:flex;align-items:center;gap:12px;color:#202A30;}
-  .brand .logo{width:34px;height:34px;flex:none;}
+  .brand .logo{width:34px;height:auto;object-fit:contain;flex:none;}
   .brand .name{font-family:var(--serif);font-size:1.5rem;font-weight:600;}
   .brand .name b{color:#E3A21B;font-weight:600;}
   nav.links{display:flex;align-items:center;gap:30px;}
@@ -329,7 +329,7 @@
 <header class="nav">
   <div class="wrap nav-inner">
     <a class="brand" href="#top">
-      <svg class="logo" viewBox="0 0 64 78" aria-hidden="true"><defs><linearGradient id="loNavG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFDA57"/><stop offset="1" stop-color="#EDA31C"/></linearGradient><linearGradient id="loNavT" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2CA0B2"/><stop offset="1" stop-color="#135F70"/></linearGradient></defs><path d="M32 8 C34 20 47 33 47 45 A15 15 0 0 1 17 45 C17 33 30 20 32 8 Z" fill="url(#loNavG)"/><path d="M32 23 C33 30 41 38 41 46 A9 9 0 0 1 23 46 C23 38 31 30 32 23 Z" fill="#FFFFFF"/><path d="M13 33 C12 51 21 62 32 66 C26 57 25 49 28 44 C22 46 16 44 13 33 Z" fill="url(#loNavT)"/><path d="M51 33 C52 51 43 62 32 66 C38 57 39 49 36 44 C42 46 48 44 51 33 Z" fill="url(#loNavT)"/><circle cx="32" cy="49" r="6" fill="url(#loNavG)"/></svg>
+      <img class="logo" src="/lumevity-logo.png" alt="Lumevity" />
       <span class="name">Lume<b>vity</b></span>
     </a>
     <nav class="links">

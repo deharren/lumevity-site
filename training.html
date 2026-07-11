@@ -41,7 +41,7 @@
   .topbar{position:sticky;top:0;z-index:50;background:rgba(9,42,38,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--stone);}
   .topbar .in{max-width:1080px;margin:0 auto;padding:10px 22px;display:flex;align-items:center;gap:16px;}
   .brand{display:flex;align-items:center;gap:10px;cursor:pointer;}
-  .brand .logo{width:30px;height:36px;filter:drop-shadow(0 0 0 rgba(20,201,198,0));animation:logoIn .9s cubic-bezier(.2,.8,.3,1.3);}
+  .brand .logo{width:34px;height:auto;object-fit:contain;filter:drop-shadow(0 0 0 rgba(20,201,198,0));animation:logoIn .9s cubic-bezier(.2,.8,.3,1.3);}
   .brand .logo.glow{animation:logoGlow 3.4s ease-in-out infinite;}
   .brand .nm{font-family:var(--fhead);font-size:1.3rem;font-weight:600;}
   .brand .nm b{color:#E3A21B;}
@@ -68,7 +68,7 @@
   .hero .badges{margin-top:14px;display:flex;gap:18px;flex-wrap:wrap;}
   .hero .badges b{font-family:var(--fdisp);color:var(--head);font-size:1.15rem;}
   .hero .badges span{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;}
-  .shield{width:120px;height:144px;}
+  .shield{width:140px;height:auto;object-fit:contain;}
   @media(max-width:720px){ .hero{grid-template-columns:1fr;} .shield{display:none;} .hero h1{font-size:1.9rem;} }
 
   /* ===== Gauge cluster ===== */
@@ -283,7 +283,7 @@
 <div class="ribbon">Educational training · Practice hands-on skills <b>only under qualified supervision</b> within your scope of practice.</div>
 <div class="topbar"><div class="in">
   <div class="brand" onclick="go('home')">
-    <svg class="logo glow" viewBox="0 0 64 78"><defs><linearGradient id="loGA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFDA57"/><stop offset="1" stop-color="#EDA31C"/></linearGradient><linearGradient id="loTA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2CA0B2"/><stop offset="1" stop-color="#135F70"/></linearGradient></defs><path d="M32 8 C34 20 47 33 47 45 A15 15 0 0 1 17 45 C17 33 30 20 32 8 Z" fill="url(#loGA)"/><path d="M32 23 C33 30 41 38 41 46 A9 9 0 0 1 23 46 C23 38 31 30 32 23 Z" fill="#FFFFFF"/><path d="M13 33 C12 51 21 62 32 66 C26 57 25 49 28 44 C22 46 16 44 13 33 Z" fill="url(#loTA)"/><path d="M51 33 C52 51 43 62 32 66 C38 57 39 49 36 44 C42 46 48 44 51 33 Z" fill="url(#loTA)"/><circle cx="32" cy="49" r="6" fill="url(#loGA)"/></svg>
+    <img class="logo glow" src="/lumevity-logo.png" alt="Lumevity" />
     <span class="nm">Lume<b>vity</b><small>Academy</small></span>
   </div>
   <div class="ovwrap">
@@ -1034,7 +1034,7 @@ function vHome(){
     +'<p>Structured, evidence-based clinical procedure training for nursing students, new nurses, medical assistants, and healthcare workers — learn, practice, and certify. Built by Lacey Smith, FNP-C.</p>'
     +'<div class="cta"><button class="btn btn-gold" onclick="continueLearning()">'+(doneCount?'Continue learning':'Start learning')+' →</button><button class="btn btn-ghost" onclick="go(\'pricing\')">View plans</button></div>'
     +'<div class="badges"><div><b>'+doneCount+'/'+TOTAL_LESSONS+'</b><span>Lessons done</span></div><div><b>16</b><span>Modules</span></div><div><b>'+ov+'%</b><span>Complete</span></div></div>'
-    +'</div><div><svg class="shield" viewBox="0 0 64 78"><defs><linearGradient id="loGB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFDA57"/><stop offset="1" stop-color="#EDA31C"/></linearGradient><linearGradient id="loTB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2CA0B2"/><stop offset="1" stop-color="#135F70"/></linearGradient></defs><path d="M32 8 C34 20 47 33 47 45 A15 15 0 0 1 17 45 C17 33 30 20 32 8 Z" fill="url(#loGB)"/><path d="M32 23 C33 30 41 38 41 46 A9 9 0 0 1 23 46 C23 38 31 30 32 23 Z" fill="#FFFFFF"/><path d="M13 33 C12 51 21 62 32 66 C26 57 25 49 28 44 C22 46 16 44 13 33 Z" fill="url(#loTB)"/><path d="M51 33 C52 51 43 62 32 66 C38 57 39 49 36 44 C42 46 48 44 51 33 Z" fill="url(#loTB)"/><circle cx="32" cy="49" r="6" fill="url(#loGB)"/></svg></div></div>';
+    +'</div><div><img class="shield" src="/lumevity-logo.png" alt="Lumevity" /></div></div>';
   // gauges
   h+='<div class="cluster">'
     +'<div class="gauge">'+levelRing+'<div><div class="lbl">Clinical rank</div><div class="big">'+rank.n+'</div><div class="sub">'+(nxt?((nxt.x-S.xp)+' XP to '+nxt.n):'Top rank')+'</div></div></div>'
