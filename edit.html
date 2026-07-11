@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="robots" content="noindex,nofollow"/>
+<title>IV Rejuve Academy — Course Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{--teal:#0E8A93;--teal2:#14A3B4;--blue:#1E9FC0;--ink:#1b2a30;--muted:#647079;--line:#dce2e6;--paper:#f4f7f8;--card:#fff;--gold:#E3A21B;--bad:#d8474b;--good:#0E8A93;--r:12px;--sans:'Inter',system-ui,sans-serif;--head:'Plus Jakarta Sans',var(--sans);}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.5;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer}
+input,textarea,select{font-family:inherit;font-size:.9rem;color:var(--ink)}
+.btn{border:none;border-radius:9px;padding:9px 16px;font-weight:700;font-size:.86rem;background:linear-gradient(135deg,var(--teal2),var(--teal));color:#fff;transition:.15s}
+.btn:hover{filter:brightness(1.05)}
+.btn.ghost{background:#fff;color:var(--teal);border:1.5px solid var(--line)}
+.btn.gold{background:linear-gradient(135deg,#F2C14E,var(--gold));color:#3a2e06}
+.btn.sm{padding:5px 10px;font-size:.76rem;border-radius:7px}
+.btn.danger{background:#fff;color:var(--bad);border:1.5px solid #f1c9cb}
+.wrap{max-width:1240px;margin:0 auto;padding:0 18px}
+/* logo */
+.drop{width:30px;height:36px;flex:none}
+/* login */
+.center{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.loginbox{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:34px 30px;max-width:410px;width:100%;text-align:center;box-shadow:0 24px 60px rgba(15,60,70,.12)}
+.loginbox h1{font-family:var(--head);font-size:1.5rem;margin:14px 0 6px}
+.loginbox p{color:var(--muted);font-size:.9rem;margin-bottom:20px}
+.loginbox input{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:12px}
+.loginbox .btn{width:100%;padding:12px}
+.brandrow{display:flex;align-items:center;justify-content:center;gap:10px}
+.brandrow b{font-family:var(--head);font-size:1.35rem}.brandrow b span{color:var(--gold)}
+.note{font-size:.8rem;color:var(--muted);margin-top:14px}
+.msg{font-size:.85rem;margin-top:10px;padding:9px 12px;border-radius:9px}
+.msg.ok{background:rgba(14,138,147,.1);color:var(--teal)}
+.msg.err{background:rgba(216,71,75,.1);color:var(--bad)}
+/* topbar */
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:14px;height:60px}
+.top .bm{display:flex;align-items:center;gap:9px}
+.top .bm b{font-family:var(--head);font-size:1.05rem}.top .bm b span{color:var(--gold)}
+.top .bm small{display:block;font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.spacer{flex:1}
+.savest{font-size:.76rem;color:var(--muted);min-width:78px;text-align:right}
+.savest.saving{color:var(--gold)}.savest.saved{color:var(--teal)}
+.who{font-size:.78rem;color:var(--muted)}
+/* course tabs */
+.ctabs{display:flex;gap:8px;padding:14px 0 0}
+.ctab{padding:8px 14px;border-radius:9px 9px 0 0;background:#e9eef0;color:var(--muted);font-weight:700;font-size:.84rem;border:1px solid transparent;border-bottom:none}
+.ctab.on{background:var(--card);color:var(--ink);border-color:var(--line)}
+/* layout */
+.grid{display:grid;grid-template-columns:320px 1fr;gap:0;background:var(--card);border:1px solid var(--line);border-radius:0 12px 12px 12px;min-height:70vh;overflow:hidden}
+.outline{border-right:1px solid var(--line);padding:16px;overflow-y:auto;max-height:82vh}
+.panel{padding:22px 26px;overflow-y:auto;max-height:82vh}
+.oh{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.oh .ct{font-family:var(--head);font-weight:800;font-size:1.05rem}
+.mod{border:1px solid var(--line);border-radius:10px;margin-bottom:10px;background:#fbfdfd}
+.mod .mh{display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--line)}
+.mod .mh .grip{cursor:grab;color:#b7c2c7;font-size:.9rem}
+.mod .mh input{flex:1;border:none;background:transparent;font-weight:700;font-size:.86rem;padding:3px}
+.mod .mh input:focus{outline:1px solid var(--line);border-radius:5px}
+.mod .les-list{padding:6px;min-height:12px}
+.les{display:flex;align-items:center;gap:7px;padding:7px 9px;border-radius:8px;margin:3px 0;background:#fff;border:1px solid var(--line);font-size:.84rem}
+.les.sel{border-color:var(--teal);box-shadow:0 0 0 2px rgba(14,138,147,.15)}
+.les .grip{cursor:grab;color:#b7c2c7}
+.les .lt{flex:1;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.les .del{color:#c7ccce;font-size:.9rem;padding:0 2px}
+.les .del:hover{color:var(--bad)}
+.addbtn{width:100%;border:1.5px dashed var(--line);background:#fff;color:var(--teal);border-radius:8px;padding:7px;font-weight:700;font-size:.8rem;margin-top:4px}
+/* panel fields */
+.fld{margin-bottom:16px}
+.fld label{display:block;font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.fld input.t,.fld textarea{width:100%;border:1.5px solid var(--line);border-radius:9px;padding:9px 11px}
+.fld textarea{resize:vertical;min-height:64px;line-height:1.5}
+.hint{font-size:.72rem;color:var(--muted);margin-top:3px}
+.sec{border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px;background:#fbfdfd}
+.sec .sgrip{cursor:grab;color:#b7c2c7;float:right}
+.q{border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px;background:#fbfdfd}
+.opt{display:flex;align-items:center;gap:8px;margin:5px 0}
+.opt input.o{flex:1;border:1.5px solid var(--line);border-radius:8px;padding:7px 9px}
+.opt .rm{color:#c7ccce;padding:0 3px}.opt .rm:hover{color:var(--bad)}
+.subttl{font-family:var(--head);font-weight:800;font-size:1.02rem;margin:22px 0 10px;padding-top:14px;border-top:1px solid var(--line)}
+.vidprev{margin-top:8px;border-radius:9px;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/9;max-width:360px;background:#000}
+.vidprev iframe{width:100%;height:100%;border:0;display:block}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 18px;border-radius:10px;font-size:.85rem;z-index:60;opacity:0;transition:.25s;pointer-events:none}
+.toast.show{opacity:1}
+.modal{position:fixed;inset:0;background:rgba(10,20,24,.5);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.modal.show{display:flex}
+.modal .box{background:#fff;border-radius:14px;max-width:520px;width:100%;padding:22px;max-height:80vh;overflow:auto}
+.revrow{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:.84rem}
+.pfield{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:820px){.grid{grid-template-columns:1fr}.outline{border-right:none;border-bottom:1px solid var(--line);max-height:none}.pfield{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="app"><div class="center"><div class="loginbox"><p>Loading…</p></div></div></div>
+
+<div class="toast" id="toast"></div>
+<div class="modal" id="modal"><div class="box" id="modalBox"></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+<script>
+var SB_URL="https://dnjvsfwdrffzawrlrrma.supabase.co";
+var SB_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRuanZzZndkcmZmemF3cmxycm1hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5MDgxMTgsImV4cCI6MjA5ODQ4NDExOH0.6coWHPrl5IHGWex_W0Q29NU5E3hA-lyfswxPCxtbThs";
+var LOGO='<svg class="drop" viewBox="0 0 64 78" fill="none"><defs><linearGradient id="dl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#63D3E8"/><stop offset=".5" stop-color="#1E9FC0"/><stop offset="1" stop-color="#0E6486"/></linearGradient></defs><path d="M32 5C32 5 51 30 51 47A19 19 0 0 1 13 47C13 30 32 5 32 5Z" fill="url(#dl)"/><path d="M40 22C45 30 46 40 42 48" stroke="#BEEFF8" stroke-width="2.4" stroke-linecap="round" opacity=".7"/><path d="M24 33C20.5 39.5 21 47 26 52C22.5 46 24.5 38.5 29 34.5C27.5 33.4 25.5 33 24 33Z" fill="#fff" opacity=".5"/></svg>';
+var app=document.getElementById('app');
+var sb = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SB_URL, SB_ANON) : null;
+var state={user:null,org:null,courses:[],cur:0,doc:null,sel:null,dirty:false,saveT:null};
+
+function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function clone(o){return JSON.parse(JSON.stringify(o||{}));}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},2200);}
+function openModal(h){document.getElementById('modalBox').innerHTML=h;document.getElementById('modal').classList.add('show');}
+function closeModal(){document.getElementById('modal').classList.remove('show');}
+document.getElementById('modal').addEventListener('click',function(e){if(e.target.id==='modal')closeModal();});
+
+/* ---------- boot / auth ---------- */
+async function boot(){
+  if(!sb){ app.innerHTML='<div class="center"><div class="loginbox"><h1>Editor unavailable</h1><p>Could not load the editor libraries. Check your connection and refresh.</p></div></div>'; return; }
+  var s=(await sb.auth.getSession()).data.session;
+  if(!s){ renderLogin(); return; }
+  state.user=s.user; checkAccess();
+}
+sb && sb.auth.onAuthStateChange(function(_e,s){ if(s&&(!state.user||state.user.id!==s.user.id)){ state.user=s.user; checkAccess(); } });
+
+function renderLogin(msg){
+  app.innerHTML='<div class="center"><div class="loginbox">'
+    +'<div class="brandrow">'+LOGO+'<b>IV <span>Rejuve</span></b></div>'
+    +'<h1>Course Editor</h1><p>Sign in to edit your curriculum. We\'ll email you a secure login link — no password needed.</p>'
+    +'<input id="em" type="email" placeholder="you@email.com" autocomplete="email"/>'
+    +'<button class="btn" id="send">Email me a login link</button>'
+    +'<div id="lmsg"></div><div class="note">Access is limited to invited editors.</div>'
+    +'</div></div>';
+  document.getElementById('send').onclick=sendLink;
+  document.getElementById('em').addEventListener('keydown',function(e){if(e.key==='Enter')sendLink();});
+  if(msg)document.getElementById('lmsg').innerHTML='<div class="msg err">'+esc(msg)+'</div>';
+}
+async function sendLink(){
+  var em=document.getElementById('em').value.trim();
+  var lm=document.getElementById('lmsg');
+  if(!/.+@.+\..+/.test(em)){ lm.innerHTML='<div class="msg err">Enter a valid email.</div>'; return; }
+  document.getElementById('send').disabled=true;
+  var {error}=await sb.auth.signInWithOtp({email:em, options:{emailRedirectTo:location.origin+location.pathname}});
+  document.getElementById('send').disabled=false;
+  lm.innerHTML = error ? '<div class="msg err">'+esc(error.message)+'</div>'
+    : '<div class="msg ok">Check your email — click the link to sign in. You can close this tab.</div>';
+}
+async function signOut(){ await sb.auth.signOut(); state.user=null; renderLogin(); }
+
+async function checkAccess(){
+  app.innerHTML='<div class="center"><div class="loginbox"><p>Checking access…</p></div></div>';
+  var {data,error}=await sb.from('editors').select('org_id,role');
+  if(error){ renderNoAuth('Could not verify access: '+error.message); return; }
+  if(!data||!data.length){ renderNoAuth(); return; }
+  state.org=data[0].org_id;
+  loadCourses();
+}
+function renderNoAuth(m){
+  app.innerHTML='<div class="center"><div class="loginbox">'
+    +'<div class="brandrow">'+LOGO+'<b>IV <span>Rejuve</span></b></div>'
+    +'<h1>Not authorized</h1><p>'+esc(m||'This account isn\'t on the editor list yet. Ask your administrator to invite '+(state.user?state.user.email:'your email')+'.')+'</p>'
+    +'<button class="btn ghost" id="so">Sign out</button></div></div>';
+  document.getElementById('so').onclick=signOut;
+}
+
+async function loadCourses(){
+  var {data,error}=await sb.from('courses').select('id,slug,title,draft,published,updated_at,sort').eq('org_id',state.org).order('sort');
+  if(error){ renderNoAuth('Could not load courses: '+error.message); return; }
+  state.courses=data||[];
+  if(!state.courses.length){ app.innerHTML='<div class="center"><div class="loginbox"><h1>No courses yet</h1><p>Ask your administrator to add a course to get started.</p></div></div>'; return; }
+  openCourse(0);
+}
+
+/* ---------- editor ---------- */
+function openCourse(i){
+  state.cur=i; state.sel=null;
+  var c=state.courses[i];
+  state.doc=clone(c.draft && c.draft.modules ? c.draft : (c.published||{}));
+  if(!state.doc.modules) state.doc.modules=[];
+  if(!state.doc.title) state.doc.title=c.title||c.slug;
+  renderEditor();
+}
+function renderEditor(){
+  var c=state.courses[state.cur];
+  var tabs=state.courses.map(function(cc,i){return '<div class="ctab '+(i===state.cur?'on':'')+'" onclick="tabTo('+i+')">'+esc(cc.title||cc.slug)+'</div>';}).join('');
+  app.innerHTML=''
+   +'<div class="top"><div class="wrap">'
+     +'<div class="bm">'+LOGO+'<div><b>IV <span>Rejuve</span></b><small>Course Editor</small></div></div>'
+     +'<div class="spacer"></div>'
+     +'<div class="savest" id="savest">Saved</div>'
+     +'<button class="btn ghost sm" onclick="openHistory()">History</button>'
+     +'<button class="btn ghost sm" onclick="previewPublished()">Preview</button>'
+     +'<button class="btn gold sm" onclick="publish()">Publish</button>'
+     +'<span class="who" id="whoami"></span>'
+     +'<button class="btn ghost sm" onclick="signOut()">Sign out</button>'
+   +'</div></div>'
+   +'<div class="wrap"><div class="ctabs">'+tabs+'</div>'
+     +'<div class="grid">'
+       +'<div class="outline" id="outline"></div>'
+       +'<div class="panel" id="panel"><p style="color:var(--muted)">Select a lesson on the left to edit it.</p></div>'
+     +'</div>'
+     +'<p class="hint" style="margin:10px 2px 30px">Changes autosave to your <b>draft</b>. Learners only see updates after you press <b>Publish</b>.</p>'
+   +'</div>';
+  document.getElementById('whoami').textContent=state.user?state.user.email:'';
+  renderOutline();
+  if(state.sel) renderLessonPanel();
+  wireSortables();
+}
+function tabTo(i){ if(i===state.cur)return; openCourse(i); }
+
+function renderOutline(){
+  var d=state.doc;
+  var h='<div class="oh"><div class="ct">'+esc(d.title||'Course')+'</div></div>';
+  d.modules.forEach(function(m,mi){
+    m._mid=mi;
+    h+='<div class="mod" data-mid="'+mi+'"><div class="mh"><span class="grip mgrip">⋮⋮</span>'
+      +'<input value="'+esc(m.title||'')+'" oninput="setModTitle('+mi+',this.value)" placeholder="Module title"/>'
+      +'<button class="del" title="Delete module" onclick="delModule('+mi+')">🗑</button></div>'
+      +'<div class="les-list" data-mid="'+mi+'">';
+    (m.lessons||[]).forEach(function(l,li){
+      if(!l.id) l.id='l_'+Math.random().toString(36).slice(2,9);
+      var selc=(state.sel&&state.sel.mi===mi&&state.sel.li===li)?' sel':'';
+      h+='<div class="les'+selc+'" data-lid="'+esc(l.id)+'"><span class="grip">⋮⋮</span>'
+        +'<span class="lt" onclick="selectLesson('+mi+','+li+')">'+esc(l.title||'Untitled lesson')+'</span>'
+        +'<button class="del" onclick="delLesson('+mi+','+li+')" title="Delete lesson">🗑</button></div>';
+    });
+    h+='</div><div style="padding:0 6px 8px"><button class="addbtn" onclick="addLesson('+mi+')">+ Add lesson</button></div></div>';
+  });
+  h+='<button class="addbtn" onclick="addModule()">+ Add module</button>';
+  document.getElementById('outline').innerHTML=h;
+}
+
+function wireSortables(){
+  if(typeof Sortable==='undefined')return;
+  var out=document.getElementById('outline');
+  var modWrap=out; // modules are direct .mod children
+  Sortable.create(out,{handle:'.mgrip',draggable:'.mod',animation:150,onEnd:syncFromDom});
+  out.querySelectorAll('.les-list').forEach(function(ll){
+    Sortable.create(ll,{group:'lessons',handle:'.grip',draggable:'.les',animation:150,onEnd:syncFromDom});
+  });
+}
+function syncFromDom(){
+  var byId={};
+  state.doc.modules.forEach(function(m){(m.lessons||[]).forEach(function(l){byId[l.id]=l;});});
+  var mods=[];
+  document.querySelectorAll('#outline .mod').forEach(function(modEl){
+    var mid=+modEl.getAttribute('data-mid');
+    var orig=state.doc.modules[mid]||{};
+    var lessons=[];
+    modEl.querySelectorAll('.les').forEach(function(le){ var l=byId[le.getAttribute('data-lid')]; if(l)lessons.push(l); });
+    mods.push({title:orig.title,lessons:lessons});
+  });
+  state.doc.modules=mods;
+  renderOutline(); wireSortables(); scheduleSave();
+}
+
+function setModTitle(mi,v){ state.doc.modules[mi].title=v; scheduleSave(); }
+function addModule(){ state.doc.modules.push({title:'New module',lessons:[]}); renderOutline(); wireSortables(); scheduleSave(); }
+function delModule(mi){ if(!confirm('Delete this module and its lessons?'))return; state.doc.modules.splice(mi,1); state.sel=null; renderOutline(); wireSortables(); document.getElementById('panel').innerHTML='<p style="color:var(--muted)">Select a lesson to edit it.</p>'; scheduleSave(); }
+function addLesson(mi){ var id='l_'+Math.random().toString(36).slice(2,9); state.doc.modules[mi].lessons.push({id:id,title:'New lesson',lead:'',sections:[],quiz:[]}); renderOutline(); wireSortables(); selectLesson(mi,state.doc.modules[mi].lessons.length-1); scheduleSave(); }
+function delLesson(mi,li){ if(!confirm('Delete this lesson?'))return; state.doc.modules[mi].lessons.splice(li,1); state.sel=null; renderOutline(); wireSortables(); document.getElementById('panel').innerHTML='<p style="color:var(--muted)">Select a lesson to edit it.</p>'; scheduleSave(); }
+function selectLesson(mi,li){ state.sel={mi:mi,li:li}; renderOutline(); wireSortables(); renderLessonPanel(); }
+function curLesson(){ return state.doc.modules[state.sel.mi].lessons[state.sel.li]; }
+
+function parseVideo(u){
+  u=(u||'').trim(); if(!u)return null;
+  var m=u.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{6,})/); if(m)return {provider:'youtube',id:m[1]};
+  m=u.match(/vimeo\.com\/(?:video\/)?(\d+)/); if(m)return {provider:'vimeo',id:m[1]};
+  if(/^[\w-]{6,}$/.test(u))return {provider:'youtube',id:u};
+  return null;
+}
+function videoUrl(v){ if(!v)return ''; return v.provider==='vimeo'?'https://vimeo.com/'+v.id:'https://youtu.be/'+v.id; }
+function embedUrl(v){ if(!v)return ''; return v.provider==='vimeo'?'https://player.vimeo.com/video/'+v.id:'https://www.youtube.com/embed/'+v.id; }
+
+function renderLessonPanel(){
+  var l=curLesson();
+  var lines=function(a){return (a||[]).join('\n');};
+  var h=''
+   +'<div class="fld"><label>Lesson title</label><input class="t" value="'+esc(l.title||'')+'" oninput="editL(\'title\',this.value)"/></div>'
+   +'<div class="fld"><label>Intro / summary</label><textarea oninput="editL(\'lead\',this.value)" placeholder="One or two sentences introducing the lesson.">'+esc(l.lead||'')+'</textarea></div>'
+   +'<div class="fld"><label>Video (YouTube or Vimeo link)</label><input class="t" id="vidin" value="'+esc(videoUrl(l.video))+'" oninput="editVideo(this.value)" placeholder="https://youtu.be/…"/>'
+     +'<div class="hint">Paste an unlisted YouTube or Vimeo link. Leave blank for no video.</div><div id="vidbox">'+(l.video?'<div class="vidprev"><iframe src="'+embedUrl(l.video)+'" allowfullscreen></iframe></div>':'')+'</div></div>'
+   +'<div class="subttl">Content sections</div><div id="secs">'+l.sections.map(secHTML).join('')+'</div>'
+     +'<button class="addbtn" onclick="addSection()">+ Add section</button>'
+   +'<div class="subttl">Knowledge check</div><div id="quiz">'+(l.quiz||[]).map(qHTML).join('')+'</div>'
+     +'<button class="addbtn" onclick="addQ()">+ Add question</button>'
+   +'<div class="subttl">Extra lists (optional)</div>'
+   +'<div class="pfield">'
+     +'<div class="fld"><label>Objectives (one per line)</label><textarea oninput="editLines(\'objectives\',this.value)">'+esc(lines(l.objectives))+'</textarea></div>'
+     +'<div class="fld"><label>Key takeaways (one per line)</label><textarea oninput="editLines(\'takeaways\',this.value)">'+esc(lines(l.takeaways))+'</textarea></div>'
+     +'<div class="fld"><label>Pro tips (one per line)</label><textarea oninput="editLines(\'tips\',this.value)">'+esc(lines(l.tips))+'</textarea></div>'
+     +'<div class="fld"><label>Common mistakes (one per line)</label><textarea oninput="editLines(\'mistakes\',this.value)">'+esc(lines(l.mistakes))+'</textarea></div>'
+   +'</div>';
+  document.getElementById('panel').innerHTML=h;
+}
+function secHTML(s,i){
+  return '<div class="sec" data-si="'+i+'"><span class="sgrip">⋮⋮ <button class="del" onclick="delSection('+i+')" title="Delete section">🗑</button></span>'
+    +'<div class="fld"><label>Section heading</label><input class="t" value="'+esc(s.h||'')+'" oninput="editSec('+i+',\'h\',this.value)"/></div>'
+    +'<div class="fld"><label>Body (blank line separates paragraphs)</label><textarea oninput="editSecPara('+i+',this.value)">'+esc((s.p||[]).join('\n\n'))+'</textarea></div>'
+    +'<div class="fld"><label>Bullet points (one per line)</label><textarea oninput="editSecList('+i+',this.value)">'+esc((s.list||[]).join('\n'))+'</textarea></div></div>';
+}
+function qHTML(q,i){
+  var opts=(q.opts||[]).map(function(o,oi){return '<div class="opt"><input type="radio" name="qc'+i+'" '+(q.a===oi?'checked':'')+' onchange="editQ('+i+',\'a\','+oi+')"/><input class="o" value="'+esc(o)+'" oninput="editOpt('+i+','+oi+',this.value)"/><button class="rm" onclick="delOpt('+i+','+oi+')">✕</button></div>';}).join('');
+  return '<div class="q" data-qi="'+i+'"><div class="fld"><label>Question '+(i+1)+' <button class="del" style="float:right" onclick="delQ('+i+')" title="Delete question">🗑</button></label><input class="t" value="'+esc(q.q||'')+'" oninput="editQ('+i+',\'q\',this.value)"/></div>'
+    +'<label style="font-size:.72rem;font-weight:800;text-transform:uppercase;color:var(--muted)">Options (select the correct one)</label>'+opts
+    +'<button class="btn ghost sm" onclick="addOpt('+i+')" style="margin:6px 0">+ Option</button>'
+    +'<div class="fld" style="margin-top:8px"><label>Why (explanation shown after answering)</label><textarea oninput="editQ('+i+',\'why\',this.value)">'+esc(q.why||'')+'</textarea></div></div>';
+}
+/* edits */
+function editL(k,v){ curLesson()[k]=v; if(k==='title')renderOutline(),wireSortables(); scheduleSave(); }
+function editLines(k,v){ curLesson()[k]=v.split('\n').map(function(x){return x.trim();}).filter(Boolean); scheduleSave(); }
+function editVideo(v){ var p=parseVideo(v); curLesson().video=p; document.getElementById('vidbox').innerHTML=p?'<div class="vidprev"><iframe src="'+embedUrl(p)+'" allowfullscreen></iframe></div>':''; scheduleSave(); }
+function addSection(){ curLesson().sections.push({h:'',p:[],list:[]}); renderLessonPanel(); scheduleSave(); }
+function delSection(i){ curLesson().sections.splice(i,1); renderLessonPanel(); scheduleSave(); }
+function editSec(i,k,v){ curLesson().sections[i][k]=v; scheduleSave(); }
+function editSecPara(i,v){ curLesson().sections[i].p=v.split(/\n\n+/).map(function(x){return x.trim();}).filter(Boolean); scheduleSave(); }
+function editSecList(i,v){ curLesson().sections[i].list=v.split('\n').map(function(x){return x.trim();}).filter(Boolean); scheduleSave(); }
+function addQ(){ (curLesson().quiz=curLesson().quiz||[]).push({q:'',opts:['',''],a:0,why:''}); renderLessonPanel(); scheduleSave(); }
+function delQ(i){ curLesson().quiz.splice(i,1); renderLessonPanel(); scheduleSave(); }
+function editQ(i,k,v){ curLesson().quiz[i][k]=v; scheduleSave(); }
+function editOpt(i,oi,v){ curLesson().quiz[i].opts[oi]=v; scheduleSave(); }
+function addOpt(i){ curLesson().quiz[i].opts.push(''); renderLessonPanel(); scheduleSave(); }
+function delOpt(i,oi){ var q=curLesson().quiz[i]; q.opts.splice(oi,1); if(q.a>=q.opts.length)q.a=0; renderLessonPanel(); scheduleSave(); }
+
+/* ---------- save / publish / history ---------- */
+function setSave(s){ var e=document.getElementById('savest'); if(!e)return; e.className='savest '+s; e.textContent=s==='saving'?'Saving…':(s==='saved'?'Saved ✓':'Unsaved'); }
+function scheduleSave(){ setSave('saving'); clearTimeout(state.saveT); state.saveT=setTimeout(saveDraft,1100); }
+async function saveDraft(){
+  var c=state.courses[state.cur];
+  var {error}=await sb.from('courses').update({draft:state.doc,title:state.doc.title,updated_at:new Date().toISOString()}).eq('id',c.id);
+  if(error){ setSave('unsaved'); toast('Save failed: '+error.message); return; }
+  c.draft=clone(state.doc); setSave('saved');
+}
+async function publish(){
+  await saveDraft();
+  if(!confirm('Publish these changes? Learners will see them on their next visit.'))return;
+  var c=state.courses[state.cur]; var now=new Date().toISOString();
+  var up=await sb.from('courses').update({published:state.doc,published_at:now}).eq('id',c.id);
+  if(up.error){ toast('Publish failed: '+up.error.message); return; }
+  await sb.from('course_revisions').insert({course_id:c.id,doc:state.doc,editor_email:state.user.email,note:'Published'});
+  c.published=clone(state.doc);
+  toast('Published ✓  Live for learners.');
+}
+function previewPublished(){ window.open('/training','_blank'); }
+async function openHistory(){
+  var c=state.courses[state.cur];
+  openModal('<h3 style="font-family:var(--head);margin-bottom:6px">Version history</h3><p style="color:var(--muted);font-size:.84rem;margin-bottom:10px">Restore brings a past version back into your draft (you can still edit before publishing).</p><div id="revs">Loading…</div><div style="text-align:right;margin-top:12px"><button class="btn ghost sm" onclick="closeModal()">Close</button></div>');
+  var {data,error}=await sb.from('course_revisions').select('id,note,editor_email,created_at').eq('course_id',c.id).order('created_at',{ascending:false}).limit(30);
+  var box=document.getElementById('revs');
+  if(error){ box.innerHTML='<p class="msg err">'+esc(error.message)+'</p>'; return; }
+  if(!data||!data.length){ box.innerHTML='<p style="color:var(--muted);font-size:.85rem">No published versions yet.</p>'; return; }
+  box.innerHTML=data.map(function(r){var dt=new Date(r.created_at).toLocaleString();return '<div class="revrow"><div><b>'+dt+'</b><br><span style="color:var(--muted);font-size:.78rem">'+esc(r.editor_email||'')+' · '+esc(r.note||'')+'</span></div><button class="btn ghost sm" onclick="restoreRev('+r.id+')">Restore</button></div>';}).join('');
+}
+async function restoreRev(id){
+  if(!confirm('Restore this version into your draft?'))return;
+  var {data,error}=await sb.from('course_revisions').select('doc').eq('id',id).single();
+  if(error){ toast('Restore failed'); return; }
+  state.doc=clone(data.doc); if(!state.doc.modules)state.doc.modules=[]; state.sel=null;
+  closeModal(); renderEditor(); scheduleSave(); toast('Restored into draft — review, then Publish.');
+}
+
+boot();
+</script>
+</body>
+</html>
