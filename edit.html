@@ -247,7 +247,7 @@ function renderOutline(){
         +'<span class="lt" onclick="selectLesson('+mi+','+li+')">'+esc(l.title||'Untitled lesson')+'</span>'
         +'<button class="del" onclick="delLesson('+mi+','+li+')" title="Delete lesson">🗑</button></div>';
     });
-    h+='</div><div style="padding:0 6px 8px"><button class="addbtn" onclick="addLesson('+mi+')">+ Add lesson</button></div></div>';
+    h+='</div><div style="padding:0 6px 8px"><button class="addbtn" onclick="chooseLesson('+mi+')">+ Add lesson</button></div></div>';
   });
   h+='<button class="addbtn" onclick="addModule()">+ Add section</button>';
   document.getElementById('outline').innerHTML=h;
@@ -281,6 +281,35 @@ function setModTitle(mi,v){ state.doc.modules[mi].title=v; scheduleSave(); }
 function addModule(){ state.doc.modules.push({title:'New section',lessons:[]}); renderOutline(); wireSortables(); scheduleSave(); }
 function delModule(mi){ if(!confirm('Delete this section and its lessons?'))return; state.doc.modules.splice(mi,1); state.sel=null; renderOutline(); wireSortables(); document.getElementById('panel').innerHTML='<p style="color:var(--muted)">Select a lesson to edit it.</p>'; scheduleSave(); }
 function addLesson(mi){ var id='l_'+Math.random().toString(36).slice(2,9); state.doc.modules[mi].lessons.push({id:id,title:'New lesson',lead:'',sections:[],quiz:[]}); renderOutline(); wireSortables(); selectLesson(mi,state.doc.modules[mi].lessons.length-1); scheduleSave(); }
+function chooseLesson(mi){
+  openModal('<h3 style="font-family:var(--head);margin-bottom:6px">Add a lesson</h3>'
+    +'<p style="color:var(--muted);font-size:.86rem;margin-bottom:12px">Write it yourself, or describe it and let AI draft the whole lesson — sections, quiz, tips and takeaways — then edit anything.</p>'
+    +'<label style="font-size:.72rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)">Describe the lesson for AI</label>'
+    +'<textarea id="aiPrompt" style="width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;min-height:84px;margin-top:6px;font-family:inherit;font-size:.9rem;line-height:1.5" placeholder="e.g., IV insertion in adolescents — vein selection, catheter sizing, and comfort/distraction techniques"></textarea>'
+    +'<div id="aiStatus" style="margin:10px 0"></div>'
+    +'<div style="display:flex;gap:10px;justify-content:flex-end;margin-top:6px;flex-wrap:wrap">'
+    +'<button class="btn ghost" onclick="addLesson('+mi+');closeModal();">Write it myself</button>'
+    +'<button class="btn" id="aiGo" onclick="aiLesson('+mi+')">✨ Let AI draft it</button>'
+    +'</div>');
+}
+async function aiLesson(mi){
+  var pa=document.getElementById('aiPrompt'); var p=(pa?pa.value:'').trim();
+  var st=document.getElementById('aiStatus'); var go=document.getElementById('aiGo');
+  if(!p){ if(st)st.innerHTML='<div class="msg err">Describe the lesson first.</div>'; return; }
+  if(go){ go.disabled=true; go.textContent='✨ Drafting…'; }
+  if(st)st.innerHTML='<div class="msg ok">Researching and writing your lesson — this usually takes 15–30 seconds…</div>';
+  try{
+    var sess=(await sb.auth.getSession()).data.session;
+    var course=(state.courses[state.cur]&&state.courses[state.cur].title)||'';
+    var resp=await fetch(SB_URL+'/functions/v1/generate-lesson',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(sess?sess.access_token:SB_ANON),'apikey':SB_ANON},body:JSON.stringify({prompt:p,course:course})});
+    var data=await resp.json().catch(function(){return {};});
+    if(!resp.ok||!data.lesson){ if(st)st.innerHTML='<div class="msg err">'+esc(data.error||('Could not generate (error '+resp.status+').'))+'</div>'; if(go){go.disabled=false;go.textContent='✨ Let AI draft it';} return; }
+    var ls=data.lesson; ls.id='l_'+Math.random().toString(36).slice(2,9); ls.sections=ls.sections||[]; ls.quiz=ls.quiz||[];
+    state.doc.modules[mi].lessons.push(ls);
+    renderOutline(); wireSortables(); selectLesson(mi, state.doc.modules[mi].lessons.length-1); scheduleSave();
+    closeModal(); toast('AI draft added — review, edit, then Publish.');
+  }catch(e){ if(st)st.innerHTML='<div class="msg err">'+esc(String(e))+'</div>'; if(go){go.disabled=false;go.textContent='✨ Let AI draft it';} }
+}
 function delLesson(mi,li){ if(!confirm('Delete this lesson?'))return; state.doc.modules[mi].lessons.splice(li,1); state.sel=null; renderOutline(); wireSortables(); document.getElementById('panel').innerHTML='<p style="color:var(--muted)">Select a lesson to edit it.</p>'; scheduleSave(); }
 function selectLesson(mi,li){ state.sel={mi:mi,li:li}; renderOutline(); wireSortables(); renderLessonPanel(); }
 function curLesson(){ return state.doc.modules[state.sel.mi].lessons[state.sel.li]; }
