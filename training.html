@@ -973,10 +973,10 @@ const SQ_LESSONS={
       {q:"After a subcutaneous heparin or enoxaparin injection you should:",opts:["Rub the site","Apply gentle pressure without rubbing","Aspirate"],a:1,why:"Rubbing causes hematoma; gentle pressure only."},
       {q:"Before giving rapid-acting insulin, the key safety check is:",opts:["Temperature","Blood glucose and that the patient will eat","Height"],a:1,why:"Timing rapid insulin to a meal prevents hypoglycemia."}]}}
 };
-const L=Object.assign({},IV_LESSONS,IM_LESSONS,SQ_LESSONS);
+var L=Object.assign({},IV_LESSONS,IM_LESSONS,SQ_LESSONS);
 
 /* ============ Course structure (modules -> lessons) ============ */
-const COURSES={
+var COURSES={
   iv:{name:"IV Insertion",tag:"Peripheral IV catheter insertion — vein to secured line.",hrs:"3.5",mini:"arm",modules:[
     {title:"Foundations",lessons:["iv_anatomy","iv_equipment"]},
     {title:"Assess & Select",lessons:["iv_assessment","iv_sites"]},
@@ -997,10 +997,10 @@ const COURSES={
     {title:"Records & Complications",lessons:["sq_complications","sq_documentation"]},
     {title:"Populations & Cases",lessons:["sq_special","sq_cases"]}]},
 };
-const COURSE_IDS=["iv","im","subq"];
+var COURSE_IDS=["iv","im","subq"];
 function courseLessons(c){return COURSES[c].modules.reduce(function(a,m){return a.concat(m.lessons);},[]);}
 function allLessons(){return COURSE_IDS.reduce(function(a,c){return a.concat(courseLessons(c));},[]);}
-const TOTAL_LESSONS=allLessons().length;
+var TOTAL_LESSONS=allLessons().length;
 
 /* ============ Ranks + XP ============ */
 const RANKS=[{n:"Student",x:0},{n:"Novice",x:150},{n:"Competent",x:400},{n:"Proficient",x:800},{n:"Clinician",x:1300},{n:"Preceptor",x:2000},{n:"Master Clinician",x:2800}];
@@ -1439,9 +1439,40 @@ function resetAll(){openModal('<h3>Reset progress?</h3><p>This clears your XP, s
 function doReset(){["lmv_done","lmv_xp","lmv_qxp","lmv_streak","lmv_best","lmv_last","lmv_exams","lmv_name","lmv_certs"].forEach(function(k){Store.set(k,null);});S.done=new Set();S.xp=0;S.qxp=new Set();S.streak=0;S.best=0;S.last=null;S.exams={};S.name="";S.certs={};closeModal();go("home");}
 function flash(){celebrate("🔒","Locked","Finish the previous lesson first");}
 
-/* ============ init ============ */
-render();
-setTimeout(function(){document.querySelector('.brand .logo').classList.add('glow');},900);
+/* ============ init: load curriculum from Supabase, fall back to bundled ============ */
+var SB_URL="https://dnjvsfwdrffzawrlrrma.supabase.co";
+var SB_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRuanZzZndkcmZmemF3cmxycm1hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5MDgxMTgsImV4cCI6MjA5ODQ4NDExOH0.6coWHPrl5IHGWex_W0Q29NU5E3hA-lyfswxPCxtbThs";
+var ORG_SLUG="lumevity";
+function applyCurriculum(list){
+  try{
+    if(!list||!list.length) return false;
+    list.sort(function(a,b){return (a.sort||0)-(b.sort||0);});
+    var NC={}, NL={}, ids=[];
+    list.forEach(function(row){
+      var d=row.published; if(!d||!d.modules||!d.modules.length) return;
+      ids.push(row.slug);
+      NC[row.slug]={name:d.title||row.title,tag:d.tag,hrs:d.hrs,mini:d.mini,modules:d.modules.map(function(m){
+        return {title:m.title,lessons:(m.lessons||[]).map(function(l){NL[l.id]=l;return l.id;})};
+      })};
+    });
+    if(!ids.length) return false;
+    COURSES=NC; L=NL; COURSE_IDS=ids; TOTAL_LESSONS=allLessons().length;
+    if(COURSE_IDS.indexOf(S.course)<0) S.course=COURSE_IDS[0];
+    return true;
+  }catch(e){ return false; }
+}
+function bootRender(){ render(); setTimeout(function(){var l=document.querySelector('.brand .logo');if(l)l.classList.add('glow');},900); }
+(function boot(){
+  var done=false; function finish(){ if(done)return; done=true; bootRender(); }
+  try{
+    fetch(SB_URL+"/rest/v1/published_courses?org_slug=eq."+ORG_SLUG+"&select=slug,title,published,sort&order=sort",
+          {headers:{apikey:SB_ANON,Authorization:"Bearer "+SB_ANON}})
+      .then(function(r){return r.ok?r.json():null;})
+      .then(function(list){ applyCurriculum(list); finish(); })
+      .catch(function(){ finish(); });
+    setTimeout(finish, 4500);
+  }catch(e){ finish(); }
+})();
 </script>
 </body>
 </html>
