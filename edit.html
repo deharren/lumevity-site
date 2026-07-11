@@ -66,6 +66,8 @@ input,textarea,select{font-family:inherit;font-size:.9rem;color:var(--ink)}
 .ctab{padding:9px 16px;border-radius:10px;background:rgba(255,255,255,.65);color:var(--muted);font-weight:700;font-size:.84rem;border:1px solid var(--line);backdrop-filter:blur(4px);transition:.15s}
 .ctab:hover{color:var(--ink)}
 .ctab.on{background:#fff;color:var(--ink);border-color:var(--teal);box-shadow:0 0 0 2px rgba(14,138,147,.14)}
+.ctab.addcourse{background:linear-gradient(135deg,#2AB6D6,#1E9FC0);color:#fff;border:1px solid transparent;box-shadow:0 5px 14px rgba(30,159,192,.28)}
+.ctab.addcourse:hover{filter:brightness(1.06);color:#fff;transform:translateY(-1px)}
 /* layout — two cards */
 .grid{display:grid;grid-template-columns:330px 1fr;gap:16px;margin-top:16px;min-height:70vh}
 .outline{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;overflow-y:auto;max-height:80vh;box-shadow:0 14px 36px rgba(10,50,60,.08)}
@@ -217,7 +219,7 @@ function renderEditor(){
      +'<span class="who" id="whoami"></span>'
      +'<button class="btn ghost sm" onclick="signOut()">Sign out</button>'
    +'</div></div>'
-   +'<div class="wrap"><div class="ctabs">'+tabs+'</div>'+'<div class="cover"><div><div class="eyebrow">Editing draft — publish to go live</div><h2>'+esc(state.doc.title||'Course')+'</h2></div><div class="cdrop">'+LOGO+'</div></div>'
+   +'<div class="wrap"><div class="ctabs">'+tabs+'<button class="ctab addcourse" onclick="addCourse()">+ Course</button></div>'+'<div class="cover"><div><div class="eyebrow">Editing draft — publish to go live</div><h2>'+esc(state.doc.title||'Course')+'</h2></div><div class="cdrop">'+LOGO+'</div></div>'
      +'<div class="grid">'
        +'<div class="outline" id="outline"></div>'
        +'<div class="panel" id="panel"><p style="color:var(--muted)">Select a lesson on the left to edit it.</p></div>'
@@ -230,6 +232,18 @@ function renderEditor(){
   wireSortables();
 }
 function tabTo(i){ if(i===state.cur)return; openCourse(i); }
+async function addCourse(){
+  var name=prompt('Name the new course (e.g., "Blood Draw / Phlebotomy"):');
+  if(!name||!name.trim())return; name=name.trim();
+  var base=name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'').slice(0,32)||'course';
+  var slug=base+'-'+Math.random().toString(36).slice(2,5);
+  var doc={slug:slug,title:name,hrs:'',mini:'',modules:[]};
+  var res=await sb.from('courses').insert({org_id:state.org,slug:slug,title:name,draft:doc,sort:state.courses.length}).select('id,slug,title,draft,published,updated_at,sort').single();
+  if(res.error){ toast('Could not add course: '+res.error.message); return; }
+  state.courses.push(res.data);
+  openCourse(state.courses.length-1);
+  toast('Course added — add sections & lessons, then Publish.');
+}
 
 function renderOutline(){
   var d=state.doc;
