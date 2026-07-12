@@ -78,6 +78,10 @@ input,textarea,select{font-family:inherit;font-size:.9rem;color:var(--ink)}
 .jdot{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 50% 34%,#155965,#0A2C34);border:1.5px solid rgba(159,224,210,.4);display:flex;align-items:center;justify-content:center;color:#CFE3DE;font-size:.78rem;font-weight:800}
 .jlbl{margin-top:7px;font-size:.62rem;color:#BAD0CB;text-align:center;max-width:94px;line-height:1.2;white-space:normal}
 .jlbl.jmod{color:#EAF1EF;font-weight:800}
+.jroadwrap{position:relative}
+.jnav{position:absolute;top:34px;transform:translateY(-50%);z-index:4;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:linear-gradient(135deg,#22C3C9,#12A0AE);color:#fff;font-size:1.15rem;font-weight:700;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.4);cursor:pointer;transition:.15s}
+.jnav:hover{filter:brightness(1.1);transform:translateY(-50%) scale(1.06)}
+.jnav.left{left:2px}.jnav.right{right:2px}
 /* course tabs */
 .ctabs{display:flex;gap:9px;padding:18px 0 0;flex-wrap:wrap}
 .ctab{padding:9px 16px;border-radius:10px;background:rgba(255,255,255,.65);color:var(--muted);font-weight:700;font-size:.84rem;border:1px solid var(--line);backdrop-filter:blur(4px);transition:.15s}
@@ -294,8 +298,10 @@ function renderMapPreview(){
     (m.lessons||[]).forEach(function(l){ n++; road+='<div class="jn"><div class="jc"><div class="jdot">'+n+'</div></div><div class="jlbl">'+esc(l.title||'Untitled')+'</div></div>'; });
   });
   road+='<div class="jn"><div class="jc"><div class="jflag finish">✦</div></div><div class="jlbl">CERTIFICATE</div></div>';
-  host.innerHTML='<div class="jh"><div class="je">Live journey preview</div><div class="jn2">'+mods.length+' sections · '+total+' lessons · exactly how learners see it</div></div><div class="jroad">'+road+'</div>';
+  host.innerHTML='<div class="jh"><div class="je">Live journey preview</div><div class="jn2">'+mods.length+' sections · '+total+' lessons · exactly how learners see it</div></div>'
+    +'<div class="jroadwrap"><button class="jnav left" onclick="jscroll(-1)" aria-label="Scroll left">‹</button><div class="jroad" id="jroad">'+road+'</div><button class="jnav right" onclick="jscroll(1)" aria-label="Scroll right">›</button></div>';
 }
+function jscroll(dir){ var r=document.getElementById('jroad'); if(r)r.scrollBy({left:dir*Math.round(r.clientWidth*0.7),behavior:'smooth'}); }
 
 function wireSortables(){
   if(typeof Sortable==='undefined')return;
