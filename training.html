@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Lumevity Academy — Confidence in Every Procedure</title>
+<title>IV Rejuve Academy — Confidence in Every Procedure</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 48'%3E%3Cpath d='M20 2C20 2 36 22 36 33A16 16 0 1 1 4 33C4 22 20 2 20 2Z' fill='%23F0B429'/%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -326,7 +326,7 @@
 <div class="topbar"><div class="in">
   <div class="brand" onclick="go('home')">
     <svg class="logo glow" viewBox="0 0 64 78" fill="none"><defs><linearGradient id="drpA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3AD8D2"/><stop offset=".5" stop-color="#12A0AE"/><stop offset="1" stop-color="#0B6472"/></linearGradient></defs><path d="M32 5C32 5 51 30 51 47A19 19 0 0 1 13 47C13 30 32 5 32 5Z" fill="url(#drpA)"/><path d="M40 22C45 30 46 40 42 48" stroke="#C9F5F3" stroke-width="2.4" stroke-linecap="round" opacity=".7"/><path d="M24 33C20.5 39.5 21 47 26 52C22.5 46 24.5 38.5 29 34.5C27.5 33.4 25.5 33 24 33Z" fill="#ffffff" opacity=".5"/><ellipse cx="32" cy="67" rx="16" ry="3" fill="#12A0AE" opacity=".22"/></svg>
-    <span class="nm">Lume<b>vity</b><small>Academy</small></span>
+    <span class="nm">IV <b>Rejuve</b><small>Academy</small></span>
   </div>
   <div class="ovwrap">
     <div class="ov"><span class="pc" id="ovPct">0%</span><div class="bar"><i id="ovBar"></i></div></div>
@@ -335,7 +335,7 @@
   </div>
 </div></div>
 <div class="view"><div class="wrap" id="view"></div></div>
-<footer><div class="wrap"><div class="disc"><b>Educational Disclaimer:</b> Lumevity provides educational instruction only. Course completion is not a license, certification to practice, or authorization to perform any procedure. Hands-on skills must be practiced and validated under qualified supervision, and all learners must work within their scope of practice and applicable regulations. &nbsp;© 2026 Lumevity.</div></div></footer>
+<footer><div class="wrap"><div class="disc"><b>Educational Disclaimer:</b> IV Rejuve provides educational instruction only. Course completion is not a license, certification to practice, or authorization to perform any procedure. Hands-on skills must be practiced and validated under qualified supervision, and all learners must work within their scope of practice and applicable regulations. &nbsp;© 2026 IV Rejuve.</div></div></footer>
 
 <div id="mascot">
   <div class="bubble" id="bubble"><div class="bh"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#E3CE9A" stroke-width="1.8"><path d="M12 3a7 7 0 00-4 12.7V19l3-1.5a7 7 0 001-14z"/><path d="M9 10h6M9 13h4"/></svg><div class="nm">Vera<s>Clinical Assistant</s></div><div class="x" onclick="toggleMascot(false)">✕</div></div><div class="bd" id="mbd"></div><div class="mask"><input id="mInput" placeholder="Ask about a procedure…" onkeydown="if(event.key==='Enter')askVera()"/><button onclick="askVera()">Ask</button></div></div>
@@ -358,7 +358,7 @@ function svgMini(k){var m={arm:'<rect x="4" y="14" width="32" height="12" rx="6"
 function illoSVG(k){return ({arm:svgArm(false),im:svgIM(false),subq:svgSubQ(false),angle:svgAngle(),layers:svgLayers(),veinx:svgVeinX()})[k]||'';}
 function renderSection(s){var h='';if(s.h)h+='<h3>'+s.h+'</h3>';if(s.p)s.p.forEach(function(p){h+='<p class="lp">'+p+'</p>';});if(s.list)h+='<ul class="slist">'+s.list.map(function(i){return '<li>'+i+'</li>';}).join('')+'</ul>';if(s.table){h+='<table class="ltable"><thead><tr>'+s.table.head.map(function(c){return '<th>'+c+'</th>';}).join('')+'</tr></thead><tbody>'+s.table.rows.map(function(r){return '<tr>'+r.map(function(c){return '<td>'+c+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table>';}if(s.note)h+='<div class="note '+s.note.k+'"><b>'+(s.note.k==='safe'?'Safety: ':s.note.k==='tip'?'Tip: ':'Evidence: ')+'</b>'+s.note.t+'</div>';return h;}
 
-/* ============ CONTENT (reused Lumevity clinical modules) ============ */
+/* ============ CONTENT (reused IV Rejuve clinical modules) ============ */
 const IV_LESSONS={
   iv_anatomy:{title:"Venous anatomy & physiology",stage:"IV · Module 1",mini:"veinx",illo:"veinx",
     objectives:["Map the superficial veins of the upper limb used for IV access","Differentiate a vein from an artery and a nerve at the bedside","Explain the three tunica layers and venous valves — and why they matter","Justify why forearm veins are the preferred target"],
@@ -1347,13 +1347,13 @@ function credId(c){if(S.certs[c])return S.certs[c];var id="LMV-"+new Date().getF
 function vCert(){
   var c=S.course,ex=S.exams[c];
   if(!ex||!ex.passed){return '<div style="text-align:center;padding:40px 0"><h2 style="color:var(--head)">Certificate locked</h2><p style="color:var(--muted);margin:10px 0 16px">Pass the '+COURSES[c].name+' final exam (80%) to unlock your certificate.</p><button class="btn btn-gold" onclick="go(\'exam\',\''+c+'\')">Go to final exam</button></div>';}
-  if(!S.name){return '<div style="text-align:center;padding:40px 0"><h2 style="color:var(--head)">Name your certificate</h2><p style="color:var(--muted);margin:10px 0 16px">Enter the name to appear on your Lumevity Certificate of Completion.</p><input id="nameIn" placeholder="Full name" style="border:1px solid var(--stone);border-radius:12px;padding:11px 14px;font:inherit;min-width:260px"/><br><button class="btn btn-gold" style="margin-top:14px" onclick="setName()">Generate certificate</button></div>';}
+  if(!S.name){return '<div style="text-align:center;padding:40px 0"><h2 style="color:var(--head)">Name your certificate</h2><p style="color:var(--muted);margin:10px 0 16px">Enter the name to appear on your IV Rejuve Certificate of Completion.</p><input id="nameIn" placeholder="Full name" style="border:1px solid var(--stone);border-radius:12px;padding:11px 14px;font:inherit;min-width:260px"/><br><button class="btn btn-gold" style="margin-top:14px" onclick="setName()">Generate certificate</button></div>';}
   var id=credId(c);var mods=COURSES[c].modules.length;
   var h='<div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:8px"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button><button class="btn btn-gold" onclick="window.print()">🖨 Print / Save PDF</button></div>';
-  h+='<div class="cert"><div class="cl">Lumevity Academy · Clinical Skills Training</div><h1>Certificate of Completion</h1><div style="font-size:.8rem;color:rgba(251,250,246,.7)">This certifies that</div><div class="who">'+esc(S.name)+'</div>'
+  h+='<div class="cert"><div class="cl">IV Rejuve Academy · Clinical Skills Training</div><h1>Certificate of Completion</h1><div style="font-size:.8rem;color:rgba(251,250,246,.7)">This certifies that</div><div class="who">'+esc(S.name)+'</div>'
     +'<div class="sum">has successfully completed the <b style="color:#E3CE9A">'+COURSES[c].name+'</b> course — '+mods+' modules of evidence-based instruction and knowledge checks — and passed the final competency assessment.</div>'
     +'<div class="meta"><div><s>Exam score</s><b>'+ex.score+'%</b></div><div><s>Date</s><b>'+new Date().toLocaleDateString()+'</b></div><div><s>Credential</s><b>Verified</b></div></div>'
-    +'<div class="sig"><div>Lacey Smith, FNP-C<br><span style="opacity:.7">Founder &amp; Lead Instructor</span></div><div>Lumevity Academy<br><span style="opacity:.7">Digital badge issued</span></div></div>'
+    +'<div class="sig"><div>Lacey Smith, FNP-C<br><span style="opacity:.7">Founder &amp; Lead Instructor</span></div><div>IV Rejuve Academy<br><span style="opacity:.7">Digital badge issued</span></div></div>'
     +'<div class="cid">Credential ID: '+id+'</div>'
     +'<div style="font-size:.66rem;color:rgba(251,250,246,.6);margin-top:16px;line-height:1.5">Educational instruction only. Not a license or authorization to perform any procedure. Skills must be validated under qualified supervision within your scope of practice.</div>'
     +'</div>';
@@ -1368,7 +1368,7 @@ function vPricing(){
   var proNote=annual?'~$42/mo billed annually · save 30%':'month-to-month';
   var stuPrice=annual?'$299<s>/yr</s>':'$34<s>/mo</s>';
   var stuNote=annual?'~$25/mo · student verification':'month-to-month · student verification';
-  var h='<div style="text-align:center"><span class="eyebrow">Membership</span><h2 style="font-size:1.8rem;color:var(--head);margin:6px 0">Start free. Certify when you\'re ready.</h2><p style="color:var(--muted);max-width:560px;margin:0 auto">In-person IV &amp; injection certification courses run <b>$1,500–$5,000 for a single day</b>. Lumevity gives you all three procedures, ongoing CE, and certification for <b>$499 a year</b>.</p>';
+  var h='<div style="text-align:center"><span class="eyebrow">Membership</span><h2 style="font-size:1.8rem;color:var(--head);margin:6px 0">Start free. Certify when you\'re ready.</h2><p style="color:var(--muted);max-width:560px;margin:0 auto">In-person IV &amp; injection certification courses run <b>$1,500–$5,000 for a single day</b>. IV Rejuve gives you all three procedures, ongoing CE, and certification for <b>$499 a year</b>.</p>';
   h+='<div class="toggle"><button class="'+(annual?'on':'')+'" onclick="setBilling(\'annual\')">Annual · save 30%</button><button class="'+(!annual?'on':'')+'" onclick="setBilling(\'monthly\')">Monthly</button></div></div>';
   h+='<div class="pgrid">';
   h+='<div class="tier"><h3>Free Taster</h3><div class="price">$0</div><div class="pnote">No card required</div><ul><li>First IV Insertion lesson</li><li>One sample demo video</li><li>Knowledge checks for that lesson</li></ul><button class="btn btn-ghost" onclick="go(\'home\')">Start free</button></div>';
@@ -1407,7 +1407,7 @@ var VERA_KB=[
   {k:["insulin","clear before cloudy","mix"],a:"When mixing insulins: air into NPH, air into regular, then draw the clear (regular) first, then the cloudy (NPH). Never mix glargine or detemir."},
   {k:["enoxaparin","lovenox","heparin","air bubble"],a:"Enoxaparin: patient supine, do NOT expel the air bubble, no aspiration, no rubbing, alternate abdominal sides >5 cm from the navel."},
   {k:["needle length","obese","bmi"],a:"Match needle length to site and body size. For IM in higher-BMI patients, use the ventrogluteal with a 1½-inch needle to reach muscle."},
-  {k:["ce","credit","certif","license"],a:"Complete a course and pass its 80% final exam to earn a verifiable Lumevity Certificate of Completion (credential prefix LMV-). CE credit is pursued through appropriate accreditors."},
+  {k:["ce","credit","certif","license"],a:"Complete a course and pass its 80% final exam to earn a verifiable IV Rejuve Certificate of Completion (credential prefix LMV-). CE credit is pursued through appropriate accreditors."},
   {k:["price","cost","plan","subscri","pro"],a:"All-Access Pro is $499/yr (~$42/mo, save 30%) or $59/mo; Student $299/yr; single course $249; free taster available. Want me to open the plans?"}
 ];
 var _veraMsgs=[];
