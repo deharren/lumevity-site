@@ -127,6 +127,7 @@ input,textarea,select{font-family:inherit;font-size:.9rem;color:var(--ink)}
 .les .lt{flex:1;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .del{background:none;border:none;color:#aab4b9;font-size:1.3rem;line-height:1;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;padding:0;flex:none}
 .del:hover{background:rgba(216,71,75,.12);color:var(--bad)}
+.del.armed{background:var(--bad);color:#fff;transform:scale(1.06)}
 .les .del{font-size:1.2rem}
 .addbtn{width:100%;border:none;background:linear-gradient(135deg,#22C3C9,#12A0AE);color:#fff;border-radius:9px;padding:9px;font-weight:700;font-size:.8rem;margin-top:6px;box-shadow:0 6px 14px rgba(30,159,192,.28);transition:transform .15s,filter .15s}
 .addbtn:hover{filter:brightness(1.06);transform:translateY(-1px)}
@@ -295,14 +296,14 @@ function renderOutline(){
     m._mid=mi;
     h+='<div class="mod" data-mid="'+mi+'"><div class="mh"><span class="grip mgrip">⋮⋮</span>'
       +'<input value="'+esc(m.title||'')+'" oninput="setModTitle('+mi+',this.value)" placeholder="Section title"/>'
-      +'<button class="del" title="Delete module" onclick="delModule('+mi+')">×</button></div>'
+      +'<button class="del" title="Delete module" onclick="armDel(this,\'module\','+mi+')">×</button></div>'
       +'<div class="les-list" data-mid="'+mi+'">';
     (m.lessons||[]).forEach(function(l,li){
       if(!l.id) l.id='l_'+Math.random().toString(36).slice(2,9);
       var selc=(state.sel&&state.sel.mi===mi&&state.sel.li===li)?' sel':'';
       h+='<div class="les'+selc+'" data-lid="'+esc(l.id)+'"><span class="grip">⋮⋮</span>'
         +'<span class="lt" onclick="selectLesson('+mi+','+li+')">'+esc(l.title||'Untitled lesson')+'</span>'
-        +'<button class="del" onclick="delLesson('+mi+','+li+')" title="Delete lesson">×</button></div>';
+        +'<button class="del" onclick="armDel(this,\'lesson\','+mi+','+li+')" title="Delete lesson">×</button></div>';
     });
     h+='</div><div style="padding:0 6px 8px"><button class="addbtn" onclick="chooseLesson('+mi+')">+ Add lesson</button></div></div>';
   });
@@ -352,7 +353,19 @@ function syncFromDom(){
 
 function setModTitle(mi,v){ state.doc.modules[mi].title=v; renderMapPreview(); scheduleSave(); }
 function addModule(){ state.doc.modules.push({title:'New section',lessons:[]}); renderOutline(); wireSortables(); scheduleSave(); }
-function delModule(mi){ if(!confirm('Delete this section and its lessons?'))return; state.doc.modules.splice(mi,1); state.sel=null; renderOutline(); wireSortables(); document.getElementById('panel').innerHTML=emptyPanel(); scheduleSave(); }
+function armDel(btn,type,a,b){
+  if(btn.classList.contains('armed')){
+    clearTimeout(btn._t); btn.classList.remove('armed');
+    var msg={module:'Delete this section and its lessons?',lesson:'Delete this lesson?',section:'Delete this content section?',question:'Delete this question?'}[type]||'Delete this?';
+    if(!confirm(msg))return;
+    if(type==='module')delModule(a); else if(type==='lesson')delLesson(a,b); else if(type==='section')delSection(a); else if(type==='question')delQ(a);
+    return;
+  }
+  var all=document.querySelectorAll('.del.armed'); for(var i=0;i<all.length;i++){all[i].classList.remove('armed');clearTimeout(all[i]._t);}
+  btn.classList.add('armed'); btn.title='Tap again to delete';
+  btn._t=setTimeout(function(){btn.classList.remove('armed');},2800);
+}
+function delModule(mi){ state.doc.modules.splice(mi,1); state.sel=null; renderOutline(); wireSortables(); document.getElementById('panel').innerHTML=emptyPanel(); scheduleSave(); }
 function addLesson(mi){ var id='l_'+Math.random().toString(36).slice(2,9); state.doc.modules[mi].lessons.push({id:id,title:'New lesson',lead:'',sections:[],quiz:[]}); renderOutline(); wireSortables(); selectLesson(mi,state.doc.modules[mi].lessons.length-1); scheduleSave(); }
 function chooseLesson(mi){
   openModal('<h3 style="font-family:var(--head);margin-bottom:6px">Add a lesson</h3>'
@@ -383,7 +396,7 @@ async function aiLesson(mi){
     closeModal(); toast('AI draft added — review, edit, then Publish.');
   }catch(e){ if(st)st.innerHTML='<div class="msg err">'+esc(String(e))+'</div>'; if(go){go.disabled=false;go.textContent='✨ Let AI draft it';} }
 }
-function delLesson(mi,li){ if(!confirm('Delete this lesson?'))return; state.doc.modules[mi].lessons.splice(li,1); state.sel=null; renderOutline(); wireSortables(); document.getElementById('panel').innerHTML=emptyPanel(); scheduleSave(); }
+function delLesson(mi,li){ state.doc.modules[mi].lessons.splice(li,1); state.sel=null; renderOutline(); wireSortables(); document.getElementById('panel').innerHTML=emptyPanel(); scheduleSave(); }
 function selectLesson(mi,li){ state.sel={mi:mi,li:li}; renderOutline(); wireSortables(); renderLessonPanel(); }
 function curLesson(){ return state.doc.modules[state.sel.mi].lessons[state.sel.li]; }
 function emptyPanel(){
@@ -429,14 +442,14 @@ function renderLessonPanel(){
   document.getElementById('panel').innerHTML=h;
 }
 function secHTML(s,i){
-  return '<div class="sec" data-si="'+i+'"><span class="sgrip">⋮⋮ <button class="del" onclick="delSection('+i+')" title="Delete section">×</button></span>'
+  return '<div class="sec" data-si="'+i+'"><span class="sgrip">⋮⋮ <button class="del" onclick="armDel(this,\'section\','+i+')" title="Delete section">×</button></span>'
     +'<div class="fld"><label>Section heading</label><input class="t" value="'+esc(s.h||'')+'" oninput="editSec('+i+',\'h\',this.value)"/></div>'
     +'<div class="fld"><label>Body (blank line separates paragraphs)</label><textarea oninput="editSecPara('+i+',this.value)">'+esc((s.p||[]).join('\n\n'))+'</textarea></div>'
     +'<div class="fld"><label>Bullet points (one per line)</label><textarea oninput="editSecList('+i+',this.value)">'+esc((s.list||[]).join('\n'))+'</textarea></div></div>';
 }
 function qHTML(q,i){
   var opts=(q.opts||[]).map(function(o,oi){return '<div class="opt"><input type="radio" name="qc'+i+'" '+(q.a===oi?'checked':'')+' onchange="editQ('+i+',\'a\','+oi+')"/><input class="o" value="'+esc(o)+'" oninput="editOpt('+i+','+oi+',this.value)"/><button class="rm" onclick="delOpt('+i+','+oi+')">✕</button></div>';}).join('');
-  return '<div class="q" data-qi="'+i+'"><div class="fld"><label>Question '+(i+1)+' <button class="del" style="float:right" onclick="delQ('+i+')" title="Delete question">×</button></label><input class="t" value="'+esc(q.q||'')+'" oninput="editQ('+i+',\'q\',this.value)"/></div>'
+  return '<div class="q" data-qi="'+i+'"><div class="fld"><label>Question '+(i+1)+' <button class="del" style="float:right" onclick="armDel(this,\'question\','+i+')" title="Delete question">×</button></label><input class="t" value="'+esc(q.q||'')+'" oninput="editQ('+i+',\'q\',this.value)"/></div>'
     +'<label style="font-size:.72rem;font-weight:800;text-transform:uppercase;color:var(--muted)">Options (select the correct one)</label>'+opts
     +'<button class="btn ghost sm" onclick="addOpt('+i+')" style="margin:6px 0">+ Option</button>'
     +'<div class="fld" style="margin-top:8px"><label>Why (explanation shown after answering)</label><textarea oninput="editQ('+i+',\'why\',this.value)">'+esc(q.why||'')+'</textarea></div></div>';
