@@ -63,6 +63,21 @@ input,textarea,select{font-family:inherit;font-size:.9rem;color:var(--ink)}
 .cover h2{font-family:var(--head);font-size:1.32rem;margin-top:4px}
 .cover .cdrop .drop{width:40px;height:48px;filter:drop-shadow(0 5px 12px rgba(34,195,214,.55))}
 .cover::after{content:"";position:absolute;right:-46px;top:-42px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(34,195,214,.28),transparent 70%);pointer-events:none}
+/* JOURNEY MAP PREVIEW */
+.jmap{margin-top:14px;border-radius:14px;padding:14px 18px 8px;background:linear-gradient(120deg,#0C3B44,#0F3350);box-shadow:0 16px 40px rgba(6,30,40,.26);position:relative;overflow:hidden}
+.jmap .jh{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.jmap .jh .je{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--turq);font-weight:800}
+.jmap .jh .jn2{font-size:.72rem;color:rgba(200,230,235,.7)}
+.jroad{display:flex;align-items:flex-start;gap:0;overflow-x:auto;padding:16px 4px 8px;position:relative;scrollbar-width:thin}
+.jroad::before{content:"";position:absolute;left:14px;right:14px;top:34px;height:3px;background:linear-gradient(90deg,rgba(34,195,214,.6),rgba(20,201,198,.28));border-radius:3px}
+.jn{display:flex;flex-direction:column;align-items:center;min-width:98px;position:relative;z-index:1}
+.jn .jc{height:36px;display:flex;align-items:center;justify-content:center}
+.jflag{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 50% 34%,#155965,#0A2C34);border:1.5px solid rgba(120,235,228,.5);display:flex;align-items:center;justify-content:center;color:#9FE0D2;font-size:.85rem;box-shadow:0 0 14px rgba(34,195,214,.32)}
+.jflag.start{border-color:var(--gold);color:var(--gold2)}
+.jflag.finish{background:radial-gradient(circle,#F5C518,#C79008);color:#3a2e06;border-color:transparent}
+.jdot{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 50% 34%,#155965,#0A2C34);border:1.5px solid rgba(159,224,210,.4);display:flex;align-items:center;justify-content:center;color:#CFE3DE;font-size:.78rem;font-weight:800}
+.jlbl{margin-top:7px;font-size:.62rem;color:#BAD0CB;text-align:center;max-width:94px;line-height:1.2;white-space:normal}
+.jlbl.mod{color:#EAF1EF;font-weight:800}
 /* course tabs */
 .ctabs{display:flex;gap:9px;padding:18px 0 0;flex-wrap:wrap}
 .ctab{padding:9px 16px;border-radius:10px;background:rgba(255,255,255,.65);color:var(--muted);font-weight:700;font-size:.84rem;border:1px solid var(--line);backdrop-filter:blur(4px);transition:.15s}
@@ -221,7 +236,7 @@ function renderEditor(){
      +'<button class="btn ghost sm" onclick="signOut()">Sign out</button>'
    +'</div></div>'
    +'<div class="wrap"><div class="ctabs">'+tabs+'<button class="ctab addcourse" onclick="addCourse()">+ Course</button></div>'+'<div class="cover"><div><div class="eyebrow">Editing draft — publish to go live</div><h2>'+esc(state.doc.title||'Course')+'</h2></div><div class="cdrop">'+LOGO+'</div></div>'
-     +'<div class="grid">'
+     +'<div class="jmap" id="jmap"></div>'+'<div class="grid">'
        +'<div class="outline" id="outline"></div>'
        +'<div class="panel" id="panel">'+emptyPanel()+'</div>'
      +'</div>'
@@ -266,6 +281,20 @@ function renderOutline(){
   });
   h+='<button class="addbtn" onclick="addModule()">+ Add section</button>';
   document.getElementById('outline').innerHTML=h;
+  renderMapPreview();
+}
+function renderMapPreview(){
+  var host=document.getElementById('jmap'); if(!host)return;
+  var d=state.doc||{}, mods=d.modules||[];
+  var total=0; mods.forEach(function(m){ total+=(m.lessons||[]).length; });
+  var road='<div class="jn"><div class="jc"><div class="jflag start">✸</div></div><div class="jlbl">START</div></div>';
+  var n=0;
+  mods.forEach(function(m){
+    road+='<div class="jn"><div class="jc"><div class="jflag">◈</div></div><div class="jlbl mod">'+esc(m.title||'Section')+'</div></div>';
+    (m.lessons||[]).forEach(function(l){ n++; road+='<div class="jn"><div class="jc"><div class="jdot">'+n+'</div></div><div class="jlbl">'+esc(l.title||'Untitled')+'</div></div>'; });
+  });
+  road+='<div class="jn"><div class="jc"><div class="jflag finish">✦</div></div><div class="jlbl">CERTIFICATE</div></div>';
+  host.innerHTML='<div class="jh"><div class="je">Live journey preview</div><div class="jn2">'+mods.length+' sections · '+total+' lessons · exactly how learners see it</div></div><div class="jroad">'+road+'</div>';
 }
 
 function wireSortables(){
@@ -292,7 +321,7 @@ function syncFromDom(){
   renderOutline(); wireSortables(); scheduleSave();
 }
 
-function setModTitle(mi,v){ state.doc.modules[mi].title=v; scheduleSave(); }
+function setModTitle(mi,v){ state.doc.modules[mi].title=v; renderMapPreview(); scheduleSave(); }
 function addModule(){ state.doc.modules.push({title:'New section',lessons:[]}); renderOutline(); wireSortables(); scheduleSave(); }
 function delModule(mi){ if(!confirm('Delete this section and its lessons?'))return; state.doc.modules.splice(mi,1); state.sel=null; renderOutline(); wireSortables(); document.getElementById('panel').innerHTML=emptyPanel(); scheduleSave(); }
 function addLesson(mi){ var id='l_'+Math.random().toString(36).slice(2,9); state.doc.modules[mi].lessons.push({id:id,title:'New lesson',lead:'',sections:[],quiz:[]}); renderOutline(); wireSortables(); selectLesson(mi,state.doc.modules[mi].lessons.length-1); scheduleSave(); }
