@@ -302,7 +302,7 @@
   .mapcard .swipetag span{display:inline-block;animation:swipeArrow 1.3s ease-in-out infinite;}
   @keyframes swipeArrow{0%,100%{transform:translateX(0);}50%{transform:translateX(4px);}}
   .mapcard .mapfade{position:absolute;top:64px;bottom:44px;right:0;width:88px;pointer-events:none;z-index:4;background:linear-gradient(90deg,transparent,rgba(9,36,44,.55) 55%,rgba(9,36,44,.92));transition:opacity .35s;}
-  .mapcard .swipehint{position:absolute;top:52%;right:12px;z-index:5;pointer-events:none;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#FFE58A,#F5C518);border:1px solid rgba(255,255,255,.35);box-shadow:0 0 18px rgba(245,197,24,.6),0 6px 14px rgba(0,0,0,.35);animation:swipeBounce 1.4s ease-in-out infinite;transition:opacity .35s;}
+  .mapcard .swipehint{position:absolute;top:52%;right:12px;z-index:5;pointer-events:auto;cursor:pointer;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#FFE58A,#F5C518);border:1px solid rgba(255,255,255,.35);box-shadow:0 0 18px rgba(245,197,24,.6),0 6px 14px rgba(0,0,0,.35);animation:swipeBounce 1.4s ease-in-out infinite;transition:opacity .35s;}
   @keyframes swipeBounce{0%,100%{transform:translate(0,-50%);}50%{transform:translate(8px,-50%);}}
   .mapcard.atend .mapfade,.mapcard.atend .swipehint,.mapcard.atend .swipetag{opacity:0;}
   .mapdots{display:flex;justify-content:center;gap:7px;margin:6px 0 2px;position:relative;z-index:3;min-height:9px;}
@@ -1061,6 +1061,7 @@ function render(){
 function initMapSwipe(){
   var mc=document.querySelector('.mapcard'); if(!mc)return;
   var track=mc.querySelector('.track'); var dotsWrap=mc.querySelector('#mapdots'); if(!track)return;
+  var _hint=mc.querySelector('.swipehint'); if(_hint&&!_hint._clk){_hint._clk=1;_hint.addEventListener('click',function(){track.scrollBy({left:Math.round(track.clientWidth*0.72),behavior:'smooth'});});}
   function maxScroll(){return track.scrollWidth-track.clientWidth;}
   function upd(){
     var mx=maxScroll(); if(mx<=0)return;
