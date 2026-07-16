@@ -194,18 +194,22 @@
 
   /* Mascot */
   #mascot{position:fixed;right:18px;bottom:18px;z-index:130;display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
-  .mbtn{width:60px;height:60px;border-radius:50%;background:linear-gradient(160deg,#0E4E58,#0A2C3A);border:2px solid var(--gold);box-shadow:0 10px 26px rgba(8,30,40,.35);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s;}
-  .mbtn:hover{transform:scale(1.06);} .mbtn svg{width:34px;height:34px;}
-  .bubble{width:310px;max-width:78vw;background:var(--white);border:1px solid var(--stone);border-radius:16px;box-shadow:0 16px 44px rgba(20,40,35,.2);overflow:hidden;display:none;}
+  .mbtn{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#16A9B8,#0E8A93);border:2px solid #fff;box-shadow:0 12px 28px rgba(14,138,147,.42);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s;}
+  .mbtn:hover{transform:scale(1.06);} .mbtn svg{width:32px;height:32px;stroke:#fff;}
+  .bubble{width:346px;max-width:88vw;background:#fff;border:1px solid var(--stone);border-radius:18px;box-shadow:0 24px 56px rgba(10,40,50,.28);overflow:hidden;display:none;}
   .bubble.show{display:block;animation:pop .25s ease;}
-  .bubble .bh{background:linear-gradient(160deg,#0E4E58,#0A2C3A);color:#fff;padding:12px 15px;display:flex;align-items:center;gap:10px;}
-  .bubble .bh .nm{font-weight:800;font-size:.9rem;} .bubble .bh .nm s{display:block;font-size:.6rem;text-decoration:none;color:var(--gold2);letter-spacing:.08em;text-transform:uppercase;}
-  .bubble .bh .x{margin-left:auto;cursor:pointer;opacity:.8;font-size:1.1rem;}
-  .bubble .bd{padding:14px 15px;max-height:320px;overflow-y:auto;}
-  .msg{font-size:.9rem;margin-bottom:10px;background:var(--pearl);border-radius:12px;padding:10px 12px;color:var(--ink);}
-  .msg.me{background:rgba(14,138,147,.16);text-align:right;}
-  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;} .chip{font-size:.72rem;font-weight:700;background:rgba(20,201,198,.14);border:1px solid rgba(20,201,198,.32);color:#CDEFEB;border-radius:50px;padding:6px 11px;cursor:pointer;}
-  .mask{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--stone);} .mask input{flex:1;border:1px solid var(--stone);border-radius:50px;padding:9px 14px;font:inherit;font-size:.85rem;outline:none;background:rgba(255,255,255,.06);color:var(--ink);} .mask button{background:var(--emerald);color:#fff;border-radius:50px;padding:0 14px;font-weight:800;}
+  .bubble .bh{background:linear-gradient(120deg,#0C3B44,#103A5A);color:#fff;padding:13px 16px;display:flex;align-items:center;gap:11px;}
+  .bubble .bh .av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#22C3D6,#0E8A93);display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 0 0 2px rgba(255,255,255,.25);}
+  .bubble .bh .av svg{width:20px;height:20px;stroke:#fff;}
+  .bubble .bh .nm{font-weight:800;font-size:.95rem;} .bubble .bh .nm s{display:block;font-size:.56rem;text-decoration:none;color:#BFE9EF;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-top:1px;}
+  .bubble .bh .x{margin-left:auto;cursor:pointer;opacity:.85;font-size:1.1rem;}
+  .bubble .bd{padding:14px 15px;max-height:344px;overflow-y:auto;background:#f6fafb;}
+  .msg{font-size:.88rem;line-height:1.5;margin-bottom:10px;background:#fff;border:1px solid var(--stone);border-radius:13px;padding:10px 13px;color:var(--ink);box-shadow:0 2px 8px rgba(10,40,50,.05);max-width:92%;}
+  .msg.me{background:linear-gradient(135deg,#14A3B4,#0E8A93);color:#fff;border:none;margin-left:auto;}
+  .msg.typing span{display:inline-block;width:6px;height:6px;border-radius:50%;background:#9fb2b8;margin:0 2px;animation:tdot 1.2s infinite;} .msg.typing span:nth-child(2){animation-delay:.2s;} .msg.typing span:nth-child(3){animation-delay:.4s;}
+  @keyframes tdot{0%,60%,100%{opacity:.3;transform:translateY(0);}30%{opacity:1;transform:translateY(-3px);}}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:2px;} .chip{font-size:.72rem;font-weight:700;background:rgba(14,138,147,.1);border:1px solid rgba(14,138,147,.28);color:#0E7C86;border-radius:50px;padding:6px 11px;cursor:pointer;} .chip:hover{background:rgba(14,138,147,.18);}
+  .mask{display:flex;gap:8px;padding:11px 12px;border-top:1px solid var(--stone);background:#fff;} .mask input{flex:1;border:1.5px solid var(--stone);border-radius:50px;padding:9px 15px;font:inherit;font-size:.85rem;outline:none;background:#fff;color:var(--ink);} .mask input:focus{border-color:var(--teal);} .mask button{background:linear-gradient(135deg,#14A3B4,#0E8A93);color:#fff;border-radius:50px;padding:0 16px;font-weight:800;font-size:.85rem;}
   @media(max-width:600px){ #mascot{right:10px;bottom:10px;} .mbtn{width:52px;height:52px;} }
 
   /* Certificate */
@@ -338,7 +342,7 @@
 <footer><div class="wrap"><div class="disc"><b>Educational Disclaimer:</b> IV Rejuve provides educational instruction only. Course completion is not a license, certification to practice, or authorization to perform any procedure. Hands-on skills must be practiced and validated under qualified supervision, and all learners must work within their scope of practice and applicable regulations. &nbsp;© 2026 IV Rejuve.</div></div></footer>
 
 <div id="mascot">
-  <div class="bubble" id="bubble"><div class="bh"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#E3CE9A" stroke-width="1.8"><path d="M12 3a7 7 0 00-4 12.7V19l3-1.5a7 7 0 001-14z"/><path d="M9 10h6M9 13h4"/></svg><div class="nm">Vera<s>Clinical Assistant</s></div><div class="x" onclick="toggleMascot(false)">✕</div></div><div class="bd" id="mbd"></div><div class="mask"><input id="mInput" placeholder="Ask about a procedure…" onkeydown="if(event.key==='Enter')askVera()"/><button onclick="askVera()">Ask</button></div></div>
+  <div class="bubble" id="bubble"><div class="bh"><div class="av"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="1.8"><path d="M12 3a7 7 0 00-4 12.7V19l3-1.5a7 7 0 001-14z"/><path d="M9 10h6M9 13h4"/></svg></div><div class="nm">Vera<s>Clinical Assistant</s></div><div class="x" onclick="toggleMascot(false)">✕</div></div><div class="bd" id="mbd"></div><div class="mask"><input id="mInput" placeholder="Ask about this lesson…" onkeydown="if(event.key==='Enter')askVera()"/><button onclick="askVera()">Ask</button></div></div>
   <div class="mbtn" onclick="toggleMascot()"><svg viewBox="0 0 24 24" fill="none" stroke="#E3CE9A" stroke-width="1.7"><path d="M12 3a7 7 0 00-4 12.7V19l3-1.5a7 7 0 001-14z"/><path d="M9 10h6M9 13h4"/></svg></div>
 </div>
 <div id="xpLayer"></div>
@@ -1413,26 +1417,40 @@ var VERA_KB=[
 var _veraMsgs=[];
 function toggleMascot(force){var b=el("bubble");var show=(force===undefined)?!b.classList.contains("show"):force;b.classList.toggle("show",show);if(show)mascotContext(true);}
 function mascotContext(force){
-  var tip=(S.view==="lesson"&&VERA_TIPS[S.lesson])?VERA_TIPS[S.lesson]:"Hi, I'm Vera — your clinical assistant. Ask me about sites, angles, gauges, Z-track, complications, or CE credits.";
+  var tip=(S.view==="lesson"&&VERA_TIPS[S.lesson])?VERA_TIPS[S.lesson]:"Hi, I'm Vera — your IV Rejuve clinical assistant. Ask me about IV, IM, or subcutaneous technique, the lesson you're on, or your certificate.";
   if(force||_veraMsgs.length===0){_veraMsgs=[{t:tip,me:false}];}
   else{_veraMsgs[0]={t:tip,me:false};}
   paintVera();
 }
+function fmtMsg(t){return esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');}
 function paintVera(){
   var bd=el("mbd");var h="";
-  _veraMsgs.forEach(function(m){h+='<div class="msg '+(m.me?'me':'')+'">'+esc(m.t)+'</div>';});
-  h+='<div class="chips">'+["Ventrogluteal?","Z-track?","Infiltration vs extravasation?","SubQ angle?","CE credit?"].map(function(c){return '<span class="chip" onclick="veraChip(this)">'+c+'</span>';}).join('')+'</div>';
+  _veraMsgs.forEach(function(m){ if(m.typing){h+='<div class="msg typing"><span></span><span></span><span></span></div>';} else {h+='<div class="msg '+(m.me?'me':'')+'">'+(m.me?esc(m.t):fmtMsg(m.t))+'</div>';} });
+  var chips=(S.view==="lesson"?["Summarize this lesson","Quiz me on this"]:["Ventrogluteal?","Z-track?","SubQ angle?"]).concat(["CE credit?"]);
+  h+='<div class="chips">'+chips.map(function(c){return '<span class="chip" onclick="veraChip(this)">'+esc(c)+'</span>';}).join('')+'</div>';
   bd.innerHTML=h;bd.scrollTop=bd.scrollHeight;
 }
 function veraChip(elm){el("mInput").value=elm.textContent;askVera();}
+function tutorContext(){
+  var p=["The learner is using the IV Rejuve Academy training app."];
+  try{
+    if(S.view==="lesson"&&S.lesson&&L[S.lesson]){var l=L[S.lesson];var cn=COURSES[S.course]?COURSES[S.course].name:"";p.push('They are currently on the lesson "'+(l.title||"")+'"'+(cn?(" in the "+cn+" course"):"")+".");if(l.lead)p.push("Lesson summary: "+l.lead);if(l.objectives&&l.objectives.length)p.push("Objectives: "+l.objectives.join("; ")+".");}
+    else if(S.view==="home"){var cn2=COURSES[S.course]?COURSES[S.course].name:"";p.push("They are on the home dashboard"+(cn2?(" for the "+cn2+" course"):"")+".");}
+    else if(S.view==="exam"){p.push("They are taking a final exam.");}
+    else if(S.view==="cert"){p.push("They are on the certificate page.");}
+    else if(S.view==="pricing"){p.push("They are viewing membership plans.");}
+  }catch(e){}
+  return p.join(" ");
+}
+function kbFallback(q){var lc=(q||"").toLowerCase();for(var i=0;i<VERA_KB.length;i++){if(VERA_KB[i].k.some(function(k){return lc.indexOf(k)>=0;}))return VERA_KB[i].a;}return "I focus on IV, IM, and subcutaneous technique and the IV Rejuve Academy lessons. Try asking about sites, angle, gauge, Z-track, aspiration, complications, or CE credits.";}
 function askVera(){
-  var q=el("mInput").value.trim();if(!q)return;el("mInput").value="";
-  _veraMsgs.push({t:q,me:true});
-  var lc=q.toLowerCase(),ans=null;
-  for(var i=0;i<VERA_KB.length;i++){if(VERA_KB[i].k.some(function(k){return lc.indexOf(k)>=0;})){ans=VERA_KB[i].a;break;}}
-  if(!ans)ans="I focus on IV, IM, and subcutaneous technique. Try asking about sites, angle, gauge, Z-track, aspiration, insulin/heparin, complications, or CE credits.";
-  _veraMsgs.push({t:ans,me:false});
-  paintVera();
+  var inp=el("mInput");var q=inp.value.trim();if(!q)return;inp.value="";
+  _veraMsgs.push({t:q,me:true});_veraMsgs.push({t:"",me:false,typing:true});paintVera();
+  var history=_veraMsgs.filter(function(m){return !m.typing;}).map(function(m){return {role:m.me?"user":"assistant",content:m.t};});
+  fetch(SB_URL+"/functions/v1/tutor",{method:"POST",headers:{"Content-Type":"application/json","apikey":SB_ANON,"Authorization":"Bearer "+SB_ANON},body:JSON.stringify({messages:history,context:tutorContext()})})
+    .then(function(r){return r.json();})
+    .then(function(d){_veraMsgs=_veraMsgs.filter(function(m){return !m.typing;});_veraMsgs.push({t:(d&&d.reply)?d.reply:kbFallback(q),me:false});paintVera();})
+    .catch(function(){_veraMsgs=_veraMsgs.filter(function(m){return !m.typing;});_veraMsgs.push({t:kbFallback(q),me:false});paintVera();});
 }
 
 /* ============ Reset ============ */
