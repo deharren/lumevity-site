@@ -308,7 +308,10 @@
   .mapcard .mapfade{position:absolute;top:64px;bottom:44px;right:0;width:88px;pointer-events:none;z-index:4;background:linear-gradient(90deg,transparent,rgba(9,36,44,.55) 55%,rgba(9,36,44,.92));transition:opacity .35s;}
   .mapcard .swipehint{position:absolute;top:52%;right:12px;z-index:5;pointer-events:auto;cursor:pointer;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#DFE6EB,#C3CDD6);border:1px solid rgba(255,255,255,.35);box-shadow:0 0 18px rgba(150,164,178,.6),0 6px 14px rgba(0,0,0,.35);animation:swipeBounce 1.4s ease-in-out infinite;transition:opacity .35s;}
   @keyframes swipeBounce{0%,100%{transform:translate(0,-50%);}50%{transform:translate(8px,-50%);}}
-  .mapcard.atend .mapfade,.mapcard.atend .swipehint,.mapcard.atend .swipetag{opacity:0;}
+  .mapcard.atend .mapfade:not(.left),.mapcard.atend .swipehint:not(.left),.mapcard.atend .swipetag{opacity:0;}
+  .mapcard .mapfade.left{right:auto;left:0;background:linear-gradient(90deg,rgba(9,36,44,.92),rgba(9,36,44,.55) 45%,transparent);}
+  .mapcard .swipehint.left{right:auto;left:12px;}
+  .mapcard.atstart .mapfade.left,.mapcard.atstart .swipehint.left{opacity:0;}
   .mapdots{display:flex;justify-content:center;gap:7px;margin:6px 0 2px;position:relative;z-index:3;min-height:9px;}
   .mapdots .md{width:8px;height:8px;border-radius:50%;background:rgba(180,220,215,.28);transition:.25s;cursor:pointer;}
   .mapdots .md:hover{background:rgba(150,164,178,.6);}
@@ -1065,18 +1068,26 @@ function render(){
 function initMapSwipe(){
   var mc=document.querySelector('.mapcard'); if(!mc)return;
   var track=mc.querySelector('.track'); var dotsWrap=mc.querySelector('#mapdots'); if(!track)return;
-  var _hint=mc.querySelector('.swipehint'); if(_hint&&!_hint._clk){_hint._clk=1;_hint.addEventListener('click',function(){track.scrollBy({left:Math.round(track.clientWidth*0.72),behavior:'smooth'});});}
+  [].forEach.call(mc.querySelectorAll('.swipehint'),function(h){ if(h._clk)return; h._clk=1; var dir=h.classList.contains('left')?-1:1; h.addEventListener('click',function(){track.scrollBy({left:dir*Math.round(track.clientWidth*0.72),behavior:'smooth'});}); });
+  if(!window._mapDragInit){ window._mapDragInit=1; window._mapDrag=null;
+    document.addEventListener('mousemove',function(e){ var d=window._mapDrag; if(!d)return; var dx=e.clientX-d.sx; if(Math.abs(dx)>4)d.moved=true; d.el.scrollLeft=d.sl-dx; });
+    document.addEventListener('mouseup',function(){ var d=window._mapDrag; if(!d)return; d.el.style.cursor='grab'; d.el._justDragged=d.moved; window._mapDrag=null; });
+  }
+  if(!track._dragHooked){ track._dragHooked=1; track.style.cursor='grab';
+    track.addEventListener('mousedown',function(e){ if(e.button!==0)return; window._mapDrag={el:track,sx:e.clientX,sl:track.scrollLeft,moved:false}; track.style.cursor='grabbing'; e.preventDefault(); });
+    track.addEventListener('click',function(e){ if(track._justDragged){e.preventDefault();e.stopPropagation();track._justDragged=false;} },true);
+  }
   function maxScroll(){return track.scrollWidth-track.clientWidth;}
   function upd(){
     var mx=maxScroll(); if(mx<=0)return;
     var frac=track.scrollLeft/mx;
     if(dotsWrap&&dotsWrap._n){var ai=Math.round(frac*(dotsWrap._n-1));[].forEach.call(dotsWrap.children,function(el,i){el.classList.toggle('on',i===ai);});}
-    mc.classList.toggle('atend',track.scrollLeft>=mx-4);
+    mc.classList.toggle('atend',track.scrollLeft>=mx-4);mc.classList.toggle('atstart',track.scrollLeft<=4);
   }
   function buildDots(){
     var mx=maxScroll();
     if(!dotsWrap)return;
-    if(mx<=8){dotsWrap.innerHTML='';mc.classList.add('atend');mc.classList.add('scrolled');return;}
+    if(mx<=8){dotsWrap.innerHTML='';mc.classList.add('atend');mc.classList.add('atstart');mc.classList.add('scrolled');return;}
     var n=Math.min(8,Math.max(2,Math.ceil(track.scrollWidth/track.clientWidth)));
     dotsWrap._n=n;var html='';for(var i=0;i<n;i++){html+='<div class="md" data-i="'+i+'"></div>';}
     dotsWrap.innerHTML=html;
@@ -1137,7 +1148,7 @@ function vHome(){
   h+='<div class="cswitch">'+COURSE_IDS.map(function(c){var cd=courseDone(c);return '<div class="cpill '+(S.course===c?'on':'')+'" onclick="selCourse(\''+c+'\')"><span class="ci">'+svgMini(COURSES[c].mini)+'</span><span>'+COURSES[c].name+'</span><span class="pct">'+cd.p+'%</span></div>';}).join('')+'</div>';
   // journey map
   var _pc='';var _cols=['rgba(34,195,214,.75)','rgba(150,240,232,.7)','rgba(20,201,198,.4)'];for(var _i=0;_i<9;_i++){_pc+='<i class="mpar" style="left:'+(6+_i*10)+'%;top:'+(20+((_i*37)%75))+'%;width:'+(3+_i%3)+'px;height:'+(3+_i%3)+'px;background:'+_cols[_i%3]+';--d:'+(5+_i%4)+'s"></i>';}
-  h+='<div class="mapcard">'+_pc+'<div class="maphead"><div><div class="mapeyebrow">Your learning journey</div><h2>'+COURSES[S.course].name+'</h2></div><div class="mhwrap"><div class="mh">'+COURSES[S.course].modules.length+' modules · ~'+COURSES[S.course].hrs+' hrs</div><div class="swipetag">Swipe to explore <span>→</span></div></div></div>'+journeyMap(S.course)+'<div class="mapdots" id="mapdots"></div><div class="mapfade"></div><div class="swipehint"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#122A33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></div></div>';
+  h+='<div class="mapcard">'+_pc+'<div class="maphead"><div><div class="mapeyebrow">Your learning journey</div><h2>'+COURSES[S.course].name+'</h2></div><div class="mhwrap"><div class="mh">'+COURSES[S.course].modules.length+' modules · ~'+COURSES[S.course].hrs+' hrs</div><div class="swipetag">Swipe to explore <span>→</span></div></div></div>'+journeyMap(S.course)+'<div class="mapdots" id="mapdots"></div><div class="mapfade left"></div><div class="swipehint left"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#122A33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></div><div class="mapfade"></div><div class="swipehint"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#122A33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></div></div>';
   return h;
 }
 function selCourse(c){S.course=c;render();var t=document.querySelector('.track');if(t){var cur=t.querySelector('.dot.cur')||t.querySelector('.finish');}}
