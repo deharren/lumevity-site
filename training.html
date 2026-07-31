@@ -344,6 +344,29 @@
 #demoLogin .dl-gbtn:hover{background:#f7fafb;}
 #demoLogin .dl-gbtn svg{width:20px;height:20px;}
 #demoLogin .dl-note{color:#8A97A3;font-size:.76rem;margin-top:16px;}
+/* ===== Focused lesson card (matches the home-page preview) ===== */
+.lcardwrap{max-width:560px;margin:24px auto 0;}
+.lc-head2{margin:0 0 14px;}
+.lc-eyebrow{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:#0E8A93;}
+.lc-head2 h2{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:1.5rem;color:#12333B;margin-top:4px;font-weight:800;}
+.lcard{border-radius:24px;background:linear-gradient(160deg,#134E58,#0A2C38);border:1px solid rgba(120,235,228,.25);box-shadow:0 30px 70px rgba(3,20,26,.35);padding:22px 20px 22px;}
+.lc-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;}
+.lc-badge{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:#06312f;background:linear-gradient(135deg,#22E0DA,#14C9C6);padding:5px 11px;border-radius:50px;}
+.lc-prog{font-size:.72rem;color:rgba(230,246,246,.7);white-space:nowrap;}
+.lcard h4{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:1.3rem;color:#fff;margin-bottom:4px;font-weight:700;}
+.lc-sub{font-size:.74rem;color:#7FE6F0;letter-spacing:.04em;text-transform:uppercase;margin-bottom:16px;}
+.lc-bar{height:7px;border-radius:6px;background:rgba(230,246,246,.12);overflow:hidden;margin-bottom:16px;}
+.lc-bar i{display:block;height:100%;background:linear-gradient(90deg,#22E0DA,#14C9C6);}
+.lc-les{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:12px;background:rgba(230,246,246,.05);border:1px solid rgba(120,235,228,.12);margin-bottom:9px;transition:transform .15s,border-color .15s,background .15s;}
+.lc-les:last-child{margin-bottom:0;}
+.lc-les.tap{cursor:pointer;}
+.lc-les.tap:hover{transform:translateY(-1px);border-color:rgba(120,235,228,.45);background:rgba(230,246,246,.09);}
+.lc-dot{width:24px;height:24px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:.66rem;font-weight:800;}
+.lc-dot.done{background:linear-gradient(135deg,#22E0DA,#14C9C6);color:#06312f;}
+.lc-dot.now{background:rgba(120,235,228,.18);border:1px solid #22E0DA;color:#7FE6F0;}
+.lc-dot.todo{background:rgba(230,246,246,.08);color:rgba(230,246,246,.5);}
+.lc-les p{font-size:.9rem;color:#eaf7f7;font-weight:600;}
+.lc-les small{display:block;font-size:.68rem;color:rgba(230,246,246,.55);margin-top:1px;}
 </style>
 <div id="demoLogin">
   <div class="dl-card">
@@ -1172,14 +1195,42 @@ function vHome(){
   h+='<div class="propromo"><div class="flame" style="font-size:1.4rem">⚡</div><p>Unlock <b>all three courses</b>, HD video demos, competency checklists, verifiable certificates &amp; <b>CE credit</b>, and the live clinical assistant.</p><button class="btn btn-gold" onclick="go(\'pricing\')">Go Pro</button></div>';
   // course switch
   h+='<div class="cswitch">'+COURSE_IDS.map(function(c){var cd=courseDone(c);return '<div class="cpill '+(S.course===c?'on':'')+'" onclick="selCourse(\''+c+'\')"><span class="ci">'+svgMini(COURSES[c].mini)+'</span><span>'+COURSES[c].name+'</span><span class="pct">'+cd.p+'%</span></div>';}).join('')+'</div>';
-  // journey map
-  var _pc='';var _cols=['rgba(34,195,214,.75)','rgba(150,240,232,.7)','rgba(20,201,198,.4)'];for(var _i=0;_i<9;_i++){_pc+='<i class="mpar" style="left:'+(6+_i*10)+'%;top:'+(20+((_i*37)%75))+'%;width:'+(3+_i%3)+'px;height:'+(3+_i%3)+'px;background:'+_cols[_i%3]+';--d:'+(5+_i%4)+'s"></i>';}
-  h+='<div class="mapcard">'+_pc+'<div class="maphead"><div><div class="mapeyebrow">Your learning journey</div><h2>'+COURSES[S.course].name+'</h2></div><div class="mhwrap"><div class="mh">'+COURSES[S.course].modules.length+' modules · ~'+COURSES[S.course].hrs+' hrs</div><div class="swipetag">Swipe to explore <span>→</span></div></div></div>'+journeyMap(S.course)+'<div class="mapdots" id="mapdots"></div><div class="mapfade left"></div><div class="swipehint left"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#122A33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></div><div class="mapfade"></div><div class="swipehint"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#122A33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></div></div>';
+  // focused lesson card (styled like the home-page preview) — journey map removed
+  h+=lessonCard(S.course);
   return h;
 }
 function selCourse(c){S.course=c;render();var t=document.querySelector('.track');if(t){var cur=t.querySelector('.dot.cur')||t.querySelector('.finish');}}
 function continueLearning(){var ls=allLessons();for(var i=0;i<ls.length;i++){if(!S.done.has(ls[i])){openLesson(ls[i]);return;}}go('cert',S.course);}
 
+function lessonCard(c){
+  var C=COURSES[c], ls=courseLessons(c), cd=courseDone(c);
+  var curId=null;
+  for(var i=0;i<ls.length;i++){ if(!S.done.has(ls[i])){ curId=ls[i]; break; } }
+  var rows='';
+  ls.forEach(function(id){
+    var mark,label,cls,click='';
+    if(S.done.has(id)){ mark='✓'; label='Completed'; cls='done'; click='openLesson(\''+id+'\')'; }
+    else if(id===curId){ mark='▶'; label='Ready — tap to start'; cls='now'; click='openLesson(\''+id+'\')'; }
+    else { mark=String(ls.indexOf(id)+1); label='Locked — finish the previous lesson'; cls='todo'; }
+    rows+='<div class="lc-les'+(click?' tap':'')+'" '+(click?'onclick="'+click+'"':'')+'>'
+      +'<span class="lc-dot '+cls+'">'+mark+'</span>'
+      +'<div><p>'+esc(L[id].title)+'</p><small>'+label+'</small></div></div>';
+  });
+  if(!curId){
+    var examDone=S.exams[c]&&S.exams[c].passed;
+    rows+='<div class="lc-les tap" onclick="go(\'exam\',\''+c+'\')"><span class="lc-dot '+(examDone?'done':'now')+'">'+(examDone?'✓':'★')+'</span>'
+      +'<div><p>Final exam &amp; certificate</p><small>'+(examDone?'Certified':'All lessons done — take the exam')+'</small></div></div>';
+  }
+  var subLabel=curId?('Continue where you left off'):'Course complete';
+  return '<div class="lcardwrap"><div class="lc-head2"><div class="lc-eyebrow">Continue your training</div><h2>'+esc(C.name)+'</h2></div>'
+    +'<div class="lcard">'
+    +'<div class="lc-top"><span class="lc-badge">Course · '+esc(C.name)+'</span><span class="lc-prog">'+cd.p+'% complete</span></div>'
+    +'<h4>'+esc(C.name)+'</h4>'
+    +'<div class="lc-sub">'+C.modules.length+' modules · '+subLabel+'</div>'
+    +'<div class="lc-bar"><i style="width:'+cd.p+'%"></i></div>'
+    +rows
+    +'</div></div>';
+}
 function journeyMap(c){
   var mods=COURSES[c].modules, ls=courseLessons(c);
   var doneN=courseDone(c).done, totalN=ls.length;
