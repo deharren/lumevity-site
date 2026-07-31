@@ -353,6 +353,12 @@
 .lc-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;}
 .lc-badge{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:#06312f;background:linear-gradient(135deg,#22E0DA,#14C9C6);padding:5px 11px;border-radius:50px;}
 .lc-prog{font-size:.72rem;color:rgba(230,246,246,.7);white-space:nowrap;}
+.lc-tabs{display:flex;gap:8px;overflow-x:auto;margin:0 0 16px;padding-bottom:2px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.lc-tabs::-webkit-scrollbar{display:none;}
+.lc-tab{flex:none;background:rgba(230,246,246,.06);border:1px solid rgba(120,235,228,.2);color:rgba(234,247,247,.72);font-family:inherit;font-size:.8rem;font-weight:700;padding:7px 14px;border-radius:50px;cursor:pointer;white-space:nowrap;transition:.15s;}
+.lc-tab.on{background:linear-gradient(135deg,#22E0DA,#14C9C6);color:#06312f;border-color:transparent;}
+.lc-tab:not(.on):hover,.lc-tab:not(.on):active{border-color:rgba(120,235,228,.5);color:#eaf7f7;}
+.lcard .lc-top h4{margin:0;}
 .lcard h4{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:1.3rem;color:#fff;margin-bottom:4px;font-weight:700;}
 .lc-sub{font-size:.74rem;color:#7FE6F0;letter-spacing:.04em;text-transform:uppercase;margin-bottom:16px;}
 .lc-bar{height:7px;border-radius:6px;background:rgba(230,246,246,.12);overflow:hidden;margin-bottom:16px;}
@@ -1252,9 +1258,7 @@ function vHome(){
     +'</div>';
   h+='<div class="xpstrip"><span class="lab">'+rank.n+'</span><div class="xb"><i style="width:'+fp+'%"></i></div><span class="lab">'+(nxt?nxt.n:'Max')+' · '+S.xp+' XP</span></div>';
   h+='<div class="propromo"><div class="flame" style="font-size:1.4rem">⚡</div><p>Unlock <b>all three courses</b>, HD video demos, competency checklists, verifiable certificates &amp; <b>CE credit</b>, and the live clinical assistant.</p><button class="btn btn-gold" onclick="go(\'pricing\')">Go Pro</button></div>';
-  // course switch
-  h+='<div class="cswitch">'+COURSE_IDS.map(function(c){var cd=courseDone(c);return '<div class="cpill '+(S.course===c?'on':'')+'" onclick="selCourse(\''+c+'\')"><span class="ci">'+svgMini(COURSES[c].mini)+'</span><span>'+COURSES[c].name+'</span><span class="pct">'+cd.p+'%</span></div>';}).join('')+'</div>';
-  // focused lesson card (styled like the home-page preview) — journey map removed
+  // focused lesson card with integrated course switcher (white pill row removed)
   h+=lessonCard(S.course);
   return h;
 }
@@ -1281,10 +1285,10 @@ function lessonCard(c){
       +'<div><p>Final exam &amp; certificate</p><small>'+(examDone?'Certified':'All lessons done — take the exam')+'</small></div></div>';
   }
   var subLabel=curId?('Continue where you left off'):'Course complete';
-  return '<div class="lcardwrap"><div class="lc-head2"><div class="lc-eyebrow">Continue your training</div><h2>'+esc(C.name)+'</h2></div>'
-    +'<div class="lcard">'
-    +'<div class="lc-top"><span class="lc-badge">Course · '+esc(C.name)+'</span><span class="lc-prog">'+cd.p+'% complete</span></div>'
-    +'<h4>'+esc(C.name)+'</h4>'
+  var tabs=COURSE_IDS.map(function(cc){return '<button class="lc-tab'+(cc===c?' on':'')+'" onclick="selCourse(\''+cc+'\')">'+esc(COURSES[cc].name)+'</button>';}).join('');
+  return '<div class="lcardwrap"><div class="lc-eyebrow" style="margin-bottom:12px">Continue your training</div><div class="lcard">'
+    +'<div class="lc-tabs">'+tabs+'</div>'
+    +'<div class="lc-top"><h4>'+esc(C.name)+'</h4><span class="lc-prog">'+cd.p+'% complete</span></div>'
     +'<div class="lc-sub">'+C.modules.length+' modules · '+subLabel+'</div>'
     +'<div class="lc-bar"><i style="width:'+cd.p+'%"></i></div>'
     +rows
