@@ -372,7 +372,12 @@
 .lesson .slidebox{background:linear-gradient(160deg,#134E58,#0A2C38);border:1px solid rgba(120,235,228,.25);box-shadow:0 24px 60px rgba(3,20,26,.28);transition:height .35s ease;}
 .lesson .slidetrack{align-items:flex-start;overflow:hidden;transition:height .35s ease;}
 .lesson .slide{height:auto;min-height:0;overflow:visible;padding:30px 30px 28px;}
-@media(max-width:640px){ .lesson .slide{padding:24px 20px 24px;} }
+@media(max-width:640px){
+  .lesson .slide{padding:24px 20px 26px;}
+  .lesson .slidebox{margin-left:-22px;margin-right:-22px;border-radius:0;border-left:0;border-right:0;box-shadow:0 10px 26px rgba(3,20,26,.22);}
+  .lesson .lnav{padding:14px 20px 4px;}
+  .view{padding-top:16px;}
+}
 .slide::-webkit-scrollbar-thumb{background:rgba(120,235,228,.25);}
 .slide .stag{color:#7FE6F0;}
 .slide h3{color:#ffffff;}
