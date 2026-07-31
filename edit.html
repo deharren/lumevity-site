@@ -182,13 +182,61 @@ function closeModal(){document.getElementById('modal').classList.remove('show');
 document.getElementById('modal').addEventListener('click',function(e){if(e.target.id==='modal')closeModal();});
 
 /* ---------- boot / auth ---------- */
+/* DEMO=true simulates the Google sign-in with sample courses so the editor can be
+   shown without live OAuth. Set DEMO=false to use real Google OAuth (already wired). */
+var DEMO=true;
 async function boot(){
+  if(DEMO){ renderLogin(); return; }
   if(!sb){ app.innerHTML='<div class="center"><div class="loginbox"><h1>Editor unavailable</h1><p>Could not load the editor libraries. Check your connection and refresh.</p></div></div>'; return; }
   var s=(await sb.auth.getSession()).data.session;
   if(!s){ renderLogin(); return; }
   state.user=s.user; checkAccess();
 }
-sb && sb.auth.onAuthStateChange(function(_e,s){ if(s&&(!state.user||state.user.id!==s.user.id)){ state.user=s.user; checkAccess(); } });
+if(sb && !DEMO) sb.auth.onAuthStateChange(function(_e,s){ if(s&&(!state.user||state.user.id!==s.user.id)){ state.user=s.user; checkAccess(); } });
+function demoSignIn(){
+  app.innerHTML='<div class="center"><div class="loginbox"><div class="brandrow">'+LOGO+'<b>IV <span>Rejuve</span></b></div><h1>Signing you in…</h1><p>Connecting to your Google account</p></div></div>';
+  setTimeout(function(){ state.user={email:'lacey.smith@ivrejuve.com',id:'demo-user'}; state.org='demo-org'; state.courses=buildDemoCourses(); openCourse(0); toast('Signed in'); },1000);
+}
+function buildDemoCourses(){
+  var iv={slug:'iv-insertion',title:'IV Insertion Training',hrs:'~3.5 hrs',mini:'',modules:[
+    {title:'Foundations',lessons:[
+      {id:'l1',title:'Venous anatomy & site selection',lead:'How to read the arm and pick the best vein for a first-try stick.',video:{provider:'youtube',id:'dQw4w9WgXcQ'},
+        sections:[{h:'Where to look first',p:['Start distal and work proximal so you preserve sites if a stick fails.','Avoid areas of flexion, valves, and hardened or bruised segments.'],list:['Dorsal hand veins','Cephalic vein (forearm)','Median cubital vein']}],
+        quiz:[{q:'Best first-choice site for a routine peripheral IV?',opts:['Antecubital fossa','Forearm cephalic vein','Dorsal foot'],a:1,why:'The forearm cephalic vein is stable, comfortable, and keeps the AC free for blood draws.'}],
+        objectives:['Identify common venous sites','Assess vein quality by palpation'],takeaways:['Palpate, don’t just look — a bouncy vein beats a visible one.'],tips:['Warm the arm and let it hang to dilate veins.'],mistakes:['Choosing a vein directly over a joint.']},
+      {id:'l2',title:'Aseptic technique & equipment',lead:'Building a clean field and gathering supplies before you touch the patient.',sections:[],quiz:[]}
+    ]},
+    {title:'Insertion',lessons:[
+      {id:'l3',title:'Insertion & advancement',lead:'Angle of entry, watching for flashback, and threading the catheter.',sections:[],quiz:[]},
+      {id:'l4',title:'Securement & dressing',lead:'Locking the line so it lasts and stays clean.',sections:[],quiz:[]}
+    ]},
+    {title:'Safety',lessons:[
+      {id:'l5',title:'Complications & troubleshooting',lead:'Infiltration vs extravasation and the first action to take.',sections:[],quiz:[]}
+    ]}
+  ]};
+  var im={slug:'im-injection',title:'Intramuscular Injection',hrs:'~2.5 hrs',mini:'',modules:[
+    {title:'Foundations',lessons:[
+      {id:'m1',title:'Site landmarking',lead:'Deltoid, ventrogluteal, and vastus lateralis, found reliably.',sections:[],quiz:[]},
+      {id:'m2',title:'Needle selection & dose',lead:'Matching gauge and length to site and medication.',sections:[],quiz:[]}
+    ]},
+    {title:'Technique',lessons:[
+      {id:'m3',title:'Z-track & safe injection',lead:'Sealing the track to reduce leakage and irritation.',sections:[],quiz:[]},
+      {id:'m4',title:'Aftercare & documentation',lead:'What to watch for and what to chart.',sections:[],quiz:[]}
+    ]}
+  ]};
+  var sq={slug:'subq-injection',title:'Subcutaneous Injection',hrs:'~2 hrs',mini:'',modules:[
+    {title:'Foundations',lessons:[
+      {id:'s1',title:'Subcutaneous fundamentals',lead:'Indications and how the SubQ layer behaves.',sections:[],quiz:[]},
+      {id:'s2',title:'Sites & rotation',lead:'Where to inject and a rotation pattern that prevents lipohypertrophy.',sections:[],quiz:[]}
+    ]},
+    {title:'Technique',lessons:[
+      {id:'s3',title:'Pinch, angle & injection',lead:'Getting depth right across body types.',sections:[],quiz:[]},
+      {id:'s4',title:'Reactions & client education',lead:'Normal vs concerning, and what to teach clients.',sections:[],quiz:[]}
+    ]}
+  ]};
+  var mk=function(i,doc){return {id:'demo-'+i,slug:doc.slug,title:doc.title,draft:doc,published:doc,updated_at:new Date().toISOString(),sort:i};};
+  return [mk(0,iv),mk(1,im),mk(2,sq)];
+}
 
 function renderLogin(msg){
   app.innerHTML='<div class="center"><div class="loginbox">'
@@ -201,10 +249,11 @@ function renderLogin(msg){
   if(msg)document.getElementById('lmsg').innerHTML='<div class="msg err">'+esc(msg)+'</div>';
 }
 async function signInWithGoogle(){
+  if(DEMO){ demoSignIn(); return; }
   var res=await sb.auth.signInWithOAuth({provider:'google', options:{redirectTo:location.origin+location.pathname}});
   if(res.error){ var lm=document.getElementById('lmsg'); if(lm)lm.innerHTML='<div class="msg err">'+esc(res.error.message)+'</div>'; }
 }
-async function signOut(){ await sb.auth.signOut(); state.user=null; renderLogin(); }
+async function signOut(){ if(!DEMO&&sb){ await sb.auth.signOut(); } state.user=null; renderLogin(); }
 function toggleTopMenu(e){ if(e)e.stopPropagation(); var m=document.getElementById('topmenu'); if(m)m.classList.toggle('show'); }
 function closeTopMenu(){ var m=document.getElementById('topmenu'); if(m)m.classList.remove('show'); }
 document.addEventListener('click',function(e){ var m=document.getElementById('topmenu'); if(m&&m.classList.contains('show')&&!e.target.closest('.menuwrap'))m.classList.remove('show'); });
@@ -282,6 +331,7 @@ async function addCourse(){
   var base=name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'').slice(0,32)||'course';
   var slug=base+'-'+Math.random().toString(36).slice(2,5);
   var doc={slug:slug,title:name,hrs:'',mini:'',modules:[]};
+  if(DEMO){ state.courses.push({id:'demo-'+Date.now(),slug:slug,title:name,draft:doc,published:null,updated_at:new Date().toISOString(),sort:state.courses.length}); openCourse(state.courses.length-1); toast('Course added — add sections & lessons, then Publish.'); return; }
   var res=await sb.from('courses').insert({org_id:state.org,slug:slug,title:name,draft:doc,sort:state.courses.length}).select('id,slug,title,draft,published,updated_at,sort').single();
   if(res.error){ toast('Could not add course: '+res.error.message); return; }
   state.courses.push(res.data);
@@ -384,6 +434,18 @@ async function aiLesson(mi){
   if(!p){ if(st)st.innerHTML='<div class="msg err">Describe the lesson first.</div>'; return; }
   if(go){ go.disabled=true; go.textContent='✨ Drafting…'; }
   if(st)st.innerHTML='<div class="msg ok">Researching and writing your lesson — this usually takes 15–30 seconds…</div>';
+  if(DEMO){
+    setTimeout(function(){
+      var ls={id:'l_'+Math.random().toString(36).slice(2,9),title:p.slice(0,60),lead:'AI-drafted lesson (demo). Edit anything below, then Publish.',
+        sections:[{h:'Overview',p:['This is a sample AI-generated section shown in the demo. In the live editor, the assistant researches your topic and writes full lesson content here.'],list:['Sample key point one','Sample key point two']}],
+        quiz:[{q:'Sample knowledge-check question for this lesson?',opts:['Yes','No'],a:0,why:'This is a demo explanation of the correct answer.'}],
+        objectives:['Sample learning objective'],takeaways:['Sample key takeaway'],tips:[],mistakes:[]};
+      state.doc.modules[mi].lessons.push(ls);
+      renderOutline(); wireSortables(); selectLesson(mi, state.doc.modules[mi].lessons.length-1); scheduleSave();
+      closeModal(); toast('AI draft added — review, edit, then Publish.');
+    },1300);
+    return;
+  }
   try{
     var sess=(await sb.auth.getSession()).data.session;
     var course=(state.courses[state.cur]&&state.courses[state.cur].title)||'';
@@ -475,6 +537,7 @@ function setSave(s){ var e=document.getElementById('savest'); if(!e)return; e.cl
 function scheduleSave(){ setSave('saving'); clearTimeout(state.saveT); state.saveT=setTimeout(saveDraft,1100); }
 async function saveDraft(){
   var c=state.courses[state.cur];
+  if(DEMO){ c.draft=clone(state.doc); c.title=state.doc.title; setSave('saved'); return; }
   var {error}=await sb.from('courses').update({draft:state.doc,title:state.doc.title,updated_at:new Date().toISOString()}).eq('id',c.id);
   if(error){ setSave('unsaved'); toast('Save failed: '+error.message); return; }
   c.draft=clone(state.doc); setSave('saved');
@@ -483,6 +546,7 @@ async function publish(){
   await saveDraft();
   if(!confirm('Publish these changes? Learners will see them on their next visit.'))return;
   var c=state.courses[state.cur]; var now=new Date().toISOString();
+  if(DEMO){ c.published=clone(state.doc); toast('Published ✓  Live for learners.'); return; }
   var up=await sb.from('courses').update({published:state.doc,published_at:now}).eq('id',c.id);
   if(up.error){ toast('Publish failed: '+up.error.message); return; }
   await sb.from('course_revisions').insert({course_id:c.id,doc:state.doc,editor_email:state.user.email,note:'Published'});
@@ -493,6 +557,11 @@ function previewPublished(){ window.open('/training','_blank'); }
 async function openHistory(){
   var c=state.courses[state.cur];
   openModal('<h3 style="font-family:var(--head);margin-bottom:6px">Version history</h3><p style="color:var(--muted);font-size:.84rem;margin-bottom:10px">Restore brings a past version back into your draft (you can still edit before publishing).</p><div id="revs">Loading…</div><div style="text-align:right;margin-top:12px"><button class="btn ghost sm" onclick="closeModal()">Close</button></div>');
+  if(DEMO){
+    var demoRevs=[{id:1,note:'Published',editor_email:'lacey.smith@ivrejuve.com',created_at:new Date(Date.now()-2*86400000).toISOString()},{id:2,note:'Published',editor_email:'lacey.smith@ivrejuve.com',created_at:new Date(Date.now()-9*86400000).toISOString()},{id:3,note:'Published',editor_email:'lacey.smith@ivrejuve.com',created_at:new Date(Date.now()-24*86400000).toISOString()}];
+    document.getElementById('revs').innerHTML=demoRevs.map(function(r){var dt=new Date(r.created_at).toLocaleString();return '<div class="revrow"><div><b>'+dt+'</b><br><span style="color:var(--muted);font-size:.78rem">'+esc(r.editor_email)+' · '+esc(r.note)+'</span></div><button class="btn ghost sm" onclick="restoreRev('+r.id+')">Restore</button></div>';}).join('');
+    return;
+  }
   var {data,error}=await sb.from('course_revisions').select('id,note,editor_email,created_at').eq('course_id',c.id).order('created_at',{ascending:false}).limit(30);
   var box=document.getElementById('revs');
   if(error){ box.innerHTML='<p class="msg err">'+esc(error.message)+'</p>'; return; }
@@ -501,6 +570,7 @@ async function openHistory(){
 }
 async function restoreRev(id){
   if(!confirm('Restore this version into your draft?'))return;
+  if(DEMO){ closeModal(); toast('Restored into draft (demo).'); return; }
   var {data,error}=await sb.from('course_revisions').select('doc').eq('id',id).single();
   if(error){ toast('Restore failed'); return; }
   state.doc=clone(data.doc); if(!state.doc.modules)state.doc.modules=[]; state.sel=null;

@@ -329,6 +329,32 @@
 </style>
 </head>
 <body>
+<!-- ===== DEMO learner login preview (set DEMO_LOGIN=false in script to disable) ===== -->
+<style>
+#demoLogin{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(1000px 560px at 82% -8%,rgba(34,195,214,.22),transparent 60%),radial-gradient(820px 520px at 6% 110%,rgba(30,159,192,.22),transparent 60%),linear-gradient(155deg,#0A2E38 0%,#0A2E3E 55%,#0B2A48 100%);transition:opacity .5s ease;font-family:'Inter',system-ui,sans-serif;}
+#demoLogin.hide{opacity:0;pointer-events:none;}
+#demoLogin .dl-card{position:relative;background:linear-gradient(180deg,#fff,#f7fbfc);border-radius:22px;padding:40px 34px 28px;max-width:400px;width:100%;text-align:center;box-shadow:0 46px 100px rgba(3,20,26,.5);}
+#demoLogin .dl-card::before{content:"";position:absolute;top:0;left:26px;right:26px;height:3px;border-radius:0 0 4px 4px;background:linear-gradient(90deg,#22C3D6,#1E9FC0,#8A97A3);}
+#demoLogin .dl-logo{width:50px;height:60px;margin:0 auto 12px;filter:drop-shadow(0 8px 18px rgba(30,159,192,.5));}
+#demoLogin .dl-brand{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:1.25rem;color:#0C3B44;}
+#demoLogin .dl-brand b{color:#8A97A3;}
+#demoLogin h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#0C3B44;font-size:1.5rem;margin:12px 0 6px;}
+#demoLogin p{color:#5f7078;font-size:.92rem;margin:0 0 22px;line-height:1.5;}
+#demoLogin .dl-gbtn{display:inline-flex;align-items:center;gap:10px;background:#fff;border:1.5px solid #dbe3e6;border-radius:11px;padding:12px 22px;font-weight:700;color:#3c4043;font-size:.95rem;cursor:pointer;box-shadow:0 4px 12px rgba(10,50,60,.12);transition:background .15s;}
+#demoLogin .dl-gbtn:hover{background:#f7fafb;}
+#demoLogin .dl-gbtn svg{width:20px;height:20px;}
+#demoLogin .dl-note{color:#8A97A3;font-size:.76rem;margin-top:16px;}
+</style>
+<div id="demoLogin">
+  <div class="dl-card">
+    <div class="dl-logo"><svg viewBox="0 0 64 78" fill="none"><defs><linearGradient id="dlDrop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3AD8D2"/><stop offset=".5" stop-color="#12A0AE"/><stop offset="1" stop-color="#0B6472"/></linearGradient></defs><path d="M32 5C32 5 51 30 51 47A19 19 0 0 1 13 47C13 30 32 5 32 5Z" fill="url(#dlDrop)"/><path d="M40 22C45 30 46 40 42 48" stroke="#C9F5F3" stroke-width="2.4" stroke-linecap="round" opacity=".7"/><path d="M24 33C20.5 39.5 21 47 26 52C22.5 46 24.5 38.5 29 34.5C27.5 33.4 25.5 33 24 33Z" fill="#fff" opacity=".5"/></svg></div>
+    <div class="dl-brand">IV <b>Rejuve</b></div>
+    <h1>Welcome back</h1>
+    <p>Sign in to start learning and save your progress, XP, and certificates.</p>
+    <button class="dl-gbtn" id="dlBtn" onclick="demoTrainingLogin()"><svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>Continue with Google</button>
+    <div class="dl-note">Demo preview · no real account needed</div>
+  </div>
+</div>
 <div class="ribbon">Educational training · Practice hands-on skills <b>only under qualified supervision</b> within your scope of practice.</div>
 <div class="topbar"><div class="in">
   <div class="brand" onclick="go('home')">
@@ -1491,7 +1517,18 @@ function applyCurriculum(list){
     return true;
   }catch(e){ return false; }
 }
-function bootRender(){ render(); setTimeout(function(){var l=document.querySelector('.brand .logo');if(l)l.classList.add('glow');},900); }
+/* DEMO_LOGIN shows a learner-facing "Continue with Google" preview gate before the
+   training content. Set DEMO_LOGIN=false to remove the gate (content shows immediately). */
+var DEMO_LOGIN=true;
+function demoTrainingLogin(){
+  var btn=document.getElementById('dlBtn');
+  if(btn){ btn.innerHTML='Signing you in…'; btn.disabled=true; btn.style.opacity='.7'; }
+  setTimeout(function(){
+    var o=document.getElementById('demoLogin');
+    if(o){ o.classList.add('hide'); setTimeout(function(){ o.style.display='none'; },560); }
+  },1000);
+}
+function bootRender(){ render(); setTimeout(function(){var l=document.querySelector('.brand .logo');if(l)l.classList.add('glow');},900); if(!DEMO_LOGIN){var o=document.getElementById('demoLogin');if(o)o.style.display='none';} }
 (function boot(){
   var done=false; function finish(){ if(done)return; done=true; bootRender(); }
   try{
