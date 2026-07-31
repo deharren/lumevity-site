@@ -83,7 +83,11 @@ const fdt=d=>d?new Date(d).toLocaleString():"—";
 function toast(m,bad){var t=$("toast");t.textContent=m;t.className="toast show"+(bad?" bad":"");setTimeout(()=>t.className="toast",2400);}
 
 /* ============ AUTH ============ */
+/* DEMO=true simulates the Google sign-in with sample data so the dashboard can be
+   shown without live OAuth. Set DEMO=false to use real Google OAuth (already wired). */
+const DEMO=true;
 async function boot(){
+  if(DEMO){renderLogin();return;}
   if(!sb){renderLogin("Couldn't load the sign-in library. Check your connection and reload.");return;}
   const {data:{session}}=await sb.auth.getSession();
   if(!session){renderLogin();return;}
@@ -94,9 +98,17 @@ async function boot(){
   if(!ok){renderDenied(ME);return;}
   await loadAll(); renderApp();
 }
-if(sb)sb.auth.onAuthStateChange((_e,_s)=>{boot();});
-async function signIn(){if(!sb){toast("Sign-in library not loaded",true);return;}await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+location.pathname}});}
-async function signOut(){await sb.auth.signOut();ME=null;renderLogin();}
+if(sb&&!DEMO)sb.auth.onAuthStateChange((_e,_s)=>{boot();});
+async function signIn(){
+  if(DEMO){demoSignIn();return;}
+  if(!sb){toast("Sign-in library not loaded",true);return;}
+  await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+location.pathname}});
+}
+function demoSignIn(){
+  $("app").innerHTML='<div class="login"><div class="loginbox"><div class="logo">'+LOGO+'</div><h1>Signing you in…</h1><p>Connecting to your Google account</p></div></div>';
+  setTimeout(function(){ ME="lacey.smith@ivrejuve.com"; DATA=buildDemo(); renderApp(); toast("Signed in"); },1100);
+}
+async function signOut(){if(!DEMO&&sb){await sb.auth.signOut();}ME=null;renderLogin();}
 
 function renderLogin(msg){
   $("app").innerHTML='<div class="login"><div class="loginbox"><div class="logo">'+LOGO+'</div><h1>IV Rejuve Admin</h1><p>Sign in with your authorized Google account to manage customers, subscriptions, and beta testers.</p><button class="gbtn" onclick="signIn()">'+GICON+' Sign in with Google</button>'+(msg?'<div class="lockmsg">'+esc(msg)+'</div>':'')+'</div></div>';
@@ -116,7 +128,51 @@ async function loadAll(){
   ]);
   DATA.customers=c.data||[];DATA.payments=p.data||[];DATA.usage=u.data||[];DATA.subs=s.data||[];DATA.log=l.data||[];
 }
-async function logAction(action,target,detail){try{await sb.from("admin_log").insert({actor:ME,action:action,target:target,detail:detail||{}});}catch(e){}}
+async function logAction(action,target,detail){if(DEMO){DATA.log.unshift({at:new Date().toISOString(),actor:ME,action:action,target:target});return;}try{await sb.from("admin_log").insert({actor:ME,action:action,target:target,detail:detail||{}});}catch(e){}}
+
+/* ============ DEMO SAMPLE DATA ============ */
+function buildDemo(){
+  var now=Date.now();
+  var D=function(days){return new Date(now+days*86400000).toISOString();};
+  var customers=[
+    {id:"d1",email:"maria.lopez@gmail.com",name:"Maria Lopez",type:"customer",plan:"pro_annual",status:"active",access_expires:D(300),stripe_customer_id:"cus_PXa1M",created_at:D(-42),updated_at:D(-3),notes:"Upgraded from student plan."},
+    {id:"d2",email:"james.carter@outlook.com",name:"James Carter",type:"customer",plan:"pro_monthly",status:"active",access_expires:D(18),stripe_customer_id:"cus_PXa2J",created_at:D(-88),updated_at:D(-6),notes:""},
+    {id:"d3",email:"aisha.rahman@gmail.com",name:"Aisha Rahman",type:"customer",plan:"student_annual",status:"trialing",access_expires:D(9),stripe_customer_id:"cus_PXa3A",created_at:D(-5),updated_at:D(-1),notes:"On 7-day free trial."},
+    {id:"d4",email:"kevin.nguyen@gmail.com",name:"Kevin Nguyen",type:"customer",plan:"single_course",status:"active",access_expires:null,stripe_customer_id:"cus_PXa4K",created_at:D(-120),updated_at:D(-30),notes:"Bought IV Insertion course."},
+    {id:"d5",email:"sara.demir@icloud.com",name:"Sara Demir",type:"customer",plan:"pro_annual",status:"past_due",access_expires:D(4),stripe_customer_id:"cus_PXa5S",created_at:D(-210),updated_at:D(-2),notes:"Card declined, auto-retry scheduled."},
+    {id:"d6",email:"tanya.brooks@gmail.com",name:"Tanya Brooks",type:"beta",plan:"free",status:"active",access_expires:null,stripe_customer_id:"",created_at:D(-60),updated_at:D(-10),notes:"Beta cohort 1 · shares feedback weekly."},
+    {id:"d7",email:"omar.haddad@gmail.com",name:"Omar Haddad",type:"beta",plan:"free",status:"active",access_expires:null,stripe_customer_id:"",created_at:D(-58),updated_at:D(-12),notes:"Beta cohort 1."},
+    {id:"d8",email:"lena.fischer@gmail.com",name:"Lena Fischer",type:"comp",plan:"pro_annual",status:"active",access_expires:D(365),stripe_customer_id:"",created_at:D(-15),updated_at:D(-15),notes:"Comp access · nursing instructor partner."},
+    {id:"d9",email:"paul.owens@gmail.com",name:"Paul Owens",type:"customer",plan:"student_monthly",status:"canceled",access_expires:D(-3),stripe_customer_id:"cus_PXa9P",created_at:D(-95),updated_at:D(-20),notes:"Canceled after 2 months."}
+  ];
+  var payments=[
+    {customer_id:"d1",customers:{email:"maria.lopez@gmail.com",name:"Maria Lopez"},description:"Pro · Annual",amount_cents:49900,status:"succeeded",paid_at:D(-42)},
+    {customer_id:"d5",customers:{email:"sara.demir@icloud.com",name:"Sara Demir"},description:"Pro · Annual renewal",amount_cents:49900,status:"failed",paid_at:D(-2)},
+    {customer_id:"d4",customers:{email:"kevin.nguyen@gmail.com",name:"Kevin Nguyen"},description:"Single course · IV Insertion",amount_cents:24900,status:"succeeded",paid_at:D(-120)},
+    {customer_id:"d2",customers:{email:"james.carter@outlook.com",name:"James Carter"},description:"Pro · Monthly",amount_cents:5900,status:"succeeded",paid_at:D(-6)},
+    {customer_id:"d3",customers:{email:"aisha.rahman@gmail.com",name:"Aisha Rahman"},description:"Student · Annual",amount_cents:29900,status:"pending",paid_at:D(-5)},
+    {customer_id:"d1",customers:{email:"maria.lopez@gmail.com",name:"Maria Lopez"},description:"Student · Annual (previous term)",amount_cents:29900,status:"refunded",paid_at:D(-210)}
+  ];
+  var usage=[
+    {customer_id:"d1",customers:{email:"maria.lopez@gmail.com",name:"Maria Lopez"},event:"lesson_completed",meta:{lesson:"Vein assessment & site selection"},at:D(-1)},
+    {customer_id:"d3",customers:{email:"aisha.rahman@gmail.com",name:"Aisha Rahman"},event:"course_started",meta:{course:"IV Insertion"},at:D(-4)},
+    {customer_id:"d2",customers:{email:"james.carter@outlook.com",name:"James Carter"},event:"quiz_passed",meta:{score:92},at:D(-2)},
+    {customer_id:"d6",customers:{email:"tanya.brooks@gmail.com",name:"Tanya Brooks"},event:"certificate_issued",meta:{course:"IM Injection"},at:D(-3)},
+    {customer_id:"d4",customers:{email:"kevin.nguyen@gmail.com",name:"Kevin Nguyen"},event:"lesson_completed",meta:{lesson:"Securement & dressing"},at:D(-7)}
+  ];
+  var subs=[
+    {customer_id:"d1",plan:"pro_annual",status:"active",started_at:D(-42),current_period_end:D(323)},
+    {customer_id:"d2",plan:"pro_monthly",status:"active",started_at:D(-88),current_period_end:D(18)},
+    {customer_id:"d3",plan:"student_annual",status:"trialing",started_at:D(-5),current_period_end:D(360)},
+    {customer_id:"d5",plan:"pro_annual",status:"past_due",started_at:D(-210),current_period_end:D(4)}
+  ];
+  var log=[
+    {at:D(-1),actor:"lacey.smith@ivrejuve.com",action:"update_customer",target:"maria.lopez@gmail.com"},
+    {at:D(-3),actor:"lacey.smith@ivrejuve.com",action:"create_customer",target:"lena.fischer@gmail.com"},
+    {at:D(-6),actor:"lacey.smith@ivrejuve.com",action:"add_beta_tester",target:"omar.haddad@gmail.com"}
+  ];
+  return {customers:customers,payments:payments,usage:usage,subs:subs,log:log};
+}
 
 /* ============ APP SHELL ============ */
 function renderApp(){
@@ -248,6 +304,12 @@ function openEdit(id,forceType){
 async function saveCustomer(id){
   var rec={name:$("f_name").value.trim(),type:$("f_type").value,plan:$("f_plan").value,status:$("f_status").value,notes:$("f_notes").value.trim(),access_expires:$("f_exp").value?new Date($("f_exp").value).toISOString():null};
   if(!id){rec.email=$("f_email").value.trim().toLowerCase();if(!rec.email){toast("Email required",true);return;}}
+  if(DEMO){
+    if(id){var di=DATA.customers.findIndex(x=>x.id===id);if(di>=0){DATA.customers[di]=Object.assign({},DATA.customers[di],rec,{updated_at:new Date().toISOString()});}}
+    else{rec.id="demo-"+Date.now();rec.created_at=new Date().toISOString();rec.updated_at=rec.created_at;rec.stripe_customer_id="";DATA.customers.unshift(rec);}
+    await logAction(id?"update_customer":"create_customer",rec.email||id,rec);
+    closeModal();renderApp();closeDrawer();toast(id?"Customer updated":"Customer added");return;
+  }
   let res;
   if(id){res=await sb.from("customers").update(rec).eq("id",id);}
   else{res=await sb.from("customers").insert(rec);}
@@ -261,6 +323,7 @@ async function delCustomer(id){
 }
 async function doDelCustomer(id){
   var c=DATA.customers.find(x=>x.id===id);
+  if(DEMO){DATA.customers=DATA.customers.filter(x=>x.id!==id);await logAction("delete_customer",c?c.email:id,{});closeModal();closeDrawer();renderApp();toast("Customer deleted");return;}
   var res=await sb.from("customers").delete().eq("id",id);
   if(res.error){toast(res.error.message,true);return;}
   await logAction("delete_customer",c?c.email:id,{});
