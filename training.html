@@ -2204,6 +2204,30 @@ var GLOSSARY={
   stylet:{t:"Stylet",alt:["stylet","introducer needle"],see:["cannulation","flashback"],
     d:"The sharp inner needle inside an over-the-needle IV catheter, used to pierce the skin and vein, then withdrawn once the catheter is advanced.",
     why:"<b>Never re-insert a withdrawn stylet</b> into the catheter — it can shear off the catheter tip and embolise."},
+  vesicant:{t:"Vesicant",alt:["vesicant","vesicants","non-vesicant"],see:["extravasation","infiltration"],
+    d:"A drug that blisters and destroys tissue if it escapes the vein — vasopressors, many chemotherapy agents, and concentrated electrolytes such as potassium.",
+    why:"This single property decides the response. The same leak is an infiltration for saline and an <b>extravasation</b> emergency for a vesicant. Know which you are running before you start."},
+  iliac_crest:{t:"Iliac crest",alt:["iliac crest"],see:["ventrogluteal","asis"],fig:"im:ventrogluteal",
+    d:"The curved upper border of the hip bone, felt as the firm ridge along the top of the pelvis.",
+    why:"Your middle finger spreads along it when landmarking the ventrogluteal site — it forms the upper edge of the V."},
+  asis:{t:"Anterior superior iliac spine (ASIS)",alt:["anterior superior iliac spine","ASIS"],see:["iliac_crest","ventrogluteal"],fig:"im:ventrogluteal",
+    d:"The bony prominence at the front of the hip bone — the \"hip point\" you can feel through the skin.",
+    why:"Your index finger rests on it for ventrogluteal landmarking, forming the front edge of the V."},
+  gluteus_medius:{t:"Gluteus medius",alt:["gluteus medius","gluteus minimus"],see:["ventrogluteal"],fig:"im:ventrogluteal",
+    d:"The muscle on the side of the hip, lying beneath and in front of the gluteus maximus.",
+    why:"It is the ventrogluteal target: thick, predictable in depth, and with no major nerve or vessel crossing it."},
+  axillary_nerve:{t:"Axillary nerve",alt:["axillary nerve"],see:["deltoid","acromion"],fig:"im:deltoid",
+    d:"A nerve that wraps around the upper humerus underneath the deltoid muscle.",
+    why:"Injecting too high in the deltoid can strike it, causing lasting weakness or numbness in the shoulder. Measure down from the acromion rather than guessing."},
+  lumen:{t:"Lumen",alt:["lumen"],see:["flashback","tunica_intima"],
+    d:"The hollow interior of a vessel, needle or catheter.",
+    why:"Flashback tells you the needle tip is in the lumen — not that the catheter is. That distinction is why you advance a further 2–3 mm before threading."},
+  venospasm:{t:"Venospasm",alt:["venospasm","vasospasm"],see:["tunica_media","tourniquet"],
+    d:"Sudden constriction of the vein's smooth muscle in response to cold, pain or anxiety.",
+    why:"A good vein can vanish under your fingers. Warmth, a calm patient and a swift first pass prevent it far better than a second attempt does."},
+  intradermal:{t:"Intradermal",alt:["intradermal"],see:["dermis","subcutaneous_tissue"],fig:"skin:dermis",
+    d:"Injection into the dermis itself, raising a visible pale bleb or wheal.",
+    why:"A different technique with a different purpose — TB and allergy testing. If a subcutaneous injection raises a bleb, the needle was too shallow."},
   sharps:{t:"Sharps",alt:["sharps"],see:["sesip","needlestick"],
     d:"Any device that can cut or puncture — needles, stylets, lancets, scalpel blades and broken glass ampoules.",
     why:"Every sharp must go straight into a puncture-resistant container at the point of use. Never recap, never pass by hand, and never overfill the container."},
@@ -2307,6 +2331,7 @@ var _gAliases=(function(){
 var _gRe=new RegExp("\\b("+_gAliases.map(function(o){
   return o.a.replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/\s+/g,"\\s+");
 }).join("|")+")\\b","i");
+var _gReG=new RegExp(_gRe.source,"gi");
 var _gLookup=(function(){
   var m={}; _gAliases.forEach(function(o){ m[o.a.toLowerCase().replace(/\s+/g," ")]=o.k; }); return m;
 })();
@@ -2365,6 +2390,27 @@ function linkGlossary(root){
   });
 }
 
+
+/* Related chips are derived from the definition itself: any other glossary term
+   mentioned in the definition or the "why it matters" note becomes tappable,
+   merged after the hand-authored links. So a term named in the prose is always
+   one tap away without anyone having to maintain a list. */
+var _relCache={};
+function relatedFor(key){
+  if(_relCache[key])return _relCache[key];
+  var g=GLOSSARY[key]||{},out=[];
+  (g.see||[]).forEach(function(k){if(GLOSSARY[k]&&k!==key&&out.indexOf(k)<0)out.push(k);});
+  var text=((g.d||"")+" "+(g.why||"")).replace(/<[^>]+>/g," ");
+  _gReG.lastIndex=0;
+  var m;
+  while((m=_gReG.exec(text))){
+    var k=_gLookup[m[0].toLowerCase().replace(/\s+/g," ")];
+    if(k&&k!==key&&out.indexOf(k)<0)out.push(k);
+  }
+  _relCache[key]=out.slice(0,8);
+  return _relCache[key];
+}
+
 var _gStack=[];
 function openTerm(key,push){
   var g=GLOSSARY[key]; if(!g)return;
@@ -2376,7 +2422,7 @@ function openTerm(key,push){
   h+='<div class="gdef">'+g.d+'</div>';
   var _fs=glossFigSVG(g.fig);if(_fs)h+='<div class="gfig">'+_fs+'</div>';
   if(g.why)h+='<div class="gwhy"><b>Why it matters: </b>'+g.why+'</div>';
-  var see=(g.see||[]).filter(function(k){return GLOSSARY[k];});
+  var see=relatedFor(key);
   if(see.length){
     h+='<div class="gsee"><div class="gl">Related</div>'+see.map(function(k){
       return '<button type="button" onclick="openTerm(\''+k+'\')">'+GLOSSARY[k].t+'</button>';
@@ -2404,13 +2450,40 @@ function ixArmHot(){
     _gfLabel(180,190,"Tap a site")+'</svg>';
 }
 function ixIMHot(){
-  return '<svg viewBox="0 0 380 200" role="img" aria-label="IM sites — tap a site">'+
-    '<rect x="44" y="26" width="70" height="86" rx="26" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'"/>'+
-    '<rect x="146" y="24" width="92" height="102" rx="30" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'"/>'+
-    '<rect x="272" y="34" width="58" height="118" rx="26" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'"/>'+
-    _gfLabel(79,170,"shoulder")+_gfLabel(192,170,"hip")+_gfLabel(301,170,"thigh")+
-    _hot("deltoid",78,58)+_hot("dorso",190,50)+_hot("ventro",190,96)+_hot("vastus",300,110)+
+  var body='<svg viewBox="0 0 320 330" role="img" aria-label="Intramuscular injection sites on the body">'+
+    /* standing figure, posterior view, turned slightly so the side of the hip shows */
+    '<circle cx="150" cy="30" r="20" fill="'+_AF_SKIN+'" stroke="'+_AF_SKIN_E+'" stroke-width="1.6"/>'+
+    '<path d="M140 50 h20 v10 h-20 z" fill="'+_AF_SKIN+'" stroke="'+_AF_SKIN_E+'" stroke-width="1.2"/>'+
+    /* torso */
+    '<path d="M112 66 C126 58,174 58,196 66 C206 92,208 126,202 152 '+
+      'C196 166,116 166,110 152 C104 126,104 92,112 66 Z" fill="'+_AF_SKIN+'" stroke="'+_AF_SKIN_E+'" stroke-width="1.6"/>'+
+    /* arms */
+    '<path d="M112 68 C100 78,94 110,92 146 C91 162,98 168,104 166 C110 140,112 100,116 78 Z" fill="'+_AF_SKIN+'" stroke="'+_AF_SKIN_E+'" stroke-width="1.4"/>'+
+    '<path d="M196 68 C210 78,216 110,218 146 C219 162,212 168,206 166 C200 140,198 100,194 78 Z" fill="'+_AF_SKIN+'" stroke="'+_AF_SKIN_E+'" stroke-width="1.4"/>'+
+    /* pelvis + buttocks */
+    '<path d="M110 152 C120 148,192 148,202 152 C212 172,214 196,206 212 '+
+      'C190 224,122 224,106 212 C98 196,100 172,110 152 Z" fill="'+_AF_SKIN+'" stroke="'+_AF_SKIN_E+'" stroke-width="1.6"/>'+
+    '<path d="M156 154 L156 218" stroke="'+_AF_SKIN_E+'" stroke-width="1.2" opacity=".7"/>'+
+    /* legs */
+    '<path d="M110 214 C112 250,116 290,120 322 L146 322 C148 288,150 250,150 216 Z" fill="'+_AF_SKIN+'" stroke="'+_AF_SKIN_E+'" stroke-width="1.5"/>'+
+    '<path d="M162 216 C162 250,164 288,166 322 L192 322 C196 290,200 250,202 214 Z" fill="'+_AF_SKIN+'" stroke="'+_AF_SKIN_E+'" stroke-width="1.5"/>'+
+    /* muscle tints under each site */
+    '<path d="M192 70 C204 78,210 100,208 120 C200 128,192 122,190 108 C188 92,188 78,192 70 Z" fill="'+_AF_MUS+'" opacity=".45"/>'+
+    '<path d="M160 156 C186 152,204 162,208 180 C210 198,198 210,180 212 C166 206,158 182,160 156 Z" fill="'+_AF_MUS+'" opacity=".4"/>'+
+    '<path d="M186 226 C198 232,202 258,198 286 C190 294,180 288,180 268 C180 248,182 234,186 226 Z" fill="'+_AF_MUS+'" opacity=".4"/>'+
+    /* sciatic nerve, so the dorsogluteal risk is visible */
+    '<path d="M176 190 C182 224,184 264,184 310" stroke="'+_AF_NERVE+'" stroke-width="3.4" fill="none" stroke-linecap="round" opacity=".85"/>'+
+    _hot("deltoid",200,96,13)+
+    _hot("dorso",176,172,13)+
+    _hot("ventro",206,190,13)+
+    _hot("vastus",190,256,13)+
+    /* leader labels, kept in the right gutter */
+    '<path d="M214 96 L246 96" stroke="#8b9aa2" stroke-width="1"/>'+_afLab(250,100,"shoulder",'start',_AF_DIM,10)+
+    '<path d="M190 172 L246 160" stroke="#8b9aa2" stroke-width="1"/>'+_afLab(250,160,"buttock",'start',_AF_DIM,10)+
+    '<path d="M220 190 L246 196" stroke="#8b9aa2" stroke-width="1"/>'+_afLab(250,200,"side of hip",'start',_AF_DIM,10)+
+    '<path d="M204 256 L246 256" stroke="#8b9aa2" stroke-width="1"/>'+_afLab(250,260,"outer thigh",'start',_AF_DIM,10)+
     '</svg>';
+  return body;
 }
 function ixSkinHot(){
   var rows=[["#E9D3BE",34,16,"Epidermis"],["#DDB7A0",50,34,"Dermis"],
