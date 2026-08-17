@@ -1663,6 +1663,9 @@ function wireLesson(){
     el("pv").style.visibility=S.step===0?"hidden":"visible";
     var isKC=steps[S.step].t==="kc";
     el("nx").style.display=isKC?"none":"inline-flex";
+    var _nx=el("nx"),_lk=(steps[S.step].t==="inter")&&!ixStepSolved(S.step);
+    if(_lk){_nx.setAttribute("disabled","");_nx.textContent="Answer to continue";}
+    else{_nx.removeAttribute("disabled");_nx.textContent="Next →";}
     if(isKC&&!el("kcHost").dataset.built){buildKC();}
     syncBar();
   }
@@ -1692,8 +1695,10 @@ function wireLesson(){
   upd();
 }
 function scrollLessonTop(){requestAnimationFrame(function(){var lh=document.querySelector('.lhead')||document.querySelector('.slidebox');if(lh){var y=lh.getBoundingClientRect().top+window.pageYOffset-8;window.scrollTo({top:Math.max(0,y),behavior:'smooth'});}});}
-function stepMove(d){var steps=lessonSteps(S.lesson),total=steps.length;var n=S.step+d;if(n<0||n>=total)return;S.step=n;window._lessonUpd();scrollLessonTop();}
-function stepGo(i){S.step=i;window._lessonUpd();scrollLessonTop();}
+function ixStepSolved(i){var h=el("ixHost"+i);return !!(h&&h.dataset.solved==="1");}
+function stepLocked(i){var st=lessonSteps(S.lesson)[i];return !!(st&&st.t==="inter"&&!ixStepSolved(i));}
+function stepMove(d){var steps=lessonSteps(S.lesson),total=steps.length;var n=S.step+d;if(n<0||n>=total)return;if(d>0&&stepLocked(S.step)){celebrate("🔒","Not yet","Answer correctly to continue");return;}S.step=n;window._lessonUpd();scrollLessonTop();}
+function stepGo(i){if(i>S.step&&stepLocked(S.step)){celebrate("🔒","Not yet","Answer correctly to continue");return;}S.step=i;window._lessonUpd();scrollLessonTop();}
 
 /* ============ Knowledge-check quiz engine ============ */
 function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
@@ -2575,7 +2580,10 @@ function ixSolve(host,ok){
   var bar=host.querySelector(".ixbar");
   if(host.dataset.rz==="1"){
     if(bar)bar.innerHTML='<button type="button" class="ixbtn pri" onclick="rzAdvance()">Continue →</button>';
-  } else if(bar)bar.innerHTML='<span class="ixtag" style="color:#22E0DA">✓ Complete</span>';
+  } else {
+    if(bar)bar.innerHTML='<span class="ixtag" style="color:#22E0DA">✓ Complete</span>';
+    if(window._lessonUpd)window._lessonUpd();   // unlock the Next button now that this step is solved
+  }
 }
 
 /* ---- renderers ---- */
@@ -2750,7 +2758,7 @@ function ixFill(host,body,x){
 
 function ixOrder(host,body,x){
   var seq=[];
-  body.innerHTML='<div class="ordseq"></div><div class="ordbank"></div>';
+  body.innerHTML='<div class="syhint" style="margin:0 0 10px">Tap a step to add it to your order. Tap a numbered step to send it back down.</div><div class="ordseq"></div><div class="ordbank"></div>';
   var seqEl=body.querySelector(".ordseq"), bankEl=body.querySelector(".ordbank");
   function draw(){
     seqEl.innerHTML=seq.length?seq.map(function(id,i){
