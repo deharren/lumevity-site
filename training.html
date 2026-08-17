@@ -1952,11 +1952,22 @@ function gArm(hi){
     dorsal_metacarpal:{d:"M36 82 L66 98 M32 106 L66 112 M38 128 L68 120",lab:"Dorsal metacarpal veins — back of hand"}
   };
   var s='<svg viewBox="0 0 360 200" role="img" aria-label="Venous map of the arm">';
-  s+='<rect x="90" y="50" width="258" height="110" rx="34" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'"/>';
-  s+='<rect x="20" y="62" width="78" height="88" rx="26" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'"/>';
-  // antecubital fossa region
-  s+='<ellipse cx="298" cy="105" rx="30" ry="50" fill="'+(hi==="antecubital"?"rgba(14,138,147,.16)":"none")+
-     '" stroke="'+(hi==="antecubital"?_GF_HI:"#C9B7A4")+'" stroke-width="'+(hi==="antecubital"?2.4:1.4)+
+  // forearm — tapered, narrower at the wrist and wider toward the elbow
+  s+='<path d="M104 84 C188 66 272 62 332 72 C350 75 350 131 332 134 C272 146 188 142 104 124 C92 120 92 90 104 84 Z" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'" stroke-width="1.4"/>';
+  // palm
+  s+='<path d="M110 84 C84 80 52 84 42 97 C31 110 33 123 52 129 C77 137 100 131 110 122 Z" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'" stroke-width="1.4"/>';
+  // four fingers
+  s+='<g fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'" stroke-width="1.2">'
+    +'<rect x="8" y="83" width="38" height="9.5" rx="4.75" transform="rotate(-9 27 88)"/>'
+    +'<rect x="6" y="97" width="40" height="9.5" rx="4.75" transform="rotate(-3 26 102)"/>'
+    +'<rect x="8" y="110" width="38" height="9.5" rx="4.75" transform="rotate(4 27 115)"/>'
+    +'<rect x="14" y="121" width="33" height="9.5" rx="4.75" transform="rotate(11 31 126)"/>'
+    +'</g>';
+  // thumb
+  s+='<path d="M54 128 C47 137 49 148 60 150 C69 151 75 143 74 134 Z" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'" stroke-width="1.2"/>';
+  // antecubital fossa region (the bend of the elbow)
+  s+='<ellipse cx="306" cy="103" rx="27" ry="45" fill="'+(hi==="antecubital"?"rgba(14,138,147,.16)":"none")+
+     '" stroke="'+(hi==="antecubital"?_GF_HI:"#C9B7A4")+'" stroke-width="'+(hi==="antecubital"?2.4:1.2)+
      '" stroke-dasharray="4 4"/>';
   for(var k in V){
     var on=(k===hi);
@@ -2093,6 +2104,56 @@ function gIMDorso(){
   '</svg>';
 }
 
+function gGauges(){
+  var rows=[
+    ["14 G","Orange","#E8823A","Trauma, rapid resus."],
+    ["16 G","Grey","#9AA3A8","Emergency, transfusion"],
+    ["18 G","Green","#3FA65A","Blood products, surgery"],
+    ["20 G","Pink","#E87BA6","Routine adult default"],
+    ["22 G","Blue","#3E8FD0","Older adults, small veins"],
+    ["24 G","Yellow","#EFC23C","Neonates, fragile veins"]
+  ];
+  var s='<svg viewBox="0 0 360 210" role="img" aria-label="IV catheter gauge colour code">';
+  rows.forEach(function(r,i){
+    var cy=20+i*32;
+    s+='<line x1="6" y1="'+cy+'" x2="38" y2="'+cy+'" stroke="#AEB8BE" stroke-width="2.4" stroke-linecap="round"/>';
+    s+='<path d="M52 '+(cy-13)+' q-12 1 -14 7 l16 3 z" fill="'+r[2]+'"/>';
+    s+='<path d="M52 '+(cy+13)+' q-12 -1 -14 -7 l16 -3 z" fill="'+r[2]+'"/>';
+    s+='<rect x="40" y="'+(cy-8)+'" width="48" height="16" rx="4" fill="'+r[2]+'"/>';
+    s+='<rect x="45" y="'+(cy-5)+'" width="30" height="10" rx="2" fill="#ffffff" opacity=".35"/>';
+    s+='<rect x="88" y="'+(cy-6)+'" width="12" height="12" rx="2" fill="#C7D0D5"/>';
+    s+='<text x="116" y="'+(cy+5)+'" font-family="Inter,system-ui" font-size="15" font-weight="800" fill="'+_GF_LAB+'">'+r[0]+'</text>';
+    s+='<text x="158" y="'+(cy+5)+'" font-family="Inter,system-ui" font-size="12.5" font-weight="700" fill="'+r[2]+'">'+r[1]+'</text>';
+    s+='<text x="212" y="'+(cy+5)+'" font-family="Inter,system-ui" font-size="10.5" fill="'+_GF_DIM+'">'+r[3]+'</text>';
+  });
+  s+='</svg>';
+  return s;
+}
+function gFlashback(){
+  var s='<svg viewBox="0 0 360 170" role="img" aria-label="Over-the-needle catheter with blood in the flashback chamber">';
+  // skin
+  s+='<rect x="0" y="74" width="360" height="96" fill="'+_GF_SKIN+'"/>';
+  s+='<path d="M0 74 H360" stroke="'+_GF_EDGE+'" stroke-width="1.4"/>';
+  // vein under the skin — walls and a blood-filled lumen
+  s+='<rect x="30" y="106" width="330" height="30" rx="15" fill="#CBB2B6" stroke="#B49AA0" stroke-width="1.4"/>';
+  s+='<rect x="36" y="113" width="324" height="16" rx="8" fill="#8E3A44"/>';
+  s+=_gfLabel(316,152,"Vein");
+  // catheter assembly, angled into the vein
+  s+='<g transform="translate(68.4,72.1) rotate(20)">';
+  s+='<line x1="112" y1="0" x2="150" y2="0" stroke="#9BA6AC" stroke-width="2.6" stroke-linecap="round"/>';
+  s+='<rect x="74" y="-7" width="44" height="14" rx="4" fill="#E87BA6" opacity=".55"/>';
+  s+='<rect x="26" y="-11" width="52" height="22" rx="5" fill="#F4EEF0" stroke="#C7A9B0" stroke-width="1.4"/>';
+  s+='<rect x="30" y="-7" width="30" height="14" rx="3" fill="#7E2B33"/>';
+  s+='<rect x="4" y="-9" width="24" height="18" rx="4" fill="#E87BA6"/>';
+  s+='<path d="M12 -9 q-8 -8 -16 -6 l2 8 z" fill="#E87BA6"/>';
+  s+='<path d="M12 9 q-8 8 -16 6 l2 -8 z" fill="#E87BA6"/>';
+  s+='</g>';
+  // leader to the flashback chamber
+  s+='<line x1="118" y1="86" x2="150" y2="34" stroke="'+_GF_DIM+'" stroke-width="1.2"/>';
+  s+=_gfLabel(150,26,"Blood in the flashback chamber");
+  s+='</svg>';
+  return s;
+}
 function gIM(hi){
   if(hi==="deltoid")return gIMDeltoid();
   if(hi==="vastus_lateralis")return gIMVastus();
@@ -2127,6 +2188,8 @@ function glossFigSVG(f){
     if(p[0]==="skin")return gSkin(p[1]);
     return "";
   }
+  if(f==="gauges")return gGauges();
+  if(f==="flashback")return gFlashback();
   return illoSVG(f);
 }
 
@@ -3705,6 +3768,9 @@ var LESSON_FIGS={
   iv_anatomy:[
     {h:"venous map",fig:"arm:cephalic",cap:"Superficial veins of the arm",sub:"Cephalic laterally, basilic medially, median cubital across the elbow"},
     {h:"inside the vessel",fig:"veinx",cap:"The vein wall in cross-section",sub:"Intima, media and adventitia — the intima is what your catheter scrapes"}],
+  iv_equipment:[
+    {h:"gauge chart",fig:"gauges",cap:"IV catheter colour code",sub:"Standardised gauge colours; a larger number is a thinner catheter"},
+    {h:"how the catheter",fig:"flashback",cap:"Flashback confirms the vein",sub:"Blood fills the chamber the moment the needle tip enters the vein"}],
   iv_sites:[
     {h:"what makes a good target",fig:"arm:cephalic",cap:"Work distal to proximal",sub:"A straight, well-supported forearm segment away from joints"}],
   im_anatomy:[
