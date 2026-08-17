@@ -1484,7 +1484,7 @@ function awardXP(n,anchor){if(n<=0)return;var before=rankIndex(S.xp);S.xp+=n;var
 function xpBurst(n,anchor){var lay=el("xpLayer");var x=window.innerWidth/2,y=window.innerHeight*0.4;if(anchor){var r=anchor.getBoundingClientRect();x=r.right-30;y=r.top+r.height/2;}var b=document.createElement("div");b.className="xpburst";b.textContent="+"+n+" XP";b.style.left=x+"px";b.style.top=y+"px";lay.appendChild(b);for(var i=0;i<7;i++){(function(){var s=document.createElement("div");s.className="spark";s.style.left=x+"px";s.style.top=y+"px";s.style.setProperty("--dx",(Math.random()*70-35)+"px");s.style.setProperty("--dy",(-Math.random()*50-10)+"px");lay.appendChild(s);setTimeout(function(){s.remove();},800);})();}setTimeout(function(){b.remove();},1000);}
 var _cq=[],_cb=false;
 function celebrate(icon,title,sub){_cq.push([icon,title,sub]);if(!_cb)nextCele();}
-function nextCele(){if(!_cq.length){_cb=false;return;}_cb=true;var c=_cq.shift();el("celeIcon").textContent=c[0];el("celeTitle").textContent=c[1];el("celeSub").textContent=c[2];var o=el("cele");o.classList.add("show");confetti();setTimeout(function(){o.classList.remove("show");setTimeout(nextCele,320);},1700);}
+function nextCele(){if(!_cq.length){_cb=false;return;}_cb=true;var c=_cq.shift();el("celeIcon").textContent=c[0];el("celeTitle").textContent=c[1];el("celeSub").textContent=c[2];var o=el("cele");o.classList.add("show");if(c[0]!=="🔒")confetti();setTimeout(function(){o.classList.remove("show");setTimeout(nextCele,320);},1700);}
 function confetti(){var box=el("confetti");var cols=["#14C9C6","#22E0DA","#0E8A93","#22C3D6","#0AA6A6"];for(var i=0;i<24;i++){var s=document.createElement("i");s.style.left=(Math.random()*100)+"%";s.style.background=cols[i%cols.length];s.style.animationDuration=(1.1+Math.random()*1.1)+"s";box.appendChild(s);(function(x){setTimeout(function(){x.remove();},2500);})(s);}}
 
 /* ============ Router ============ */
@@ -2717,6 +2717,7 @@ function ixSolve(host,ok){
   if(host.dataset.solved==="1")return;
   if(!ok)return;                       // stays open until they get it right
   host.dataset.solved="1";
+  confetti();                          // celebrate correct answers
   var key=host.dataset.key;
   if(!S.qxp.has(key)){S.qxp.add(key);awardXP(XP_CORRECT,host);persist();}
   else touchStreak();
