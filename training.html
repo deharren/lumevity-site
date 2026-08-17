@@ -2680,7 +2680,7 @@ function ixFill(host,body,x){
     var tx=BX+BW*(i/nT), major=(i%maj===0);
     ticks+='<line x1="'+tx+'" y1="'+BY+'" x2="'+tx+'" y2="'+(BY+(major?9:5))+'" stroke="#6f8a92" stroke-width="'+(major?1.6:1)+'"/>';
     if(major)ticks+='<text x="'+tx+'" y="'+(BY-6)+'" font-family="Inter,system-ui" font-size="9.5" fill="#54707a" text-anchor="middle">'+
-      (+(max*(1-i/nT)).toFixed(dec))+'</text>';
+      (+(max*(i/nT)).toFixed(dec))+'</text>';
   }
   // built once, then only the moving parts are repainted — rebuilding the SVG
   // on every change would destroy the element mid-drag and drop the gesture
