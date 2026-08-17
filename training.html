@@ -326,6 +326,56 @@
   .maptip .tt-st.lock{color:#7d8ba0;background:rgba(125,139,160,.14);}
   .maptip::after{content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%) rotate(45deg);width:12px;height:12px;background:#fff;border-right:1px solid rgba(150,164,178,.55);border-bottom:1px solid rgba(150,164,178,.55);}
   .maptip.below::after{bottom:auto;top:-6px;border:none;border-left:1px solid rgba(150,164,178,.55);border-top:1px solid rgba(150,164,178,.55);}
+  /* ===== Glossary terms + definition sheet ===== */
+  .gterm{display:inline;border:none;background:none;padding:0;margin:0;font:inherit;color:var(--tealtext);
+    font-weight:600;cursor:pointer;border-bottom:1.5px dotted var(--turq);line-height:inherit;
+    text-align:left;-webkit-tap-highlight-color:rgba(34,195,214,.18);}
+  .gterm:hover{background:rgba(34,195,214,.1);border-radius:3px;}
+  .gterm:focus-visible{outline:2px solid var(--turq);outline-offset:2px;border-radius:3px;}
+  .gterm .gdot{display:inline-block;width:12px;height:12px;margin-left:2px;vertical-align:-1px;opacity:.75;}
+
+  .gsheet{position:fixed;inset:0;z-index:9500;display:none;align-items:flex-end;justify-content:center;}
+  .gsheet.show{display:flex;}
+  .gsheet .gback{position:absolute;inset:0;background:rgba(10,32,38,.55);backdrop-filter:blur(3px);
+    opacity:0;transition:opacity .28s;}
+  .gsheet.show .gback{opacity:1;}
+  .gsheet .gcard{position:relative;width:100%;max-width:520px;background:var(--white);
+    border-radius:22px 22px 0 0;padding:10px 22px 26px;max-height:86vh;overflow-y:auto;
+    box-shadow:0 -18px 60px rgba(6,28,34,.32);transform:translateY(100%);transition:transform .32s cubic-bezier(.2,.8,.25,1);
+    -webkit-overflow-scrolling:touch;}
+  .gsheet.show .gcard{transform:translateY(0);}
+  .gsheet .ghandle{width:42px;height:4px;border-radius:4px;background:var(--stone);margin:0 auto 14px;}
+  .gsheet .gkicker{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;font-weight:800;
+    color:var(--gold-deep);margin-bottom:5px;}
+  .gsheet h4{font-family:var(--fhead);font-size:1.22rem;color:var(--head);margin:0 0 2px;letter-spacing:-.02em;}
+  .gsheet .gpron{font-size:.78rem;color:var(--muted);font-style:italic;margin-bottom:10px;}
+  .gsheet .gdef{font-size:.95rem;line-height:1.62;color:var(--ink);}
+  .gsheet .gdef b{color:var(--head);}
+  .gsheet .gfig{margin:16px 0 4px;background:var(--pearl);border:1px solid var(--stone);border-radius:14px;
+    padding:12px;}
+  .gsheet .gfig svg{width:100%;height:auto;display:block;}
+  .gsheet .gwhy{margin-top:14px;background:var(--good-soft);border-left:3px solid var(--teal);
+    border-radius:0 10px 10px 0;padding:11px 14px;font-size:.86rem;line-height:1.55;color:var(--head);}
+  .gsheet .gwhy b{color:var(--teal-deep);}
+  .gsheet .gclose{position:absolute;top:14px;right:16px;width:32px;height:32px;border-radius:50%;
+    background:var(--pearl);color:var(--muted);font-size:1.1rem;line-height:1;display:flex;
+    align-items:center;justify-content:center;border:none;cursor:pointer;}
+  .gsheet .gclose:hover{background:var(--stone);color:var(--head);}
+  .gsheet .gsee{margin-top:16px;padding-top:14px;border-top:1px solid var(--stone);}
+  .gsheet .gsee .gl{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;
+    color:var(--muted);margin-bottom:8px;}
+  .gsheet .gsee button{display:inline-block;margin:0 6px 6px 0;padding:6px 12px;border-radius:50px;
+    border:1.5px solid var(--stone);background:var(--white);color:var(--tealtext);font-weight:700;
+    font-size:.78rem;font-family:inherit;cursor:pointer;}
+  .gsheet .gsee button:hover{border-color:var(--turq);background:var(--good-soft);}
+  @media(min-width:640px){
+    .gsheet{align-items:center;}
+    .gsheet .gcard{border-radius:20px;max-height:82vh;transform:translateY(18px) scale(.97);opacity:0;
+      transition:transform .28s cubic-bezier(.2,.8,.25,1),opacity .28s;}
+    .gsheet.show .gcard{transform:translateY(0) scale(1);opacity:1;}
+    .gsheet .ghandle{display:none;}
+    .gsheet .gcard{padding-top:26px;}
+  }
 </style>
 </head>
 <body>
@@ -468,6 +518,7 @@
 <div class="confetti" id="confetti"></div>
 <div class="cele" id="cele"><div class="pop"><div class="ci" id="celeIcon">🎉</div><div class="ct" id="celeTitle">Unlocked</div><div class="cs" id="celeSub"></div></div></div>
 <div class="modal" id="modal"><div class="box" id="modalBox"></div></div>
+<div class="gsheet" id="gsheet"><div class="gback" onclick="closeTerm()"></div><div class="gcard" id="gcard"></div></div>
 
 <script>
 /* ============ SVG illustrations (used by lesson content) ============ */
@@ -1382,6 +1433,8 @@ function wireLesson(){
   function upd(){
     // show only the active step; card height is naturally its content
     [].forEach.call(strack.children,function(sl){ sl.classList.toggle('active', (+sl.getAttribute('data-si'))===S.step); });
+    var _act=strack.querySelector('.slide.active');
+    if(_act&&!_act.dataset.gl){_act.dataset.gl="1";linkGlossary(_act);}
     el("stepFill").style.width=Math.round((S.step+1)/total*100)+"%";
     el("stepN").textContent="Step "+(S.step+1)+" of "+total;
     var dh="";for(var i=0;i<total;i++){dh+='<i class="'+(i===S.step?'on':(i<S.step?'done':''))+'" onclick="stepGo('+i+')"></i>';}
@@ -1397,7 +1450,7 @@ function wireLesson(){
   var vp=el("strack").parentElement,sx=null;
   vp.addEventListener("touchstart",function(e){sx=e.touches[0].clientX;},{passive:true});
   vp.addEventListener("touchend",function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>45){if(dx<0)stepMove(1);else stepMove(-1);}sx=null;});
-  document.onkeydown=function(e){if(S.view!=="lesson")return;if(e.key==="ArrowRight")stepMove(1);else if(e.key==="ArrowLeft")stepMove(-1);};
+  document.onkeydown=function(e){var gs=el("gsheet");if(gs&&gs.classList.contains("show")){if(e.key==="Escape")closeTerm();return;}if(S.view!=="lesson")return;if(e.key==="ArrowRight")stepMove(1);else if(e.key==="ArrowLeft")stepMove(-1);};
   upd();
 }
 function scrollLessonTop(){requestAnimationFrame(function(){var lh=document.querySelector('.lhead')||document.querySelector('.slidebox');if(lh){var y=lh.getBoundingClientRect().top+window.pageYOffset-8;window.scrollTo({top:Math.max(0,y),behavior:'smooth'});}});}
@@ -1618,6 +1671,377 @@ function askVera(){
     .then(function(d){_veraMsgs=_veraMsgs.filter(function(m){return !m.typing;});_veraMsgs.push({t:(d&&d.reply)?d.reply:kbFallback(q),me:false});paintVera();})
     .catch(function(){_veraMsgs=_veraMsgs.filter(function(m){return !m.typing;});_veraMsgs.push({t:kbFallback(q),me:false});paintVera();});
 }
+
+/* ---- Glossary anatomy figures ----
+   Dedicated diagrams that highlight the specific structure being defined, so a
+   figure never carries a caption belonging to a different vessel or site.
+   fig:"arm:cephalic" -> gArm("cephalic"); a bare key falls back to illoSVG(). */
+var _GF_SKIN="#F2E2D2",_GF_EDGE="#D9C3AE",_GF_VEIN="#7FA3B0",_GF_HI="#0E8A93",
+    _GF_MUS="#C98A86",_GF_LAB="#17242B",_GF_DIM="#7d8a92";
+function _gfLabel(x,y,t,anchor){
+  return '<text x="'+x+'" y="'+y+'" font-family="Inter,system-ui" font-size="12.5" font-weight="700" '+
+         'fill="'+_GF_LAB+'" text-anchor="'+(anchor||"middle")+'">'+t+'</text>';
+}
+function gArm(hi){
+  var V={
+    cephalic:{d:"M70 78 C150 60,240 66,338 70",lab:"Cephalic vein — radial (thumb) side"},
+    basilic:{d:"M74 142 C150 156,240 148,338 140",lab:"Basilic vein — medial (little-finger) side"},
+    median_antebrachial:{d:"M82 112 C150 118,215 114,258 106",lab:"Median antebrachial vein — mid-forearm"},
+    median_cubital:{d:"M264 134 C278 116,288 96,302 72",lab:"Median cubital vein — crosses the elbow"},
+    dorsal_metacarpal:{d:"M36 82 L66 98 M32 106 L66 112 M38 128 L68 120",lab:"Dorsal metacarpal veins — back of hand"}
+  };
+  var s='<svg viewBox="0 0 360 200" role="img" aria-label="Venous map of the arm">';
+  s+='<rect x="90" y="50" width="258" height="110" rx="34" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'"/>';
+  s+='<rect x="20" y="62" width="78" height="88" rx="26" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'"/>';
+  // antecubital fossa region
+  s+='<ellipse cx="298" cy="105" rx="30" ry="50" fill="'+(hi==="antecubital"?"rgba(14,138,147,.16)":"none")+
+     '" stroke="'+(hi==="antecubital"?_GF_HI:"#C9B7A4")+'" stroke-width="'+(hi==="antecubital"?2.4:1.4)+
+     '" stroke-dasharray="4 4"/>';
+  for(var k in V){
+    var on=(k===hi);
+    s+='<path d="'+V[k].d+'" fill="none" stroke-linecap="round" stroke="'+(on?_GF_HI:_GF_VEIN)+
+       '" stroke-width="'+(on?8:5)+'" opacity="'+(on?1:.42)+'"/>';
+  }
+  s+=_gfLabel(180,25,"Hand ← distal · proximal → shoulder");
+  var lab=hi==="antecubital"?"Antecubital fossa — the bend of the elbow":(V[hi]?V[hi].lab:"");
+  if(lab)s+=_gfLabel(180,187,lab);
+  s+='</svg>';
+  return s;
+}
+function gIM(hi){
+  var S={
+    deltoid:{cx:78,cy:56,rx:24,ry:26,lab:"Deltoid — 2.5–5 cm below the acromion"},
+    ventrogluteal:{cx:190,cy:96,rx:27,ry:24,lab:"Ventrogluteal — the preferred adult IM site"},
+    dorsogluteal:{cx:190,cy:52,rx:25,ry:20,lab:"Dorsogluteal — no longer recommended"},
+    vastus_lateralis:{cx:300,cy:116,rx:22,ry:34,lab:"Vastus lateralis — outer thigh, middle third"}
+  };
+  var s='<svg viewBox="0 0 380 200" role="img" aria-label="Intramuscular injection sites">';
+  // schematic body regions: shoulder, hip, thigh
+  s+='<rect x="44" y="26" width="70" height="86" rx="26" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'"/>';
+  s+='<rect x="146" y="24" width="92" height="102" rx="30" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'"/>';
+  s+='<rect x="272" y="34" width="58" height="118" rx="26" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'"/>';
+  s+=_gfLabel(79,170,"shoulder")+_gfLabel(192,170,"hip")+_gfLabel(301,170,"thigh");
+  for(var k in S){
+    var o=S[k],on=(k===hi);
+    s+='<ellipse cx="'+o.cx+'" cy="'+o.cy+'" rx="'+o.rx+'" ry="'+o.ry+'" fill="'+
+       (on?"rgba(14,138,147,.25)":"rgba(201,138,134,.22)")+'" stroke="'+(on?_GF_HI:_GF_MUS)+
+       '" stroke-width="'+(on?2.6:1.3)+'"'+(k==="dorsogluteal"&&!on?' stroke-dasharray="4 3"':'')+'/>';
+  }
+  if(S[hi])s+=_gfLabel(190,192,S[hi].lab);
+  s+='</svg>';
+  return s;
+}
+function gSkin(hi){
+  var rows=[
+    {k:"epidermis",y:34,h:16,c:"#E9D3BE",lab:"Epidermis"},
+    {k:"dermis",y:50,h:34,c:"#DDB7A0",lab:"Dermis"},
+    {k:"subcutaneous_tissue",y:84,h:56,c:"#F6E3B8",lab:"Subcutaneous tissue"},
+    {k:"muscle",y:140,h:34,c:"#C98A86",lab:"Muscle"}
+  ];
+  var s='<svg viewBox="0 0 360 200" role="img" aria-label="Cross-section of skin layers">';
+  rows.forEach(function(r){
+    var on=(r.k===hi)||(hi==="adipose"&&r.k==="subcutaneous_tissue");
+    s+='<rect x="20" y="'+r.y+'" width="192" height="'+r.h+'" fill="'+r.c+'" opacity="'+(on?1:.5)+
+       '" stroke="'+(on?_GF_HI:_GF_EDGE)+'" stroke-width="'+(on?2.6:1)+'"/>';
+    s+='<text x="222" y="'+(r.y+r.h/2+4)+'" font-family="Inter,system-ui" font-size="11.5" font-weight="'+
+       (on?800:600)+'" fill="'+(on?_GF_HI:_GF_DIM)+'">'+r.lab+'</text>';
+  });
+  s+='</svg>';
+  return s;
+}
+function glossFigSVG(f){
+  if(!f)return "";
+  var p=f.split(":");
+  if(p.length===2){
+    if(p[0]==="arm")return gArm(p[1]);
+    if(p[0]==="im")return gIM(p[1]);
+    if(p[0]==="skin")return gSkin(p[1]);
+    return "";
+  }
+  return illoSVG(f);
+}
+
+/* ============ Glossary: tap-a-term definitions ============
+   GLOSSARY maps a canonical key to {t:title, d:definition, why:clinical relevance,
+   fig:illoSVG key, alt:[alias strings], see:[related keys]}.
+   linkGlossary() walks rendered text nodes and wraps the first occurrence of each
+   term per step in a .gterm button. It never touches markup inside headings,
+   links, or an existing .gterm, so lesson HTML stays intact. */
+var GLOSSARY={
+  /* --- venous anatomy --- */
+  cephalic:{t:"Cephalic vein",fig:"arm:cephalic",alt:["cephalic vein","cephalic"],see:["basilic","median_cubital"],
+    d:"A large superficial vein running up the <b>radial (thumb) side</b> of the forearm and upper arm.",
+    why:"Straight, well-supported by surrounding tissue and away from major arteries and nerves — usually the best first-choice target for a peripheral IV."},
+  basilic:{t:"Basilic vein",fig:"arm:basilic",alt:["basilic vein","basilic"],see:["cephalic","brachial_artery"],
+    d:"A large superficial vein on the <b>medial (little-finger) side</b> of the forearm and upper arm.",
+    why:"Usable but it rolls easily, and higher in the arm it runs close to the brachial artery and median nerve. Anchor it well and stay low on the forearm."},
+  median_cubital:{t:"Median cubital vein",fig:"arm:median_cubital",alt:["median cubital vein","median cubital"],see:["antecubital","cephalic"],
+    d:"The connecting vein crossing the bend of the elbow, linking the cephalic and basilic veins.",
+    why:"Easy to hit, which is why it is over-used. It sits over a joint, so the line kinks with elbow movement — reserve it for blood draws and emergencies, not routine infusion."},
+  median_antebrachial:{t:"Median antebrachial vein",fig:"arm:median_antebrachial",alt:["median antebrachial vein","median antebrachial"],see:["cephalic"],
+    d:"A vein running up the middle of the inner (palm-side) forearm.",
+    why:"Acceptable mid-forearm, but avoid the portion at the ventral wrist where sensory nerves run very superficially and sticks are notably painful."},
+  dorsal_metacarpal:{t:"Dorsal metacarpal veins",fig:"arm:dorsal_metacarpal",alt:["dorsal metacarpal veins","dorsal metacarpal vein","metacarpal veins"],see:["infiltration"],
+    d:"The network of small veins visible on the <b>back of the hand</b>.",
+    why:"Mobile, small, and poorly supported, so they infiltrate readily. Acceptable in adults when forearm veins fail, but not a first choice and a poor choice in older adults with fragile skin."},
+  antecubital:{t:"Antecubital fossa",pron:"an-tee-KYOO-bit-al",fig:"arm:antecubital",alt:["antecubital fossa","antecubital","AC fossa"],see:["median_cubital","brachial_artery"],
+    d:"The triangular hollow on the front of the elbow, where the median cubital vein, brachial artery and median nerve all lie close together.",
+    why:"A crowded, high-risk neighbourhood over a flexion point. Preserve it for phlebotomy and emergency access rather than spending it on a routine line."},
+  tunica_intima:{t:"Tunica intima",fig:"veinx",alt:["tunica intima","intima"],see:["tunica_media","phlebitis"],
+    d:"The innermost layer of the vein — a single sheet of smooth endothelial cells lining the lumen.",
+    why:"This is the layer your catheter scrapes. Damage to it triggers the inflammation and clot formation behind phlebitis and thrombosis, which is why gentle, single-pass technique matters."},
+  tunica_media:{t:"Tunica media",fig:"veinx",alt:["tunica media"],see:["tunica_intima","vasovagal"],
+    d:"The middle layer of the vein wall, made of smooth muscle and elastic tissue.",
+    why:"It constricts and dilates the vessel. Cold, anxiety or pain make it clamp down (venospasm), which is why a warm compress and a calm patient genuinely make veins easier to cannulate."},
+  tunica_adventitia:{t:"Tunica adventitia",fig:"veinx",alt:["tunica adventitia","adventitia"],see:["tunica_media"],
+    d:"The tough outer connective-tissue layer that anchors the vein to surrounding tissue.",
+    why:"It supplies the vein's structural strength — and its nerve supply, which is part of why the initial skin-and-wall puncture is felt so sharply."},
+  venous_valve:{t:"Venous valve",fig:"veinx",alt:["venous valves","venous valve","valves","valve"],see:["cephalic"],
+    d:"Paired one-way flaps inside a vein that stop blood flowing backwards down the limb.",
+    why:"A catheter that snags and will not thread has usually met a valve. They cluster at branch points, so choose a straight, unbranched segment and never force the advance."},
+  brachial_artery:{t:"Brachial artery",alt:["brachial artery"],see:["antecubital","median_nerve"],
+    d:"The main artery of the upper arm, running just deep to the median cubital vein at the elbow.",
+    why:"Pulsatile and bright-red on entry. Cannulating it is a serious complication — if you feel a pulse under your fingertip, that vessel is not your target."},
+  median_nerve:{t:"Median nerve",alt:["median nerve"],see:["antecubital","brachial_artery"],
+    d:"A major nerve of the arm passing through the antecubital fossa close to the veins used for access.",
+    why:"Contact causes immediate sharp, electric, radiating pain or pins-and-needles. That is a stop signal: withdraw at once, as persisting risks lasting nerve injury."},
+
+  /* --- muscle anatomy (IM) --- */
+  deltoid:{t:"Deltoid",fig:"im:deltoid",alt:["deltoid muscle","deltoid"],see:["acromion","ventrogluteal"],
+    d:"The thick shoulder muscle. The injection site is the dense central triangle, roughly 2.5–5&nbsp;cm (1–2 inches) below the acromion process.",
+    why:"Convenient and the standard adult vaccine site, but it is a small muscle — generally limited to about 1&nbsp;mL. Going too high risks the shoulder joint and the axillary nerve."},
+  ventrogluteal:{t:"Ventrogluteal site",pron:"ven-tro-GLOO-tee-al",fig:"im:ventrogluteal",alt:["ventrogluteal site","ventrogluteal"],see:["greater_trochanter","dorsogluteal"],
+    d:"The gluteus medius/minimus site on the side of the hip, landmarked with the palm on the greater trochanter, index finger to the anterior superior iliac spine and middle finger spread along the iliac crest — you inject into the V.",
+    why:"The preferred adult IM site: thick muscle, predictable depth, and no major nerves or vessels in the target. Tolerates larger volumes (commonly up to about 3&nbsp;mL)."},
+  vastus_lateralis:{t:"Vastus lateralis",fig:"im:vastus_lateralis",alt:["vastus lateralis"],see:["ventrogluteal","deltoid"],
+    d:"The large muscle of the outer thigh; the site is the middle third of the muscle.",
+    why:"The site of choice for infants and young children, and a good self-injection site in adults, because it is bulky, easy to find and has no significant nerves or vessels nearby."},
+  dorsogluteal:{t:"Dorsogluteal site",fig:"im:dorsogluteal",alt:["dorsogluteal site","dorsogluteal"],see:["sciatic","ventrogluteal"],
+    d:"The upper-outer buttock site, historically used for IM injection.",
+    why:"<b>No longer recommended.</b> The sciatic nerve and superior gluteal artery lie beneath it, and the fat layer there is often thicker than the needle is long, so the drug lands in fat rather than muscle. Use the ventrogluteal site instead."},
+  acromion:{t:"Acromion process",alt:["acromion process","acromion"],see:["deltoid"],
+    d:"The bony ridge at the top of the shoulder blade, felt as the hard point at the tip of the shoulder.",
+    why:"The landmark for the deltoid site: measure down from it rather than guessing, since injecting too high causes shoulder-injury-related complications."},
+  greater_trochanter:{t:"Greater trochanter",alt:["greater trochanter"],see:["ventrogluteal"],
+    d:"The prominent bony bump at the top-outer femur, easily felt on the side of the hip.",
+    why:"The anchor point for ventrogluteal landmarking — your palm rests on it to build the V."},
+  sciatic:{t:"Sciatic nerve",alt:["sciatic nerve","sciatic"],see:["dorsogluteal"],
+    d:"The body's largest nerve, running from the lower back through the buttock and down the leg.",
+    why:"The reason the dorsogluteal site was abandoned. Injection injury can cause lasting pain, weakness or foot drop."},
+
+  /* --- skin & subcutaneous --- */
+  subcutaneous_tissue:{t:"Subcutaneous tissue",fig:"skin:subcutaneous_tissue",alt:["subcutaneous tissue","subcutaneous layer","hypodermis"],see:["adipose","dermis"],
+    d:"The fatty layer between the dermis and the muscle, also called the hypodermis.",
+    why:"Its poor blood supply relative to muscle gives subcutaneous injections their slow, steady absorption — exactly what insulin and heparin need."},
+  adipose:{t:"Adipose tissue",fig:"skin:adipose",alt:["adipose tissue","adipose"],see:["subcutaneous_tissue","lipohypertrophy"],
+    d:"Fat tissue — the bulk of the subcutaneous layer.",
+    why:"Its thickness varies enormously between patients and sites, which is what drives needle-length and pinch decisions."},
+  epidermis:{t:"Epidermis",fig:"skin:epidermis",alt:["epidermis"],see:["dermis"],
+    d:"The thin, outermost avascular layer of skin.",
+    why:"The barrier your antiseptic must work on and your needle must cross. It carries the resident bacteria that skin prep is there to reduce."},
+  dermis:{t:"Dermis",fig:"skin:dermis",alt:["dermis"],see:["epidermis","subcutaneous_tissue"],
+    d:"The layer beneath the epidermis, containing blood vessels, nerve endings, and collagen.",
+    why:"It holds the pain receptors — a swift, confident puncture through it hurts far less than a slow, hesitant one."},
+  lipohypertrophy:{t:"Lipohypertrophy",pron:"lip-oh-hy-PER-tro-fee",alt:["lipohypertrophy"],see:["site_rotation","lipoatrophy"],
+    d:"Rubbery, thickened lumps of fatty tissue that build up where injections are repeatedly given in the same spot.",
+    why:"Absorption from these lumps is erratic and unpredictable — a major hidden cause of unstable blood glucose. Inspect and palpate sites, and rotate systematically."},
+  lipoatrophy:{t:"Lipoatrophy",alt:["lipoatrophy"],see:["lipohypertrophy","site_rotation"],
+    d:"Localised loss of fat producing a dent or hollow at repeatedly used injection sites.",
+    why:"Much rarer with modern insulins than lipohypertrophy, but the same fix applies: rotate sites and stop injecting into affected tissue."},
+
+  /* --- equipment --- */
+  gauge:{t:"Gauge (G)",alt:["gauge"],see:["bevel","stylet"],
+    d:"The measure of needle or catheter diameter. The scale runs <b>backwards</b>: a higher number means a <b>thinner</b> device — 24G is much finer than 18G.",
+    why:"Choose the smallest gauge that will do the job. Oversized catheters fill the vein, restrict blood flow around the device, and drive up phlebitis rates."},
+  bevel:{t:"Bevel",alt:["bevel"],see:["gauge","flashback"],
+    d:"The angled, sharpened cutting face at the needle tip.",
+    why:"Insert <b>bevel up</b> for IV and IM: it gives the cleanest, least traumatic skin entry and lets you see flashback appear."},
+  stylet:{t:"Stylet",alt:["stylet","introducer needle"],see:["cannulation","flashback"],
+    d:"The sharp inner needle inside an over-the-needle IV catheter, used to pierce the skin and vein, then withdrawn once the catheter is advanced.",
+    why:"<b>Never re-insert a withdrawn stylet</b> into the catheter — it can shear off the catheter tip and embolise."},
+  sharps:{t:"Sharps",alt:["sharps"],see:["sesip","needlestick"],
+    d:"Any device that can cut or puncture — needles, stylets, lancets, scalpel blades and broken glass ampoules.",
+    why:"Every sharp must go straight into a puncture-resistant container at the point of use. Never recap, never pass by hand, and never overfill the container."},
+  sesip:{t:"Safety-engineered device (SESIP)",alt:["safety-engineered device","SESIP","sharps with engineered sharps injury protection"],see:["needlestick"],
+    d:"A needle or catheter with a built-in shield, retraction or blunting mechanism that covers the sharp immediately after use.",
+    why:"Required by needlestick-prevention regulation. Activate the safety feature before your hand leaves the device, not later."},
+  tourniquet:{t:"Tourniquet",alt:["tourniquet"],see:["cephalic","venous_valve"],
+    d:"A soft band applied 10–15&nbsp;cm above the intended site to obstruct venous return and distend the veins.",
+    why:"Keep it on under two minutes: longer causes haemoconcentration, patient discomfort, and veins so engorged they blow on entry. Release it as soon as the catheter is in."},
+  saline_lock:{t:"Saline lock",alt:["saline lock","saline-lock"],see:["patency","flush"],
+    d:"A peripheral IV catheter capped and maintained with saline flushes rather than a continuous infusion.",
+    why:"Keeps access ready for intermittent medication without tethering the patient to a pump."},
+  insulin_syringe:{t:"Insulin syringe",alt:["insulin syringe"],see:["gauge","subcutaneous_tissue"],
+    d:"A fine syringe calibrated directly in <b>units</b> rather than millilitres, typically U-100.",
+    why:"Never substitute a standard mL syringe for insulin. Reading units off a mL scale is a classic and dangerous dosing error."},
+  filter_needle:{t:"Filter needle",alt:["filter needle"],see:["ampoule"],
+    d:"A needle containing a fine internal filter, used to draw medication out of a glass ampoule.",
+    why:"It traps glass fragments produced when the ampoule is snapped. Swap it for a clean injection needle before you give the dose."},
+  ampoule:{t:"Ampoule",alt:["ampoule","ampule"],see:["filter_needle"],
+    d:"A sealed single-dose glass container, snapped open at the neck.",
+    why:"Single use only, with no preservative — draw through a filter needle and discard any remainder."},
+
+  /* --- technique --- */
+  flashback:{t:"Flashback",alt:["flashback"],see:["cannulation","bevel"],
+    d:"The appearance of blood in the catheter's flashback chamber, confirming the needle tip has entered the vein lumen.",
+    why:"It confirms the <b>needle</b> is in — not the catheter. Advance a few more millimetres to seat the catheter itself before threading, or the catheter will sit in tissue."},
+  cannulation:{t:"Cannulation",alt:["cannulation","cannulate","cannulating"],see:["flashback","stylet"],
+    d:"Inserting a hollow catheter (cannula) into a vein and leaving it in place for infusion or medication.",
+    why:"The whole skill: choose the vein, enter at a shallow angle, confirm flashback, drop the angle, advance the catheter, withdraw the stylet, secure."},
+  z_track:{t:"Z-track technique",alt:["Z-track technique","Z-track","Z track"],see:["aspiration","ventrogluteal"],
+    d:"Displacing the skin and subcutaneous tissue laterally about 2.5&nbsp;cm before inserting the needle, holding it there through the injection, then releasing it as the needle withdraws.",
+    why:"The tissue snaps back out of alignment and seals the needle track, so the drug cannot leak back up into subcutaneous tissue. Now recommended for <b>all</b> IM injections, not only irritant drugs."},
+  aspiration:{t:"Aspiration",alt:["aspiration","aspirate","aspirating"],see:["z_track","ventrogluteal"],
+    d:"Pulling back on the plunger after needle insertion to check for blood return before injecting.",
+    why:"Practice has shifted: the CDC does <b>not</b> recommend aspiration before vaccine administration, since the recommended sites contain no large vessels and it adds pain. Some employers still require it for other IM medications — follow your own policy."},
+  asepsis:{t:"Asepsis / ANTT",alt:["aseptic non-touch technique","ANTT","asepsis","aseptic technique"],see:["chlorhexidine","key_parts"],
+    d:"A structured method for keeping the parts that matter free of contamination — hand hygiene, a clean field, and never touching the key parts of the equipment.",
+    why:"Most catheter-related infections are introduced at insertion. Technique at this moment matters more than anything done afterwards."},
+  key_parts:{t:"Key parts",alt:["key parts","key part"],see:["asepsis"],
+    d:"The components that will contact the sterile route — needle shaft and tip, catheter hub, syringe tip, and the cleaned skin itself.",
+    why:"Once you have cleaned the skin, do not re-palpate it. Touching a key part after cleaning undoes the preparation entirely."},
+  chlorhexidine:{t:"Chlorhexidine",alt:["chlorhexidine","CHG"],see:["asepsis"],
+    d:"An antiseptic, usually 2% chlorhexidine gluconate in 70% alcohol, used to prepare skin before vascular access.",
+    why:"Apply with friction for the full contact time and <b>let it dry completely</b>. Wet antiseptic has not worked yet, and inserting through it stings badly."},
+  patency:{t:"Patency",alt:["patency","patent"],see:["flush","infiltration"],
+    d:"Whether the line is open and flowing freely.",
+    why:"Confirm it before every use: a flush that runs without resistance, swelling or pain. Resistance means stop and assess — never force a flush."},
+  flush:{t:"Flush",alt:["flushing","flush"],see:["patency","saline_lock"],
+    d:"Injecting sterile saline through the catheter to clear it and confirm patency, often using a pulsatile push-pause motion.",
+    why:"Finish with positive pressure to stop blood being drawn back into the tip as you disconnect, which is what clots the line."},
+  site_rotation:{t:"Site rotation",alt:["site rotation","rotating sites"],see:["lipohypertrophy"],
+    d:"Systematically moving each injection to a new spot, at least a finger's width from the last, and working through a planned pattern.",
+    why:"The single most effective way to prevent lipohypertrophy and keep absorption predictable. 'Somewhere near there' is not rotation — a written or mental map is."},
+
+  /* --- complications --- */
+  infiltration:{t:"Infiltration",alt:["infiltration","infiltrate","infiltrated"],see:["extravasation","phlebitis"],
+    d:"Leakage of a <b>non-vesicant</b> infusion into the tissue around the vein, causing swelling, coolness, tightness and a sluggish or stopped drip.",
+    why:"Stop the infusion and remove the catheter. Usually resolves, but a large-volume infiltration can still compromise circulation — measure and document it."},
+  extravasation:{t:"Extravasation",alt:["extravasation","extravasate"],see:["infiltration"],
+    d:"The same leakage, but of a <b>vesicant</b> — a drug that blisters and destroys tissue.",
+    why:"A clinical emergency. Stop immediately, leave the catheter in to aspirate residual drug, and escalate: extravasation of some agents causes necrosis needing surgical repair."},
+  phlebitis:{t:"Phlebitis",pron:"fleh-BY-tis",alt:["phlebitis"],see:["tunica_intima","thrombophlebitis"],
+    d:"Inflammation of the vein wall — red, warm, tender, often with a palpable cord along the vein. Causes may be mechanical, chemical, or infective.",
+    why:"Grade it on a standard scale and remove the catheter. Rising phlebitis rates on a unit usually point at oversized catheters, poor securement or dwell time."},
+  thrombophlebitis:{t:"Thrombophlebitis",alt:["thrombophlebitis"],see:["phlebitis"],
+    d:"Phlebitis with an accompanying clot in the inflamed vein.",
+    why:"Adds a hard, cord-like vein to the inflammatory signs. Remove the catheter and escalate — do not use that vein again."},
+  hematoma:{t:"Hematoma",alt:["hematoma","haematoma"],see:["tourniquet"],
+    d:"A collection of blood in the tissue, from puncturing through the far wall of the vein or from inadequate pressure after removal.",
+    why:"Prevent it with a controlled angle, prompt tourniquet release, and firm pressure on removal. Never rub the site afterwards — particularly after anticoagulant injections."},
+  induration:{t:"Induration",alt:["induration","indurated"],see:["phlebitis","lipohypertrophy"],
+    d:"Abnormal hardening of tissue, felt as a firm area under the skin.",
+    why:"A sign of chronic irritation or infection. Palpate for it during every site check — it is felt long before it is seen."},
+  erythema:{t:"Erythema",pron:"eh-rih-THEE-muh",alt:["erythema","erythematous"],see:["phlebitis"],
+    d:"Redness of the skin from increased blood flow.",
+    why:"Often the first visible sign of phlebitis or infection at a site. Note how far it extends from the insertion point, and re-check."},
+  sclerosed:{t:"Sclerosed vein",alt:["sclerosed vein","sclerosed","sclerosis"],see:["cephalic","venous_valve"],
+    d:"A vein that has become hardened, thickened and cord-like from repeated punctures or irritant infusions.",
+    why:"It feels firm and ropey rather than soft and springy, will not thread and will not flush. Palpate before choosing — a visible vein is not automatically a usable one."},
+  vasovagal:{t:"Vasovagal response",alt:["vasovagal response","vasovagal","vasovagal reaction"],see:["tunica_media"],
+    d:"A reflex drop in heart rate and blood pressure triggered by pain, anxiety or the sight of blood, causing pallor, sweating, nausea and possibly fainting.",
+    why:"Anticipate it, especially in young, anxious or fasted patients. Sit or lie the patient down <b>before</b> the procedure — most injuries come from the fall, not the faint."},
+  needlestick:{t:"Needlestick injury",alt:["needlestick injury","needlestick","sharps injury"],see:["sesip"],
+    d:"Accidental puncture with a used sharp, carrying bloodborne-pathogen exposure risk.",
+    why:"Never recap. Activate the safety mechanism at once, dispose at point of use, and report immediately — post-exposure prophylaxis is time-critical."},
+  air_embolism:{t:"Air embolism",alt:["air embolism"],see:["flush","patency"],
+    d:"Air entering the venous circulation and travelling to the heart or lungs.",
+    why:"Rare with peripheral lines but serious. Prime all tubing fully, keep connections tight, and clear air from syringes before injecting."}
+};
+
+/* Build one case-insensitive matcher, longest phrase first so
+   "tunica intima" wins over "intima" and "median cubital vein" over "median". */
+var _gAliases=(function(){
+  var out=[];
+  for(var k in GLOSSARY){
+    (GLOSSARY[k].alt||[GLOSSARY[k].t]).forEach(function(a){ out.push({a:a,k:k}); });
+  }
+  out.sort(function(x,y){ return y.a.length-x.a.length; });
+  return out;
+})();
+var _gRe=new RegExp("\\b("+_gAliases.map(function(o){
+  return o.a.replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/\s+/g,"\\s+");
+}).join("|")+")\\b","i");
+var _gLookup=(function(){
+  var m={}; _gAliases.forEach(function(o){ m[o.a.toLowerCase().replace(/\s+/g," ")]=o.k; }); return m;
+})();
+
+/* Only these containers get scanned; headings and links are left alone. */
+var GLOSS_SEL=".lp, .slist li, .ltable td, .note, .block li, .obj li, .gdef";
+function linkGlossary(root){
+  if(!root)return;
+  var used={};
+  [].forEach.call(root.querySelectorAll(GLOSS_SEL),function(host){
+    var walker=document.createTreeWalker(host,NodeFilter.SHOW_TEXT,{
+      acceptNode:function(n){
+        if(!n.nodeValue||!n.nodeValue.trim())return NodeFilter.FILTER_REJECT;
+        var p=n.parentNode;
+        while(p&&p!==host){
+          var tag=(p.tagName||"").toLowerCase();
+          if(tag==="a"||tag==="button"||tag==="h1"||tag==="h2"||tag==="h3"||tag==="h4")return NodeFilter.FILTER_REJECT;
+          if(p.classList&&p.classList.contains("gterm"))return NodeFilter.FILTER_REJECT;
+          p=p.parentNode;
+        }
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var nodes=[],n;
+    while((n=walker.nextNode()))nodes.push(n);
+    nodes.forEach(function(node){
+      var text=node.nodeValue, m=_gRe.exec(text);
+      if(!m)return;
+      var key=_gLookup[m[0].toLowerCase().replace(/\s+/g," ")];
+      if(!key||used[key]){
+        // already linked this term in this step — skip past it and retry the rest
+        var rest=text.slice(m.index+m[0].length);
+        if(!rest.trim())return;
+        var tail=document.createTextNode(rest);
+        node.nodeValue=text.slice(0,m.index+m[0].length);
+        node.parentNode.insertBefore(tail,node.nextSibling);
+        nodes.push(tail);
+        return;
+      }
+      used[key]=1;
+      var before=document.createTextNode(text.slice(0,m.index));
+      var after=document.createTextNode(text.slice(m.index+m[0].length));
+      var btn=document.createElement("button");
+      btn.type="button"; btn.className="gterm"; btn.setAttribute("data-gk",key);
+      btn.setAttribute("aria-label",m[0]+" — show definition");
+      btn.textContent=m[0];
+      btn.innerHTML+='<svg class="gdot" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="10" cy="10" r="8"/><path d="M10 9v5M10 6.2v.1" stroke-linecap="round"/></svg>';
+      btn.onclick=function(e){ e.stopPropagation(); openTerm(key); };
+      var par=node.parentNode;
+      par.insertBefore(before,node);
+      par.insertBefore(btn,node);
+      par.insertBefore(after,node);
+      par.removeChild(node);
+      nodes.push(after);
+    });
+  });
+}
+
+var _gStack=[];
+function openTerm(key,push){
+  var g=GLOSSARY[key]; if(!g)return;
+  if(push!==false&&_gStack[_gStack.length-1]!==key)_gStack.push(key);
+  var sheet=el("gsheet");
+  var h='<div class="ghandle"></div><button class="gclose" onclick="closeTerm()" aria-label="Close">✕</button>';
+  h+='<div class="gkicker">Definition</div><h4>'+g.t+'</h4>';
+  if(g.pron)h+='<div class="gpron">'+g.pron+'</div>';
+  h+='<div class="gdef">'+g.d+'</div>';
+  var _fs=glossFigSVG(g.fig);if(_fs)h+='<div class="gfig">'+_fs+'</div>';
+  if(g.why)h+='<div class="gwhy"><b>Why it matters: </b>'+g.why+'</div>';
+  var see=(g.see||[]).filter(function(k){return GLOSSARY[k];});
+  if(see.length){
+    h+='<div class="gsee"><div class="gl">Related</div>'+see.map(function(k){
+      return '<button type="button" onclick="openTerm(\''+k+'\')">'+GLOSSARY[k].t+'</button>';
+    }).join('')+'</div>';
+  }
+  el("gcard").innerHTML=h;
+  sheet.classList.add("show");
+  el("gcard").scrollTop=0;
+}
+function closeTerm(){ _gStack=[]; el("gsheet").classList.remove("show"); }
 
 /* ============ Reset ============ */
 function resetAll(){openModal('<h3>Reset progress?</h3><p>This clears your XP, streak, completed lessons, exams, and certificates on this device.</p><button class="btn btn-ghost" onclick="closeModal()">Cancel</button> <button class="btn btn-gold" onclick="doReset()">Reset</button>');}
