@@ -462,6 +462,48 @@
   .rzscore{text-align:center;padding:6px 0 2px;}
   .rzscore .n{font-family:var(--fhead);font-size:2.6rem;font-weight:800;color:#fff;line-height:1;}
   .rzscore .l{font-size:.78rem;color:rgba(234,247,247,.6);margin-top:6px;}
+  /* ===== Lesson media (photo / video demonstrations) ===== */
+  .mgrid{display:grid;gap:14px;grid-template-columns:1fr;}
+  @media(min-width:680px){.mgrid.two{grid-template-columns:1fr 1fr;}}
+  .mfig{margin:0;border-radius:14px;overflow:hidden;background:rgba(230,246,246,.05);
+    border:1px solid rgba(120,235,228,.18);}
+  .mfig .mwrap{position:relative;display:block;width:100%;background:#0c2a31;cursor:zoom-in;
+    aspect-ratio:16/10;overflow:hidden;}
+  .mfig .mwrap img,.mfig .mwrap video{width:100%;height:100%;object-fit:cover;display:block;}
+  .mfig .mplay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:rgba(6,26,30,.28);transition:background .2s;}
+  .mfig .mwrap:hover .mplay{background:rgba(6,26,30,.12);}
+  .mfig .mplay i{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.94);
+    display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+  .mfig .mplay i::after{content:"";border-left:16px solid #0E8A93;border-top:10px solid transparent;
+    border-bottom:10px solid transparent;margin-left:4px;}
+  .mfig figcaption{padding:11px 14px;font-size:.85rem;line-height:1.5;color:#cfe9ea;}
+  .mfig figcaption b{color:#fff;}
+  .mfig .mcred{display:block;margin-top:5px;font-size:.7rem;color:rgba(234,247,247,.45);}
+  .mfig .mbadge{position:absolute;top:10px;left:10px;background:rgba(6,26,30,.7);color:#9fe9e6;
+    font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;
+    padding:4px 9px;border-radius:50px;}
+
+  /* slot with no asset yet — only shown when MEDIA_PLACEHOLDERS is on */
+  .mfig.mslot .mwrap{cursor:default;background:repeating-linear-gradient(45deg,
+    rgba(120,235,228,.05),rgba(120,235,228,.05) 10px,transparent 10px,transparent 20px);
+    border-bottom:1px dashed rgba(120,235,228,.28);display:flex;align-items:center;
+    justify-content:center;text-align:center;padding:22px;}
+  .mfig.mslot .mwrap span{font-size:.82rem;color:rgba(234,247,247,.6);line-height:1.5;}
+  .mfig.mslot .mwrap span b{display:block;color:#9fe9e6;font-size:.66rem;letter-spacing:.16em;
+    text-transform:uppercase;margin-bottom:6px;}
+
+  /* lightbox */
+  .mlb{position:fixed;inset:0;z-index:9600;display:none;align-items:center;justify-content:center;padding:22px;}
+  .mlb.show{display:flex;}
+  .mlb .mlbback{position:absolute;inset:0;background:rgba(4,18,22,.88);backdrop-filter:blur(4px);}
+  .mlb .mlbbox{position:relative;max-width:min(1000px,94vw);max-height:88vh;width:100%;}
+  .mlb .mlbbox img,.mlb .mlbbox video{width:100%;max-height:76vh;object-fit:contain;display:block;
+    border-radius:12px;background:#000;}
+  .mlb .mlbcap{color:#dbeef0;font-size:.86rem;line-height:1.5;margin-top:12px;text-align:center;}
+  .mlb .mlbx{position:absolute;top:-46px;right:0;width:36px;height:36px;border-radius:50%;
+    background:rgba(255,255,255,.14);color:#fff;border:none;cursor:pointer;font-size:1.1rem;}
+  .mlb .mlbx:hover{background:rgba(255,255,255,.26);}
 </style>
 </head>
 <body>
@@ -605,6 +647,7 @@
 <div class="cele" id="cele"><div class="pop"><div class="ci" id="celeIcon">🎉</div><div class="ct" id="celeTitle">Unlocked</div><div class="cs" id="celeSub"></div></div></div>
 <div class="modal" id="modal"><div class="box" id="modalBox"></div></div>
 <div class="gsheet" id="gsheet"><div class="gback" onclick="closeTerm()"></div><div class="gcard" id="gcard"></div></div>
+<div class="mlb" id="mlb"><div class="mlbback" onclick="closeMedia()"></div><div class="mlbbox" id="mlbBox"></div></div>
 
 <script>
 /* ============ SVG illustrations (used by lesson content) ============ */
@@ -1485,6 +1528,7 @@ function lessonSteps(id){
   var L0=L[id];var steps=[];
   steps.push({t:"overview"});
   if(L0.sections)L0.sections.forEach(function(s,i){steps.push({t:"sec",i:i});});
+  if(lessonMedia(id).length)steps.push({t:"media"});
   lessonInters(id).forEach(function(_,i){steps.push({t:"inter",i:i});});
   if(L0.tips||L0.mistakes)steps.push({t:"tm"});
   if(L0.takeaways)steps.push({t:"take"});
@@ -1515,6 +1559,7 @@ function stepHTML(L0,st){
     return h;
   }
   if(st.t==="sec"){return '<div class="stag">Learn</div>'+renderSection(L0.sections[st.i]);}
+  if(st.t==="media"){return mediaHTML(S.lesson);}
   if(st.t==="inter"){return '<div id="ixHost'+st.i+'"></div>';}
   if(st.t==="tm"){var h='';if(L0.tips)h+='<div class="block tips"><div class="bl">Clinical tips &amp; judgment</div><ul>'+L0.tips.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></div>';if(L0.mistakes)h+='<div class="block mist"><div class="bl">Common mistakes to avoid</div><ul>'+L0.mistakes.map(function(m){return '<li>'+m+'</li>';}).join('')+'</ul></div>';return h;}
   if(st.t==="take"){return '<div class="block take"><div class="bl">Key takeaways</div><ul>'+L0.takeaways.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></div>'+(L0.refs?'<p class="lp" style="font-size:.78rem;color:var(--muted);margin-top:12px"><b>Sources:</b> '+L0.refs+'</p>':'');}
@@ -1548,7 +1593,7 @@ function wireLesson(){
   var vp=el("strack").parentElement,sx=null;
   vp.addEventListener("touchstart",function(e){sx=e.touches[0].clientX;},{passive:true});
   vp.addEventListener("touchend",function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>45){if(dx<0)stepMove(1);else stepMove(-1);}sx=null;});
-  document.onkeydown=function(e){var gs=el("gsheet");if(gs&&gs.classList.contains("show")){if(e.key==="Escape")closeTerm();return;}if(S.view!=="lesson")return;if(e.key==="ArrowRight")stepMove(1);else if(e.key==="ArrowLeft")stepMove(-1);};
+  document.onkeydown=function(e){var mb=el("mlb");if(mb&&mb.classList.contains("show")){if(e.key==="Escape")closeMedia();return;}var gs=el("gsheet");if(gs&&gs.classList.contains("show")){if(e.key==="Escape")closeTerm();return;}if(S.view!=="lesson")return;if(e.key==="ArrowRight")stepMove(1);else if(e.key==="ArrowLeft")stepMove(-1);};
   upd();
 }
 function scrollLessonTop(){requestAnimationFrame(function(){var lh=document.querySelector('.lhead')||document.querySelector('.slidebox');if(lh){var y=lh.getBoundingClientRect().top+window.pageYOffset-8;window.scrollTo({top:Math.max(0,y),behavior:'smooth'});}});}
@@ -3033,6 +3078,93 @@ function rzAdvance(){
   RZ.i++;
   if(RZ.i>=set.items.length){RZ.done=true;}
   window.scrollTo(0,0); render();
+}
+
+/* ============ Lesson media (photo / video demonstrations) ============
+   MEDIA maps a lesson id to the demonstration assets that lesson should carry.
+   Each slot declares what the asset must show; `src` is filled in once the real
+   clinical photography or video exists.
+
+   A slot with no `src` is a SHOT-LIST ENTRY, not content. Learners never see it:
+   slots without a src are skipped entirely unless MEDIA_PLACEHOLDERS is turned
+   on, which is a preview mode for planning and commissioning the shoot.
+
+   Assets are served from /media/ in this repo (or any absolute URL). Video is
+   self-hosted mp4 with a poster image rather than an embedded player, so nothing
+   is requested from a third party and no tracking is introduced.
+
+   Adding an asset:
+     {k:"image", src:"media/iv-tourniquet.jpg", alt:"...", cap:"...", credit:"..."}
+     {k:"video", src:"media/iv-insert.mp4", poster:"media/iv-insert.jpg", ...} */
+var MEDIA_PLACEHOLDERS=false;   // flip to true to preview the outstanding shot list
+var MEDIA={
+ iv_anatomy:[
+  {k:"image",need:"Forearm with a tourniquet applied, veins visible, arrows marking the cephalic, basilic and median cubital veins.",alt:"Forearm venous anatomy",cap:"<b>Surface anatomy.</b> Cephalic laterally, basilic medially, median cubital crossing the fossa."}],
+ iv_assessment:[
+  {k:"image",need:"Two-hand palpation technique on a forearm, showing the assessor feeling rather than looking for the vein.",alt:"Palpating a vein",cap:"<b>Palpate, don't just look.</b> A vein you can feel is far more reliable than one you can only see."}],
+ iv_sites:[
+  {k:"image",need:"Side-by-side of a good straight forearm target versus a vein crossing the wrist joint.",alt:"Good versus poor IV site",cap:"<b>Site comparison.</b> A straight, well-supported forearm segment against a vein over a flexion point."}],
+ iv_asepsis:[
+  {k:"video",need:"30–45s: hand hygiene, glove technique, chlorhexidine applied with friction, and the full air-dry wait shown in real time.",alt:"Aseptic skin preparation",cap:"<b>Skin preparation.</b> Note the friction, and that the site is left to dry completely before the needle approaches."}],
+ iv_procedure:[
+  {k:"video",need:"45–60s close-up on a training arm: bevel-up entry at 10–30°, flashback, angle dropped, advance 2–3 mm, catheter threaded, tourniquet released, stylet withdrawn and safety activated, flush and secure.",alt:"Peripheral IV insertion",cap:"<b>Insertion, start to finish.</b> Watch the angle drop the moment flashback appears."},
+  {k:"image",need:"Macro of the flashback chamber at the moment blood appears.",alt:"Flashback in the chamber",cap:"<b>Flashback.</b> This confirms the needle tip is in the lumen — not yet the catheter."}],
+ iv_complications:[
+  {k:"image",need:"Clinical photos: infiltration (pale, swollen, cool) beside phlebitis (red, warm, palpable cord).",alt:"Infiltration compared with phlebitis",cap:"<b>Reading the site.</b> Cool and pale points to infiltration; red, warm and corded points to phlebitis."}],
+ im_sites:[
+  {k:"video",need:"30s: ventrogluteal landmarking — palm on the greater trochanter, index to the anterior superior iliac spine, middle finger along the iliac crest, injecting into the V.",alt:"Ventrogluteal landmarking",cap:"<b>Landmarking the ventrogluteal site.</b> The V between the fingers is the target."},
+  {k:"image",need:"Deltoid site measured 2.5–5 cm below the acromion, with the landmark marked.",alt:"Deltoid landmark",cap:"<b>Deltoid.</b> Measure down from the acromion rather than estimating."}],
+ im_procedure:[
+  {k:"video",need:"30–45s: Z-track on a training pad — skin displaced ~2.5 cm, 90° insertion, slow injection, 10s pause, withdrawal, then release.",alt:"Z-track injection technique",cap:"<b>Z-track.</b> The displacement is released only after the needle is out — that is what seals the track."}],
+ im_equipment:[
+  {k:"image",need:"Needle lengths laid out side by side (⅝, 1, 1½ inch) with a scale, and a 3 mL syringe drawn to 1.5 mL read at eye level.",alt:"Needle lengths and a syringe",cap:"<b>Length matters.</b> Choose from body habitus and site, then read the plunger at eye level."}],
+ sq_procedure:[
+  {k:"video",need:"25–35s: pinched abdominal skin fold, 45° and 90° insertions compared, injection, and release of the fold.",alt:"Subcutaneous injection technique",cap:"<b>Pinch and angle.</b> The fold lifts subcutaneous tissue clear of muscle."}],
+ sq_sites:[
+  {k:"image",need:"Abdomen with the 5 cm periumbilical exclusion zone marked and a rotation pattern overlaid.",alt:"Abdominal sites and rotation",cap:"<b>Rotation map.</b> Stay clear of the navel and move a set distance each time."}],
+ sq_complications:[
+  {k:"image",need:"Lipohypertrophy at an over-used injection site, ideally with raking light so the raised area reads clearly.",alt:"Lipohypertrophy",cap:"<b>Lipohypertrophy.</b> Soft, raised and rubbery — found by palpation more often than by sight."}]
+};
+
+function lessonMedia(id){
+  var m=MEDIA[id]||[];
+  return MEDIA_PLACEHOLDERS?m:m.filter(function(a){return !!a.src;});
+}
+function mediaHTML(id){
+  var items=lessonMedia(id); if(!items.length)return "";
+  var h='<div class="stag">Demonstration</div><div class="mgrid'+(items.length>1?" two":"")+'">';
+  items.forEach(function(a,i){
+    if(!a.src){
+      h+='<figure class="mfig mslot"><div class="mwrap"><span><b>'+
+         (a.k==="video"?"Video needed":"Photo needed")+'</b>'+esc(a.need||"")+'</span></div>'+
+         (a.cap?'<figcaption>'+a.cap+'</figcaption>':'')+'</figure>';
+      return;
+    }
+    h+='<figure class="mfig"><button type="button" class="mwrap" onclick="openMedia(\''+id+'\','+i+')" aria-label="'+esc(a.alt||"Open")+'">';
+    if(a.k==="video"){
+      h+='<video preload="none" muted playsinline'+(a.poster?' poster="'+a.poster+'"':'')+'><source src="'+a.src+'" type="video/mp4"></video>'+
+         '<span class="mplay"><i></i></span><span class="mbadge">Video</span>';
+    }else{
+      h+='<img src="'+a.src+'" alt="'+esc(a.alt||"")+'" loading="lazy" decoding="async"/>';
+    }
+    h+='</button>'+(a.cap?'<figcaption>'+a.cap+(a.credit?'<span class="mcred">'+esc(a.credit)+'</span>':'')+'</figcaption>':'')+'</figure>';
+  });
+  return h+'</div>';
+}
+function openMedia(id,i){
+  var a=lessonMedia(id)[i]; if(!a||!a.src)return;
+  var box=el("mlbBox");
+  box.innerHTML='<button class="mlbx" onclick="closeMedia()" aria-label="Close">✕</button>'+
+    (a.k==="video"
+      ? '<video src="'+a.src+'" controls autoplay playsinline'+(a.poster?' poster="'+a.poster+'"':'')+'></video>'
+      : '<img src="'+a.src+'" alt="'+esc(a.alt||"")+'"/>')+
+    (a.cap?'<div class="mlbcap">'+a.cap+(a.credit?'<span class="mcred"> · '+esc(a.credit)+'</span>':'')+'</div>':'');
+  el("mlb").classList.add("show");
+}
+function closeMedia(){
+  var box=el("mlbBox");
+  var v=box.querySelector("video"); if(v){try{v.pause();}catch(e){}}
+  el("mlb").classList.remove("show"); box.innerHTML="";
 }
 
 /* ============ Reset ============ */
