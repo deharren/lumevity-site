@@ -1695,7 +1695,7 @@ function wireLesson(){
   upd();
 }
 function scrollLessonTop(){requestAnimationFrame(function(){var lh=document.querySelector('.lhead')||document.querySelector('.slidebox');if(lh){var y=lh.getBoundingClientRect().top+window.pageYOffset-8;window.scrollTo({top:Math.max(0,y),behavior:'smooth'});}});}
-function ixStepSolved(i){var h=el("ixHost"+i);return !!(h&&h.dataset.solved==="1");}
+function ixStepSolved(i){var st=lessonSteps(S.lesson)[i];if(!st||st.t!=="inter")return true;var h=el("ixHost"+st.i);return !!(h&&h.dataset.solved==="1");}
 function stepLocked(i){var st=lessonSteps(S.lesson)[i];return !!(st&&st.t==="inter"&&!ixStepSolved(i));}
 function stepMove(d){var steps=lessonSteps(S.lesson),total=steps.length;var n=S.step+d;if(n<0||n>=total)return;if(d>0&&stepLocked(S.step)){celebrate("🔒","Not yet","Answer correctly to continue");return;}S.step=n;window._lessonUpd();scrollLessonTop();}
 function stepGo(i){if(i>S.step&&stepLocked(S.step)){celebrate("🔒","Not yet","Answer correctly to continue");return;}S.step=i;window._lessonUpd();scrollLessonTop();}
