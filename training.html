@@ -560,6 +560,13 @@
   .cebanner{background:#FFF7E6;border:1px solid #F0DCAE;color:#6b5426;border-radius:12px;
     padding:12px 15px;font-size:.82rem;line-height:1.55;margin:14px 0;}
   .cebanner b{color:#4d3c17;}
+  /* Anatomy figures rendered inline in the lesson body, so a learner never has
+     to tap a word to see the picture. */
+  .lfig{margin:16px 0 4px;background:rgba(255,255,255,.95);border-radius:14px;padding:12px 12px 8px;
+    border:1px solid rgba(120,235,228,.2);}
+  .lfig svg{width:100%;height:auto;display:block;}
+  .lfig .lfcap{margin-top:6px;font-size:.8rem;line-height:1.45;color:#0B6E76;font-weight:700;text-align:center;}
+  .lfig .lfcap span{display:block;font-weight:500;color:#5f7078;font-size:.75rem;margin-top:2px;}
 </style>
 </head>
 <body>
@@ -1614,7 +1621,7 @@ function stepHTML(L0,st){
     if(L0.objectives)h+='<div class="obj"><div class="ol">Learning objectives</div><ul>'+L0.objectives.map(function(o){return '<li>'+o+'</li>';}).join('')+'</ul></div>';
     return h;
   }
-  if(st.t==="sec"){return '<div class="stag">Learn</div>'+renderSection(L0.sections[st.i]);}
+  if(st.t==="sec"){return '<div class="stag">Learn</div>'+renderSection(L0.sections[st.i])+sectionFigsHTML(S.lesson,st.i);}
   if(st.t==="media"){return mediaHTML(S.lesson);}
   if(st.t==="inter"){return '<div id="ixHost'+st.i+'"></div>';}
   if(st.t==="tm"){var h='';if(L0.tips)h+='<div class="block tips"><div class="bl">Clinical tips &amp; judgment</div><ul>'+L0.tips.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></div>';if(L0.mistakes)h+='<div class="block mist"><div class="bl">Common mistakes to avoid</div><ul>'+L0.mistakes.map(function(m){return '<li>'+m+'</li>';}).join('')+'</ul></div>';return h;}
@@ -3577,6 +3584,55 @@ function ceSyncRecord(c,rec){
   });
 }
 
+
+/* ============ Inline lesson figures ============
+   Anatomy is shown in the lesson itself rather than hidden behind a glossary
+   tap. Figures are keyed by lesson id and attached to a section by matching its
+   heading, so they survive the Supabase curriculum swap and minor edits. */
+var LESSON_FIGS={
+  iv_anatomy:[
+    {h:"venous map",fig:"arm:cephalic",cap:"Superficial veins of the arm",sub:"Cephalic laterally, basilic medially, median cubital across the elbow"},
+    {h:"inside the vessel",fig:"veinx",cap:"The vein wall in cross-section",sub:"Intima, media and adventitia — the intima is what your catheter scrapes"}],
+  iv_sites:[
+    {h:"what makes a good target",fig:"arm:cephalic",cap:"Work distal to proximal",sub:"A straight, well-supported forearm segment away from joints"}],
+  im_anatomy:[
+    {h:"four muscles",fig:"im:ventrogluteal",cap:"Ventrogluteal — preferred in adults",sub:"Palm on the greater trochanter, index to the ASIS, middle finger along the crest"},
+    {h:"four muscles",fig:"im:deltoid",cap:"Deltoid — the standard adult vaccine site",sub:"2.5–5 cm below the acromion, roughly 1 mL maximum"},
+    {h:"four muscles",fig:"im:vastus_lateralis",cap:"Vastus lateralis — the infant site",sub:"Middle third of the outer thigh"},
+    {h:"dorsogluteal",fig:"im:dorsogluteal",cap:"Dorsogluteal — no longer recommended",sub:"The sciatic nerve runs beneath it"}],
+  im_sites:[
+    {h:"landmark",fig:"im:ventrogluteal",cap:"Landmarking the ventrogluteal site",sub:"You inject into the V between index and middle finger"},
+    {h:"acromion",fig:"im:deltoid",cap:"Measuring down from the acromion",sub:"Measure rather than estimate — too high risks the joint"}],
+  im_procedure:[
+    {h:"angle",fig:"angle",cap:"Needle depth by angle",sub:"IM is 90° — straight through the fat and into muscle"}],
+  sq_anatomy:[
+    {h:"where subq",fig:"skin:subcutaneous_tissue",cap:"Where subcutaneous tissue sits",sub:"Between the dermis and the muscle"}],
+  sq_procedure:[
+    {h:"pinch and angle",fig:"angle",cap:"Angle and depth",sub:"45° with a pinch when the needle is long relative to the tissue"}]
+};
+var _figMapCache={};
+function lessonFigMap(id){
+  if(_figMapCache[id])return _figMapCache[id];
+  var L0=L[id],defs=LESSON_FIGS[id]||[],secs=(L0&&L0.sections)||[],map={};
+  defs.forEach(function(d){
+    var idx=-1;
+    if(d.h){for(var i=0;i<secs.length;i++){
+      if(((secs[i].h)||"").toLowerCase().indexOf(d.h.toLowerCase())>=0){idx=i;break;}}}
+    if(idx<0)idx=(d.i!=null?Math.min(d.i,Math.max(0,secs.length-1)):0);
+    (map[idx]=map[idx]||[]).push(d);
+  });
+  _figMapCache[id]=map;return map;
+}
+function sectionFigsHTML(id,si){
+  var figs=(lessonFigMap(id)||{})[si]; if(!figs||!figs.length)return "";
+  return figs.map(function(d){
+    var svg=glossFigSVG(d.fig); if(!svg)return "";
+    return '<figure class="lfig">'+svg+
+      (d.cap?'<figcaption class="lfcap">'+d.cap+(d.sub?'<span>'+d.sub+'</span>':'')+'</figcaption>':'')+
+      '</figure>';
+  }).join('');
+}
+
 /* ============ Reset ============ */
 function resetAll(){openModal('<h3>Reset progress?</h3><p>This clears your XP, streak, completed lessons, exams, and certificates on this device.</p><button class="btn btn-ghost" onclick="closeModal()">Cancel</button> <button class="btn btn-gold" onclick="doReset()">Reset</button>');}
 function doReset(){["lmv_done","lmv_xp","lmv_qxp","lmv_streak","lmv_best","lmv_last","lmv_exams","lmv_name","lmv_certs"].forEach(function(k){Store.set(k,null);});S.done=new Set();S.xp=0;S.qxp=new Set();S.streak=0;S.best=0;S.last=null;S.exams={};S.name="";S.certs={};closeModal();go("home");}
@@ -3600,6 +3656,7 @@ function applyCurriculum(list){
     });
     if(!ids.length) return false;
     COURSES=NC; L=NL; COURSE_IDS=ids; TOTAL_LESSONS=allLessons().length;
+    _figMapCache={};
     if(COURSE_IDS.indexOf(S.course)<0) S.course=COURSE_IDS[0];
     return true;
   }catch(e){ return false; }
