@@ -504,6 +504,44 @@
   .mlb .mlbx{position:absolute;top:-46px;right:0;width:36px;height:36px;border-radius:50%;
     background:rgba(255,255,255,.14);color:#fff;border:none;cursor:pointer;font-size:1.1rem;}
   .mlb .mlbx:hover{background:rgba(255,255,255,.26);}
+  /* ===== CE: disclosure, evaluation, records ===== */
+  .cebox{max-width:660px;margin:0 auto;}
+  .cebox .cehead{text-align:center;margin-bottom:20px;}
+  .cebox .cehead .ceyb{font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:var(--gold-deep);}
+  .cebox .cehead h2{color:var(--head);margin:6px 0 8px;}
+  .ceq,.ceerr{text-align:left;}
+  .cebox .cehead p{color:var(--muted);font-size:.9rem;line-height:1.6;}
+  .cedisc{text-align:left;background:var(--pearl);border:1px solid var(--stone);border-radius:14px;padding:18px 20px;
+    font-size:.88rem;line-height:1.68;color:var(--ink);max-height:44vh;overflow-y:auto;white-space:pre-line;}
+  .ceack{text-align:left;display:flex;gap:11px;align-items:flex-start;margin-top:16px;font-size:.88rem;color:var(--ink);
+    background:var(--good-soft);border:1px solid rgba(14,138,147,.3);border-radius:12px;padding:13px 15px;cursor:pointer;}
+  .ceack input{margin-top:3px;width:17px;height:17px;accent-color:var(--teal);flex:0 0 auto;}
+  .cenote{font-size:.78rem;color:var(--muted);margin-top:12px;line-height:1.55;}
+
+  .ceq{border:1px solid var(--stone);border-radius:14px;padding:16px 18px;margin-bottom:12px;background:var(--white);}
+  .ceq .cql{font-weight:700;color:var(--head);font-size:.92rem;margin-bottom:10px;line-height:1.45;}
+  .ceq .cqreq{color:var(--bad);font-weight:800;margin-left:3px;}
+  .cescale{display:flex;gap:7px;flex-wrap:wrap;}
+  .cescale button{flex:1;min-width:52px;border:1.5px solid var(--stone);background:var(--white);border-radius:10px;
+    padding:10px 6px;font-family:inherit;font-weight:700;font-size:.85rem;color:var(--ink);cursor:pointer;transition:.14s;}
+  .cescale button:hover{border-color:var(--turq);}
+  .cescale button.on{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .cescale .cslab{display:block;font-size:.6rem;font-weight:600;opacity:.7;margin-top:3px;}
+  .ceq textarea{width:100%;border:1.5px solid var(--stone);border-radius:10px;padding:11px 13px;
+    font:inherit;font-size:.9rem;color:var(--ink);resize:vertical;min-height:76px;outline:none;}
+  .ceq textarea:focus{border-color:var(--turq);}
+  .ceyn{display:flex;gap:9px;}
+  .ceyn button{flex:1;border:1.5px solid var(--stone);background:var(--white);border-radius:10px;padding:11px;
+    font-family:inherit;font-weight:700;font-size:.88rem;color:var(--ink);cursor:pointer;}
+  .ceyn button.on{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .ceerr{color:var(--bad);font-size:.84rem;font-weight:600;margin:10px 0;min-height:1.1em;}
+
+  .cehours{display:inline-flex;align-items:center;gap:6px;background:var(--good-soft);
+    border:1px solid rgba(14,138,147,.3);color:var(--teal-deep);border-radius:50px;
+    padding:4px 12px;font-size:.72rem;font-weight:800;letter-spacing:.02em;}
+  .cebanner{background:#FFF7E6;border:1px solid #F0DCAE;color:#6b5426;border-radius:12px;
+    padding:12px 15px;font-size:.82rem;line-height:1.55;margin:14px 0;}
+  .cebanner b{color:#4d3c17;}
 </style>
 </head>
 <body>
@@ -1349,12 +1387,12 @@ function confetti(){var box=el("confetti");var cols=["#14C9C6","#22E0DA","#0E8A9
 
 /* ============ Router ============ */
 function go(view,arg){S.view=view;if(view==="home"&&arg)setCourse(arg);if(view==="exam"||view==="cert"){if(arg)setCourse(arg);}window.scrollTo(0,0);render();}
-function openLesson(id){var c=lessonCourseOf(id);if(!lessonUnlocked(c,id)){flash();return;}setCourse(c);S.lesson=id;S.step=0;S.view="lesson";window.scrollTo(0,0);render();}
+function openLesson(id){var c=lessonCourseOf(id);if(!lessonUnlocked(c,id)){flash();return;}if(ceNeedsDisclosure(c)){ceShowDisclosure(c,function(){openLesson(id);});return;}setCourse(c);S.lesson=id;S.step=0;S.view="lesson";window.scrollTo(0,0);render();}
 function lessonCourseOf(id){for(var i=0;i<COURSE_IDS.length;i++){if(courseLessons(COURSE_IDS[i]).indexOf(id)>=0)return COURSE_IDS[i];}return "iv";}
 
 function render(){
   touchStreak();
-  var v={home:vHome,lesson:vLesson,exam:vExam,cert:vCert,pricing:vPricing,rehearse:vRehearse}[S.view]||vHome;
+  var v={home:vHome,lesson:vLesson,exam:vExam,cert:vCert,pricing:vPricing,rehearse:vRehearse,evaluation:vEval}[S.view]||vHome;
   el("view").innerHTML=v();
   syncBar();
   if(S.view==="lesson")wireLesson();
@@ -1703,7 +1741,7 @@ function submitExam(){
   if(pass&&(!prev||!prev.passed)){awardXP(XP_EXAM);celebrate("🏅","Course certified!",COURSES[c].name);}
   el("examSubmit").style.display="none";
   var res=el("examResult");
-  if(pass){res.innerHTML='<div class="passban">✓ Passed — '+pct+'% ('+correct+'/'+total+'). '+(prev&&prev.passed?'':'+'+XP_EXAM+' XP. ')+'<button class="btn btn-gold" style="margin-top:8px" onclick="go(\'cert\',\''+c+'\')">Get your certificate →</button></div>';}
+  if(pass){res.innerHTML='<div class="passban">✓ Passed — '+pct+'% ('+correct+'/'+total+'). '+(prev&&prev.passed?'':'+'+XP_EXAM+' XP. ')+'<button class="btn btn-gold" style="margin-top:8px" onclick="go(\''+(ceEvalDone(c)?'cert':'evaluation')+'\',\''+c+'\')">'+(ceEvalDone(c)?'Get your certificate →':'Complete the evaluation →')+'</button></div>';}
   else{res.innerHTML='<div class="reviewban">You scored <b>'+pct+'%</b> ('+correct+'/'+total+'). You need '+need+' correct to pass. Review the explanations above, then retake.<br><button class="btn btn-gold" style="margin-top:8px" onclick="go(\'exam\',\''+c+'\')">Retake exam</button></div>';}
   window.scrollTo(0,document.body.scrollHeight);
 }
@@ -1713,12 +1751,13 @@ function credId(c){if(S.certs[c])return S.certs[c];var id="LMV-"+new Date().getF
 function vCert(){
   var c=S.course,ex=S.exams[c];
   if(!ex||!ex.passed){return '<div style="text-align:center;padding:40px 0"><h2 style="color:var(--head)">Certificate locked</h2><p style="color:var(--muted);margin:10px 0 16px">Pass the '+COURSES[c].name+' final exam (80%) to unlock your certificate.</p><button class="btn btn-gold" onclick="go(\'exam\',\''+c+'\')">Go to final exam</button></div>';}
+  if(!ceEvalDone(c)){return '<div style="text-align:center;padding:40px 0"><h2 style="color:var(--head)">One step left</h2><p style="color:var(--muted);margin:10px 0 16px;max-width:440px;margin-left:auto;margin-right:auto">A short post-activity evaluation is required before your certificate can be issued. It takes about a minute.</p><button class="btn btn-gold" onclick="go(\'evaluation\',\''+c+'\')">Start the evaluation</button></div>';}
   if(!S.name){return '<div style="text-align:center;padding:40px 0"><h2 style="color:var(--head)">Name your certificate</h2><p style="color:var(--muted);margin:10px 0 16px">Enter the name to appear on your IV Rejuve Certificate of Completion.</p><input id="nameIn" placeholder="Full name" style="border:1px solid var(--stone);border-radius:12px;padding:11px 14px;font:inherit;min-width:260px"/><br><button class="btn btn-gold" style="margin-top:14px" onclick="setName()">Generate certificate</button></div>';}
-  var id=credId(c);var mods=COURSES[c].modules.length;
+  var id=credId(c);var mods=COURSES[c].modules.length;var _rec=ceIssueRecord(c);
   var h='<div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:8px"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button><button class="btn btn-gold" onclick="window.print()">🖨 Print / Save PDF</button></div>';
   h+='<div class="cert"><div class="cl">IV Rejuve Academy · Clinical Skills Training</div><h1>Certificate of Completion</h1><div style="font-size:.8rem;color:rgba(251,250,246,.7)">This certifies that</div><div class="who">'+esc(S.name)+'</div>'
     +'<div class="sum">has successfully completed the <b style="color:#E3CE9A">'+COURSES[c].name+'</b> course — '+mods+' modules of evidence-based instruction and knowledge checks — and passed the final competency assessment.</div>'
-    +'<div class="meta"><div><s>Exam score</s><b>'+ex.score+'%</b></div><div><s>Date</s><b>'+new Date().toLocaleDateString()+'</b></div><div><s>Credential</s><b>Verified</b></div></div>'
+    +'<div class="meta"><div><s>Exam score</s><b>'+ex.score+'%</b></div><div><s>Contact hours</s><b>'+ceHours(c).toFixed(1)+'</b></div><div><s>Date</s><b>'+new Date(_rec.completed_at).toLocaleDateString()+'</b></div></div>'
     +'<div class="sig"><div>Lacey Smith, FNP-C<br><span style="opacity:.7">Founder &amp; Lead Instructor</span></div><div>IV Rejuve Academy<br><span style="opacity:.7">Digital badge issued</span></div></div>'
     +'<div class="cid">Credential ID: '+id+'</div>'
     +'<div style="font-size:.66rem;color:rgba(251,250,246,.6);margin-top:16px;line-height:1.5">Educational instruction only. Not a license or authorization to perform any procedure. Skills must be validated under qualified supervision within your scope of practice.</div>'
@@ -3167,6 +3206,210 @@ function closeMedia(){
   el("mlb").classList.remove("show"); box.innerHTML="";
 }
 
+/* ============ CE accreditation layer ============
+   Contact-hour tracking, conflict-of-interest disclosure shown BEFORE the
+   activity begins, a mandatory post-activity evaluation gating the certificate,
+   and a completion record retained for 6 years.
+
+   IV Rejuve is NOT an accredited CE provider yet. ce_activities.accredited is
+   false, so everything here is worded as "contact hours" and a "certificate of
+   completion". ceIsAccredited() is the single switch that governs that wording —
+   nothing claims CE credit until the database says the activity is accredited.
+
+   Falls back to local state when there is no authenticated session (demo mode),
+   so the flow is complete and testable before real Google OAuth is wired. */
+var CE={
+  acts:{},                                    // course_slug -> ce_activities row
+  disc:{},                                    // course_slug -> ce_disclosures row
+  ack:Store.get("lmv_ce_ack",{}),             // course_slug -> {at, version}
+  evals:Store.get("lmv_ce_eval",{}),          // course_slug -> responses
+  recs:Store.get("lmv_ce_recs",{}),           // course_slug -> completion record
+  loaded:false
+};
+function cePersist(){
+  Store.set("lmv_ce_ack",CE.ack);Store.set("lmv_ce_eval",CE.evals);Store.set("lmv_ce_recs",CE.recs);
+}
+function ceHeaders(){return {apikey:SB_ANON,Authorization:"Bearer "+SB_ANON};}
+function ceLoad(){
+  var done=0;function fin(){if(++done>=2)CE.loaded=true;}
+  try{
+    fetch(SB_URL+"/rest/v1/ce_activities?select=*",{headers:ceHeaders()})
+      .then(function(r){return r.ok?r.json():[];})
+      .then(function(rows){(rows||[]).forEach(function(a){CE.acts[a.course_slug]=a;});fin();})
+      .catch(fin);
+    fetch(SB_URL+"/rest/v1/ce_disclosures?active=eq.true&select=*&order=version.desc",{headers:ceHeaders()})
+      .then(function(r){return r.ok?r.json():[];})
+      .then(function(rows){(rows||[]).forEach(function(d){if(!CE.disc[d.course_slug])CE.disc[d.course_slug]=d;});fin();})
+      .catch(fin);
+  }catch(e){CE.loaded=true;}
+}
+function ceHours(c){
+  var a=CE.acts[c];
+  if(a&&a.contact_hours)return parseFloat(a.contact_hours);
+  return parseFloat((COURSES[c]&&COURSES[c].hrs)||0);   // fall back to the curriculum's own figure
+}
+function ceIsAccredited(c){var a=CE.acts[c];return !!(a&&a.accredited);}
+function ceCreditWord(c){return ceIsAccredited(c)?"CE contact hours":"contact hours";}
+
+/* ---- conflict-of-interest disclosure (shown before the activity) ---- */
+function ceDisclosureText(c){
+  var d=CE.disc[c];
+  if(d&&d.body)return d.body;
+  return "IV Rejuve is not currently an accredited continuing education provider. This activity is "+
+    "offered as professional skills training and issues a certificate of completion recording contact "+
+    "hours; it does not award CE credit.\n\nConflict of interest: the planners, authors and reviewers of "+
+    "this activity have no relevant financial relationships with ineligible companies. No commercial "+
+    "support was received, and no product, brand or manufacturer is promoted.\n\nThis training is "+
+    "educational only. It is not a licence, certification to practise, or authorisation to perform any "+
+    "procedure. Hands-on skills must be practised and validated under qualified supervision, and every "+
+    "learner must work within their own scope of practice and applicable regulations.";
+}
+function ceNeedsDisclosure(c){
+  var d=CE.disc[c],v=d?d.version:1, a=CE.ack[c];
+  return !(a&&a.version===v);        // re-acknowledge when a new disclosure version is published
+}
+function ceShowDisclosure(c,after){
+  var d=CE.disc[c];
+  openModal('<div class="cebox"><div class="cehead"><div class="ceyb">Before you begin</div>'+
+    '<h2>Disclosure &amp; conflict of interest</h2>'+
+    '<p>Accreditation standards require this to be presented before the activity starts. Please read it in full.</p></div>'+
+    '<div class="cedisc">'+esc(ceDisclosureText(c))+'</div>'+
+    '<label class="ceack"><input type="checkbox" id="ceAckBox"/>'+
+    '<span>I have read the disclosure above and understand this activity is educational only'+
+    (ceIsAccredited(c)?'':' and does not award CE credit')+'.</span></label>'+
+    '<div class="ceerr" id="ceAckErr"></div>'+
+    '<div style="display:flex;gap:9px;justify-content:flex-end">'+
+    '<button class="btn btn-ghost" onclick="closeModal()">Not now</button>'+
+    '<button class="btn btn-gold" id="ceAckBtn">Continue</button></div></div>');
+  el("ceAckBtn").onclick=function(){
+    if(!el("ceAckBox").checked){el("ceAckErr").textContent="Please confirm you have read the disclosure.";return;}
+    CE.ack[c]={at:new Date().toISOString(),version:d?d.version:1};cePersist();
+    ceSyncAck(c);
+    closeModal();
+    if(after)after();
+  };
+}
+
+/* ---- post-activity evaluation (mandatory before the certificate) ---- */
+var CE_EVAL_Qs=[
+  {id:"objectives",k:"scale",q:"The activity met its stated learning objectives.",req:true},
+  {id:"relevance", k:"scale",q:"The content was relevant to my practice.",req:true},
+  {id:"teaching",  k:"scale",q:"The teaching methods (lessons, interactive practice, knowledge checks) were effective.",req:true},
+  {id:"bias",      k:"yn",   q:"Was this activity free of commercial bias — no promotion of any product, brand or manufacturer?",req:true},
+  {id:"biasnote",  k:"text", q:"If you answered no, please tell us where you saw bias.",req:false},
+  {id:"hours",     k:"scale",q:"How long did the activity actually take you, relative to the stated contact hours?",req:true,
+   labs:["Much less","Less","About right","More","Much more"]},
+  {id:"change",    k:"text", q:"What will you do differently in your practice as a result of this activity?",req:true},
+  {id:"future",    k:"text", q:"What topics would you like to see covered in future?",req:false}
+];
+var _ceEval={};
+function ceEvalDone(c){return !!CE.evals[c];}
+function vEval(){
+  var c=S.course;
+  var h='<div class="cebox"><div class="cehead"><div class="ceyb">Required</div>'+
+    '<h2>Post-activity evaluation</h2>'+
+    '<p>Your certificate for <b>'+esc(COURSES[c].name)+'</b> unlocks once this is submitted. '+
+    'Evaluations are a requirement of accredited activities and are how the content gets corrected and improved.</p></div>';
+  CE_EVAL_Qs.forEach(function(q){
+    h+='<div class="ceq" data-q="'+q.id+'"><div class="cql">'+q.q+(q.req?'<span class="cqreq">*</span>':'')+'</div>';
+    if(q.k==="scale"){
+      var labs=q.labs||["Strongly disagree","Disagree","Neutral","Agree","Strongly agree"];
+      h+='<div class="cescale">'+labs.map(function(l,i){
+        return '<button type="button" onclick="ceSet(\''+q.id+'\','+(i+1)+',this)">'+(i+1)+
+          '<span class="cslab">'+l+'</span></button>';}).join('')+'</div>';
+    }else if(q.k==="yn"){
+      h+='<div class="ceyn"><button type="button" onclick="ceSet(\''+q.id+'\',\'yes\',this)">Yes</button>'+
+         '<button type="button" onclick="ceSet(\''+q.id+'\',\'no\',this)">No</button></div>';
+    }else{
+      h+='<textarea id="ce_'+q.id+'" placeholder="Your answer" oninput="ceSet(\''+q.id+'\',this.value)"></textarea>';
+    }
+    h+='</div>';
+  });
+  h+='<div class="ceerr" id="ceEvalErr"></div>'+
+     '<div style="display:flex;gap:9px;justify-content:flex-end;margin-bottom:30px">'+
+     '<button class="btn btn-ghost" onclick="go(\'home\')">Back</button>'+
+     '<button class="btn btn-gold" onclick="ceSubmitEval()">Submit &amp; get certificate →</button></div></div>';
+  return h;
+}
+function ceSet(id,val,btn){
+  _ceEval[id]=val;
+  if(btn){
+    var wrap=btn.parentNode;
+    [].forEach.call(wrap.children,function(b){b.classList.remove("on");});
+    btn.classList.add("on");
+  }
+}
+function ceSubmitEval(){
+  var missing=CE_EVAL_Qs.filter(function(q){
+    if(!q.req)return false;
+    var v=_ceEval[q.id];
+    return v===undefined||v===null||(typeof v==="string"&&!v.trim());
+  });
+  if(missing.length){
+    el("ceEvalErr").textContent="Please answer the required questions ("+missing.length+" remaining).";
+    var first=document.querySelector('.ceq[data-q="'+missing[0].id+'"]');
+    if(first)first.scrollIntoView({behavior:"smooth",block:"center"});
+    return;
+  }
+  var c=S.course;
+  CE.evals[c]={responses:JSON.parse(JSON.stringify(_ceEval)),at:new Date().toISOString()};
+  cePersist();
+  ceSyncEval(c);
+  _ceEval={};
+  celebrate("📋","Evaluation submitted","Your certificate is unlocked");
+  go("cert",c);
+}
+
+/* ---- the completion record ---- */
+function ceIssueRecord(c){
+  if(CE.recs[c])return CE.recs[c];
+  var ex=S.exams[c]||{};
+  var rec={
+    course_slug:c,
+    learner_name:S.name||"",
+    contact_hours:ceHours(c),
+    exam_score:ex.score||null,
+    completed_at:new Date().toISOString(),
+    credential_id:credId(c),
+    accredited_at_issue:ceIsAccredited(c),
+    retain_until:new Date(Date.now()+6*365.25*24*3600*1000).toISOString()
+  };
+  CE.recs[c]=rec;cePersist();ceSyncRecord(c,rec);
+  return rec;
+}
+
+/* ---- Supabase sync (no-ops without an authenticated session) ---- */
+function ceSession(){
+  try{ return (window.sbAuth&&window.sbAuth.session)||null; }catch(e){ return null; }
+}
+function cePost(table,body){
+  var sess=ceSession(); if(!sess)return Promise.resolve(false);   // demo mode: local only
+  return fetch(SB_URL+"/rest/v1/"+table,{
+    method:"POST",
+    headers:{apikey:SB_ANON,Authorization:"Bearer "+sess.access_token,
+             "Content-Type":"application/json",Prefer:"resolution=merge-duplicates,return=minimal"},
+    body:JSON.stringify(body)
+  }).then(function(r){return r.ok;}).catch(function(){return false;});
+}
+function ceSyncAck(c){
+  var d=CE.disc[c],sess=ceSession(); if(!d||!sess)return;
+  cePost("ce_disclosure_ack",{user_id:sess.user.id,disclosure_id:d.id,course_slug:c});
+}
+function ceSyncEval(c){
+  var sess=ceSession(); if(!sess)return;
+  cePost("ce_evaluations",{user_id:sess.user.id,course_slug:c,responses:CE.evals[c].responses});
+}
+function ceSyncRecord(c,rec){
+  var sess=ceSession(); if(!sess)return;
+  var a=CE.acts[c];
+  cePost("ce_records",{
+    user_id:sess.user.id,course_slug:c,activity_id:a?a.id:null,
+    learner_name:rec.learner_name,learner_email:sess.user.email,
+    contact_hours:rec.contact_hours,exam_score:rec.exam_score,
+    credential_id:rec.credential_id,accredited_at_issue:rec.accredited_at_issue
+  });
+}
+
 /* ============ Reset ============ */
 function resetAll(){openModal('<h3>Reset progress?</h3><p>This clears your XP, streak, completed lessons, exams, and certificates on this device.</p><button class="btn btn-ghost" onclick="closeModal()">Cancel</button> <button class="btn btn-gold" onclick="doReset()">Reset</button>');}
 function doReset(){["lmv_done","lmv_xp","lmv_qxp","lmv_streak","lmv_best","lmv_last","lmv_exams","lmv_name","lmv_certs"].forEach(function(k){Store.set(k,null);});S.done=new Set();S.xp=0;S.qxp=new Set();S.streak=0;S.best=0;S.last=null;S.exams={};S.name="";S.certs={};closeModal();go("home");}
@@ -3205,7 +3448,7 @@ function demoTrainingLogin(){
     if(o){ o.classList.add('hide'); setTimeout(function(){ o.style.display='none'; },560); }
   },1000);
 }
-function bootRender(){ render(); setTimeout(function(){var l=document.querySelector('.brand .logo');if(l)l.classList.add('glow');},900); if(!DEMO_LOGIN){var o=document.getElementById('demoLogin');if(o)o.style.display='none';} }
+function bootRender(){ ceLoad(); render(); setTimeout(function(){var l=document.querySelector('.brand .logo');if(l)l.classList.add('glow');},900); if(!DEMO_LOGIN){var o=document.getElementById('demoLogin');if(o)o.style.display='none';} }
 (function boot(){
   var done=false; function finish(){ if(done)return; done=true; bootRender(); }
   try{
