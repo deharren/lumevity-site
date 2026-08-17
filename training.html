@@ -1780,6 +1780,8 @@ function buildKC(){
   var host=el("kcHost");host.dataset.built="1";
   var L0=L[S.lesson];var qs=(L0.quiz||[]).map(function(q,idx){return {q:q.q,why:q.why,ans:q.opts[q.a],opts:shuffle(q.opts.map(function(o,i){return{o:o,c:i===q.a};})),qi:idx};});
   host._qs=qs;host._solved={};
+  // preserve progress: questions already answered correctly (tracked in S.qxp) stay solved on rebuild
+  qs.forEach(function(q,i){if(S.qxp.has(S.lesson+':'+q.qi))host._solved[i]=true;});
   renderKC(host,qs,qs.map(function(_,i){return i;}));
 }
 function renderKC(host,qs,activeIdx){
@@ -1829,7 +1831,7 @@ function checkKCdone(host,qs){
     res.innerHTML='<div class="passban">✓ Lesson passed. '+nextActionHTML()+'</div>';
   } else {
     var missed=[];qs.forEach(function(_,i){if(!host._solved[i])missed.push(i+1);});
-    res.innerHTML='';
+    res.innerHTML='<div style="margin-top:10px;padding:10px 13px;border-radius:10px;background:rgba(120,235,228,.08);border:1px solid rgba(120,235,228,.22);color:#BFEFEC;font-size:14px">Answer all '+qs.length+' questions correctly to finish this lesson. Still to get right: '+(missed.length===1?'question ':'questions ')+missed.join(', ')+'.</div>';
   }
 }
 function nextActionHTML(){
