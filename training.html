@@ -4095,7 +4095,10 @@ function demoTrainingLogin(){
     if(o){ o.classList.add('hide'); setTimeout(function(){ o.style.display='none'; },560); }
   },1000);
 }
-function bootRender(){ ceLoad(); render(); setTimeout(function(){var l=document.querySelector('.brand .logo');if(l)l.classList.add('glow');},900); if(!DEMO_LOGIN){var o=document.getElementById('demoLogin');if(o)o.style.display='none';} }
+function bootRender(){ ceLoad();
+  // Public credential verification bypasses the learner login gate (employers/boards have no account)
+  if((location.hash||"").indexOf("#verify")===0){ S.view="verify"; var g=document.getElementById('demoLogin'); if(g)g.style.display='none'; }
+  render(); setTimeout(function(){var l=document.querySelector('.brand .logo');if(l)l.classList.add('glow');},900); if(!DEMO_LOGIN){var o=document.getElementById('demoLogin');if(o)o.style.display='none';} }
 (function boot(){
   var done=false; function finish(){ if(done)return; done=true; bootRender(); }
   try{
