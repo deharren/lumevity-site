@@ -520,6 +520,9 @@
     background:var(--good-soft);border:1px solid rgba(14,138,147,.3);border-radius:12px;padding:13px 15px;cursor:pointer;}
   .ceack input{margin-top:3px;width:17px;height:17px;accent-color:var(--teal);flex:0 0 auto;}
   .cenote{font-size:.78rem;color:var(--muted);margin-top:12px;line-height:1.55;}
+  /* The exam is not a lesson step - it must not inherit the slider's hiding. */
+  .lesson .exambody,.exambody{display:block;padding:30px 30px 28px;}
+  @media(max-width:640px){.lesson .exambody,.exambody{padding:24px 20px 26px;}}
   .ceactions{display:flex;gap:9px;justify-content:flex-end;flex:0 0 auto;
     margin-top:0;padding-top:14px;border-top:1px solid var(--stone);
     box-shadow:0 -14px 18px -14px rgba(23,36,43,.22);}
@@ -1374,7 +1377,7 @@ const XP_CORRECT=20, XP_LESSON=100, XP_EXAM=600;
 function rankIndex(x){var i=0;for(var k=0;k<RANKS.length;k++){if(x>=RANKS[k].x)i=k;}return i;}
 
 /* ============ Store (localStorage + in-memory fallback) ============ */
-const Store=(function(){var mem={};return{get:function(k,d){try{var v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return (k in mem)?mem[k]:d;}},set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){mem[k]=v;}}};})();
+const Store=(function(){var mem={};return{get:function(k,d){try{var v=localStorage.getItem(k);if(v==null)return d;var p=JSON.parse(v);return p==null?d:p;}catch(e){return (k in mem)?mem[k]:d;}},set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){mem[k]=v;}},del:function(k){try{localStorage.removeItem(k);}catch(e){}delete mem[k];}};})();
 
 /* ============ State ============ */
 const S={view:"home",course:Store.get("lmv_course","iv"),lesson:null,step:0,
@@ -1382,9 +1385,9 @@ const S={view:"home",course:Store.get("lmv_course","iv"),lesson:null,step:0,
   xp:Store.get("lmv_xp",0),
   qxp:new Set(Store.get("lmv_qxp",[])),
   streak:Store.get("lmv_streak",0),best:Store.get("lmv_best",0),last:Store.get("lmv_last",null),
-  exams:Store.get("lmv_exams",{}),
+  exams:Store.get("lmv_exams",{})||{},
   name:Store.get("lmv_name",""),
-  certs:Store.get("lmv_certs",{}),
+  certs:Store.get("lmv_certs",{})||{},
   billing:"annual"};
 function persist(){Store.set("lmv_done",[...S.done]);Store.set("lmv_xp",S.xp);Store.set("lmv_qxp",[...S.qxp]);Store.set("lmv_streak",S.streak);Store.set("lmv_best",S.best);Store.set("lmv_last",S.last);Store.set("lmv_exams",S.exams);Store.set("lmv_name",S.name);Store.set("lmv_certs",S.certs);Store.set("lmv_course",S.course);}
 function setCourse(c){S.course=c;Store.set("lmv_course",c);}
@@ -1411,7 +1414,17 @@ function nextCele(){if(!_cq.length){_cb=false;return;}_cb=true;var c=_cq.shift()
 function confetti(){var box=el("confetti");var cols=["#14C9C6","#22E0DA","#0E8A93","#22C3D6","#0AA6A6"];for(var i=0;i<24;i++){var s=document.createElement("i");s.style.left=(Math.random()*100)+"%";s.style.background=cols[i%cols.length];s.style.animationDuration=(1.1+Math.random()*1.1)+"s";box.appendChild(s);(function(x){setTimeout(function(){x.remove();},2500);})(s);}}
 
 /* ============ Router ============ */
-function go(view,arg){S.view=view;if(view==="home"&&arg)setCourse(arg);if(view==="exam"||view==="cert"){if(arg)setCourse(arg);}window.scrollTo(0,0);render();}
+function ceGate(c,then){
+  if(ceNeedsDisclosure(c)){ceShowDisclosure(c,then);return false;}
+  return true;
+}
+function go(view,arg){
+  // the disclosure must precede any part of the activity, not just lessons
+  if(view==="exam"||view==="evaluation"||view==="rehearse"){
+    var gc=arg||S.course;
+    if(!ceGate(gc,function(){go(view,arg);}))return;
+  }
+  S.view=view;if(view==="home"&&arg)setCourse(arg);if(view==="exam"||view==="cert"){if(arg)setCourse(arg);}window.scrollTo(0,0);render();}
 function openLesson(id){var c=lessonCourseOf(id);if(!lessonUnlocked(c,id)){flash();return;}if(ceNeedsDisclosure(c)){ceShowDisclosure(c,function(){openLesson(id);});return;}setCourse(c);S.lesson=id;S.step=0;S.view="lesson";window.scrollTo(0,0);render();}
 function lessonCourseOf(id){for(var i=0;i<COURSE_IDS.length;i++){if(courseLessons(COURSE_IDS[i]).indexOf(id)>=0)return COURSE_IDS[i];}return "iv";}
 
@@ -1423,6 +1436,7 @@ function render(){
   if(S.view==="lesson")wireLesson();
   if(S.view==="exam")wireExam();
   if(S.view==="rehearse")wireRehearse();
+  if(S.view==="evaluation")ceRepaintEval();
   if(S.view==="home")requestAnimationFrame(initMapSwipe);
   mascotContext();
 }
@@ -1546,8 +1560,9 @@ function lessonCard(c){
     rows+='<div class="lc-les tap" onclick="startRehearsal(\''+c+'\')"><span class="lc-dot '+(rzDone?'done':'now')+'">'+(rzDone?'✓':'▶')+'</span>'
       +'<div><p>Skills rehearsal</p><small>'+(rzDone?'Completed — run it again any time':'Work a real patient case end to end before the exam')+'</small></div></div>';
   }
-  rows+='<div class="lc-les tap" onclick="go(\'exam\',\''+c+'\')"><span class="lc-dot '+(examDone?'done':'now')+'">'+(examDone?'✓':'★')+'</span>'
-    +'<div><p>Final exam &amp; certificate</p><small>'+(examDone?'Certified':(allDone?'All lessons done — take the exam':'Available now — test your knowledge'))+'</small></div></div>';
+  var examOpen=examDone||allDone;
+  rows+='<div class="lc-les'+(examOpen?' tap':'')+'" onclick="'+(examOpen?'go(\''+(examDone?'cert':'exam')+'\',\''+c+'\')':'flash()')+'"><span class="lc-dot '+(examDone?'done':(examOpen?'now':'lock'))+'">'+(examDone?'✓':(examOpen?'★':'🔒'))+'</span>'
+    +'<div><p>Final exam &amp; certificate</p><small>'+(examDone?'Certified — view your certificate':(allDone?'All lessons done — take the exam':'Finish every lesson to unlock'))+'</small></div></div>';
   var subLabel=curId?('Continue where you left off'):'Course complete';
   var tabs=COURSE_IDS.map(function(cc){return '<button class="lc-tab'+(cc===c?' on':'')+'" onclick="selCourse(\''+cc+'\')">'+esc(COURSES[cc].name)+'</button>';}).join('');
   return '<div class="lcardwrap"><div class="lc-eyebrow" style="margin-bottom:12px">Continue your training</div><div class="lcard">'
@@ -1757,7 +1772,7 @@ function vExam(){
   _exam={c:c,qs:examQuestions(c),ans:{},submitted:false};
   var need=Math.ceil(_exam.qs.length*0.8);
   var h='<div class="lesson"><div class="lhead"><div class="lcrumb"><a onclick="go(\'home\')">'+COURSES[c].name+'</a><span>›</span> Final exam</div><h2>'+COURSES[c].name+' — Final Exam</h2><p class="lp" style="color:var(--muted)">One question per lesson, options shuffled. Score <b>80%</b> ('+need+' of '+_exam.qs.length+') to earn your certificate.</p></div>';
-  h+='<div class="slidebox"><div class="slide" style="height:auto;min-height:0" id="examHost"></div></div>';
+  h+='<div class="slidebox"><div class="exambody" id="examHost"></div></div>';
   h+='<div class="lnav"><button class="btn btn-ghost" onclick="go(\'home\')">← Exit</button><div class="sp"></div><button class="btn btn-gold" id="examSubmit" onclick="submitExam()">Submit exam</button></div></div>';
   return h;
 }
@@ -1779,7 +1794,9 @@ function submitExam(){
   var total=_exam.qs.length,pct=Math.round(correct/total*100),need=Math.ceil(total*0.8),pass=correct>=need;
   var c=_exam.c;
   var prev=S.exams[c];
-  S.exams[c]={score:pct,correct:correct,total:total,passed:pass};persist();
+  // never let a later attempt revoke an earned pass
+  if(!prev||!prev.passed||(pass&&pct>prev.score))S.exams[c]={score:pct,correct:correct,total:total,passed:pass};
+  persist();
   if(pass&&(!prev||!prev.passed)){awardXP(XP_EXAM);celebrate("🏅","Course certified!",COURSES[c].name);}
   el("examSubmit").style.display="none";
   var res=el("examResult");
@@ -1794,7 +1811,7 @@ function vCert(){
   var c=S.course,ex=S.exams[c];
   if(!ex||!ex.passed){return '<div style="text-align:center;padding:40px 0"><h2 style="color:var(--head)">Certificate locked</h2><p style="color:var(--muted);margin:10px 0 16px">Pass the '+COURSES[c].name+' final exam (80%) to unlock your certificate.</p><button class="btn btn-gold" onclick="go(\'exam\',\''+c+'\')">Go to final exam</button></div>';}
   if(!ceEvalDone(c)){return '<div style="text-align:center;padding:40px 0"><h2 style="color:var(--head)">One step left</h2><p style="color:var(--muted);margin:10px 0 16px;max-width:440px;margin-left:auto;margin-right:auto">A short post-activity evaluation is required before your certificate can be issued. It takes about a minute.</p><button class="btn btn-gold" onclick="go(\'evaluation\',\''+c+'\')">Start the evaluation</button></div>';}
-  if(!S.name){return '<div style="text-align:center;padding:40px 0"><h2 style="color:var(--head)">Name your certificate</h2><p style="color:var(--muted);margin:10px 0 16px">Enter the name to appear on your IV Rejuve Certificate of Completion.</p><input id="nameIn" placeholder="Full name" style="border:1px solid var(--stone);border-radius:12px;padding:11px 14px;font:inherit;min-width:260px"/><br><button class="btn btn-gold" style="margin-top:14px" onclick="setName()">Generate certificate</button></div>';}
+  if(!S.name){return '<div style="text-align:center;padding:40px 0"><h2 style="color:var(--head)">Name your certificate</h2><p style="color:var(--muted);margin:10px 0 16px">Enter the name to appear on your IV Rejuve Certificate of Completion.</p><input id="nameIn" placeholder="Full name" style="border:1px solid var(--stone);border-radius:12px;padding:11px 14px;font:inherit;min-width:260px"/><br><div id="nameErr" style="color:var(--bad);font-size:.84rem;font-weight:600;margin-top:8px;min-height:1.1em"></div><button class="btn btn-gold" style="margin-top:14px" onclick="setName()">Generate certificate</button></div>';}
   var id=credId(c);var mods=COURSES[c].modules.length;var _rec=ceIssueRecord(c);
   var h='<div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:8px"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button><button class="btn btn-gold" onclick="window.print()">🖨 Print / Save PDF</button></div>';
   h+='<div class="cert"><div class="cl">IV Rejuve Academy · Clinical Skills Training</div><h1>Certificate of Completion</h1><div style="font-size:.8rem;color:rgba(251,250,246,.7)">This certifies that</div><div class="who">'+esc(S.name)+'</div>'
@@ -1806,7 +1823,9 @@ function vCert(){
     +'</div>';
   return h;
 }
-function setName(){var v=el("nameIn").value.trim();if(!v)return;S.name=v;persist();render();}
+function setName(){var i=el("nameIn"),v=(i&&i.value||"").trim();
+  if(!v){var e=el("nameErr");if(e)e.textContent="Please enter the name for your certificate.";if(i)i.focus();return;}
+  S.name=v;persist();render();}
 
 /* ============ PRICING ============ */
 function vPricing(){
@@ -2661,7 +2680,7 @@ function ixFill(host,body,x){
     var tx=BX+BW*(i/nT), major=(i%maj===0);
     ticks+='<line x1="'+tx+'" y1="'+BY+'" x2="'+tx+'" y2="'+(BY+(major?9:5))+'" stroke="#6f8a92" stroke-width="'+(major?1.6:1)+'"/>';
     if(major)ticks+='<text x="'+tx+'" y="'+(BY-6)+'" font-family="Inter,system-ui" font-size="9.5" fill="#54707a" text-anchor="middle">'+
-      (+(max*(i/nT)).toFixed(dec))+'</text>';
+      (+(max*(1-i/nT)).toFixed(dec))+'</text>';
   }
   // built once, then only the moving parts are repainted — rebuilding the SVG
   // on every change would destroy the element mid-drag and drop the gesture
@@ -3549,10 +3568,12 @@ var CE_EVAL_Qs=[
   {id:"change",    k:"text", q:"What will you do differently in your practice as a result of this activity?",req:true},
   {id:"future",    k:"text", q:"What topics would you like to see covered in future?",req:false}
 ];
-var _ceEval={};
+var _ceEval={},_ceEvalFor=null;
 function ceEvalDone(c){return !!CE.evals[c];}
 function vEval(){
   var c=S.course;
+  // answers belong to one course and one sitting; never carry them over
+  if(_ceEvalFor!==c){_ceEval={};_ceEvalFor=c;}
   var h='<div class="cebox"><div class="cehead"><div class="ceyb">Required</div>'+
     '<h2>Post-activity evaluation</h2>'+
     '<p>Your certificate for <b>'+esc(COURSES[c].name)+'</b> unlocks once this is submitted. '+
@@ -3577,6 +3598,16 @@ function vEval(){
      '<button class="btn btn-ghost" onclick="go(\'home\')">Back</button>'+
      '<button class="btn btn-gold" onclick="ceSubmitEval()">Submit &amp; get certificate →</button></div></div>';
   return h;
+}
+function ceRepaintEval(){
+  CE_EVAL_Qs.forEach(function(q){
+    var v=_ceEval[q.id]; if(v===undefined)return;
+    var card=document.querySelector('.ceq[data-q="'+q.id+'"]'); if(!card)return;
+    if(q.k==="text"){var t=card.querySelector("textarea");if(t)t.value=v;return;}
+    var btns=card.querySelectorAll("button");
+    if(q.k==="scale"&&btns[v-1])btns[v-1].classList.add("on");
+    if(q.k==="yn"){var i=(v==="yes")?0:1;if(btns[i])btns[i].classList.add("on");}
+  });
 }
 function ceSet(id,val,btn){
   _ceEval[id]=val;
@@ -3708,7 +3739,7 @@ function sectionFigsHTML(id,si){
 
 /* ============ Reset ============ */
 function resetAll(){openModal('<h3>Reset progress?</h3><p>This clears your XP, streak, completed lessons, exams, and certificates on this device.</p><button class="btn btn-ghost" onclick="closeModal()">Cancel</button> <button class="btn btn-gold" onclick="doReset()">Reset</button>');}
-function doReset(){["lmv_done","lmv_xp","lmv_qxp","lmv_streak","lmv_best","lmv_last","lmv_exams","lmv_name","lmv_certs"].forEach(function(k){Store.set(k,null);});S.done=new Set();S.xp=0;S.qxp=new Set();S.streak=0;S.best=0;S.last=null;S.exams={};S.name="";S.certs={};closeModal();go("home");}
+function doReset(){["lmv_done","lmv_xp","lmv_qxp","lmv_streak","lmv_best","lmv_last","lmv_exams","lmv_name","lmv_certs","lmv_ce_ack","lmv_ce_eval","lmv_ce_recs"].forEach(function(k){Store.del(k);});S.done=new Set();S.xp=0;S.qxp=new Set();S.streak=0;S.best=0;S.last=null;S.exams={};S.name="";S.certs={};CE.ack={};CE.evals={};CE.recs={};_ceEval={};_ceEvalFor=null;closeModal();go("home");}
 function flash(){celebrate("🔒","Locked","Finish the previous lesson first");}
 
 /* ============ init: load curriculum from Supabase, fall back to bundled ============ */
@@ -3728,9 +3759,13 @@ function applyCurriculum(list){
       })};
     });
     if(!ids.length) return false;
+    var _booted=!!document.querySelector('#view *');
     COURSES=NC; L=NL; COURSE_IDS=ids; TOTAL_LESSONS=allLessons().length;
     _figMapCache={};
     if(COURSE_IDS.indexOf(S.course)<0) S.course=COURSE_IDS[0];
+    // if the fallback already painted, repaint against the real curriculum -
+    // otherwise every tile still calls openLesson() with a stale lesson id
+    if(_booted){S.view="home";S.lesson=null;try{render();}catch(e){}}
     return true;
   }catch(e){ return false; }
 }
