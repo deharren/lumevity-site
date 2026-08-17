@@ -402,6 +402,8 @@
   .ix .ixfig.lock .hot{cursor:default;}
   .ix .ixfig img.figimg{width:100%;max-width:600px;height:auto;border-radius:12px;display:block;margin:0 auto;}
   .ix .ixfig svg.fighot,.illo svg.fighot{width:100%;max-width:640px;height:auto;display:block;margin:0 auto;border-radius:12px;}
+  svg.figimg{width:100%;max-width:480px;height:auto;display:block;margin:0 auto;border-radius:12px;}
+  .ix .ixfig svg.figimg{max-width:600px;}
   .ix .ixfig .hot.ok{fill:#12A0AE;fill-opacity:.82;stroke:#0B6E76;stroke-width:5;}
   .ix .ixfig .hot.no{fill:#D8474B;fill-opacity:.82;stroke:#8f2f32;stroke-width:5;}
 
@@ -770,7 +772,7 @@ function illoSVG(k){return ({arm:svgArm(false),im:svgIM(false),subq:svgSubQ(fals
    Interactive figures render the photo with transparent .hot ellipse hitboxes. */
 var FIG_BASE="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/";
 function figURL(n){return FIG_BASE+n;}
-function figImg(n,alt){return '<img class="figimg" src="'+figURL(n)+'" alt="'+(alt||'')+'" loading="lazy"/>';}
+function figImg(n,alt){return '<svg class="figimg" viewBox="0 0 1536 1024" role="img" aria-label="'+(alt||'')+'"><image href="'+figURL(n)+'" x="0" y="0" width="1536" height="1024" preserveAspectRatio="xMidYMid meet"/></svg>';}
 function figHotspots(n,alt,spots){
   var s='<svg class="fighot" viewBox="0 0 1536 1024" role="img" aria-label="'+(alt||'')+'">'
     +'<image href="'+figURL(n)+'" x="0" y="0" width="1536" height="1024" preserveAspectRatio="xMidYMid meet"/>';
@@ -782,17 +784,17 @@ function figHotspots(n,alt,spots){
 }
 var FOREARM_SPOTS=[{id:"good",cx:845,cy:395,rx:95,ry:72},{id:"valve",cx:1155,cy:340,rx:82,ry:70},{id:"hand",cx:520,cy:350,rx:82,ry:72}];
 var SUBQ_SPOTS=[{id:"abdomen",cx:500,cy:505,rx:92,ry:82},{id:"navel",cx:660,cy:430,rx:56,ry:56},{id:"arm",cx:1030,cy:200,rx:80,ry:92}];
-var IM_SPOTS=[{id:"deltoid",cx:292,cy:410,rx:95,ry:98},{id:"ventro",cx:690,cy:513,rx:98,ry:98},{id:"vastus",cx:1212,cy:523,rx:95,ry:100}];
+var IM_SPOTS=[{id:"deltoid",cx:285,cy:320,rx:98,ry:105},{id:"ventro",cx:785,cy:300,rx:105,ry:120},{id:"vastus",cx:1278,cy:540,rx:98,ry:115}];
 svgArm=function(i){return i?figHotspots('forearm-veins-v1.png','Forearm veins — tap the best vein to cannulate',FOREARM_SPOTS):figImg('forearm-veins-v1.png','Superficial veins of the forearm');};
-svgIM=function(i){return i?figHotspots('im-sites-v1.png','IM sites — tap the correct injection site',IM_SPOTS):figImg('im-sites-v1.png','Intramuscular injection sites');};
+svgIM=function(i){return i?figHotspots('im-sites-v2.png','IM sites — tap the correct injection site',IM_SPOTS):figImg('im-sites-v2.png','Intramuscular injection sites');};
 svgSubQ=function(i){return i?figHotspots('subq-sites-v1.png','SubQ sites — tap a good injection site',SUBQ_SPOTS):figImg('subq-sites-v1.png','Subcutaneous injection sites');};
 svgAngle=function(){return figImg('skin-angles-v1.png','Skin layers with injection needle angles (90 IM, 45 SubQ)');};
 svgLayers=function(){return figImg('skin-angles-v1.png','Skin layers');};
 svgVeinX=function(){return figImg('vein-xsection-v1.png','Vein wall cross-section');};
-illoSVG=function(k){var m={arm:'forearm-veins-v1.png',im:'im-sites-v1.png',subq:'subq-sites-v1.png',angle:'skin-angles-v1.png',layers:'skin-angles-v1.png',veinx:'vein-xsection-v1.png'};return m[k]?figImg(m[k],k):'';};
+illoSVG=function(k){var m={arm:'forearm-veins-v1.png',im:'im-sites-v2.png',subq:'subq-sites-v1.png',angle:'skin-angles-v1.png',layers:'skin-angles-v1.png',veinx:'vein-xsection-v1.png'};return m[k]?figImg(m[k],k):'';};
 /* Glossary term figures -> hosted images (highlight-per-term is dropped in favor of atlas-quality art) */
 var gArm=function(){return figImg('forearm-veins-v1.png','Superficial veins of the forearm');};
-var gIM=function(){return figImg('im-sites-v1.png','Intramuscular injection sites');};
+var gIM=function(){return figImg('im-sites-v2.png','Intramuscular injection sites');};
 var gSkin=function(){return figImg('skin-angles-v1.png','Skin layers with injection angles');};
 var gGauges=function(){return figImg('gauge-flashback-v1.png','IV catheter gauges and flashback');};
 var gFlashback=function(){return figImg('gauge-flashback-v1.png','IV catheter flashback');};
