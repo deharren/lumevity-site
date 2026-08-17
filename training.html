@@ -531,7 +531,10 @@
   .modal .box.boxflex .cebox{display:flex;flex-direction:column;min-height:0;flex:1 1 auto;}
   .modal .box.boxflex .cescroll{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;}
   .modal .box.boxflex .cedisc{max-height:none;overflow:visible;}
+  .modal .box.boxflex .ceack,.modal .box.boxflex .ceerr,
   .modal .box.boxflex .ceactions{flex:0 0 auto;}
+  .ceack.nudge{animation:ceNudge .4s ease;}
+  @keyframes ceNudge{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
 
   .ceq{border:1px solid var(--stone);border-radius:14px;padding:16px 18px;margin-bottom:12px;background:var(--white);}
   .ceq .cql{font-weight:700;color:var(--head);font-size:.92rem;margin-bottom:10px;line-height:1.45;}
@@ -1642,10 +1645,27 @@ function wireLesson(){
     syncBar();
   }
   window._lessonUpd=upd;
-  // swipe
-  var vp=el("strack").parentElement,sx=null;
-  vp.addEventListener("touchstart",function(e){sx=e.touches[0].clientX;},{passive:true});
-  vp.addEventListener("touchend",function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>45){if(dx<0)stepMove(1);else stepMove(-1);}sx=null;});
+  /* Swipe to change step. This must never fire on an ordinary vertical scroll:
+     the previous version compared only clientX, so scrolling the lesson with the
+     natural sideways drift of a thumb jumped the learner to the next step. A
+     step change now requires a deliberate, dominantly-horizontal, quick flick —
+     and is ignored entirely when the gesture starts on a control that does its
+     own horizontal dragging (the syringe, its slider, a tappable diagram). */
+  var vp=el("strack").parentElement,sx=null,sy=null,stime=0;
+  var NOSWIPE=".sy, .syr, .ixfig, input, textarea, select, .ordseq, .ordbank";
+  vp.addEventListener("touchstart",function(e){
+    if(e.touches.length!==1||(e.target.closest&&e.target.closest(NOSWIPE))){sx=null;return;}
+    sx=e.touches[0].clientX;sy=e.touches[0].clientY;stime=Date.now();
+  },{passive:true});
+  vp.addEventListener("touchend",function(e){
+    if(sx===null)return;
+    var dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy;
+    sx=null;
+    if(Date.now()-stime>600)return;              // a slow drag is not a flick
+    if(Math.abs(dx)<60)return;                   // deliberate distance
+    if(Math.abs(dx)<Math.abs(dy)*2)return;       // clearly horizontal, not a scroll
+    if(dx<0)stepMove(1);else stepMove(-1);
+  });
   document.onkeydown=function(e){var mb=el("mlb");if(mb&&mb.classList.contains("show")){if(e.key==="Escape")closeMedia();return;}var gs=el("gsheet");if(gs&&gs.classList.contains("show")){if(e.key==="Escape")closeTerm();return;}if(S.view!=="lesson")return;if(e.key==="ArrowRight")stepMove(1);else if(e.key==="ArrowLeft")stepMove(-1);};
   upd();
 }
@@ -1918,29 +1938,137 @@ function gArm(hi){
   s+='</svg>';
   return s;
 }
-function gIM(hi){
-  var S={
-    deltoid:{cx:78,cy:56,rx:24,ry:26,lab:"Deltoid — 2.5–5 cm below the acromion"},
-    ventrogluteal:{cx:190,cy:96,rx:27,ry:24,lab:"Ventrogluteal — the preferred adult IM site"},
-    dorsogluteal:{cx:190,cy:52,rx:25,ry:20,lab:"Dorsogluteal — no longer recommended"},
-    vastus_lateralis:{cx:300,cy:116,rx:22,ry:34,lab:"Vastus lateralis — outer thigh, middle third"}
-  };
-  var s='<svg viewBox="0 0 380 200" role="img" aria-label="Intramuscular injection sites">';
-  // schematic body regions: shoulder, hip, thigh
-  s+='<rect x="44" y="26" width="70" height="86" rx="26" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'"/>';
-  s+='<rect x="146" y="24" width="92" height="102" rx="30" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'"/>';
-  s+='<rect x="272" y="34" width="58" height="118" rx="26" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'"/>';
-  s+=_gfLabel(79,170,"shoulder")+_gfLabel(192,170,"hip")+_gfLabel(301,170,"thigh");
-  for(var k in S){
-    var o=S[k],on=(k===hi);
-    s+='<ellipse cx="'+o.cx+'" cy="'+o.cy+'" rx="'+o.rx+'" ry="'+o.ry+'" fill="'+
-       (on?"rgba(14,138,147,.25)":"rgba(201,138,134,.22)")+'" stroke="'+(on?_GF_HI:_GF_MUS)+
-       '" stroke-width="'+(on?2.6:1.3)+'"'+(k==="dorsogluteal"&&!on?' stroke-dasharray="4 3"':'')+'/>';
-  }
-  if(S[hi])s+=_gfLabel(190,192,S[hi].lab);
-  s+='</svg>';
-  return s;
+
+/* ---- Anatomical figures for the IM sites ----
+   Original vector drawings (not traced from any copyrighted atlas). Each shows
+   the body region, the muscle belly, the bony landmarks a clinician palpates,
+   the nerve to avoid, and the target zone - because these figures exist to
+   teach WHERE a site is and how it is found. */
+var _AF_SKIN="#F6DCC6",_AF_SKIN_E="#D9B393",_AF_BONE="#F2E7CC",_AF_BONE_E="#C9B893",
+    _AF_MUS="#D07C79",_AF_MUS_E="#A85B58",_AF_NERVE="#E8C444",
+    _AF_GO="#7FB77E",_AF_GO_E="#3F7F45",_AF_HI="#0E8A93",_AF_INK="#17242B",_AF_DIM="#6b7a82";
+function _afLab(x,y,t,anchor,col,size){return '<text x="'+x+'" y="'+y+'" font-family="Inter,system-ui" font-size="'+(size||11)+'" font-weight="600" fill="'+(col||_AF_INK)+'" text-anchor="'+(anchor||"start")+'">'+t+'</text>';}
+function _afLead(x1,y1,x2,y2){return '<path d="M'+x1+' '+y1+' L'+x2+' '+y2+'" stroke="#8b9aa2" stroke-width="1" fill="none"/><circle cx="'+x2+'" cy="'+y2+'" r="2" fill="#8b9aa2"/>';}
+function _afFib(d,n,col){var s='';for(var i=0;i<n;i++){s+='<path d="'+d+'" stroke="'+(col||_AF_MUS_E)+'" stroke-width=".7" fill="none" opacity=".45" transform="translate('+(i*4)+',0)"/>';}return s;}
+function gIMVentro(){
+ return '<svg viewBox="0 0 520 330">'+
+  /* lateral hip: flank top-left, buttock right, thigh descending */
+  '<path d="M36 96 C48 62,92 40,146 32 C214 22,286 40,318 84 '+
+    'C346 122,344 178,318 220 C296 256,258 280,214 290 L214 330 L96 330 '+
+    'C74 292,58 236,48 184 C40 148,32 118,36 96 Z" fill="'+_AF_SKIN+'" stroke="'+_AF_SKIN_E+'" stroke-width="2"/>'+
+  /* ilium */
+  '<path d="M78 106 C112 66,196 54,258 78 C296 94,312 124,306 152 '+
+    'C280 138,214 132,166 144 C124 154,92 138,78 106 Z" fill="'+_AF_BONE+'" stroke="'+_AF_BONE_E+'" stroke-width="1.6"/>'+
+  '<path d="M80 104 C114 64,198 52,260 76" fill="none" stroke="'+_AF_BONE_E+'" stroke-width="4" stroke-linecap="round"/>'+
+  /* femur head at the greater trochanter */
+  '<circle cx="236" cy="214" r="24" fill="'+_AF_BONE+'" stroke="'+_AF_BONE_E+'" stroke-width="1.6"/>'+
+  '<path d="M240 236 L236 330" stroke="'+_AF_BONE_E+'" stroke-width="11" stroke-linecap="round" opacity=".45"/>'+
+  /* gluteus medius / minimus */
+  '<path d="M96 116 C136 84,208 76,262 100 C288 118,292 144,278 166 '+
+    'C240 154,176 154,140 166 C112 156,98 138,96 116 Z" fill="'+_AF_MUS+'" stroke="'+_AF_MUS_E+'" stroke-width="1.4" opacity=".92"/>'+
+  _afFib("M112 118 C146 98,200 94,244 108",16)+
+  /* sciatic nerve, posterior-inferior and clear of the target */
+  '<path d="M170 186 C182 226,192 274,196 330" stroke="'+_AF_NERVE+'" stroke-width="5.5" fill="none" stroke-linecap="round"/>'+
+  /* the V target */
+  '<path d="M150 112 L252 122 L196 168 Z" fill="'+_AF_GO+'" fill-opacity=".55" stroke="'+_AF_GO_E+'" stroke-width="2.2"/>'+
+  '<circle cx="199" cy="134" r="4.5" fill="'+_AF_GO_E+'"/>'+
+  /* hand: palm over the trochanter, index to ASIS, middle along the crest */
+  '<g fill="rgba(255,255,255,.34)" stroke="#6b7a83" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">'+
+   '<path d="M258 226 C222 232,186 220,166 198 C150 180,150 162,162 156 '+
+     'C176 150,192 160,202 172 L216 188 C232 202,250 210,266 210 Z"/>'+
+   '<path d="M162 156 C138 132,112 108,100 94 C92 84,100 74,110 82 C130 98,158 128,178 150"/>'+
+   '<path d="M180 150 C168 124,158 96,154 78 C152 66,164 62,170 72 C180 92,194 124,204 144"/>'+
+  '</g>'+
+  /* labels, all inside a right-hand gutter */
+  _afLead(346,72,214,60)+_afLab(352,76,"iliac crest")+
+  _afLead(346,104,110,92)+_afLab(352,108,"ASIS (index finger)")+
+  _afLead(346,214,262,214)+_afLab(352,218,"greater trochanter")+
+  _afLab(352,232,"(palm rests here)",'start',DIM,10)+
+  _afLead(346,140,256,134)+_afLab(352,144,"injection site",'start',_AF_GO_E)+
+  _afLead(346,296,200,300)+_afLab(352,300,"sciatic nerve",'start','#9a7d15')+
+  _afLab(352,314,"well clear of the site",'start',DIM,10)+
+  '</svg>';
 }
+function gIMDeltoid(){
+ return '<svg viewBox="0 0 440 320">'+
+  '<path d="M150 40 C210 26,266 34,296 56 C316 72,322 100,322 132 L322 300 '+
+    'L214 300 C196 268,186 226,184 186 C160 176,146 150,146 118 C146 84,146 56,150 40 Z" '+
+    'fill="'+_AF_SKIN+'" stroke="'+_AF_SKIN_E+'" stroke-width="1.8"/>'+
+  /* scapula/clavicle + humerus */
+  '<path d="M150 66 C196 46,258 50,290 72" fill="none" stroke="'+_AF_BONE_E+'" stroke-width="4" stroke-linecap="round"/>'+
+  '<circle cx="228" cy="86" r="9" fill="'+_AF_BONE+'" stroke="'+_AF_BONE_E+'" stroke-width="1.6"/>'+
+  '<path d="M244 96 L256 250" stroke="'+_AF_BONE_E+'" stroke-width="9" stroke-linecap="round" opacity=".45"/>'+
+  /* deltoid muscle */
+  '<path d="M182 78 C222 62,272 68,292 92 C300 128,290 176,266 202 '+
+    'C240 214,212 206,198 186 C186 154,180 112,182 78 Z" fill="'+_AF_MUS+'" stroke="'+_AF_MUS_E+'" stroke-width="1.4" opacity=".92"/>'+
+  _afFib("M196 92 C218 80,254 82,276 100",16)+
+  /* acromion */
+  '<path d="M186 70 C208 58,244 58,266 70" fill="none" stroke="'+_AF_BONE_E+'" stroke-width="6" stroke-linecap="round"/>'+
+  /* measurement */
+  '<path d="M340 74 L340 132" stroke="'+_AF_HI+'" stroke-width="1.6"/>'+
+  '<path d="M334 74 h12 M334 132 h12" stroke="'+_AF_HI+'" stroke-width="1.6"/>'+
+  _afLab(350,102,"2.5–5 cm",'start',_AF_HI)+
+  '<path d="M186 132 L286 132" stroke="'+_AF_HI+'" stroke-width="1.4" stroke-dasharray="4 4"/>'+
+  /* target */
+  '<path d="M200 138 L276 138 L238 194 Z" fill="'+_AF_GO+'" fill-opacity=".55" stroke="'+_AF_GO_E+'" stroke-width="2"/>'+
+  '<circle cx="238" cy="156" r="4" fill="'+_AF_GO_E+'"/>'+
+  _afLead(150,66,196,70)+_afLab(146,62,"acromion",'end')+
+  _afLead(150,160,192,150)+_afLab(146,156,"deltoid",'end')+
+  _afLead(392,158,282,158)+_afLab(396,162,"injection site",'start',_AF_GO_E)+
+  '</svg>';
+}
+function gIMVastus(){
+ return '<svg viewBox="0 0 440 320">'+
+  '<path d="M170 24 C224 18,268 28,282 48 L302 150 C312 220,304 276,292 306 '+
+    'L186 306 C170 272,162 216,166 150 Z" fill="'+_AF_SKIN+'" stroke="'+_AF_SKIN_E+'" stroke-width="1.8"/>'+
+  /* femur */
+  '<path d="M236 40 L250 296" stroke="'+_AF_BONE_E+'" stroke-width="9" stroke-linecap="round" opacity=".45"/>'+
+  '<circle cx="232" cy="40" r="12" fill="'+_AF_BONE+'" stroke="'+_AF_BONE_E+'" stroke-width="1.6"/>'+
+  /* vastus lateralis belly */
+  '<path d="M180 62 C212 48,250 54,266 76 C282 140,278 220,262 274 '+
+    'C232 288,204 282,190 266 C176 208,172 122,180 62 Z" fill="'+_AF_MUS+'" stroke="'+_AF_MUS_E+'" stroke-width="1.4" opacity=".9"/>'+
+  _afFib("M192 76 C214 64,242 66,258 84",15)+
+  /* thirds */
+  '<path d="M164 110 L306 110 M164 216 L306 216" stroke="#8b9aa2" stroke-width="1.2" stroke-dasharray="5 4"/>'+
+  '<path d="M182 116 C214 104,250 108,266 122 L262 208 C232 220,204 216,188 202 Z" fill="'+_AF_GO+'" fill-opacity=".5" stroke="'+_AF_GO_E+'" stroke-width="2"/>'+
+  '<circle cx="226" cy="162" r="4" fill="'+_AF_GO_E+'"/>'+
+  _afLead(140,44,214,44)+_afLab(136,40,"greater trochanter",'end')+
+  _afLead(140,300,214,296)+_afLab(136,296,"knee",'end')+
+  _afLab(320,86,"upper third",'start',_AF_DIM)+
+  _afLab(320,166,"middle third",'start',_AF_GO_E)+
+  _afLab(320,258,"lower third",'start',_AF_DIM)+
+  _afLead(316,162,272,162)+
+  '</svg>';
+}
+function gIMDorso(){
+ return '<svg viewBox="0 0 440 320">'+
+  '<path d="M60 60 C120 34,220 30,300 46 C370 60,392 108,384 168 '+
+    'C376 232,330 282,262 296 C190 310,110 296,74 254 C44 218,44 116,60 60 Z" '+
+    'fill="'+_AF_SKIN+'" stroke="'+_AF_SKIN_E+'" stroke-width="1.8"/>'+
+  '<path d="M214 40 L214 300" stroke="#4a5a62" stroke-width="1.6" stroke-dasharray="6 5"/>'+
+  '<path d="M60 168 L380 168" stroke="#4a5a62" stroke-width="1.6" stroke-dasharray="6 5"/>'+
+  /* gluteus maximus */
+  '<path d="M226 66 C300 60,352 92,362 140 C368 190,336 240,282 262 '+
+    'C244 274,228 246,224 200 Z" fill="'+_AF_MUS+'" stroke="'+_AF_MUS_E+'" stroke-width="1.4" opacity=".85"/>'+
+  _afFib("M240 84 C288 78,330 100,344 132",14)+
+  /* sciatic nerve running right under the lower quadrants */
+  '<path d="M258 110 C286 164,296 226,290 300" stroke="'+_AF_NERVE+'" stroke-width="6" fill="none" stroke-linecap="round"/>'+
+  /* the historic site, crossed out */
+  '<circle cx="300" cy="116" r="30" fill="rgba(216,71,75,.16)" stroke="#D8474B" stroke-width="2.6" stroke-dasharray="6 5"/>'+
+  '<path d="M282 98 L318 134 M318 98 L282 134" stroke="#D8474B" stroke-width="3" stroke-linecap="round"/>'+
+  _afLead(392,84,318,100)+_afLab(396,88,"upper-outer quadrant",'start','#B4484D')+
+  _afLead(392,286,296,278)+_afLab(396,290,"sciatic nerve",'start','#9a7d15')+
+  _afLab(220,314,"Not recommended — the nerve lies beneath",'middle','#B4484D')+
+  '</svg>';
+}
+
+function gIM(hi){
+  if(hi==="deltoid")return gIMDeltoid();
+  if(hi==="vastus_lateralis")return gIMVastus();
+  if(hi==="dorsogluteal")return gIMDorso();
+  return gIMVentro();
+}
+
 function gSkin(hi){
   var rows=[
     {k:"epidermis",y:34,h:16,c:"#E9D3BE",lab:"Epidermis"},
@@ -3300,7 +3428,13 @@ var _ceAckPending=null;
 function ceAckContinue(){
   var p=_ceAckPending; if(!p)return;
   var box=el("ceAckBox");
-  if(!box||!box.checked){el("ceAckErr").textContent="Please confirm you have read the disclosure.";return;}
+  if(!box||!box.checked){
+    el("ceAckErr").textContent="Please tick the box above to confirm you have read the disclosure.";
+    var row=document.querySelector(".ceack");
+    if(row){row.classList.remove("nudge");void row.offsetWidth;row.classList.add("nudge");
+            row.scrollIntoView({block:"nearest"});}
+    return;
+  }
   CE.ack[p.course]={at:new Date().toISOString(),version:p.version};cePersist();
   ceSyncAck(p.course);
   _ceAckPending=null;
@@ -3312,11 +3446,11 @@ function ceShowDisclosure(c,after){
   openModal('<div class="cebox"><div class="cescroll"><div class="cehead"><div class="ceyb">Before you begin</div>'+
     '<h2>Disclosure &amp; conflict of interest</h2>'+
     '<p>Accreditation standards require this to be presented before the activity starts. Please read it in full.</p></div>'+
-    '<div class="cedisc">'+esc(ceDisclosureText(c))+'</div>'+
+    '<div class="cedisc">'+esc(ceDisclosureText(c))+'</div></div>'+
     '<label class="ceack"><input type="checkbox" id="ceAckBox"/>'+
     '<span>I have read the disclosure above and understand this activity is educational only'+
     (ceIsAccredited(c)?'':' and does not award CE credit')+'.</span></label>'+
-    '<div class="ceerr" id="ceAckErr"></div></div>'+
+    '<div class="ceerr" id="ceAckErr"></div>'+
     '<div class="ceactions">'+
     '<button class="btn btn-ghost" onclick="closeModal()">Not now</button>'+
     '<button class="btn btn-gold" id="ceAckBtn" onclick="ceAckContinue()">Continue</button></div></div>','boxflex');
