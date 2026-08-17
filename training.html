@@ -1969,38 +1969,42 @@ function _gfLabel(x,y,t,anchor){
 }
 function gArm(hi){
   var V={
-    cephalic:{d:"M70 78 C150 60,240 66,338 70",lab:"Cephalic vein — radial (thumb) side"},
-    basilic:{d:"M74 142 C150 156,240 148,338 140",lab:"Basilic vein — medial (little-finger) side"},
-    median_antebrachial:{d:"M82 112 C150 118,215 114,258 106",lab:"Median antebrachial vein — mid-forearm"},
-    median_cubital:{d:"M264 134 C278 116,288 96,302 72",lab:"Median cubital vein — crosses the elbow"},
-    dorsal_metacarpal:{d:"M36 82 L66 98 M32 106 L66 112 M38 128 L68 120",lab:"Dorsal metacarpal veins — back of hand"}
+    cephalic:{d:"M118 74 C185 63 262 62 336 66 C351 67 361 65 374 61",lab:"Cephalic vein — radial (thumb) side"},
+    basilic:{d:"M118 140 C185 151 262 151 336 146 C351 145 361 148 374 151",lab:"Basilic vein — medial (little-finger) side"},
+    median_antebrachial:{d:"M120 107 C185 110 250 105 300 101",lab:"Median antebrachial vein — mid-forearm"},
+    median_cubital:{d:"M298 84 C312 102 322 122 335 139",lab:"Median cubital vein — crosses the elbow"},
+    dorsal_metacarpal:{d:"M44 92 C60 86 82 88 100 97 M54 110 L100 109 M58 124 C72 128 86 125 100 119",lab:"Dorsal metacarpal veins — back of hand"}
   };
-  var s='<svg viewBox="0 0 360 200" role="img" aria-label="Venous map of the arm">';
-  // forearm — tapered, narrower at the wrist and wider toward the elbow
-  s+='<path d="M104 84 C188 66 272 62 332 72 C350 75 350 131 332 134 C272 146 188 142 104 124 C92 120 92 90 104 84 Z" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'" stroke-width="1.4"/>';
-  // palm
-  s+='<path d="M110 84 C84 80 52 84 42 97 C31 110 33 123 52 129 C77 137 100 131 110 122 Z" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'" stroke-width="1.4"/>';
-  // four fingers
-  s+='<g fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'" stroke-width="1.2">'
-    +'<rect x="8" y="83" width="38" height="9.5" rx="4.75" transform="rotate(-9 27 88)"/>'
-    +'<rect x="6" y="97" width="40" height="9.5" rx="4.75" transform="rotate(-3 26 102)"/>'
-    +'<rect x="8" y="110" width="38" height="9.5" rx="4.75" transform="rotate(4 27 115)"/>'
-    +'<rect x="14" y="121" width="33" height="9.5" rx="4.75" transform="rotate(11 31 126)"/>'
+  var EDGE='#D8BE9F';
+  var s='<svg viewBox="0 0 384 210" role="img" aria-label="Venous map of the forearm — hand at left (distal), elbow at right (proximal)">';
+  s+='<defs>'
+    +'<linearGradient id="askin" x1="0" y1="0" x2="0.15" y2="1"><stop offset="0" stop-color="#F8EBDB"/><stop offset="0.55" stop-color="#EFD8C0"/><stop offset="1" stop-color="#E3C5A9"/></linearGradient>'
+    +'<linearGradient id="avein" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#527F8B"/><stop offset="1" stop-color="#33606B"/></linearGradient>'
+    +'<linearGradient id="aveinhi" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2CE3DC"/><stop offset="1" stop-color="#0E8A93"/></linearGradient>'
+    +'<filter id="ash" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="3" stdDeviation="3.2" flood-color="#0B2B33" flood-opacity="0.16"/></filter>'
+    +'<filter id="aglow" x="-60%" y="-60%" width="220%" height="220%"><feDropShadow dx="0" dy="0" stdDeviation="2.6" flood-color="#22E0DA" flood-opacity="0.6"/></filter>'
+    +'</defs>';
+  s+='<g filter="url(#ash)">';
+  s+='<path d="M118 72 C150 63 205 60 262 61 C312 62 350 67 369 74 C380 79 380 130 369 135 C350 142 312 147 262 148 C205 149 150 146 118 137 C104 133 100 122 100 108 C100 96 104 76 118 72 Z" fill="url(#askin)" stroke="'+EDGE+'" stroke-width="1.3"/>';
+  s+='<path d="M118 76 C90 71 56 76 42 92 C29 106 32 123 53 133 C78 143 104 136 118 125 Z" fill="url(#askin)" stroke="'+EDGE+'" stroke-width="1.3"/>';
+  s+='<path d="M70 122 C56 127 47 142 58 151 C68 158 84 150 84 136 C84 128 78 122 70 121 Z" fill="url(#askin)" stroke="'+EDGE+'" stroke-width="1.1"/>';
+  s+='<g fill="url(#askin)" stroke="'+EDGE+'" stroke-width="1.1">'
+    +'<path d="M44 90 C24 84 8 84 4 89 C2 92 4 97 8 97 C20 100 34 98 45 94 Z" transform="rotate(-8 25 92)"/>'
+    +'<path d="M42 103 C20 100 5 101 3 105 C2 108 4 112 9 112 C21 113 34 111 44 108 Z"/>'
+    +'<path d="M44 116 C25 116 10 120 8 124 C7 127 10 130 15 129 C26 129 37 126 46 122 Z" transform="rotate(6 27 122)"/>'
     +'</g>';
-  // thumb
-  s+='<path d="M54 128 C47 137 49 148 60 150 C69 151 75 143 74 134 Z" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'" stroke-width="1.2"/>';
-  // antecubital fossa region (the bend of the elbow)
-  s+='<ellipse cx="306" cy="103" rx="27" ry="45" fill="'+(hi==="antecubital"?"rgba(14,138,147,.16)":"none")+
-     '" stroke="'+(hi==="antecubital"?_GF_HI:"#C9B7A4")+'" stroke-width="'+(hi==="antecubital"?2.4:1.2)+
-     '" stroke-dasharray="4 4"/>';
+  s+='</g>';
+  s+='<path d="M118 73 C165 63 245 60 318 64 C350 66 362 70 369 75 C356 81 300 82 240 82 C176 82 145 79 118 77 Z" fill="#ffffff" opacity="0.26"/>';
+  s+='<path d="M122 134 C172 147 245 149 305 147 C338 145 358 140 368 136 C353 133 300 132 240 132 C182 132 152 133 122 130 Z" fill="#7d5033" opacity="0.13"/>';
+  s+='<ellipse cx="322" cy="104" rx="30" ry="46" fill="'+(hi==="antecubital"?"rgba(14,138,147,.14)":"none")+'" stroke="'+(hi==="antecubital"?"#0E8A93":"#C7A98F")+'" stroke-width="'+(hi==="antecubital"?2.4:1.1)+'" stroke-dasharray="4 4"/>';
   for(var k in V){
-    var on=(k===hi);
-    s+='<path d="'+V[k].d+'" fill="none" stroke-linecap="round" stroke="'+(on?_GF_HI:_GF_VEIN)+
-       '" stroke-width="'+(on?8:5)+'" opacity="'+(on?1:.42)+'"/>';
+    var on=(k===hi), w=on?7.5:4.4;
+    s+='<path d="'+V[k].d+'" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke="'+(on?"url(#aveinhi)":"url(#avein)")+'" stroke-width="'+w+'" opacity="'+(on?1:0.52)+'"'+(on?' filter="url(#aglow)"':'')+'/>';
+    s+='<path d="'+V[k].d+'" fill="none" stroke-linecap="round" stroke="#ffffff" stroke-width="'+(w*0.3)+'" opacity="'+(on?0.5:0.2)+'"/>';
   }
-  s+=_gfLabel(180,25,"Hand ← distal · proximal → shoulder");
+  s+=_gfLabel(192,24,"Hand ← distal · proximal → shoulder");
   var lab=hi==="antecubital"?"Antecubital fossa — the bend of the elbow":(V[hi]?V[hi].lab:"");
-  if(lab)s+=_gfLabel(180,187,lab);
+  if(lab)s+=_gfLabel(192,198,lab);
   s+='</svg>';
   return s;
 }
