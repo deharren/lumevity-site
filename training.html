@@ -1381,7 +1381,7 @@ const XP_CORRECT=20, XP_LESSON=100, XP_EXAM=600;
 function rankIndex(x){var i=0;for(var k=0;k<RANKS.length;k++){if(x>=RANKS[k].x)i=k;}return i;}
 
 /* ============ Store (localStorage + in-memory fallback) ============ */
-const Store=(function(){var mem={};return{get:function(k,d){try{var v=localStorage.getItem(k);if(v==null)return d;var p=JSON.parse(v);return p==null?d:p;}catch(e){return (k in mem)?mem[k]:d;}},set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){mem[k]=v;}},del:function(k){try{localStorage.removeItem(k);}catch(e){}delete mem[k];}};})();
+const Store=(function(){var mem={};return{get:function(k,d){if(k in mem)return mem[k];try{var v=localStorage.getItem(k);if(v==null)return d;var p=JSON.parse(v);return p==null?d:p;}catch(e){return d;}},set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v));delete mem[k];}catch(e){mem[k]=v;}},del:function(k){try{localStorage.removeItem(k);}catch(e){}delete mem[k];}};})();
 
 /* ============ State ============ */
 const S={view:"home",course:Store.get("lmv_course","iv"),lesson:null,step:0,
@@ -1779,6 +1779,7 @@ var _exam=null;
 function vExam(){
   var c=S.course;
   _exam={c:c,qs:examQuestions(c),ans:{},submitted:false};
+  if(!_exam.qs.length){return '<div class="lesson"><div class="lhead"><div class="lcrumb"><a onclick="go(\'home\')">'+COURSES[c].name+'</a><span>›</span> Final exam</div><h2>'+COURSES[c].name+' — Final Exam</h2></div><div class="slidebox"><div class="reviewban" style="margin:16px">This exam is not available yet — no questions have been added for this course. Please check back once the content is complete.</div></div><div class="lnav"><button class="btn btn-ghost" onclick="go(\'home\')">← Exit</button></div></div>';}
   var need=Math.ceil(_exam.qs.length*0.8);
   var h='<div class="lesson"><div class="lhead"><div class="lcrumb"><a onclick="go(\'home\')">'+COURSES[c].name+'</a><span>›</span> Final exam</div><h2>'+COURSES[c].name+' — Final Exam</h2><p class="lp" style="color:var(--muted)">One question per lesson, options shuffled. Score <b>80%</b> ('+need+' of '+_exam.qs.length+') to earn your certificate.</p></div>';
   h+='<div class="slidebox"><div class="exambody" id="examHost"></div></div>';
@@ -1793,6 +1794,7 @@ function wireExam(){
 }
 function submitExam(){
   if(_exam.submitted)return;
+  if(!_exam.qs.length){_exam.submitted=true;var _er=el("examResult");if(_er)_er.innerHTML='<div class="reviewban">This exam has no questions, so it cannot be scored or certified.</div>';var _sb=el("examSubmit");if(_sb)_sb.style.display="none";return;}
   var host=el("examHost"),correct=0;
   _exam.qs.forEach(function(q,i){var card=host.querySelector('.qcard[data-qi="'+i+'"]');var chosen=_exam.ans[i];
     card.querySelectorAll('.qopt').forEach(function(opt,oi){opt.classList.add('lock');opt.classList.remove('correct');if(q.opts[oi].c){opt.classList.add('correct');opt.querySelector('.mk').textContent='✓';}else if(oi===chosen){opt.classList.add('wrong');opt.querySelector('.mk').textContent='✕';}});
@@ -1825,7 +1827,7 @@ function vCert(){
   var h='<div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:8px"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button><button class="btn btn-gold" onclick="window.print()">🖨 Print / Save PDF</button></div>';
   h+='<div class="cert"><div class="cl">IV Rejuve Academy · Clinical Skills Training</div><h1>Certificate of Completion</h1><div style="font-size:.8rem;color:rgba(251,250,246,.7)">This certifies that</div><div class="who">'+esc(S.name)+'</div>'
     +'<div class="sum">has successfully completed the <b style="color:#E3CE9A">'+COURSES[c].name+'</b> course — '+mods+' modules of evidence-based instruction and knowledge checks — and passed the final competency assessment.</div>'
-    +'<div class="meta"><div><s>Exam score</s><b>'+ex.score+'%</b></div><div><s>Contact hours</s><b>'+ceHours(c).toFixed(1)+'</b></div><div><s>Date</s><b>'+new Date(_rec.completed_at).toLocaleDateString()+'</b></div></div>'
+    +'<div class="meta"><div><s>Exam score</s><b>'+ex.score+'%</b></div><div><s>Date</s><b>'+new Date(_rec.completed_at).toLocaleDateString()+'</b></div></div>'
     +'<div class="sig"><div>Lacey Smith, FNP-C<br><span style="opacity:.7">Founder &amp; Lead Instructor</span></div><div>IV Rejuve Academy<br><span style="opacity:.7">Digital badge issued</span></div></div>'
     +'<div class="cid">Credential ID: '+id+'</div>'
     +'<div style="font-size:.66rem;color:rgba(251,250,246,.6);margin-top:16px;line-height:1.5">Educational instruction only. Not a license or authorization to perform any procedure. Skills must be validated under qualified supervision within your scope of practice.</div>'
