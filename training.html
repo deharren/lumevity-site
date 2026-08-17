@@ -723,7 +723,25 @@
 /* ============ SVG illustrations (used by lesson content) ============ */
 function svgArm(i){var h=i?'hot':'';return '<svg viewBox="0 0 340 190"><rect x="18" y="55" width="304" height="80" rx="40" fill="#f3ecdb" stroke="#d9d5cc"/><path d="M40 100 C130 78,210 116,300 92" stroke="#5f8ea0" stroke-width="7" fill="none" opacity=".55"/><path d="M40 118 C140 134,215 104,300 124" stroke="#5f8ea0" stroke-width="5" fill="none" opacity=".4"/><circle class="'+h+'" data-id="good" cx="158" cy="106" r="13" fill="#C9A24B" opacity=".9"/><circle class="'+h+'" data-id="valve" cx="245" cy="96" r="13" fill="#C9A24B" opacity=".9"/><circle class="'+h+'" data-id="hand" cx="62" cy="103" r="13" fill="#C9A24B" opacity=".9"/>'+(i?'':'<text x="158" y="150" fill="#E3CE9A" font-size="11" text-anchor="middle" font-family="Inter">forearm vein — ideal target</text>')+'</svg>';}
 function svgIM(i){var h=i?'hot':'';return '<svg viewBox="0 0 340 210"><circle cx="80" cy="34" r="16" fill="#f3ecdb" stroke="#d9d5cc"/><rect x="58" y="54" width="44" height="86" rx="16" fill="#f3ecdb" stroke="#d9d5cc"/><rect x="40" y="60" width="20" height="64" rx="10" fill="#f3ecdb" stroke="#d9d5cc"/><rect x="64" y="138" width="34" height="60" rx="14" fill="#f3ecdb" stroke="#d9d5cc"/><ellipse class="'+h+'" data-id="deltoid" cx="50" cy="72" rx="12" ry="14" fill="#C9A24B" opacity=".9"/><ellipse class="'+h+'" data-id="ventro" cx="88" cy="150" rx="13" ry="12" fill="#C9A24B" opacity=".9"/><ellipse class="'+h+'" data-id="vastus" cx="80" cy="176" rx="12" ry="15" fill="#C9A24B" opacity=".9"/><text x="150" y="70" fill="#E3CE9A" font-size="12" font-family="Inter">Deltoid — small volumes</text><text x="150" y="150" fill="#E3CE9A" font-size="12" font-family="Inter">Ventrogluteal — preferred</text><text x="150" y="180" fill="#E3CE9A" font-size="12" font-family="Inter">Vastus lateralis — thigh</text></svg>';}
-function svgSubQ(i){var h=i?'hot':'';return '<svg viewBox="0 0 340 200"><rect x="120" y="24" width="100" height="150" rx="30" fill="#f3ecdb" stroke="#d9d5cc"/><rect x="86" y="40" width="26" height="80" rx="13" fill="#f3ecdb" stroke="#d9d5cc"/><rect x="228" y="40" width="26" height="80" rx="13" fill="#f3ecdb" stroke="#d9d5cc"/><ellipse class="'+h+'" data-id="abdomen" cx="170" cy="120" rx="26" ry="18" fill="#C9A24B" opacity=".85"/><circle class="'+h+'" data-id="navel" cx="170" cy="120" r="5" fill="#0a2a24"/><ellipse class="'+h+'" data-id="arm" cx="99" cy="70" rx="9" ry="14" fill="#C9A24B" opacity=".9"/><text x="150" y="122" fill="#0a2a24" font-size="10" text-anchor="middle" font-family="Inter">abdomen</text></svg>';}
+function svgSubQ(i){
+  var h=i?'hot':'', SK='#F2E2D2', ED='#D9C3AE';
+  return '<svg viewBox="0 0 340 244" role="img" aria-label="Subcutaneous injection sites on the body">'
+    +'<circle cx="170" cy="28" r="16" fill="'+SK+'" stroke="'+ED+'" stroke-width="1.4"/>'
+    +'<path d="M161 41 h18 v10 h-18 z" fill="'+SK+'" stroke="'+ED+'" stroke-width="1.2"/>'
+    +'<path d="M150 52 C150 50 190 50 190 52 C199 66 196 74 194 86 L192 150 C192 162 148 162 148 150 L146 86 C144 74 141 66 150 52 Z" fill="'+SK+'" stroke="'+ED+'" stroke-width="1.4"/>'
+    +'<path d="M150 58 C138 60 132 70 131 84 L128 150 C127 160 141 162 143 152 L149 88 Z" fill="'+SK+'" stroke="'+ED+'" stroke-width="1.3"/>'
+    +'<path d="M190 58 C202 60 208 70 209 84 L212 150 C213 160 199 162 197 152 L191 88 Z" fill="'+SK+'" stroke="'+ED+'" stroke-width="1.3"/>'
+    +'<path d="M150 149 h40 l7 22 -15 7 -12 -12 -12 12 -15 -7 z" fill="'+SK+'" stroke="'+ED+'" stroke-width="1.3"/>'
+    +'<path d="M155 170 C151 170 149 182 149 198 L151 236 C151 244 165 244 166 236 L169 192 Z" fill="'+SK+'" stroke="'+ED+'" stroke-width="1.3"/>'
+    +'<path d="M185 170 C189 170 191 182 191 198 L189 236 C189 244 175 244 174 236 L171 192 Z" fill="'+SK+'" stroke="'+ED+'" stroke-width="1.3"/>'
+    +'<ellipse class="'+h+'" data-id="abdomen" cx="170" cy="126" rx="30" ry="22" fill="#C9A24B" opacity=".78"/>'
+    +'<circle cx="170" cy="112" r="8" fill="none" stroke="#7a2f22" stroke-width="1.6" stroke-dasharray="3 3"/>'
+    +'<circle class="'+h+'" data-id="navel" cx="170" cy="112" r="3.6" fill="#5b2018"/>'
+    +'<ellipse class="'+h+'" data-id="arm" cx="135" cy="92" rx="10" ry="15" fill="#C9A24B" opacity=".82"/>'
+    +'<text x="170" y="181" fill="#5b4a2a" font-size="10.5" font-weight="700" text-anchor="middle" font-family="Inter,system-ui">Abdomen</text>'
+    +'<text x="116" y="95" fill="#5b4a2a" font-size="9.5" font-weight="700" text-anchor="end" font-family="Inter,system-ui">Upper arm</text>'
+    +'</svg>';
+}
 function svgAngle(){return '<svg viewBox="0 0 340 160"><rect x="20" y="70" width="300" height="16" fill="#f6d9c2"/><rect x="20" y="86" width="300" height="30" fill="#fbe9b8"/><rect x="20" y="116" width="300" height="20" fill="#e7b7a6"/><text x="26" y="82" fill="#7a4a2c" font-size="9" font-family="Inter">dermis</text><text x="26" y="104" fill="#8a6a13" font-size="9" font-family="Inter">subcutaneous fat</text><text x="26" y="130" fill="#7a2f22" font-size="9" font-family="Inter">muscle</text><line x1="120" y1="70" x2="120" y2="120" stroke="#DCE2E8" stroke-width="4"/><polygon points="120,124 116,114 124,114" fill="#0e3a33"/><text x="126" y="60" fill="#0e3a33" font-size="11" font-family="Inter" font-weight="700">90° — IM</text><line x1="250" y1="70" x2="214" y2="104" stroke="#DCE2E8" stroke-width="4"/><polygon points="211,107 214,97 220,103" fill="#0e3a33"/><text x="230" y="60" fill="#0e3a33" font-size="11" font-family="Inter" font-weight="700">45° — SubQ</text></svg>';}
 function svgLayers(){return '<svg viewBox="0 0 340 190"><rect x="20" y="30" width="300" height="18" fill="#f6d9c2"/><text x="326" y="43" fill="#E3CE9A" font-size="10" text-anchor="end" font-family="Inter">epidermis</text><rect x="20" y="48" width="300" height="30" fill="#f0c2a8"/><text x="326" y="67" fill="#E3CE9A" font-size="10" text-anchor="end" font-family="Inter">dermis</text><rect x="20" y="78" width="300" height="46" fill="#fbe9b8"/><text x="326" y="105" fill="#8a6a13" font-size="10" text-anchor="end" font-family="Inter">subcutaneous (SubQ)</text><rect x="20" y="124" width="300" height="40" fill="#e7b7a6"/><text x="326" y="148" fill="#7a2f22" font-size="10" text-anchor="end" font-family="Inter">muscle (IM)</text><ellipse cx="90" cy="101" rx="16" ry="7" fill="#5f8ea0" opacity=".8"/><text x="90" y="104" fill="#fff" font-size="8" text-anchor="middle" font-family="Inter">vein</text></svg>';}
 function svgVeinX(){return '<svg viewBox="0 0 340 180"><circle cx="120" cy="90" r="66" fill="none" stroke="#8a5a3a" stroke-width="10" opacity=".5"/><circle cx="120" cy="90" r="54" fill="none" stroke="#b05a4a" stroke-width="12" opacity=".55"/><circle cx="120" cy="90" r="42" fill="#c2637a" opacity=".25"/><circle cx="120" cy="90" r="42" fill="none" stroke="#7fa7b5" stroke-width="4"/><text x="210" y="52" fill="#E3CE9A" font-size="11" font-family="Inter">tunica adventitia</text><text x="210" y="90" fill="#E3CE9A" font-size="11" font-family="Inter">tunica media</text><text x="210" y="128" fill="#E3CE9A" font-size="11" font-family="Inter">tunica intima + lumen</text></svg>';}
@@ -2770,19 +2788,22 @@ function ixFill(host,body,x){
   }
   // built once, then only the moving parts are repainted — rebuilding the SVG
   // on every change would destroy the element mid-drag and drop the gesture
-  body.innerHTML='<div class="sy"><svg viewBox="0 0 '+VBW+' 110" role="img" aria-label="Syringe">'+
-    '<rect x="'+BX+'" y="'+BY+'" width="'+BW+'" height="'+BH+'" rx="5" fill="#fbfdfd" stroke="#8fa4ab" stroke-width="1.6"/>'+
-    '<rect class="syFill" x="'+BX+'" y="'+BY+'" width="0" height="'+BH+'" rx="5" fill="#8fd9e2" opacity=".85"/>'+
+  body.innerHTML='<div class="sy"><svg viewBox="0 0 '+VBW+' 122" role="img" aria-label="Syringe. Zero is at the needle end on the left and increases to the right; drag the plunger to the ordered mark.">'+
+    '<line x1="4" y1="'+(BY+BH/2)+'" x2="'+(BX-6)+'" y2="'+(BY+BH/2)+'" stroke="#9fb3ba" stroke-width="3" stroke-linecap="round"/>'+
+    '<path d="M'+(BX-8)+' '+(BY+BH/2-6)+' h8 v12 h-8 z" fill="#b7c2c8"/>'+
+    '<rect x="'+BX+'" y="'+BY+'" width="'+BW+'" height="'+BH+'" rx="6" fill="#fbfdfd" stroke="#8fa4ab" stroke-width="1.6"/>'+
+    '<rect class="syFill" x="'+BX+'" y="'+BY+'" width="0" height="'+BH+'" rx="6" fill="#8fd9e2" opacity=".85"/>'+
     ticks+
     '<rect class="syRod" x="'+BX+'" y="'+(BY+BH/2-4.5)+'" width="'+BW+'" height="9" rx="4" fill="#c3d2d7"/>'+
-    '<rect class="syPlunger" x="'+(BX-3)+'" y="'+(BY-7)+'" width="7" height="'+(BH+14)+'" rx="2.5" fill="#0E8A93"/>'+
-    '<rect x="'+(BX+BW)+'" y="'+(BY+BH/2-13)+'" width="9" height="26" rx="3" fill="#c3d2d7"/>'+
-    '<path d="M'+(BX+BW+9)+' '+(BY+BH/2-4)+' h16 v8 h-16 z" fill="#9fb3ba"/>'+
-    '<path d="M'+(BX-2)+' '+(BY+BH/2)+' h-20" stroke="#9fb3ba" stroke-width="6" stroke-linecap="round"/>'+
+    '<rect x="'+(BX+BW)+'" y="'+(BY+BH/2-5)+'" width="20" height="10" rx="3" fill="#c3d2d7"/>'+
+    '<rect x="'+(BX+BW+18)+'" y="'+(BY+BH/2-16)+'" width="7" height="32" rx="3" fill="#9fb3ba"/>'+
+    '<rect class="syPlunger" x="'+(BX-3)+'" y="'+(BY-7)+'" width="8" height="'+(BH+14)+'" rx="3" fill="#0E8A93"/>'+
+    '<text x="4" y="'+(BY+BH+24)+'" fill="#8aa0a8" font-size="10" font-weight="700" font-family="Inter,system-ui">Needle · 0</text>'+
+    '<text x="'+(BX+BW+25)+'" y="'+(BY+BH+24)+'" fill="#8aa0a8" font-size="10" font-weight="700" text-anchor="end" font-family="Inter,system-ui">Plunger</text>'+
     '</svg></div>'+
     '<div class="syread"><span class="v">'+(0).toFixed(dec)+'</span><small>'+unit+'</small></div>'+
-    '<div class="syhint">Drag the plunger, or use the slider / arrow keys</div>'+
-    '<input type="range" class="syr" min="0" max="'+max+'" step="'+(x.step||(max/100))+'" value="0" aria-label="Volume drawn up" />';
+    '<div class="syhint">Drag the teal plunger, or use the slider / arrow keys, to draw the dose to the mark — then Check.</div>'+
+    '<input type="range" class="syr" min="0" max="'+max+'" step="'+(x.step||(max/100))+'" value="0" aria-label="'+(unit==="units"?"Units":"Volume")+' drawn up" />';
 
   var svg=body.querySelector(".sy svg"), read=body.querySelector(".syread .v"), rng=body.querySelector(".syr"),
       fillEl=svg.querySelector(".syFill"), plunger=svg.querySelector(".syPlunger"), rod=svg.querySelector(".syRod");
