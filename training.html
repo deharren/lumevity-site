@@ -36,6 +36,10 @@
   .btn-dark{background:var(--emerald);color:#fff;}
   .btn-ghost{background:transparent;color:var(--head);border:1.5px solid var(--stone);}
   .btn[disabled]{opacity:.4;cursor:not-allowed;box-shadow:none;}
+  .btn.nxlock{background:#0C3B44!important;color:#CDE9EB!important;opacity:1!important;filter:none!important;box-shadow:none!important;border:1.5px solid rgba(120,235,228,.35)!important;cursor:pointer;}
+  .hot{cursor:pointer;}
+  .hot:focus{outline:3px solid #22E0DA;outline-offset:2px;}
+  .hot:focus:not(:focus-visible){outline:none;}
 
   /* ===== Top bar ===== */
   .topbar{position:sticky;top:0;z-index:50;background:rgba(9,42,38,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--stone);}
@@ -1664,8 +1668,8 @@ function wireLesson(){
     var isKC=steps[S.step].t==="kc";
     el("nx").style.display=isKC?"none":"inline-flex";
     var _nx=el("nx"),_lk=(steps[S.step].t==="inter")&&!ixStepSolved(S.step);
-    if(_lk){_nx.setAttribute("disabled","");_nx.textContent="Answer to continue";}
-    else{_nx.removeAttribute("disabled");_nx.textContent="Next →";}
+    if(_lk){_nx.classList.add("nxlock");_nx.setAttribute("aria-disabled","true");_nx.removeAttribute("disabled");_nx.textContent="Answer to continue";}
+    else{_nx.classList.remove("nxlock");_nx.removeAttribute("aria-disabled");_nx.textContent="Next →";}
     if(isKC&&!el("kcHost").dataset.built){buildKC();}
     syncBar();
   }
@@ -1691,14 +1695,14 @@ function wireLesson(){
     if(Math.abs(dx)<Math.abs(dy)*2)return;       // clearly horizontal, not a scroll
     if(dx<0)stepMove(1);else stepMove(-1);
   });
-  document.onkeydown=function(e){var mb=el("mlb");if(mb&&mb.classList.contains("show")){if(e.key==="Escape")closeMedia();return;}var gs=el("gsheet");if(gs&&gs.classList.contains("show")){if(e.key==="Escape")closeTerm();return;}if(S.view!=="lesson")return;if(e.key==="ArrowRight")stepMove(1);else if(e.key==="ArrowLeft")stepMove(-1);};
+  document.onkeydown=function(e){var mb=el("mlb");if(mb&&mb.classList.contains("show")){if(e.key==="Escape")closeMedia();return;}var gs=el("gsheet");if(gs&&gs.classList.contains("show")){if(e.key==="Escape")closeTerm();return;}if(S.view!=="lesson")return;var _tg=(e.target&&e.target.tagName)||"";if(_tg==="INPUT"||_tg==="TEXTAREA"||_tg==="SELECT")return;if(e.key==="ArrowRight")stepMove(1);else if(e.key==="ArrowLeft")stepMove(-1);};
   upd();
 }
 function scrollLessonTop(){requestAnimationFrame(function(){var lh=document.querySelector('.lhead')||document.querySelector('.slidebox');if(lh){var y=lh.getBoundingClientRect().top+window.pageYOffset-8;window.scrollTo({top:Math.max(0,y),behavior:'smooth'});}});}
 function ixStepSolved(i){var st=lessonSteps(S.lesson)[i];if(!st||st.t!=="inter")return true;var h=el("ixHost"+st.i);return !!(h&&h.dataset.solved==="1");}
 function stepLocked(i){var st=lessonSteps(S.lesson)[i];return !!(st&&st.t==="inter"&&!ixStepSolved(i));}
 function stepMove(d){var steps=lessonSteps(S.lesson),total=steps.length;var n=S.step+d;if(n<0||n>=total)return;if(d>0&&stepLocked(S.step)){celebrate("🔒","Not yet","Answer correctly to continue");return;}S.step=n;window._lessonUpd();scrollLessonTop();}
-function stepGo(i){if(i>S.step&&stepLocked(S.step)){celebrate("🔒","Not yet","Answer correctly to continue");return;}S.step=i;window._lessonUpd();scrollLessonTop();}
+function stepGo(i){if(i>S.step){for(var k=S.step;k<i;k++){if(stepLocked(k)){celebrate("🔒","Not yet","Answer the practice step before moving on");return;}}}S.step=i;window._lessonUpd();scrollLessonTop();}
 
 /* ============ Knowledge-check quiz engine ============ */
 function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
@@ -2660,17 +2664,26 @@ function ixRender(host,x,idx){
 }
 
 function ixHotspot(host,body,x){
-  body.innerHTML='<div class="ixfig">'+(x.svg||"")+'</div>';
+  body.innerHTML='<div class="ixfig" role="group" aria-label="'+esc(x.q||"Choose the correct site")+'">'+(x.svg||"")+'</div>';
   var fig=body.querySelector(".ixfig");
-  [].forEach.call(fig.querySelectorAll(".hot"),function(el){
-    el.addEventListener("click",function(){
+  [].forEach.call(fig.querySelectorAll(".hot"),function(node){
+    // make each target focusable and operable by keyboard, not pointer-only
+    node.setAttribute("tabindex","0");
+    node.setAttribute("role","button");
+    if(!node.getAttribute("aria-label")){
+      var lid=(node.getAttribute("data-id")||"option").replace(/[_-]+/g," ");
+      node.setAttribute("aria-label","Select site: "+lid);
+    }
+    function pick(){
       if(host.dataset.solved==="1")return;
-      var id=el.getAttribute("data-id"), ok=(id===x.correct);
+      var id=node.getAttribute("data-id"), ok=(id===x.correct);
       [].forEach.call(fig.querySelectorAll(".hot"),function(o){o.classList.remove("no");});
-      el.classList.add(ok?"ok":"no");
+      node.classList.add(ok?"ok":"no");
       ixFeedback(host,ok,(x.fb&&x.fb[id])||(ok?"That's the right target.":"Try another site."));
       if(ok){fig.classList.add("lock");ixSolve(host,true);}
-    });
+    }
+    node.addEventListener("click",pick);
+    node.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "||e.key==="Spacebar"){e.preventDefault();pick();}});
   });
 }
 
