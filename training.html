@@ -238,8 +238,10 @@
   @media(max-width:520px){ .pgrid{grid-template-columns:1fr;} .cluster{grid-template-columns:1fr;} }
 
   /* Modal */
-  .modal{position:fixed;inset:0;background:rgba(10,25,22,.55);backdrop-filter:blur(4px);z-index:210;display:none;align-items:center;justify-content:center;padding:20px 20px max(46px,calc(20px + env(safe-area-inset-bottom,0px)));} .modal.show{display:flex;}
-  .modal .box{background:var(--white);border-radius:18px;max-width:420px;padding:26px;text-align:center;border:1px solid var(--stone);max-height:calc(100vh - 86px);overflow-y:auto;-webkit-overflow-scrolling:touch;} .modal h3{color:var(--head);font-size:1.3rem;margin-bottom:8px;} .modal p{color:var(--muted);font-size:.9rem;margin-bottom:16px;}
+  .modal{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(10,25,22,.55);backdrop-filter:blur(4px);z-index:210;display:none;align-items:center;justify-content:center;padding:20px 20px 46px;}
+  @supports(height:100dvh){.modal{height:100dvh;}}
+  @supports(padding:max(0px)){.modal{padding-bottom:max(46px,calc(22px + env(safe-area-inset-bottom,0px)));}} .modal.show{display:flex;}
+  .modal .box{background:var(--white);border-radius:18px;max-width:420px;padding:26px;text-align:center;border:1px solid var(--stone);max-height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;} .modal h3{color:var(--head);font-size:1.3rem;margin-bottom:8px;} .modal p{color:var(--muted);font-size:.9rem;margin-bottom:16px;}
   .modal input{width:100%;border:1px solid var(--stone);border-radius:12px;padding:11px 14px;font:inherit;margin-bottom:12px;outline:none;}
 
   footer{border-top:1px solid var(--stone);padding:24px 0 40px;margin-top:20px;} footer .disc{font-size:.76rem;color:var(--muted);line-height:1.6;} footer .disc b{color:var(--head);}
@@ -518,16 +520,18 @@
     background:var(--good-soft);border:1px solid rgba(14,138,147,.3);border-radius:12px;padding:13px 15px;cursor:pointer;}
   .ceack input{margin-top:3px;width:17px;height:17px;accent-color:var(--teal);flex:0 0 auto;}
   .cenote{font-size:.78rem;color:var(--muted);margin-top:12px;line-height:1.55;}
-  .ceactions{display:flex;gap:9px;justify-content:flex-end;margin-top:14px;flex:0 0 auto;}
+  .ceactions{display:flex;gap:9px;justify-content:flex-end;flex:0 0 auto;
+    margin-top:0;padding-top:14px;border-top:1px solid var(--stone);
+    box-shadow:0 -14px 18px -14px rgba(23,36,43,.22);}
   @media(max-width:560px){ .ceactions .btn{flex:1;justify-content:center;} }
   /* Disclosure modal: one scroll region (the statement itself). Header, the
      acknowledgement and the buttons stay put, so Continue is always reachable
      without scrolling and never lands in the iOS home-indicator strip. */
   .modal .box.boxflex{display:flex;flex-direction:column;overflow:hidden;text-align:left;}
   .modal .box.boxflex .cebox{display:flex;flex-direction:column;min-height:0;flex:1 1 auto;}
-  .modal .box.boxflex .cehead{flex:0 0 auto;}
-  .modal .box.boxflex .cedisc{flex:1 1 auto;min-height:60px;max-height:none;}
-  .modal .box.boxflex .ceack,.modal .box.boxflex .ceerr{flex:0 0 auto;}
+  .modal .box.boxflex .cescroll{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+  .modal .box.boxflex .cedisc{max-height:none;overflow:visible;}
+  .modal .box.boxflex .ceactions{flex:0 0 auto;}
 
   .ceq{border:1px solid var(--stone);border-radius:14px;padding:16px 18px;margin-bottom:12px;background:var(--white);}
   .ceq .cql{font-weight:700;color:var(--head);font-size:.92rem;margin-bottom:10px;line-height:1.45;}
@@ -1798,7 +1802,20 @@ function vPricing(){
 }
 function setBilling(b){S.billing=b;render();}
 function checkout(plan){openModal('<h3>'+plan+'</h3><p>Checkout isn\'t wired up in this preview. Secure Stripe checkout will handle payment, your 7-day free trial, and the 30-day money-back guarantee.</p><button class="btn btn-gold" onclick="closeModal()">Got it</button>');}
-function openModal(html,cls){var b=el("modalBox");b.className="box"+(cls?" "+cls:"");b.innerHTML=html;el("modal").classList.add("show");}
+function sizeModal(){
+  var m=el("modal"); if(!m)return;
+  var vv=window.visualViewport;
+  var h=vv?vv.height:window.innerHeight;
+  m.style.height=Math.round(h)+"px";
+  if(vv)m.style.transform="translateY("+Math.round(vv.offsetTop)+"px)";
+}
+if(window.visualViewport){
+  window.visualViewport.addEventListener("resize",sizeModal);
+  window.visualViewport.addEventListener("scroll",sizeModal);
+}
+window.addEventListener("resize",sizeModal);
+window.addEventListener("orientationchange",function(){setTimeout(sizeModal,250);});
+function openModal(html,cls){var b=el("modalBox");b.className="box"+(cls?" "+cls:"");b.innerHTML=html;el("modal").classList.add("show");sizeModal();setTimeout(sizeModal,60);}
 function closeModal(){el("modal").classList.remove("show");}
 el("modal").addEventListener("click",function(e){if(e.target===el("modal"))closeModal();});
 
@@ -3292,14 +3309,14 @@ function ceAckContinue(){
 }
 function ceShowDisclosure(c,after){
   var d=CE.disc[c];
-  openModal('<div class="cebox"><div class="cehead"><div class="ceyb">Before you begin</div>'+
+  openModal('<div class="cebox"><div class="cescroll"><div class="cehead"><div class="ceyb">Before you begin</div>'+
     '<h2>Disclosure &amp; conflict of interest</h2>'+
     '<p>Accreditation standards require this to be presented before the activity starts. Please read it in full.</p></div>'+
     '<div class="cedisc">'+esc(ceDisclosureText(c))+'</div>'+
     '<label class="ceack"><input type="checkbox" id="ceAckBox"/>'+
     '<span>I have read the disclosure above and understand this activity is educational only'+
     (ceIsAccredited(c)?'':' and does not award CE credit')+'.</span></label>'+
-    '<div class="ceerr" id="ceAckErr"></div>'+
+    '<div class="ceerr" id="ceAckErr"></div></div>'+
     '<div class="ceactions">'+
     '<button class="btn btn-ghost" onclick="closeModal()">Not now</button>'+
     '<button class="btn btn-gold" id="ceAckBtn" onclick="ceAckContinue()">Continue</button></div></div>','boxflex');
