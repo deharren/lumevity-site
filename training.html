@@ -376,6 +376,92 @@
     .gsheet .ghandle{display:none;}
     .gsheet .gcard{padding-top:26px;}
   }
+  /* ===== Interactive practice (learning-objective games) ===== */
+  .ix{color:#eaf7f7;}
+  .ix h3{color:#fff;margin:4px 0 6px;font-size:1.16rem;letter-spacing:-.01em;}
+  .rzwrap .ixtag{margin-bottom:10px;display:block;}
+  .ix .ixq{font-size:1.02rem;line-height:1.55;margin:2px 0 16px;color:#dcf1f1;}
+  .ix .ixq b{color:#fff;}
+  .ix .ixcase{background:rgba(230,246,246,.06);border:1px solid rgba(120,235,228,.2);border-left:3px solid #22E0DA;
+    border-radius:0 10px 10px 0;padding:11px 14px;margin:0 0 15px;font-size:.9rem;line-height:1.55;color:#cfe9ea;}
+  .ix .ixcase b{color:#8fe9e4;}
+  .ix .ixfig{background:rgba(255,255,255,.9);border-radius:14px;padding:10px;margin:0 0 16px;}
+  .ix .ixfig svg{width:100%;height:auto;display:block;}
+  .ix .ixfig .hot{cursor:pointer;transition:.15s;}
+  .ix .ixfig .hot:hover{opacity:1;r:15;}
+  .ix .ixfig .hot.pick{stroke:#0E8A93;stroke-width:3.5;}
+  .ix .ixfig .hot.ok{fill:#12A0AE;stroke:#0B6E76;stroke-width:3.5;}
+  .ix .ixfig .hot.no{fill:#D8474B;stroke:#8f2f32;stroke-width:3;}
+  .ix .ixfig.lock .hot{cursor:default;}
+
+  .ix .ixopts{display:grid;gap:9px;}
+  .ix .ixopts.g2{grid-template-columns:1fr 1fr;}
+  @media(max-width:560px){.ix .ixopts.g2{grid-template-columns:1fr;}}
+  .ix .ixopt{position:relative;text-align:left;border:1.5px solid rgba(120,235,228,.18);border-radius:12px;
+    padding:12px 15px;background:rgba(230,246,246,.05);color:#eaf7f7;font-family:inherit;font-size:.94rem;
+    cursor:pointer;transition:.15s;display:block;width:100%;}
+  .ix .ixopt:hover:not(.lock){border-color:rgba(120,235,228,.5);background:rgba(230,246,246,.1);}
+  .ix .ixopt .oL{font-weight:700;display:block;}
+  .ix .ixopt .oS{display:block;font-size:.78rem;color:rgba(234,247,247,.6);margin-top:2px;}
+  .ix .ixopt.ok{border-color:#22E0DA;background:rgba(34,224,218,.16);}
+  .ix .ixopt.no{border-color:#E05457;background:rgba(224,84,87,.16);}
+  .ix .ixopt.sel{border-color:#22E0DA;}
+  .ix .ixopt.lock{cursor:default;}
+  .ix .ixopt .oMk{position:absolute;top:10px;right:12px;font-weight:800;font-size:.95rem;}
+  .ix .ixopt.ok .oMk{color:#22E0DA;}
+  .ix .ixopt.no .oMk{color:#E05457;}
+
+  .ix .ixfb{margin-top:14px;border-radius:12px;padding:12px 15px;font-size:.9rem;line-height:1.58;
+    border:1px solid transparent;animation:ixfbin .25s ease;}
+  @keyframes ixfbin{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:none;}}
+  .ix .ixfb.good{background:rgba(34,224,218,.14);border-color:rgba(34,224,218,.4);color:#d6fbf9;}
+  .ix .ixfb.bad{background:rgba(224,84,87,.14);border-color:rgba(224,84,87,.4);color:#ffdedf;}
+  .ix .ixfb b{color:#fff;}
+  .ix .ixfb .fbwhy{display:block;margin-top:6px;color:rgba(255,255,255,.82);}
+
+  .ix .ixbar{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap;}
+  .ix .ixbtn{border-radius:50px;padding:9px 18px;font-weight:800;font-size:.85rem;font-family:inherit;cursor:pointer;
+    border:1.5px solid rgba(120,235,228,.35);background:transparent;color:#9fe9e6;}
+  .ix .ixbtn:hover{background:rgba(120,235,228,.12);}
+  .ix .ixbtn.pri{background:linear-gradient(135deg,#22E0DA,#14C9C6);color:#0A2C38;border-color:transparent;}
+  .ix .ixtag{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:#7fdbd6;}
+
+  /* syringe fill */
+  .ix .sy{margin:4px 0 6px;}
+  .ix .sy svg{width:100%;height:auto;display:block;touch-action:none;cursor:ew-resize;}
+  .ix .syread{text-align:center;font-family:var(--fhead);font-size:1.5rem;font-weight:800;color:#fff;margin:6px 0 2px;}
+  .ix .syread small{font-size:.8rem;font-weight:700;color:rgba(234,247,247,.6);margin-left:3px;}
+  .ix .syhint{text-align:center;font-size:.76rem;color:rgba(234,247,247,.55);margin-bottom:10px;}
+  .ix input[type=range].syr{width:100%;accent-color:#22E0DA;margin:2px 0 4px;}
+
+  /* ordering */
+  .ix .ordbank{display:grid;gap:8px;margin-bottom:12px;}
+  .ix .ordseq{display:grid;gap:8px;margin-bottom:4px;}
+  .ix .orditem{display:flex;align-items:center;gap:11px;border:1.5px solid rgba(120,235,228,.18);border-radius:11px;
+    padding:11px 14px;background:rgba(230,246,246,.05);color:#eaf7f7;font-size:.9rem;cursor:pointer;text-align:left;
+    width:100%;font-family:inherit;transition:.15s;line-height:1.45;}
+  .ix .orditem:hover:not(.lock){border-color:rgba(120,235,228,.5);}
+  .ix .orditem .on{flex:0 0 24px;height:24px;border-radius:50%;background:rgba(120,235,228,.18);color:#9fe9e6;
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.78rem;}
+  .ix .orditem.ok{border-color:#22E0DA;background:rgba(34,224,218,.14);}
+  .ix .orditem.ok .on{background:#22E0DA;color:#0A2C38;}
+  .ix .orditem.no{border-color:#E05457;background:rgba(224,84,87,.14);}
+  .ix .orditem.no .on{background:#E05457;color:#fff;}
+  .ix .orditem.lock{cursor:default;}
+  .ix .ordempty{font-size:.8rem;color:rgba(234,247,247,.45);border:1.5px dashed rgba(120,235,228,.22);
+    border-radius:11px;padding:14px;text-align:center;}
+
+  /* rehearsal (cumulative) */
+  .ix .rzprog{display:flex;gap:5px;margin-bottom:14px;}
+  .ix .rzprog i{flex:1;height:4px;border-radius:3px;background:rgba(120,235,228,.18);}
+  .ix .rzprog i.on{background:#22E0DA;}
+  .ix .rzprog i.miss{background:#E05457;}
+  .rzwrap{border-radius:18px;border:1px solid rgba(120,235,228,.25);
+    background:linear-gradient(160deg,#134E58,#0A2C38);padding:26px 24px;margin-top:14px;
+    box-shadow:0 24px 60px rgba(3,20,26,.28);}
+  .rzscore{text-align:center;padding:6px 0 2px;}
+  .rzscore .n{font-family:var(--fhead);font-size:2.6rem;font-weight:800;color:#fff;line-height:1;}
+  .rzscore .l{font-size:.78rem;color:rgba(234,247,247,.6);margin-top:6px;}
 </style>
 </head>
 <body>
@@ -1225,11 +1311,12 @@ function lessonCourseOf(id){for(var i=0;i<COURSE_IDS.length;i++){if(courseLesson
 
 function render(){
   touchStreak();
-  var v={home:vHome,lesson:vLesson,exam:vExam,cert:vCert,pricing:vPricing}[S.view]||vHome;
+  var v={home:vHome,lesson:vLesson,exam:vExam,cert:vCert,pricing:vPricing,rehearse:vRehearse}[S.view]||vHome;
   el("view").innerHTML=v();
   syncBar();
   if(S.view==="lesson")wireLesson();
   if(S.view==="exam")wireExam();
+  if(S.view==="rehearse")wireRehearse();
   if(S.view==="home")requestAnimationFrame(initMapSwipe);
   mascotContext();
 }
@@ -1348,6 +1435,11 @@ function lessonCard(c){
   });
   var examDone=S.exams[c]&&S.exams[c].passed;
   var allDone=!curId;
+  if(REHEARSAL[c]){
+    var rzDone=REHEARSAL[c].items.every(function(_,i){return S.qxp.has("rz:"+c+":"+i);});
+    rows+='<div class="lc-les tap" onclick="startRehearsal(\''+c+'\')"><span class="lc-dot '+(rzDone?'done':'now')+'">'+(rzDone?'✓':'▶')+'</span>'
+      +'<div><p>Skills rehearsal</p><small>'+(rzDone?'Completed — run it again any time':'Work a real patient case end to end before the exam')+'</small></div></div>';
+  }
   rows+='<div class="lc-les tap" onclick="go(\'exam\',\''+c+'\')"><span class="lc-dot '+(examDone?'done':'now')+'">'+(examDone?'✓':'★')+'</span>'
     +'<div><p>Final exam &amp; certificate</p><small>'+(examDone?'Certified':(allDone?'All lessons done — take the exam':'Available now — test your knowledge'))+'</small></div></div>';
   var subLabel=curId?('Continue where you left off'):'Course complete';
@@ -1393,6 +1485,7 @@ function lessonSteps(id){
   var L0=L[id];var steps=[];
   steps.push({t:"overview"});
   if(L0.sections)L0.sections.forEach(function(s,i){steps.push({t:"sec",i:i});});
+  lessonInters(id).forEach(function(_,i){steps.push({t:"inter",i:i});});
   if(L0.tips||L0.mistakes)steps.push({t:"tm"});
   if(L0.takeaways)steps.push({t:"take"});
   steps.push({t:"kc"});
@@ -1422,6 +1515,7 @@ function stepHTML(L0,st){
     return h;
   }
   if(st.t==="sec"){return '<div class="stag">Learn</div>'+renderSection(L0.sections[st.i]);}
+  if(st.t==="inter"){return '<div id="ixHost'+st.i+'"></div>';}
   if(st.t==="tm"){var h='';if(L0.tips)h+='<div class="block tips"><div class="bl">Clinical tips &amp; judgment</div><ul>'+L0.tips.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></div>';if(L0.mistakes)h+='<div class="block mist"><div class="bl">Common mistakes to avoid</div><ul>'+L0.mistakes.map(function(m){return '<li>'+m+'</li>';}).join('')+'</ul></div>';return h;}
   if(st.t==="take"){return '<div class="block take"><div class="bl">Key takeaways</div><ul>'+L0.takeaways.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></div>'+(L0.refs?'<p class="lp" style="font-size:.78rem;color:var(--muted);margin-top:12px"><b>Sources:</b> '+L0.refs+'</p>':'');}
   if(st.t==="kc"){return '<div class="stag">Knowledge check</div><h3>Pass to complete this lesson</h3><p class="lp" style="color:var(--muted)">Answer every question correctly to earn XP and unlock the next lesson. Missed questions can be retried with reshuffled options.</p><div id="kcHost"></div>';}
@@ -1435,6 +1529,10 @@ function wireLesson(){
     [].forEach.call(strack.children,function(sl){ sl.classList.toggle('active', (+sl.getAttribute('data-si'))===S.step); });
     var _act=strack.querySelector('.slide.active');
     if(_act&&!_act.dataset.gl){_act.dataset.gl="1";linkGlossary(_act);}
+    if(steps[S.step].t==="inter"){
+      var _ih=el("ixHost"+steps[S.step].i);
+      if(_ih&&!_ih.dataset.built){_ih.dataset.built="1";ixRender(_ih,lessonInters(S.lesson)[steps[S.step].i],steps[S.step].i);}
+    }
     el("stepFill").style.width=Math.round((S.step+1)/total*100)+"%";
     el("stepN").textContent="Step "+(S.step+1)+" of "+total;
     var dh="";for(var i=0;i<total;i++){dh+='<i class="'+(i===S.step?'on':(i<S.step?'done':''))+'" onclick="stepGo('+i+')"></i>';}
@@ -2042,6 +2140,900 @@ function openTerm(key,push){
   el("gcard").scrollTop=0;
 }
 function closeTerm(){ _gStack=[]; el("gsheet").classList.remove("show"); }
+
+/* ---- hotspot diagrams for the practice interactions ---- */
+function _hot(id,cx,cy,r){return '<circle class="hot" data-id="'+id+'" cx="'+cx+'" cy="'+cy+'" r="'+(r||13)+
+  '" fill="#C9A24B" opacity=".88"/>';}
+function ixArmHot(){
+  return '<svg viewBox="0 0 360 200" role="img" aria-label="Arm — tap a site">'+
+    '<rect x="90" y="50" width="258" height="110" rx="34" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'"/>'+
+    '<rect x="20" y="62" width="78" height="88" rx="26" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'"/>'+
+    '<path d="M70 78 C150 60,240 66,338 70" fill="none" stroke="'+_GF_VEIN+'" stroke-width="6" opacity=".55"/>'+
+    '<path d="M74 142 C150 156,240 148,338 140" fill="none" stroke="'+_GF_VEIN+'" stroke-width="5" opacity=".45"/>'+
+    '<path d="M150 104 L196 96 M196 96 L232 84 M196 96 L228 110" stroke="'+_GF_VEIN+'" stroke-width="5" fill="none" opacity=".5"/>'+
+    '<path d="M262 132 C278 116,288 96,302 72" fill="none" stroke="'+_GF_VEIN+'" stroke-width="5" opacity=".45"/>'+
+    _hot("good",148,86)+_hot("valve",196,96)+_hot("hand",56,104)+_hot("ac",300,104)+
+    _gfLabel(180,25,"Hand ← distal · proximal → shoulder")+
+    _gfLabel(180,190,"Tap a site")+'</svg>';
+}
+function ixIMHot(){
+  return '<svg viewBox="0 0 380 200" role="img" aria-label="IM sites — tap a site">'+
+    '<rect x="44" y="26" width="70" height="86" rx="26" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'"/>'+
+    '<rect x="146" y="24" width="92" height="102" rx="30" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'"/>'+
+    '<rect x="272" y="34" width="58" height="118" rx="26" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'"/>'+
+    _gfLabel(79,170,"shoulder")+_gfLabel(192,170,"hip")+_gfLabel(301,170,"thigh")+
+    _hot("deltoid",78,58)+_hot("dorso",190,50)+_hot("ventro",190,96)+_hot("vastus",300,110)+
+    '</svg>';
+}
+function ixSkinHot(){
+  var rows=[["#E9D3BE",34,16,"Epidermis"],["#DDB7A0",50,34,"Dermis"],
+            ["#F6E3B8",84,56,"Subcutaneous tissue"],["#C98A86",140,34,"Muscle"]];
+  var s='<svg viewBox="0 0 360 200" role="img" aria-label="Skin layers — tap a depth">';
+  rows.forEach(function(r){
+    s+='<rect x="20" y="'+r[1]+'" width="192" height="'+r[2]+'" fill="'+r[0]+'" stroke="'+_GF_EDGE+'"/>'+
+       '<text x="222" y="'+(r[1]+r[2]/2+4)+'" font-family="Inter,system-ui" font-size="11.5" font-weight="600" fill="'+_GF_DIM+'">'+r[3]+'</text>';
+  });
+  s+=_hot("intradermal",70,62,11)+_hot("subq",70,112,11)+_hot("muscle",70,157,11);
+  return s+'</svg>';
+}
+function ixAbdHot(){
+  return '<svg viewBox="0 0 360 210" role="img" aria-label="Abdomen — tap a site">'+
+    '<rect x="72" y="20" width="216" height="170" rx="40" fill="'+_GF_SKIN+'" stroke="'+_GF_EDGE+'"/>'+
+    '<circle cx="180" cy="105" r="11" fill="#D9B79C" stroke="#C29C80"/>'+
+    '<text x="180" y="136" font-family="Inter,system-ui" font-size="10.5" fill="#8a7566" text-anchor="middle">navel</text>'+
+    '<circle cx="180" cy="105" r="52" fill="none" stroke="#C9A24B" stroke-width="1.4" stroke-dasharray="4 4" opacity=".8"/>'+
+    _hot("navel",180,72)+_hot("good",258,70)+_hot("edge",98,178)+
+    _gfLabel(180,206,"dashed ring = 5 cm (2 in) exclusion zone")+'</svg>';
+}
+
+/* ============ Interactive practice engine ============
+   Interactions are authored in INTERACTIONS (keyed by lesson id) and merged into
+   the lesson at runtime, so they work with both the Supabase curriculum and the
+   bundled fallback. Any `inter` block already on a lesson is kept and runs first.
+
+   Supported types:
+     hotspot / sites  tap a labelled region of an SVG
+     choice           pick one option; every option carries its own explanation
+     multi            select every option that applies, then check
+     fill             drag a syringe plunger to a target volume
+     order            tap steps into the correct sequence
+   Every wrong answer explains what was wrong and why, not just that it was wrong. */
+
+function lessonInters(id){
+  var L0=L[id]; if(!L0)return [];
+  var a=[];
+  if(L0.inter)a.push(L0.inter);
+  if(INTERACTIONS[id])a=a.concat(INTERACTIONS[id]);
+  return a;
+}
+function ixKey(id,i){return "ix:"+id+":"+i;}
+
+/* ---- shared bits ---- */
+function ixHead(x){
+  var h='<div class="ixtag">Practice</div>';
+  if(x.h)h+='<h3>'+x.h+'</h3>';
+  if(x.case)h+='<div class="ixcase">'+x.case+'</div>';
+  if(x.q)h+='<div class="ixq">'+x.q+'</div>';
+  return h;
+}
+function ixFeedback(host,ok,msg,onNext){
+  var fb=host.querySelector(".ixfb");
+  if(!fb){fb=document.createElement("div");host.querySelector(".ixbody").appendChild(fb);}
+  if(!ok&&host.dataset.rz==="1")RZ.miss[RZ.i]=1;
+  fb.className="ixfb "+(ok?"good":"bad");
+  // some authored feedback already opens with its own verdict — don't double it up
+  var hasVerdict=/^\s*(correct|right|exactly|yes|not quite|no[,.]|incorrect|that is (right|correct)|that's (right|correct))\b/i.test(msg.replace(/<[^>]+>/g,""));
+  fb.innerHTML=(hasVerdict?"":'<b>'+(ok?"Correct — ":"Not quite — ")+'</b>')+msg;
+  if(onNext)onNext(fb);
+}
+function ixSolve(host,ok){
+  if(host.dataset.solved==="1")return;
+  if(!ok)return;                       // stays open until they get it right
+  host.dataset.solved="1";
+  var key=host.dataset.key;
+  if(!S.qxp.has(key)){S.qxp.add(key);awardXP(XP_CORRECT,host);persist();}
+  else touchStreak();
+  var bar=host.querySelector(".ixbar");
+  if(host.dataset.rz==="1"){
+    if(bar)bar.innerHTML='<button type="button" class="ixbtn pri" onclick="rzAdvance()">Continue →</button>';
+  } else if(bar)bar.innerHTML='<span class="ixtag" style="color:#22E0DA">✓ Complete</span>';
+}
+
+/* ---- renderers ---- */
+function ixRender(host,x,idx){
+  host.className="ix";
+  host.dataset.key=ixKey(S.lesson,idx);
+  host.innerHTML=ixHead(x)+'<div class="ixbody"></div><div class="ixbar"></div>';
+  var body=host.querySelector(".ixbody");
+  var t=x.type==="sites"?"hotspot":x.type;
+  ({hotspot:ixHotspot,choice:ixChoice,multi:ixMulti,fill:ixFill,order:ixOrder}[t]||ixChoice)(host,body,x);
+}
+
+function ixHotspot(host,body,x){
+  body.innerHTML='<div class="ixfig">'+(x.svg||"")+'</div>';
+  var fig=body.querySelector(".ixfig");
+  [].forEach.call(fig.querySelectorAll(".hot"),function(el){
+    el.addEventListener("click",function(){
+      if(host.dataset.solved==="1")return;
+      var id=el.getAttribute("data-id"), ok=(id===x.correct);
+      [].forEach.call(fig.querySelectorAll(".hot"),function(o){o.classList.remove("no");});
+      el.classList.add(ok?"ok":"no");
+      ixFeedback(host,ok,(x.fb&&x.fb[id])||(ok?"That's the right target.":"Try another site."));
+      if(ok){fig.classList.add("lock");ixSolve(host,true);}
+    });
+  });
+}
+
+function ixChoice(host,body,x){
+  var wide=(x.opts||[]).some(function(o){return (o.lab||"").length>26;});
+  body.innerHTML='<div class="ixopts'+(wide?"":" g2")+'">'+(x.opts||[]).map(function(o,i){
+    return '<button type="button" class="ixopt" data-i="'+i+'"><span class="oL">'+o.lab+'</span>'+
+      (o.sub?'<span class="oS">'+o.sub+'</span>':'')+'<span class="oMk"></span></button>';
+  }).join('')+'</div>';
+  [].forEach.call(body.querySelectorAll(".ixopt"),function(btn){
+    btn.onclick=function(){
+      if(host.dataset.solved==="1")return;
+      var o=x.opts[+btn.dataset.i];
+      btn.classList.remove("ok","no");
+      btn.classList.add(o.ok?"ok":"no");
+      btn.querySelector(".oMk").textContent=o.ok?"✓":"✕";
+      ixFeedback(host,!!o.ok,o.fb||"");
+      if(o.ok){
+        [].forEach.call(body.querySelectorAll(".ixopt"),function(b){b.classList.add("lock");});
+        ixSolve(host,true);
+      }
+    };
+  });
+}
+
+function ixMulti(host,body,x){
+  body.innerHTML='<div class="ixopts">'+(x.opts||[]).map(function(o,i){
+    return '<button type="button" class="ixopt" data-i="'+i+'"><span class="oL">'+o.lab+'</span>'+
+      (o.sub?'<span class="oS">'+o.sub+'</span>':'')+'<span class="oMk"></span></button>';
+  }).join('')+'</div>';
+  var picked={};
+  [].forEach.call(body.querySelectorAll(".ixopt"),function(btn){
+    btn.onclick=function(){
+      if(host.dataset.solved==="1")return;
+      var i=+btn.dataset.i;
+      picked[i]=!picked[i];
+      btn.classList.toggle("sel",!!picked[i]);
+      btn.querySelector(".oMk").textContent=picked[i]?"•":"";
+    };
+  });
+  var bar=host.querySelector(".ixbar");
+  bar.innerHTML='<button type="button" class="ixbtn pri">Check answer</button>';
+  bar.querySelector("button").onclick=function(){
+    if(host.dataset.solved==="1")return;
+    var wrong=[],missed=[];
+    x.opts.forEach(function(o,i){
+      var sel=!!picked[i];
+      var btn=body.querySelector('.ixopt[data-i="'+i+'"]');
+      btn.classList.remove("sel");
+      if(sel&&!o.ok){wrong.push(o);btn.classList.add("no");btn.querySelector(".oMk").textContent="✕";}
+      else if(!sel&&o.ok){missed.push(o);btn.classList.add("no");btn.querySelector(".oMk").textContent="!";}
+      else if(sel&&o.ok){btn.classList.add("ok");btn.querySelector(".oMk").textContent="✓";}
+    });
+    if(!wrong.length&&!missed.length){
+      [].forEach.call(body.querySelectorAll(".ixopt"),function(b){b.classList.add("lock");});
+      ixFeedback(host,true,x.fbOk||"Every one of those is right, and nothing important was left out.");
+      ixSolve(host,true);
+    }else{
+      var msg="";
+      if(wrong.length)msg+='<b>Should not be selected:</b> '+wrong.map(function(o){return o.lab+' — '+o.fb;}).join(' ');
+      if(missed.length)msg+='<span class="fbwhy"><b>Missed:</b> '+missed.map(function(o){return o.lab+' — '+o.fb;}).join(' ')+'</span>';
+      ixFeedback(host,false,msg);
+      setTimeout(function(){
+        [].forEach.call(body.querySelectorAll(".ixopt"),function(b){
+          b.classList.remove("ok","no");b.querySelector(".oMk").textContent="";});
+        picked={};
+      },2600);
+    }
+  };
+}
+
+function ixFill(host,body,x){
+  var max=x.max||1, target=x.target, tol=x.tol||(max*0.03), unit=x.unit||"mL",
+      dec=(x.dec!=null)?x.dec:(max<=1?2:1), val=0;
+  var BX=26,BW=250,BY=32,BH=44,VBW=360;
+  var ticks="",nT=x.ticks||10,maj=x.major||5;
+  for(var i=0;i<=nT;i++){
+    var tx=BX+BW*(i/nT), major=(i%maj===0);
+    ticks+='<line x1="'+tx+'" y1="'+BY+'" x2="'+tx+'" y2="'+(BY+(major?9:5))+'" stroke="#6f8a92" stroke-width="'+(major?1.6:1)+'"/>';
+    if(major)ticks+='<text x="'+tx+'" y="'+(BY-6)+'" font-family="Inter,system-ui" font-size="9.5" fill="#54707a" text-anchor="middle">'+
+      (+(max*(i/nT)).toFixed(dec))+'</text>';
+  }
+  // built once, then only the moving parts are repainted — rebuilding the SVG
+  // on every change would destroy the element mid-drag and drop the gesture
+  body.innerHTML='<div class="sy"><svg viewBox="0 0 '+VBW+' 110" role="img" aria-label="Syringe">'+
+    '<rect x="'+BX+'" y="'+BY+'" width="'+BW+'" height="'+BH+'" rx="5" fill="#fbfdfd" stroke="#8fa4ab" stroke-width="1.6"/>'+
+    '<rect class="syFill" x="'+BX+'" y="'+BY+'" width="0" height="'+BH+'" rx="5" fill="#8fd9e2" opacity=".85"/>'+
+    ticks+
+    '<rect class="syRod" x="'+BX+'" y="'+(BY+BH/2-4.5)+'" width="'+BW+'" height="9" rx="4" fill="#c3d2d7"/>'+
+    '<rect class="syPlunger" x="'+(BX-3)+'" y="'+(BY-7)+'" width="7" height="'+(BH+14)+'" rx="2.5" fill="#0E8A93"/>'+
+    '<rect x="'+(BX+BW)+'" y="'+(BY+BH/2-13)+'" width="9" height="26" rx="3" fill="#c3d2d7"/>'+
+    '<path d="M'+(BX+BW+9)+' '+(BY+BH/2-4)+' h16 v8 h-16 z" fill="#9fb3ba"/>'+
+    '<path d="M'+(BX-2)+' '+(BY+BH/2)+' h-20" stroke="#9fb3ba" stroke-width="6" stroke-linecap="round"/>'+
+    '</svg></div>'+
+    '<div class="syread"><span class="v">'+(0).toFixed(dec)+'</span><small>'+unit+'</small></div>'+
+    '<div class="syhint">Drag the plunger, or use the slider / arrow keys</div>'+
+    '<input type="range" class="syr" min="0" max="'+max+'" step="'+(x.step||(max/100))+'" value="0" aria-label="Volume drawn up" />';
+
+  var svg=body.querySelector(".sy svg"), read=body.querySelector(".syread .v"), rng=body.querySelector(".syr"),
+      fillEl=svg.querySelector(".syFill"), plunger=svg.querySelector(".syPlunger"), rod=svg.querySelector(".syRod");
+
+  function paint(v,fromRange){
+    val=Math.max(0,Math.min(max,v));
+    var w=BW*(val/max), px=BX+w;
+    fillEl.setAttribute("width",w);
+    plunger.setAttribute("x",px-3);
+    rod.setAttribute("x",px+4);
+    rod.setAttribute("width",Math.max(0,BX+BW-px-6));
+    read.textContent=val.toFixed(dec);
+    if(!fromRange)rng.value=val;
+  }
+  function valFromEvent(e){
+    var r=svg.getBoundingClientRect();
+    var cx=(e.touches?e.touches[0].clientX:e.clientX)-r.left;
+    return Math.max(0,Math.min(max,(cx*(VBW/r.width)-BX)/BW*max));
+  }
+  var dragging=false;
+  svg.addEventListener("pointerdown",function(e){
+    if(host.dataset.solved==="1")return;
+    dragging=true; try{svg.setPointerCapture(e.pointerId);}catch(_){}
+    paint(valFromEvent(e)); e.preventDefault();
+  });
+  svg.addEventListener("pointermove",function(e){ if(dragging&&host.dataset.solved!=="1")paint(valFromEvent(e)); });
+  svg.addEventListener("pointerup",function(){dragging=false;});
+  svg.addEventListener("pointercancel",function(){dragging=false;});
+  // mouse fallback for environments that don't deliver pointer events
+  svg.addEventListener("mousedown",function(e){ if(!dragging&&host.dataset.solved!=="1"){dragging=true;paint(valFromEvent(e));} });
+  svg.addEventListener("mousemove",function(e){ if(dragging&&host.dataset.solved!=="1")paint(valFromEvent(e)); });
+  document.addEventListener("mouseup",function(){dragging=false;});
+  rng.addEventListener("input",function(){ if(host.dataset.solved!=="1")paint(parseFloat(rng.value),true); });
+
+  var bar=host.querySelector(".ixbar");
+  bar.innerHTML='<button type="button" class="ixbtn pri">Check the dose</button>';
+  bar.querySelector("button").onclick=function(){
+    if(host.dataset.solved==="1")return;
+    var d=val-target;
+    if(Math.abs(d)<=tol){
+      ixFeedback(host,true,x.fbOk||("That is "+target.toFixed(dec)+" "+unit+" — the correct dose."));
+      rng.disabled=true; ixSolve(host,true);
+    }else{
+      ixFeedback(host,false,
+        "You drew up <b>"+val.toFixed(dec)+" "+unit+"</b> but the order is <b>"+target.toFixed(dec)+" "+unit+"</b>. "+
+        (d>0?(x.fbHigh||"That is too much — giving it would overdose the patient. Expel the excess and re-read the plunger at eye level."):
+             (x.fbLow||"That is too little — the patient would be underdosed. Draw back further and re-check against the graduations.")));
+    }
+  };
+}
+
+function ixOrder(host,body,x){
+  var seq=[];
+  body.innerHTML='<div class="ordseq"></div><div class="ordbank"></div>';
+  var seqEl=body.querySelector(".ordseq"), bankEl=body.querySelector(".ordbank");
+  function draw(){
+    seqEl.innerHTML=seq.length?seq.map(function(id,i){
+      var it=x.items.filter(function(o){return o.id===id;})[0];
+      return '<button type="button" class="orditem" data-id="'+id+'"><span class="on">'+(i+1)+'</span><span>'+it.txt+'</span></button>';
+    }).join(''):'<div class="ordempty">Tap the steps below in the order you would perform them.</div>';
+    bankEl.innerHTML=x.items.filter(function(o){return seq.indexOf(o.id)<0;}).map(function(o){
+      return '<button type="button" class="orditem bank" data-id="'+o.id+'"><span class="on">+</span><span>'+o.txt+'</span></button>';
+    }).join('');
+    [].forEach.call(bankEl.querySelectorAll(".orditem"),function(b){
+      b.onclick=function(){ if(host.dataset.solved==="1")return; seq.push(b.dataset.id); draw(); };
+    });
+    [].forEach.call(seqEl.querySelectorAll(".orditem"),function(b){
+      b.onclick=function(){ if(host.dataset.solved==="1")return; seq.splice(seq.indexOf(b.dataset.id),1); draw(); };
+    });
+    var bar=host.querySelector(".ixbar");
+    bar.innerHTML='<button type="button" class="ixbtn pri"'+(seq.length===x.items.length?'':' disabled style="opacity:.4;cursor:not-allowed"')+'>Check the order</button>'+
+      (seq.length?'<button type="button" class="ixbtn rst">Start over</button>':'');
+    var chk=bar.querySelector(".pri"), rst=bar.querySelector(".rst");
+    if(rst)rst.onclick=function(){seq=[];var fb=host.querySelector(".ixfb");if(fb)fb.remove();draw();};
+    if(chk&&seq.length===x.items.length)chk.onclick=check;
+  }
+  function check(){
+    if(host.dataset.solved==="1")return;
+    var firstBad=-1;
+    for(var i=0;i<seq.length;i++){ if(seq[i]!==x.correct[i]){firstBad=i;break;} }
+    [].forEach.call(seqEl.querySelectorAll(".orditem"),function(b,i){
+      b.classList.remove("ok","no");
+      b.classList.add((firstBad<0||i<firstBad)?"ok":"no");
+    });
+    if(firstBad<0){
+      [].forEach.call(seqEl.querySelectorAll(".orditem"),function(b){b.classList.add("lock");});
+      ixFeedback(host,true,x.fbOk||"That is the correct sequence.");
+      ixSolve(host,true);
+    }else{
+      var should=x.items.filter(function(o){return o.id===x.correct[firstBad];})[0];
+      var got=x.items.filter(function(o){return o.id===seq[firstBad];})[0];
+      ixFeedback(host,false,
+        "Step <b>"+(firstBad+1)+"</b> is out of place. You put <b>"+got.txt+"</b> there, but <b>"+should.txt+
+        "</b> has to come first."+(x.why&&x.why[x.correct[firstBad]]?'<span class="fbwhy">'+x.why[x.correct[firstBad]]+'</span>':''));
+    }
+  }
+  draw();
+}
+
+/* ---- authored interactions, keyed by lesson id ---- */
+var INTERACTIONS={
+
+/* ================= IV ================= */
+iv_anatomy:[
+ {type:"choice",h:"Vein, artery, or nerve?",
+  q:"Your finger rests on a vessel that is <b>springy, pulsatile, and deeper than expected</b>. What have you found?",
+  opts:[
+   {id:"v",lab:"A well-filled vein",fb:"Veins do not pulse. A pulse under your fingertip is the single most reliable sign that you are on an artery — advancing here risks arterial puncture, haematoma and limb ischaemia."},
+   {id:"a",lab:"An artery",ok:true,fb:"Pulsatility plus depth and a thick, springy wall means artery. Move to a different, non-pulsatile vessel and document why."},
+   {id:"n",lab:"A nerve",fb:"Nerves are not pulsatile and are not palpable as a cord you can roll. A nerve announces itself on needle contact — sharp, electric pain radiating down the limb."},
+   {id:"t",lab:"A tendon",fb:"Tendons are firm and move when the patient flexes, but they do not pulse. The pulse is the giveaway here."}]},
+ {type:"multi",h:"Is this vein usable?",
+  q:"You are assessing a forearm vein. <b>Select every finding that makes it a good target.</b>",
+  fbOk:"Exactly — soft, bouncy, straight, palpable and away from a joint is the profile you are hunting for.",
+  opts:[
+   {id:"s",lab:"Soft and bouncy under the finger",ok:true,fb:"this is healthy, compliant vein wall."},
+   {id:"p",lab:"Palpable, not just visible",ok:true,fb:"a vein you can feel is far more reliable than one you can only see."},
+   {id:"st",lab:"Straight, unbranched segment",ok:true,fb:"valves cluster at branch points and will snag the catheter."},
+   {id:"h",lab:"Hard and cord-like",fb:"that describes a sclerosed vein. It will not thread and will not flush."},
+   {id:"j",lab:"Crosses the wrist or elbow joint",fb:"a vein over a flexion point kinks and occludes as soon as the patient moves."},
+   {id:"pu",lab:"Pulsatile",fb:"pulsatile means artery — never cannulate it."}]}],
+
+iv_equipment:[
+ {type:"choice",h:"Choose the catheter",
+  case:"<b>Patient:</b> 62-year-old admitted for a 5-day course of IV antibiotics. Good forearm veins, no transfusion planned, not haemodynamically unstable.",
+  q:"Which peripheral catheter would you select?",
+  opts:[
+   {id:"14",lab:"14G",sub:"orange",fb:"Far larger than this therapy needs. Big catheters fill the lumen, restrict blood flow around the device and sharply increase phlebitis risk — reserve 14–16G for trauma and rapid volume resuscitation."},
+   {id:"18",lab:"18G",sub:"green",fb:"More than required. 18G is for blood products, contrast and rapid infusion. For routine antibiotics it is unnecessary trauma to the intima."},
+   {id:"20",lab:"20G",sub:"pink",ok:true,fb:"20G is the workhorse for routine adult infusions — sufficient flow for antibiotics while leaving blood flowing around the catheter, which is what protects the vein over a 5-day dwell."},
+   {id:"24",lab:"24G",sub:"yellow",fb:"Very small. Appropriate for neonates, fragile elderly veins or very small vessels, but it may restrict flow rates and occlude more readily over a multi-day course."}]}],
+
+iv_assessment:[
+ {type:"multi",h:"Which arms are off limits?",
+  case:"<b>Patient:</b> post-mastectomy on the left with axillary node dissection, an AV fistula in the right upper arm, and a healing infiltration on the right hand.",
+  q:"<b>Select every site you must avoid.</b>",
+  fbOk:"Right — that leaves the right forearm below the fistula as the site to assess, and it is worth confirming with the patient and the chart before proceeding.",
+  opts:[
+   {id:"l",lab:"The left arm (mastectomy side)",ok:true,fb:"lymph node dissection impairs drainage; venepuncture that side raises lymphoedema and infection risk."},
+   {id:"f",lab:"The right upper arm with the fistula",ok:true,fb:"a fistula is the patient's dialysis lifeline. Never cannulate, draw from, or apply a tourniquet above it."},
+   {id:"i",lab:"The right hand with a healing infiltration",ok:true,fb:"cannulating distal to or into recently damaged tissue risks re-injury and unreliable flow."},
+   {id:"rf",lab:"The right forearm below the fistula",fb:"this is actually the most promising remaining option — but confirm with the patient and the medical team first."}]}],
+
+iv_sites:[
+ {type:"choice",h:"Where would you start?",
+  q:"All else being equal, where should you place a first attempt?",
+  opts:[
+   {id:"d",lab:"As distal as a suitable vein allows",ok:true,fb:"Working distal-to-proximal preserves the proximal veins. A failed proximal stick makes every vein below it unusable, because fluid would leak from the earlier puncture."},
+   {id:"p",lab:"As proximal as possible",fb:"Backwards. Starting proximally burns the veins below it — a puncture upstream leaks when you later use a site downstream."},
+   {id:"ac",lab:"The antecubital fossa first",fb:"The AC fossa is easy, which is exactly why it gets over-used. It sits over a joint and should be kept in reserve for phlebotomy and emergencies."},
+   {id:"a",lab:"Whichever vein is most visible",fb:"Visibility is not usability. A vein you can feel — soft, bouncy, straight — beats one you can only see every time."}]}],
+
+iv_asepsis:[
+ {type:"order",h:"Sequence the aseptic preparation",
+  q:"Put these steps in the order you would carry them out.",
+  items:[
+   {id:"h",txt:"Perform hand hygiene"},
+   {id:"a",txt:"Assemble and prime your equipment"},
+   {id:"t",txt:"Apply the tourniquet and select your vein"},
+   {id:"c",txt:"Clean the skin with 2% chlorhexidine, using friction"},
+   {id:"d",txt:"Let the skin air-dry completely"},
+   {id:"g",txt:"Don gloves and insert without re-palpating the site"}],
+  correct:["h","a","t","c","d","g"],
+  why:{h:"Hand hygiene comes before you touch anything — it is the foundation the rest of the technique rests on.",
+       a:"Everything must be within reach and primed before the skin is cleaned, so you never break the field hunting for a flush.",
+       t:"Choose the vein before you clean, so cleaning happens exactly where the needle will go.",
+       c:"Friction matters as much as the antiseptic itself.",
+       d:"Chlorhexidine has not worked until it is dry, and inserting through wet antiseptic stings sharply.",
+       g:"Re-palpating cleaned skin recontaminates it and undoes the preparation entirely."},
+  fbOk:"That is the correct sequence — and note that the last step is where most technique failures happen, by re-palpating the cleaned site."},
+ {type:"choice",h:"Why wait for it to dry?",
+  q:"A colleague inserts the catheter as soon as the chlorhexidine is applied, without waiting. What is the problem?",
+  opts:[
+   {id:"w",lab:"The antiseptic has not had time to kill the skin flora",ok:true,fb:"Chlorhexidine needs its full contact time to work. Inserting through wet antiseptic drags live skin organisms into the puncture — and stings considerably."},
+   {id:"s",lab:"Nothing — the skin is already visibly wet with antiseptic",fb:"Visible wetness is the opposite of readiness. Wet means the contact time is not complete and the antiseptic has not yet done its job."},
+   {id:"c",lab:"It makes the vein harder to see",fb:"Not the issue. The real problem is microbiological — the antiseptic has not finished working."},
+   {id:"t",lab:"It dulls the needle",fb:"It does not affect the needle. The risk is introducing live skin flora into the bloodstream."}]}],
+
+iv_procedure:[
+ {type:"choice",h:"Set your insertion angle",
+  q:"At what angle should the needle enter the skin for a <b>peripheral IV</b>?",
+  opts:[
+   {id:"a",lab:"10–30°",sub:"shallow, along the vein",ok:true,fb:"A shallow angle follows the line of a superficial vein. It gives you control and lets you drop almost flat once you see flashback."},
+   {id:"b",lab:"45°",sub:"",fb:"Too steep for a superficial vein — you would pass straight through the back wall and cause a haematoma. 45° belongs to some subcutaneous injections, not IV cannulation."},
+   {id:"c",lab:"90°",sub:"perpendicular",fb:"That is the intramuscular angle. Straight down through a superficial vein goes through both walls and into the tissue beneath."},
+   {id:"d",lab:"Whatever angle reaches fastest",fb:"Angle is not about speed — it is about matching the depth and direction of the vessel. Superficial veins need a shallow approach."}]},
+ {type:"order",h:"From flashback to secured line",
+  q:"You have just seen flashback. Sequence what happens next.",
+  items:[
+   {id:"l",txt:"Lower the angle almost flat to the skin"},
+   {id:"a",txt:"Advance the whole unit a further 2–3 mm"},
+   {id:"t",txt:"Thread the catheter off the stylet into the vein"},
+   {id:"r",txt:"Release the tourniquet"},
+   {id:"s",txt:"Withdraw the stylet and activate its safety mechanism"},
+   {id:"f",txt:"Connect, flush, and secure the line"}],
+  correct:["l","a","t","r","s","f"],
+  why:{l:"Flashback means the needle tip is in — staying steep now would push it through the far wall.",
+       a:"Flashback confirms the needle is in the lumen, not the catheter. Those extra 2–3 mm seat the catheter itself inside the vein.",
+       t:"Thread the catheter forward while the stylet holds the vein steady.",
+       r:"Releasing the tourniquet before withdrawing the stylet reduces the blood that escapes.",
+       s:"Activate the safety mechanism immediately — before your hand leaves the device.",
+       f:"Confirm patency with a flush, then secure so movement cannot dislodge it."},
+  fbOk:"Correct. The step people skip is advancing those extra 2–3 mm — miss it and the catheter never enters the vein."}],
+
+iv_complications:[
+ {type:"choice",h:"Read the site",
+  case:"<b>Finding:</b> the site is swollen, taut, <b>cool</b> and pale. The infusion has slowed to a trickle and the patient reports tightness. The drug running is normal saline.",
+  q:"What is happening?",
+  opts:[
+   {id:"i",lab:"Infiltration",ok:true,fb:"Cool, swollen, taut, pale, with a slowed infusion is the classic infiltration picture — and because saline is a non-vesicant, it is infiltration rather than extravasation. Stop the infusion, remove the catheter, elevate, and document the extent."},
+   {id:"e",lab:"Extravasation",fb:"Extravasation is the same leakage but of a <b>vesicant</b> — a drug that blisters and destroys tissue. Normal saline is not a vesicant, so this is infiltration. The distinction changes the urgency completely."},
+   {id:"p",lab:"Phlebitis",fb:"Phlebitis is inflammation of the vein wall: <b>red, warm and tender</b>, often with a palpable cord. This site is cool and pale — the opposite thermal picture."},
+   {id:"n",lab:"Normal for a new line",fb:"Swelling, coolness and a slowing infusion are never normal. This site needs the infusion stopped and the catheter removed."}]},
+ {type:"multi",h:"Vesicant leaking into tissue",
+  case:"<b>Patient:</b> receiving IV norepinephrine through a hand line. You find blanching, swelling and pain at the site.",
+  q:"<b>Select every immediate action.</b>",
+  fbOk:"Right. The counter-intuitive one is leaving the catheter in — it is your route for aspirating residual drug and, if ordered, giving an antidote.",
+  opts:[
+   {id:"s",lab:"Stop the infusion immediately",ok:true,fb:"every further second delivers more vesicant into the tissue."},
+   {id:"l",lab:"Leave the catheter in place initially",ok:true,fb:"it is the route for aspirating residual drug and delivering an antidote such as phentolamine."},
+   {id:"a",lab:"Attempt to aspirate residual drug from the catheter",ok:true,fb:"removing what is still in the tissue limits the injury."},
+   {id:"e",lab:"Escalate to the prescriber urgently",ok:true,fb:"vesicant extravasation can need an antidote and, in severe cases, surgical review."},
+   {id:"f",lab:"Flush the line with saline to clear it",fb:"this drives more vesicant into the tissue. Never flush a suspected extravasation."},
+   {id:"r",lab:"Rub the area to disperse the drug",fb:"rubbing spreads the vesicant through a wider area of tissue and worsens the injury."}]}],
+
+iv_documentation:[
+ {type:"multi",h:"What goes in the record?",
+  q:"You have just placed a peripheral IV. <b>Select everything that must be documented.</b>",
+  fbOk:"That is the complete record. Anything less and the next clinician cannot judge dwell time, escalate a complication, or trace a device in a recall.",
+  opts:[
+   {id:"d",lab:"Date and time of insertion",ok:true,fb:"dwell time drives when the line must be reviewed or replaced."},
+   {id:"s",lab:"Site and side",ok:true,fb:"the next clinician needs to find and assess the exact site."},
+   {id:"g",lab:"Catheter gauge and length",ok:true,fb:"needed for flow-rate decisions and device traceability."},
+   {id:"a",lab:"Number of attempts",ok:true,fb:"repeated attempts predict complications and trigger escalation to a vascular access specialist."},
+   {id:"c",lab:"Patient's consent and tolerance",ok:true,fb:"consent must be recorded, and how the patient tolerated it informs the next attempt."},
+   {id:"n",lab:"Your name / signature",ok:true,fb:"accountability — someone has to be identifiable for follow-up."},
+   {id:"b",lab:"The patient's date of birth in the site notes",fb:"identity is verified at the point of care and lives in the patient header — repeating it in the site entry adds nothing."}]}],
+
+iv_special:[
+ {type:"choice",h:"Fragile veins",
+  case:"<b>Patient:</b> 88 years old, thin, papery skin, visible but very mobile veins that roll away from the needle.",
+  q:"Which approach fits this patient best?",
+  opts:[
+   {id:"a",lab:"Small gauge, low angle, minimal tourniquet pressure, anchor the vein firmly",ok:true,fb:"Exactly right. Fragile veins blow under pressure, so ease the tourniquet (or skip it and use gravity), come in shallow with a small catheter, and anchor the skin below the site so the vein cannot roll."},
+   {id:"b",lab:"Tighten the tourniquet to stop the vein rolling",fb:"A tight tourniquet on fragile vessels is what makes them blow on entry. Reduce the pressure, or use gravity and warmth instead."},
+   {id:"c",lab:"Use a larger catheter for a more secure line",fb:"Backwards. A large catheter in a fragile vein damages the intima and greatly increases phlebitis and rupture risk. Go smaller."},
+   {id:"d",lab:"Insert at a steeper angle to get through the mobile skin",fb:"A steeper angle goes straight through the back wall of a superficial vein. Stay shallow and anchor the vein instead."}]}]
+,
+
+/* ================= IM ================= */
+im_anatomy:[
+ {type:"hotspot",h:"Find the ventrogluteal site",
+  q:"Tap the <b>ventrogluteal</b> site — the preferred intramuscular site in adults.",
+  svg:ixIMHot(),correct:"ventro",
+  fb:{ventro:"Correct. Gluteus medius and minimus on the side of the hip: thick muscle, predictable depth, and no major nerves or vessels in the target zone.",
+      dorso:"That is the <b>dorsogluteal</b> site, in the upper-outer buttock. It is no longer recommended — the sciatic nerve and superior gluteal artery lie beneath it, and the fat there is often deeper than the needle is long.",
+      deltoid:"That is the deltoid. A valid site, but it is small and takes only about 1 mL — not the preferred general-purpose adult site.",
+      vastus:"That is the vastus lateralis. Excellent for infants and for self-injection, but in adults the ventrogluteal is preferred."}}],
+
+im_equipment:[
+ {type:"choice",h:"Choose the needle",
+  case:"<b>Patient:</b> 45-year-old man, BMI 38, ordered a 3 mL IM antibiotic into the ventrogluteal site.",
+  q:"Which needle length will actually reach muscle?",
+  opts:[
+   {id:"a",lab:"⅝ inch (16 mm)",fb:"Far too short. In a patient with this much subcutaneous tissue the drug would be deposited in fat, where absorption is slow and unpredictable, and where irritant drugs cause sterile abscesses. ⅝ inch is a subcutaneous or infant length."},
+   {id:"b",lab:"1 inch (25 mm)",fb:"Still likely too short at BMI 38. The subcutaneous layer over the hip in a patient this size commonly exceeds an inch — you would be injecting into fat, not muscle."},
+   {id:"c",lab:"1½ inch (38 mm)",ok:true,fb:"Correct. A larger patient needs the extra length to pass the subcutaneous layer and reach muscle. Length is chosen from body habitus and site, not from the drug."},
+   {id:"d",lab:"3 inch (76 mm)",fb:"Excessive — this is not a standard IM length and would risk striking bone or deep structures. 1½ inch is the standard maximum for adult IM."}]},
+ {type:"fill",h:"Draw up the dose",
+  case:"<b>Order:</b> 1.5 mL of the antibiotic, using a 3 mL syringe.",
+  q:"Drag the plunger to draw up exactly <b>1.5 mL</b>.",
+  max:3,target:1.5,tol:0.06,step:0.05,dec:2,ticks:12,major:4,unit:"mL",
+  fbOk:"1.5 mL exactly. Always read the plunger at eye level against the graduation — reading at an angle is a common source of dosing error.",
+  fbHigh:"Expel the excess back into the vial before you approach the patient, then re-read the plunger at eye level.",
+  fbLow:"Draw back further. Check you are reading the leading edge of the plunger seal, not the trailing edge."}],
+
+im_assessment:[
+ {type:"multi",h:"Before the needle goes anywhere",
+  q:"<b>Select every check you must complete before administering.</b>",
+  fbOk:"That is the set. The rights are a system, not a ritual — each one blocks a different category of error.",
+  opts:[
+   {id:"p",lab:"Right patient — two identifiers",ok:true,fb:"name plus date of birth, verified against the chart, not by asking \"are you Mr Smith?\""},
+   {id:"d",lab:"Right drug",ok:true,fb:"read the label at the point of drawing up, not from memory of the order."},
+   {id:"o",lab:"Right dose",ok:true,fb:"the single most consequential check — verify the calculation independently for high-risk drugs."},
+   {id:"r",lab:"Right route",ok:true,fb:"IM and subcutaneous are not interchangeable; the wrong route changes the absorption profile entirely."},
+   {id:"t",lab:"Right time",ok:true,fb:"timing matters for antibiotics, anticoagulants and insulin in particular."},
+   {id:"a",lab:"Allergy status",ok:true,fb:"check it every time, including for drugs the patient has had before."},
+   {id:"x",lab:"The patient's preferred injection site",fb:"worth asking about for comfort, but it is not a safety check — and patient preference never overrides the site the drug and volume require."}]}],
+
+im_sites:[
+ {type:"choice",h:"An 8-month-old infant",
+  case:"<b>Patient:</b> 8-month-old infant due a routine 0.5 mL immunisation.",
+  q:"Which site should you use?",
+  opts:[
+   {id:"v",lab:"Vastus lateralis",sub:"outer thigh",ok:true,fb:"Correct — the site of choice in infants. The thigh muscle is the best developed muscle mass at this age, and there are no major nerves or vessels in the target area."},
+   {id:"d",lab:"Deltoid",fb:"The deltoid is not sufficiently developed in an 8-month-old to take an injection reliably. It becomes an option in older children and adults."},
+   {id:"g",lab:"Dorsogluteal",fb:"Not recommended at any age, and especially not in infants — the gluteal muscles are poorly developed and the sciatic nerve is close to the surface."},
+   {id:"vg",lab:"Ventrogluteal",fb:"It can be used in infants over 7 months in some guidance, but the vastus lateralis remains the standard recommended site at this age."}]}],
+
+im_asepsis:[
+ {type:"order",h:"Preparing an IM injection",
+  q:"Sequence these preparation steps.",
+  items:[
+   {id:"h",txt:"Perform hand hygiene"},
+   {id:"c",txt:"Check the drug, dose, route and allergy status"},
+   {id:"d",txt:"Draw up the dose and change to a clean needle"},
+   {id:"l",txt:"Position the patient and landmark the site"},
+   {id:"s",txt:"Clean the skin and let it air-dry"},
+   {id:"i",txt:"Inject using Z-track technique"}],
+  correct:["h","c","d","l","s","i"],
+  why:{h:"Hand hygiene precedes handling any equipment.",
+       c:"The checks happen before you draw up — verifying after the syringe is full invites confirmation bias.",
+       d:"Changing the needle after drawing up removes drug residue from the outside of the needle, which reduces tissue irritation and tracking.",
+       l:"Landmark before cleaning, so you clean exactly where the needle will enter.",
+       s:"The skin must be dry before the needle passes through it.",
+       i:"Z-track is now recommended for all IM injections."},
+  fbOk:"Correct. The step most often skipped is changing the needle after drawing up — drug on the outside of the needle irritates the track."}],
+
+im_procedure:[
+ {type:"choice",h:"Set the angle",
+  q:"At what angle do you insert for an intramuscular injection?",
+  opts:[
+   {id:"a",lab:"90°",sub:"straight in, perpendicular",ok:true,fb:"Correct. A perpendicular approach takes the shortest path through subcutaneous fat and into muscle. Anything shallower risks depositing the drug in fat."},
+   {id:"b",lab:"45°",fb:"That is a subcutaneous angle. At 45° an IM needle may not clear the fat layer, so the drug lands subcutaneously — slower, more painful, and for irritant drugs a cause of sterile abscess."},
+   {id:"c",lab:"10–15°",fb:"That is close to an intradermal or IV approach. Nowhere near deep enough to reach muscle."},
+   {id:"d",lab:"Whatever angle the pinched skin allows",fb:"You do not pinch for IM — pinching lifts muscle away and is a subcutaneous technique. Spread the skin taut instead and go in at 90°."}]},
+ {type:"order",h:"Z-track, start to finish",
+  q:"Sequence the Z-track technique.",
+  items:[
+   {id:"p",txt:"Pull the skin and subcutaneous tissue about 2.5 cm to one side"},
+   {id:"h",txt:"Hold the displacement and insert at 90°"},
+   {id:"i",txt:"Inject slowly, about 1 mL every 10 seconds"},
+   {id:"w",txt:"Wait about 10 seconds with the needle still in"},
+   {id:"r",txt:"Withdraw the needle, then release the displaced skin"},
+   {id:"g",txt:"Apply gentle pressure — do not massage"}],
+  correct:["p","h","i","w","r","g"],
+  why:{p:"The displacement has to be established before the needle enters, or there is no offset track to seal.",
+       h:"Hold the tissue displaced throughout, otherwise the track realigns while the needle is still in.",
+       i:"Injecting slowly lets the muscle accommodate the volume and markedly reduces pain.",
+       w:"Waiting lets the drug disperse before the needle is removed, so it does not track back up the needle path.",
+       r:"Release only after the needle is out — that is the moment the tissue planes shift and seal the track.",
+       g:"Massage can force the drug back into subcutaneous tissue and, for some drugs, causes bruising."},
+  fbOk:"Correct. Releasing the skin only after the needle is out is the whole point of Z-track — release too early and the track stays open."}],
+
+im_complications:[
+ {type:"choice",h:"Pain down the leg",
+  case:"<b>Event:</b> as the needle enters, the patient cries out with sharp, electric pain shooting down the leg.",
+  q:"What is your immediate action?",
+  opts:[
+   {id:"w",lab:"Withdraw the needle immediately and do not inject",ok:true,fb:"Correct. Radiating electric pain means nerve contact. Withdraw at once, reassure the patient, select a different site with a fresh needle, and document it — injecting onto a nerve can cause lasting injury."},
+   {id:"c",lab:"Continue but inject more slowly",fb:"Injecting onto a nerve is what causes the lasting damage. Slowing down does not make it safe — the needle must come out first."},
+   {id:"a",lab:"Aspirate to check placement, then decide",fb:"Aspiration tells you about blood vessels, not nerves. This patient needs the needle out now, not another few seconds of contact."},
+   {id:"r",lab:"Reposition the needle slightly deeper",fb:"Advancing further risks driving the needle further into the nerve. Withdraw completely and start again at a properly landmarked site."}]}],
+
+im_documentation:[
+ {type:"multi",h:"Recording the injection",
+  q:"<b>Select everything that belongs in the record after an IM injection.</b>",
+  fbOk:"That is the record. Site and side matter more than people expect — without them, rotation cannot be tracked and a reaction cannot be traced to a site.",
+  opts:[
+   {id:"d",lab:"Drug, dose, route and time given",ok:true,fb:"the core medication record."},
+   {id:"s",lab:"The specific site and side used",ok:true,fb:"needed for rotation and to trace any local reaction."},
+   {id:"l",lab:"Lot number and expiry for a vaccine",ok:true,fb:"legally required for vaccines and essential in a product recall."},
+   {id:"r",lab:"Patient's response and any adverse reaction",ok:true,fb:"including the absence of a reaction after the observation period."},
+   {id:"n",lab:"Your signature",ok:true,fb:"accountability for the administration."},
+   {id:"x",lab:"The colour of the needle hub",fb:"gauge is worth recording; the hub colour is just a proxy for it and varies by manufacturer."}]}],
+
+im_special:[
+ {type:"choice",h:"Anticoagulated patient",
+  case:"<b>Patient:</b> 70 years old, on warfarin, INR 3.5. An IM medication has been ordered.",
+  q:"What is the safest course of action?",
+  opts:[
+   {id:"q",lab:"Question the order and ask whether another route is available",ok:true,fb:"Correct. At an INR of 3.5 an IM injection carries real risk of a large intramuscular haematoma. The right first move is to check whether the drug can be given orally, subcutaneously or intravenously instead."},
+   {id:"g",lab:"Proceed with the smallest gauge and 5 minutes of firm pressure",fb:"These are sensible precautions <b>if</b> the IM route is genuinely necessary — but with an INR of 3.5 the first step is to question whether IM is needed at all, not to proceed carefully."},
+   {id:"n",lab:"Proceed normally — anticoagulation does not affect IM injections",fb:"It affects them considerably. Bleeding into muscle can produce a large, painful haematoma and, in a limb, compartment syndrome."},
+   {id:"m",lab:"Proceed, then massage the site to disperse any bleeding",fb:"Massage after an IM injection in an anticoagulated patient increases bleeding and bruising. Gentle pressure without rubbing is the rule."}]}],
+
+/* ================= SubQ ================= */
+sq_anatomy:[
+ {type:"hotspot",h:"Find the right depth",
+  q:"Tap the layer a <b>subcutaneous</b> injection is meant to reach.",
+  svg:ixSkinHot(),correct:"subq",
+  fb:{subq:"Correct — the fatty layer beneath the dermis. Its relatively poor blood supply is exactly what gives subcutaneous injections their slow, steady absorption.",
+      intradermal:"That is the dermis. Injecting there produces a raised bleb — that is intradermal technique, used for TB testing and allergy testing, not for insulin or heparin.",
+      muscle:"That is muscle. Delivering insulin into muscle speeds absorption unpredictably and is a recognised cause of unexpected hypoglycaemia."}}],
+
+sq_equipment:[
+ {type:"choice",h:"The right syringe",
+  case:"<b>Order:</b> 12 units of rapid-acting insulin, subcutaneously.",
+  q:"Which syringe do you reach for?",
+  opts:[
+   {id:"i",lab:"A U-100 insulin syringe",sub:"marked in units",ok:true,fb:"Correct. Insulin is ordered and measured in <b>units</b>, and a U-100 syringe is graduated in units directly, so no conversion is needed and no conversion error is possible."},
+   {id:"m",lab:"A 1 mL syringe marked in mL",fb:"This is a classic and dangerous error. Converting units to mL by hand invites a tenfold mistake, and standard mL graduations are too coarse to measure small insulin doses accurately."},
+   {id:"t",lab:"A 3 mL syringe",fb:"Far too coarse for a 12-unit dose, and marked in the wrong units entirely. Insulin needs a syringe graduated in units."},
+   {id:"a",lab:"Any syringe — 12 units is 12 units",fb:"Units and millilitres are not interchangeable. U-100 insulin contains 100 units per mL, so 12 units is 0.12 mL — not something to be eyeballed on a mL scale."}]},
+ {type:"fill",h:"Measure the dose",
+  case:"<b>Order:</b> 12 units of rapid-acting insulin, U-100 syringe.",
+  q:"Drag the plunger to draw up exactly <b>12 units</b>.",
+  max:50,target:12,tol:0.6,step:1,dec:0,ticks:10,major:2,unit:"units",
+  fbOk:"12 units exactly. Expel any air bubble and re-check the reading before you approach the patient — an air bubble displaces drug and under-doses.",
+  fbHigh:"Too much insulin risks hypoglycaemia, which can be life-threatening. Expel back to the graduation and re-read at eye level.",
+  fbLow:"Too little insulin leaves the patient hyperglycaemic. Draw back to the exact graduation."}],
+
+sq_assessment:[
+ {type:"multi",h:"Before rapid-acting insulin",
+  q:"<b>Select every check that matters before giving a rapid-acting insulin dose.</b>",
+  fbOk:"Exactly. The timing-to-food check is the one most often missed, and it is the one that prevents hypoglycaemia.",
+  opts:[
+   {id:"g",lab:"Current blood glucose",ok:true,fb:"you cannot judge the safety of the dose without it."},
+   {id:"f",lab:"That the patient is going to eat, and when",ok:true,fb:"rapid-acting insulin given without a meal to cover is a direct route to hypoglycaemia."},
+   {id:"t",lab:"Insulin type and that it matches the order",ok:true,fb:"rapid, short, intermediate and long-acting insulins are not interchangeable — look-alike names cause real harm."},
+   {id:"s",lab:"The condition of the intended site",ok:true,fb:"injecting into lipohypertrophy makes absorption erratic and unpredictable."},
+   {id:"e",lab:"The insulin's expiry and in-use date",ok:true,fb:"an opened vial or pen has a limited in-use life and loses potency after it."},
+   {id:"b",lab:"The patient's blood pressure",fb:"relevant to overall care, but it does not inform the insulin dose. Glucose and food intake do."}]}],
+
+sq_sites:[
+ {type:"hotspot",h:"Where on the abdomen?",
+  q:"Tap a suitable abdominal site for a subcutaneous injection.",
+  svg:ixAbdHot(),correct:"good",
+  fb:{good:"Correct — fleshy abdominal tissue, well outside the 5 cm exclusion zone around the navel and away from the edges.",
+      navel:"Too close to the navel. Stay more than 5 cm (2 inches) away — the tissue there is tethered and absorption is unreliable.",
+      edge:"Too far out toward the flank. You need a reasonable depth of subcutaneous tissue to pinch, which the outer edge often does not offer."}},
+ {type:"choice",h:"Rotating properly",
+  case:"<b>Patient:</b> injects insulin four times a day and says they \"move it around the belly each time\".",
+  q:"What advice actually prevents lipohypertrophy?",
+  opts:[
+   {id:"s",lab:"Follow a planned pattern, each injection at least a finger's width from the last",ok:true,fb:"Correct. Rotation has to be systematic to work — a written or mental map, moving a set distance each time, and covering the whole area before returning."},
+   {id:"r",lab:"Injecting somewhere different each time is enough",fb:"\"Somewhere different\" usually means a few favourite spots in rotation, which is how lipohypertrophy develops. The distance and the pattern are what matter."},
+   {id:"a",lab:"Switch body region every injection — abdomen, thigh, arm, buttock",fb:"Absorption rates differ between regions, so rotating <b>between</b> regions makes the insulin effect inconsistent. Stay within one region at a given time of day and rotate within it."},
+   {id:"m",lab:"Massage each site afterwards to spread the insulin",fb:"Massage alters the absorption rate unpredictably, and it does nothing to prevent lipohypertrophy."}]}],
+
+sq_asepsis:[
+ {type:"order",h:"Preparing a subcutaneous injection",
+  q:"Sequence these steps.",
+  items:[
+   {id:"h",txt:"Perform hand hygiene"},
+   {id:"c",txt:"Check drug, dose, route, time and allergies"},
+   {id:"i",txt:"Inspect and palpate the site for lumps or dents"},
+   {id:"d",txt:"Draw up or dial the dose"},
+   {id:"s",txt:"Clean the skin and let it air-dry"},
+   {id:"n",txt:"Pinch if indicated and inject"}],
+  correct:["h","c","i","d","s","n"],
+  why:{h:"Hand hygiene first, before touching equipment.",
+       c:"Checks precede preparation, not the other way round.",
+       i:"Inspect and palpate <b>before</b> you commit to a site — lipohypertrophy is felt, not seen.",
+       d:"Prepare the dose once you know where it is going.",
+       s:"The skin must be dry before the needle passes through it.",
+       n:"Pinch only if the needle length and the patient's tissue depth call for it."},
+  fbOk:"Correct. Palpating the site before drawing up is the step that catches lipohypertrophy — and it has to happen before you commit."}],
+
+sq_procedure:[
+ {type:"choice",h:"Angle and pinch",
+  case:"<b>Patient:</b> thin elderly patient, very little subcutaneous tissue. Only ⅝-inch (8 mm) needles are available.",
+  q:"How should you give the injection?",
+  opts:[
+   {id:"p",lab:"Pinch a skin fold and inject at 45°",ok:true,fb:"Correct. With a longer needle relative to this patient's tissue depth, pinching lifts the subcutaneous layer away from muscle and a 45° angle shortens the effective depth — together they keep the dose out of muscle."},
+   {id:"n",lab:"Inject at 90° without pinching",fb:"In a thin patient an 8 mm needle at 90° with no pinch can reach muscle. Intramuscular insulin absorbs unpredictably fast and causes hypoglycaemia."},
+   {id:"s",lab:"Inject at 90° with a pinch",fb:"Pinching helps, but with this needle length in very thin tissue, 45° adds the margin you need. 90° with a pinch is appropriate when the needle is short relative to the tissue."},
+   {id:"d",lab:"Inject at 15° along the skin",fb:"That is close to an intradermal angle — the dose would sit in the dermis and raise a bleb rather than absorbing subcutaneously."}]}],
+
+sq_complications:[
+ {type:"choice",h:"A soft lump and unexplained lows",
+  case:"<b>Patient:</b> type 1 diabetic who always injects the same spot to the left of the navel. There is a soft, raised, rubbery lump there, and they report unexplained hypoglycaemia.",
+  q:"What is going on?",
+  opts:[
+   {id:"l",lab:"Lipohypertrophy causing erratic absorption",ok:true,fb:"Correct. Repeated injection into one spot builds rubbery fatty tissue where absorption is unpredictable — sometimes blunted, sometimes suddenly rapid, which produces exactly these unexplained lows. Move to healthy tissue, rotate systematically, and expect the insulin requirement to fall, so the dose needs review."},
+   {id:"i",lab:"Infection at the site",fb:"Infection presents with redness, warmth, tenderness and often fever. This lump is soft, painless and rubbery — that is lipohypertrophy."},
+   {id:"a",lab:"An allergic reaction to the insulin",fb:"Insulin allergy is rare and would show as itching, redness and weals shortly after injection, not a persistent painless lump with erratic glucose control."},
+   {id:"n",lab:"Normal — fat naturally builds where insulin is given",fb:"It is common, but it is not normal or harmless. It makes glucose control unstable and is one of the most under-recognised causes of unexplained hypoglycaemia."}]}],
+
+sq_documentation:[
+ {type:"multi",h:"After a subcutaneous dose",
+  q:"<b>Select everything that should be recorded.</b>",
+  fbOk:"That is the record — and the site entry is what makes systematic rotation auditable rather than assumed.",
+  opts:[
+   {id:"d",lab:"Drug, dose and time",ok:true,fb:"the core record."},
+   {id:"s",lab:"The exact site used",ok:true,fb:"without it, rotation cannot be tracked across shifts."},
+   {id:"g",lab:"Blood glucose before the dose, for insulin",ok:true,fb:"it justifies the dose given and provides the baseline for the response."},
+   {id:"c",lab:"Condition of the site — any lump or induration",ok:true,fb:"documenting lipohypertrophy is how it gets acted on rather than injected into again."},
+   {id:"n",lab:"Your signature",ok:true,fb:"accountability."},
+   {id:"w",lab:"The patient's weight at every dose",fb:"weight matters for initial dose calculation, but it is not part of each administration record."}]}],
+
+sq_special:[
+ {type:"multi",h:"Enoxaparin technique",
+  case:"<b>Observed:</b> a new colleague taps the prefilled enoxaparin syringe to expel the air bubble, plans to aspirate before injecting, and intends to rub the site afterwards.",
+  q:"<b>Select every part of that plan that is wrong.</b>",
+  fbOk:"All three are wrong — and each has a specific reason, which is what makes prefilled anticoagulant syringes a common source of technique error.",
+  opts:[
+   {id:"b",lab:"Expelling the air bubble",ok:true,fb:"the bubble in a prefilled low-molecular-weight heparin syringe is deliberate. It clears the last of the dose from the needle and seals the track. Expelling it removes drug and increases bruising."},
+   {id:"a",lab:"Aspirating before injecting",ok:true,fb:"aspiration is not performed for subcutaneous injection at all — there are no large vessels at that depth, and it adds pain and tissue trauma."},
+   {id:"r",lab:"Rubbing the site afterwards",ok:true,fb:"rubbing after an anticoagulant injection causes bruising and haematoma. Apply gentle pressure without rubbing."},
+   {id:"p",lab:"Pinching a skin fold for the injection",fb:"this part is correct — enoxaparin is given into a pinched fold of the abdominal wall, held throughout the injection."}]}],
+
+/* ---- case-application lessons ---- */
+iv_cases:[
+ {type:"choice",h:"Case A — burning on flush",
+  case:"<b>Case A:</b> you place a 20G forearm line. On the confirming flush the patient reports burning, you feel resistance, and slight coolness and swelling appear.",
+  q:"What do you do?",
+  opts:[
+   {id:"s",lab:"Stop, remove the catheter, elevate and document",ok:true,fb:"Correct. Burning, resistance, coolness and swelling together mean the catheter is not in the vein. Never push against resistance — stop, remove, elevate the limb, and document the site and extent."},
+   {id:"f",lab:"Push the flush harder to clear the obstruction",fb:"Forcing a flush against resistance drives fluid into the tissue and can rupture the vein. Resistance is always a stop signal."},
+   {id:"t",lab:"Reposition with a small tape adjustment and re-flush",fb:"Repositioning treats this as a kinked line, but coolness and swelling say the fluid is going into tissue, not vein. The catheter has to come out."},
+   {id:"w",lab:"Leave it and watch for an hour",fb:"Waiting lets more fluid infiltrate. Even non-vesicant infiltration compromises tissue if the volume grows."}]},
+ {type:"choice",h:"Case C — the only vein is over a joint",
+  case:"<b>Case C:</b> a dehydrated patient's only palpable vein crosses the ventral wrist / flexion point.",
+  q:"What is the best course of action?",
+  opts:[
+   {id:"e",lab:"Try to recruit a better vein first — warmth, gravity, hydration, and a second look",ok:true,fb:"Correct. Before accepting a poor site, use warmth, lower the limb, let the patient hydrate if appropriate, and reassess. The ventral wrist in particular carries superficial nerves and is a notably painful, high-risk site."},
+   {id:"j",lab:"Use the wrist vein — a line is needed",fb:"The ventral wrist is one of the sites specifically to avoid: superficial sensory nerves run there and it is over a flexion point. Exhaust the alternatives first, and escalate if there are none."},
+   {id:"l",lab:"Use a larger catheter so it stays put across the joint",fb:"A larger catheter over a joint causes more intimal damage and does nothing about the kinking. Size does not solve a flexion-point problem."},
+   {id:"i",lab:"Splint the wrist and use it",fb:"Splinting is sometimes used, but it restricts the patient and does not address the nerve risk at the ventral wrist. Recruit a better vein or escalate to vascular access."}]}],
+
+im_cases:[
+ {type:"choice",h:"Case B — routine flu vaccine",
+  case:"<b>Case B:</b> a 30-year-old woman, 68 kg, needs a 0.5 mL flu vaccine.",
+  q:"What is the appropriate site, needle and technique?",
+  opts:[
+   {id:"d",lab:"Deltoid, 1 inch (25 mm), 90°, no aspiration",ok:true,fb:"Correct. The deltoid is the standard adult vaccine site, 1 inch suits an average adult, 90° is the IM angle, and the CDC does not recommend aspiration for vaccine administration."},
+   {id:"v",lab:"Ventrogluteal, 1½ inch, 90°",fb:"Clinically it would work, but it is the wrong choice for a routine vaccine — the deltoid is the standard site and is far more practical and acceptable to the patient."},
+   {id:"a",lab:"Deltoid, 1 inch, 90°, aspirating for 5–10 seconds first",fb:"Site, length and angle are right, but aspiration is not recommended for vaccines. There are no large vessels in the deltoid target and aspirating adds pain."},
+   {id:"s",lab:"Deltoid, ⅝ inch, 45°, pinching the skin",fb:"That is subcutaneous technique. Pinching and 45° would deposit a vaccine intended for muscle into fat."}]}],
+
+sq_cases:[
+ {type:"choice",h:"Case B — same-spot injector",
+  case:"<b>Case B:</b> a type 1 diabetic always injects the same left periumbilical spot and reports a soft raised lump with unexplained hypoglycaemia.",
+  q:"Beyond moving to healthy tissue, what must also happen?",
+  opts:[
+   {id:"r",lab:"The insulin dose needs medical review, because absorption will improve",ok:true,fb:"Correct, and this is the step most often missed. Injecting into healthy tissue after a period of using lipohypertrophic tissue can markedly increase absorption — the same dose may now cause severe hypoglycaemia, so the dose must be reviewed."},
+   {id:"n",lab:"Nothing else — moving site is sufficient",fb:"Moving site alone is dangerous here. Absorption from healthy tissue can be far greater than from the lump, so the existing dose may now be an overdose."},
+   {id:"i",lab:"Increase the dose, since the lump was blunting the effect",fb:"The opposite. Absorption from healthy tissue is usually better, so the requirement typically <b>falls</b> — increasing the dose risks severe hypoglycaemia."},
+   {id:"m",lab:"Massage the lump to break it down",fb:"Massage does not resolve lipohypertrophy. The tissue recovers only by being left alone for months while injections rotate elsewhere."}]}]
+};
+
+/* ============ Cumulative pre-exam rehearsal ============
+   Chains interactions across the whole course against the practice-scenario
+   patients, scoring first-attempt accuracy. Offered before the final exam. */
+var REHEARSAL={
+ iv:{patient:"<b>Your patient:</b> 62 years old, admitted for a 5-day IV antibiotic course. Left arm has an AV fistula. Right forearm veins are palpable but not prominent.",
+  items:[
+   {type:"choice",h:"Step 1 — choose the arm",
+    q:"Which limb do you assess for access?",
+    opts:[
+     {id:"r",lab:"The right forearm",ok:true,fb:"Correct — the left arm carries an AV fistula and is off limits entirely, including for a tourniquet."},
+     {id:"l",lab:"The left arm, below the fistula",fb:"No part of a fistula limb is available. Never cannulate, draw from, or apply a tourniquet to that arm."},
+     {id:"e",lab:"Either — the fistula is not in use today",fb:"A fistula is protected whether or not it is in use that day. It is the patient's dialysis lifeline."}]},
+   {type:"choice",h:"Step 2 — choose the catheter",
+    q:"Which gauge for a 5-day antibiotic course?",
+    opts:[
+     {id:"20",lab:"20G",ok:true,fb:"Correct — adequate flow for antibiotics while leaving blood flowing around the catheter, which protects the vein over a multi-day dwell."},
+     {id:"18",lab:"18G",fb:"More than needed. Larger catheters raise phlebitis risk without benefit for routine antibiotics."},
+     {id:"14",lab:"14G",fb:"Resuscitation-sized. Substantially increases intimal trauma and phlebitis risk here."}]},
+   {type:"hotspot",h:"Step 3 — pick the site",
+    q:"Tap the segment you would target on the right forearm.",
+    svg:ixArmHot(),correct:"good",
+    fb:{good:"Correct — a straight, well-supported forearm segment away from joints and branch points.",
+        valve:"That is a branch point, where valves cluster. The catheter will snag and the line may fail early.",
+        hand:"The dorsal hand is fragile and prone to infiltration — a poor choice for a 5-day course.",
+        ac:"The antecubital fossa sits over a flexion point and should be reserved for phlebotomy and emergencies."}},
+   {type:"choice",h:"Step 4 — the flush",
+    q:"On the confirming flush the patient reports burning and you feel resistance. What now?",
+    opts:[
+     {id:"s",lab:"Stop, remove the catheter, elevate and document",ok:true,fb:"Correct. Resistance plus burning means the catheter is not in the vein. Never push against resistance."},
+     {id:"h",lab:"Flush harder to clear it",fb:"Forcing a flush drives fluid into tissue and can rupture the vein."},
+     {id:"w",lab:"Leave it and reassess in an hour",fb:"Waiting allows more fluid to infiltrate and the tissue injury to grow."}]}]},
+
+ im:{patient:"<b>Your patient:</b> 45-year-old man, BMI 38, ordered a 3 mL IM antibiotic. Not anticoagulated, no allergies.",
+  items:[
+   {type:"hotspot",h:"Step 1 — choose the site",
+    q:"Tap the site that takes 3 mL safely in an adult.",
+    svg:ixIMHot(),correct:"ventro",
+    fb:{ventro:"Correct — the ventrogluteal takes up to about 3 mL with no major neurovasculature in the target.",
+        deltoid:"The deltoid is far too small for 3 mL — roughly 1 mL is its practical limit.",
+        dorso:"The dorsogluteal is no longer recommended: sciatic nerve and superior gluteal artery lie beneath it.",
+        vastus:"The vastus lateralis would work, but the ventrogluteal is preferred in adults."}},
+   {type:"choice",h:"Step 2 — needle length",
+    q:"Which length will reach muscle at BMI 38?",
+    opts:[
+     {id:"c",lab:"1½ inch (38 mm)",ok:true,fb:"Correct — the extra length is needed to pass a thicker subcutaneous layer and reach muscle."},
+     {id:"b",lab:"1 inch (25 mm)",fb:"Likely too short at this BMI; the drug would land in fat, absorbing slowly and unpredictably."},
+     {id:"a",lab:"⅝ inch (16 mm)",fb:"A subcutaneous length. It would not come close to muscle in this patient."}]},
+   {type:"fill",h:"Step 3 — draw up the dose",
+    q:"Draw up exactly <b>3 mL</b> using the 3 mL syringe.",
+    max:3,target:3,tol:0.06,step:0.05,dec:2,ticks:12,major:4,unit:"mL",
+    fbOk:"3 mL exactly — read at eye level against the graduation.",
+    fbHigh:"You cannot exceed the syringe volume; re-read the plunger against the graduation.",
+    fbLow:"Short of the ordered dose — the patient would be underdosed. Draw back to the 3 mL mark."},
+   {type:"order",h:"Step 4 — administer",
+    q:"Sequence the Z-track injection.",
+    items:[
+     {id:"p",txt:"Displace the skin about 2.5 cm to one side"},
+     {id:"h",txt:"Hold the displacement and insert at 90°"},
+     {id:"i",txt:"Inject slowly, about 1 mL every 10 seconds"},
+     {id:"w",txt:"Wait about 10 seconds before withdrawing"},
+     {id:"r",txt:"Withdraw, then release the skin"}],
+    correct:["p","h","i","w","r"],
+    why:{p:"The offset track has to exist before the needle enters.",
+         r:"Releasing only after withdrawal is what seals the track."},
+    fbOk:"Correct — and at 3 mL, injecting slowly is what keeps this tolerable for the patient."}]},
+
+ subq:{patient:"<b>Your patient:</b> thin elderly patient needing basal insulin. Only ⅝-inch (8 mm) needles are stocked. They have been injecting the same periumbilical spot for months and there is a soft rubbery lump there.",
+  items:[
+   {type:"hotspot",h:"Step 1 — choose a site",
+    q:"Tap a suitable abdominal site, avoiding the lump and the navel.",
+    svg:ixAbdHot(),correct:"good",
+    fb:{good:"Correct — healthy tissue, well clear of the navel and away from the affected area.",
+        navel:"Too close to the navel — stay more than 5 cm (2 inches) away.",
+        edge:"Too far toward the flank; there is often too little subcutaneous tissue to pinch there."}},
+   {type:"choice",h:"Step 2 — angle and pinch",
+    q:"With an 8 mm needle in very thin tissue, how do you inject?",
+    opts:[
+     {id:"p",lab:"Pinch a fold and inject at 45°",ok:true,fb:"Correct — pinching lifts subcutaneous tissue away from muscle and 45° shortens the effective depth."},
+     {id:"n",lab:"90° with no pinch",fb:"In thin tissue that risks intramuscular delivery, which absorbs unpredictably fast and causes hypoglycaemia."},
+     {id:"i",lab:"15° along the skin",fb:"That is close to intradermal — the dose would raise a bleb instead of absorbing."}]},
+   {type:"fill",h:"Step 3 — measure the dose",
+    q:"The order is <b>12 units</b>. Draw it up on the U-100 syringe.",
+    max:50,target:12,tol:0.6,step:1,dec:0,ticks:10,major:2,unit:"units",
+    fbOk:"12 units exactly. Expel any air bubble and re-check before approaching the patient.",
+    fbHigh:"Too much insulin risks hypoglycaemia — expel back to the graduation.",
+    fbLow:"Too little leaves the patient hyperglycaemic — draw back to the mark."},
+   {type:"choice",h:"Step 4 — the lump",
+    q:"You move injections off the lump to healthy tissue. What else must happen?",
+    opts:[
+     {id:"r",lab:"The dose needs medical review — absorption will improve",ok:true,fb:"Correct. Healthy tissue absorbs better, so the same dose can now cause severe hypoglycaemia. The dose must be reviewed."},
+     {id:"n",lab:"Nothing — moving site is enough",fb:"Dangerous. Improved absorption from healthy tissue can turn the existing dose into an overdose."},
+     {id:"i",lab:"Increase the dose",fb:"The opposite — the requirement usually falls once injections move to healthy tissue."}]}]}
+};
+
+/* ---- rehearsal runner ---- */
+var RZ={i:0,miss:{},done:false};
+function startRehearsal(c){ if(c)setCourse(c); RZ={i:0,miss:{},done:false}; go("rehearse"); }
+function vRehearse(){
+  var c=S.course, set=REHEARSAL[c];
+  if(!set)return '<div class="rzwrap"><h3>No rehearsal for this course yet.</h3>'+
+    '<div class="ixbar"><button class="ixbtn" onclick="go(\'home\')">Back</button></div></div>';
+  var total=set.items.length;
+  if(RZ.done){
+    var missed=Object.keys(RZ.miss).length, correct=total-missed;
+    var pct=Math.round(correct/total*100);
+    var h='<div class="rzwrap ix"><div class="ixtag">Skills rehearsal · '+COURSES[c].name+'</div>'+
+      '<div class="rzscore"><div class="n">'+pct+'%</div>'+
+      '<div class="l">'+correct+' of '+total+' correct first time</div></div>';
+    if(missed){
+      h+='<div class="ixfb bad" style="margin-top:18px"><b>Worth another look:</b><span class="fbwhy">'+
+        Object.keys(RZ.miss).map(function(k){return set.items[+k].h;}).join(' · ')+'</span></div>';
+    }else{
+      h+='<div class="ixfb good" style="margin-top:18px"><b>Clean run — </b>every step right first time.</div>';
+    }
+    h+='<div class="ixbar" style="margin-top:18px">'+
+       '<button class="ixbtn pri" onclick="startRehearsal(\''+c+'\')">Run it again</button>'+
+       '<button class="ixbtn" onclick="go(\'exam\',\''+c+'\')">Go to the final exam →</button>'+
+       '<button class="ixbtn" onclick="go(\'home\')">Back</button></div></div>';
+    return h;
+  }
+  var prog='';
+  for(var i=0;i<total;i++){
+    prog+='<i class="'+(i<RZ.i?(RZ.miss[i]?"miss":"on"):"")+'"></i>';
+  }
+  return '<div class="rzwrap ix"><div class="ixtag">Skills rehearsal · '+COURSES[c].name+
+    ' · step '+(RZ.i+1)+' of '+total+'</div>'+
+    '<div class="rzprog">'+prog+'</div>'+
+    '<div class="ixcase">'+set.patient+'</div>'+
+    '<div id="rzHost"></div></div>';
+}
+function wireRehearse(){
+  var set=REHEARSAL[S.course]; if(!set||RZ.done)return;
+  var host=el("rzHost"); if(!host)return;
+  host.dataset.rz="1";
+  ixRender(host,set.items[RZ.i],"rz"+RZ.i);
+  host.dataset.rz="1";                       // ixRender resets attributes
+  host.dataset.key="rz:"+S.course+":"+RZ.i;  // rehearsal XP is separate from lesson XP
+}
+function rzAdvance(){
+  var set=REHEARSAL[S.course];
+  RZ.i++;
+  if(RZ.i>=set.items.length){RZ.done=true;}
+  window.scrollTo(0,0); render();
+}
 
 /* ============ Reset ============ */
 function resetAll(){openModal('<h3>Reset progress?</h3><p>This clears your XP, streak, completed lessons, exams, and certificates on this device.</p><button class="btn btn-ghost" onclick="closeModal()">Cancel</button> <button class="btn btn-gold" onclick="doReset()">Reset</button>');}
