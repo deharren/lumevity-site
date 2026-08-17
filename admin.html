@@ -55,6 +55,127 @@
 </style>
 </head>
 <body>
+<!-- ===== Passcode gate =====================================================
+     Blocks the page until the staff passcode is entered. This is a DETERRENT,
+     not real security: the hash below ships to the browser and can be brute-
+     forced offline. Real data is protected by Supabase RLS (admins/editors
+     tables), which this gate does not replace.
+     To change the passcode, run:
+       node -e "console.log(require('crypto').createHash('sha256').update('lmv.gate.v1:'+process.argv[1]).digest('hex'))" NEWCODE
+     and paste the result into LMV_GATE_HASH.
+========================================================================= -->
+<style>
+  #lmvGate{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(160deg,#0C3B44,#103A5A 60%,#0B2B33);padding:24px;
+    font-family:'Inter',system-ui,sans-serif;}
+  #lmvGate.lmv-ok{opacity:0;pointer-events:none;transition:opacity .35s;}
+  #lmvGate .gbox{width:100%;max-width:370px;background:#fff;border-radius:20px;padding:34px 28px;
+    box-shadow:0 30px 80px rgba(0,0,0,.4);text-align:center;}
+  #lmvGate .glogo{width:46px;height:auto;margin:0 auto 16px;display:block;}
+  #lmvGate h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:1.24rem;font-weight:800;
+    color:#17242B;margin:0 0 6px;letter-spacing:-.02em;}
+  #lmvGate p{font-size:.84rem;color:#5f7078;margin:0 0 20px;line-height:1.5;}
+  #lmvGate input{width:100%;padding:13px 15px;border:1.5px solid #dbe3e6;border-radius:11px;
+    font-size:1rem;font-family:inherit;color:#17242B;outline:none;text-align:center;letter-spacing:.06em;}
+  #lmvGate input:focus{border-color:#14A3B4;box-shadow:0 0 0 3px rgba(20,163,180,.14);}
+  #lmvGate button{width:100%;margin-top:12px;padding:13px;border:none;border-radius:11px;cursor:pointer;
+    background:linear-gradient(135deg,#22C3D6,#0E8A93);color:#fff;font-weight:800;font-size:.94rem;
+    font-family:inherit;transition:transform .14s,opacity .14s;}
+  #lmvGate button:active{transform:scale(.98);}
+  #lmvGate button[disabled]{opacity:.5;cursor:not-allowed;}
+  #lmvGate .gerr{margin-top:12px;font-size:.8rem;color:#d8474b;font-weight:600;min-height:1.1em;}
+  #lmvGate .gfoot{margin-top:18px;font-size:.68rem;color:#8A97A3;line-height:1.45;}
+</style>
+<div id="lmvGate" role="dialog" aria-modal="true" aria-label="Staff passcode required">
+  <div class="gbox">
+    <svg class="glogo" viewBox="0 0 40 48" aria-hidden="true"><path d="M20 2C20 2 36 22 36 33A16 16 0 1 1 4 33C4 22 20 2 20 2Z" fill="#12A0AE"/></svg>
+    <h1>Staff access</h1>
+    <p>This page is for IV&nbsp;Rejuve staff. Enter the passcode to continue.</p>
+    <input id="lmvGateIn" type="password" inputmode="text" autocomplete="off"
+           autocapitalize="off" spellcheck="false" placeholder="Passcode" aria-label="Passcode" />
+    <button id="lmvGateBtn" type="button">Unlock</button>
+    <div class="gerr" id="lmvGateErr" role="alert"></div>
+    <div class="gfoot">Access is remembered on this device for 12&nbsp;hours.</div>
+  </div>
+</div>
+<script>
+(function(){
+  var LMV_GATE_HASH="524379537d802171768cf2349482294f3fa329ff6b94dfbc6dcbaa905743e043";
+  var SALT="lmv.gate.v1:", KEY="lmv_gate_ok", TTL=12*60*60*1000, MAXTRY=5, LOCKMS=60000;
+  var gate=document.getElementById("lmvGate"),
+      inp=document.getElementById("lmvGateIn"),
+      btn=document.getElementById("lmvGateBtn"),
+      err=document.getElementById("lmvGateErr");
+  var tries=0, lockedUntil=0;
+
+  function store(k,v){try{ v==null?localStorage.removeItem(k):localStorage.setItem(k,v); }catch(e){}}
+  function read(k){try{ return localStorage.getItem(k); }catch(e){ return null; }}
+
+  function pass(){
+    gate.classList.add("lmv-ok");
+    document.documentElement.style.overflow="";
+    setTimeout(function(){ if(gate.parentNode) gate.parentNode.removeChild(gate); },400);
+  }
+
+  // Already unlocked and not expired?
+  var prev=read(KEY);
+  if(prev && Date.now() < (parseInt(prev,10)||0)){ pass(); return; }
+  store(KEY,null);
+  document.documentElement.style.overflow="hidden";
+
+  function sha256(txt){
+    if(!(window.crypto && crypto.subtle)) return Promise.reject(new Error("nocrypto"));
+    return crypto.subtle.digest("SHA-256", new TextEncoder().encode(txt)).then(function(buf){
+      return Array.prototype.map.call(new Uint8Array(buf), function(b){
+        return b.toString(16).padStart(2,"0");
+      }).join("");
+    });
+  }
+
+  function fail(msg){
+    err.textContent=msg;
+    inp.value="";
+    gate.querySelector(".gbox").animate(
+      [{transform:"translateX(0)"},{transform:"translateX(-7px)"},{transform:"translateX(7px)"},{transform:"translateX(0)"}],
+      {duration:260}
+    );
+  }
+
+  function submit(){
+    if(Date.now() < lockedUntil){
+      fail("Too many attempts — wait "+Math.ceil((lockedUntil-Date.now())/1000)+"s.");
+      return;
+    }
+    var val=inp.value.trim();
+    if(!val){ fail("Enter the passcode."); return; }
+    btn.disabled=true; err.textContent="";
+    sha256(SALT+val).then(function(h){
+      btn.disabled=false;
+      if(h===LMV_GATE_HASH){
+        store(KEY, String(Date.now()+TTL));
+        pass();
+      } else {
+        tries++;
+        if(tries>=MAXTRY){
+          tries=0; lockedUntil=Date.now()+LOCKMS;
+          fail("Too many attempts — locked for 60s.");
+        } else {
+          fail("Incorrect passcode.");
+        }
+      }
+    }).catch(function(){
+      btn.disabled=false;
+      fail("This browser can't verify the passcode. Use a modern browser over HTTPS.");
+    });
+  }
+
+  btn.addEventListener("click", submit);
+  inp.addEventListener("keydown", function(e){ if(e.key==="Enter") submit(); });
+  setTimeout(function(){ try{ inp.focus(); }catch(e){} },120);
+})();
+</script>
+<!-- ===== end passcode gate ===== -->
+
 <div id="app"></div>
 <div class="drawer" id="drawer"></div>
 <div class="modal" id="modal"><div class="box" id="modalBox"></div></div>
