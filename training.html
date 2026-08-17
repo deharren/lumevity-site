@@ -637,7 +637,7 @@
 @media(max-width:640px){
   .lesson .slide{padding:24px 20px 26px;}
   .lesson .slidebox{margin-left:-22px;margin-right:-22px;border-radius:0;border-left:0;border-right:0;box-shadow:0 10px 26px rgba(3,20,26,.22);}
-  .lesson .lnav{padding:14px 20px 4px;}
+  .lnav{padding:14px 20px 84px;position:relative;z-index:140;}
   .view{padding-top:16px;}
 }
 .slide::-webkit-scrollbar-thumb{background:rgba(120,235,228,.25);}
@@ -1634,9 +1634,10 @@ function lessonCard(c){
     rows+='<div class="lc-les tap" onclick="startRehearsal(\''+c+'\')"><span class="lc-dot '+(rzDone?'done':'now')+'">'+(rzDone?'✓':'▶')+'</span>'
       +'<div><p>Skills rehearsal</p><small>'+(rzDone?'Completed — run it again any time':'Work a real patient case end to end before the exam')+'</small></div></div>';
   }
-  var examOpen=examDone||allDone;
+  var examReady=allDone&&examQuestions(c).length>0;   // don't route to an exam that has no questions
+  var examOpen=examDone||examReady;
   rows+='<div class="lc-les'+(examOpen?' tap':'')+'" onclick="'+(examOpen?'go(\''+(examDone?'cert':'exam')+'\',\''+c+'\')':'flash()')+'"><span class="lc-dot '+(examDone?'done':(examOpen?'now':'lock'))+'">'+(examDone?'✓':(examOpen?'★':'🔒'))+'</span>'
-    +'<div><p>Final exam &amp; certificate</p><small>'+(examDone?'Certified — view your certificate':(allDone?'All lessons done — take the exam':'Finish every lesson to unlock'))+'</small></div></div>';
+    +'<div><p>Final exam &amp; certificate</p><small>'+(examDone?'Certified — view your certificate':(examReady?'All lessons done — take the exam':(allDone?'Exam coming soon — content in progress':'Finish every lesson to unlock')))+'</small></div></div>';
   var subLabel=curId?('Continue where you left off'):'Course complete';
   var tabs=COURSE_IDS.map(function(cc){return '<button class="lc-tab'+(cc===c?' on':'')+'" onclick="selCourse(\''+cc+'\')">'+esc(COURSES[cc].name)+'</button>';}).join('');
   return '<div class="lcardwrap"><div class="lc-eyebrow" style="margin-bottom:12px">Continue your training</div><div class="lcard">'
@@ -1777,12 +1778,26 @@ function stepGo(i){if(i>S.step){for(var k=S.step;k<i;k++){if(stepLocked(k)){cele
 /* ============ Knowledge-check quiz engine ============ */
 function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
 function buildKC(){
-  var host=el("kcHost");host.dataset.built="1";
-  var L0=L[S.lesson];var qs=(L0.quiz||[]).map(function(q,idx){return {q:q.q,why:q.why,ans:q.opts[q.a],opts:shuffle(q.opts.map(function(o,i){return{o:o,c:i===q.a};})),qi:idx};});
-  host._qs=qs;host._solved={};
-  // preserve progress: questions already answered correctly (tracked in S.qxp) stay solved on rebuild
-  qs.forEach(function(q,i){if(S.qxp.has(S.lesson+':'+q.qi))host._solved[i]=true;});
-  renderKC(host,qs,qs.map(function(_,i){return i;}));
+  var host=el("kcHost");
+  try{
+    var L0=L[S.lesson]||{};
+    // drop malformed rows so a bad question can't throw and blank the whole check
+    var raw=(L0.quiz||[]).filter(function(q){return q&&Array.isArray(q.opts)&&q.opts.length;});
+    var qs=raw.map(function(q,idx){
+      var valid=(typeof q.a==="number"&&q.a>=0&&q.a<q.opts.length);
+      var a=valid?q.a:0;
+      return {q:q.q,why:q.why,ans:q.opts[a],opts:shuffle(q.opts.map(function(o,i){return{o:o,c:i===a};})),qi:idx,_auto:!valid};
+    });
+    host._qs=qs;host._solved={};
+    // preserve earned progress, and fail OPEN: a question with no valid correct answer auto-passes so completion stays reachable
+    qs.forEach(function(q,i){if(q._auto||S.qxp.has(S.lesson+':'+q.qi))host._solved[i]=true;});
+    renderKC(host,qs,qs.map(function(_,i){return i;}));
+    host.dataset.built="1";   // set only after a successful build so a transient failure can retry on re-entry
+  }catch(e){
+    host._qs=[];host._solved={};
+    host.innerHTML='<div class="passban">This knowledge check could not load. <button class="btn btn-gold" style="margin-top:8px" onclick="backToCourse(\''+(S.course||'')+'\')">Continue ✓</button></div>';
+    host.dataset.built="1";
+  }
 }
 function renderKC(host,qs,activeIdx){
   var h='';
@@ -2713,6 +2728,11 @@ function ixFeedback(host,ok,msg,onNext){
   // some authored feedback already opens with its own verdict — don't double it up
   var hasVerdict=/^\s*(correct|right|exactly|yes|not quite|no[,.]|incorrect|that is (right|correct)|that's (right|correct))\b/i.test(msg.replace(/<[^>]+>/g,""));
   fb.innerHTML=(hasVerdict?"":'<b>'+(ok?"Correct — ":"Not quite — ")+'</b>')+msg;
+  if(!ok&&host.dataset.solved!=="1"){
+    var _m=(parseInt(host.dataset.miss||"0",10)||0)+1; host.dataset.miss=_m;
+    if(_m>=4){var _bar=host.querySelector(".ixbar");
+      if(_bar&&!_bar.querySelector(".ixskip")){var _sk=document.createElement("button");_sk.type="button";_sk.className="ixbtn ixskip";_sk.style.cssText="opacity:.85";_sk.textContent="Continue anyway →";_sk.onclick=function(){ixAutoSolve(host);};_bar.appendChild(_sk);}}
+  }
   if(onNext)onNext(fb);
 }
 function ixSolve(host,ok){
@@ -2727,19 +2747,49 @@ function ixSolve(host,ok){
   if(host.dataset.rz==="1"){
     if(bar)bar.innerHTML='<button type="button" class="ixbtn pri" onclick="rzAdvance()">Continue →</button>';
   } else {
-    if(bar)bar.innerHTML='<span class="ixtag" style="color:#22E0DA">✓ Complete</span>';
+    if(bar)bar.innerHTML='<button type="button" class="ixbtn pri" onclick="stepMove(1)">Continue →</button>';
     if(window._lessonUpd)window._lessonUpd();   // unlock the Next button now that this step is solved
+    if(bar)try{bar.scrollIntoView({behavior:"smooth",block:"center"});}catch(_){}
   }
 }
 
 /* ---- renderers ---- */
+var IX_REND={hotspot:ixHotspot,choice:ixChoice,multi:ixMulti,fill:ixFill,order:ixOrder};
+function ixContinueBar(host){var bar=host.querySelector(".ixbar");if(bar){var rz=host.dataset.rz==="1";bar.innerHTML='<button type="button" class="ixbtn pri" onclick="'+(rz?'rzAdvance()':'stepMove(1)')+'">Continue →</button>';try{bar.scrollIntoView({behavior:"smooth",block:"center"});}catch(_){}}}
+function ixAutoSolve(host){host.dataset.solved="1";ixContinueBar(host);if(window._lessonUpd)window._lessonUpd();}
+// fail OPEN: can the authored content actually be solved as rendered? If not, don't hard-block.
+function ixSolvable(t,x,body){
+  try{
+    if(t==="choice")return (x.opts||[]).some(function(o){return o.ok;});
+    if(t==="multi")return Array.isArray(x.opts)&&x.opts.length>0;
+    if(t==="hotspot"){var ok=false;[].forEach.call(body.querySelectorAll('.hot'),function(n){if(n.getAttribute('data-id')===x.correct)ok=true;});return ok;}
+    if(t==="fill"){var mx=x.max||1;return typeof x.target==="number"&&x.target>=0&&x.target<=mx;}
+    if(t==="order"){if(!Array.isArray(x.correct)||!Array.isArray(x.items)||x.correct.length!==x.items.length)return false;var ids={};x.items.forEach(function(o){ids[o.id]=1;});return x.correct.every(function(id){return ids[id];});}
+  }catch(_){return true;}
+  return true;
+}
+// restore a step already answered correctly on a prior visit — show it, lock it, offer Continue (no XP/confetti replay)
+function ixRestoreSolved(host,body,x){
+  var R=IX_REND[x.type==="sites"?"hotspot":x.type];
+  host.dataset.solved="1";
+  try{if(R)R(host,body,x);}catch(_){}
+  [].forEach.call(host.querySelectorAll(".ixopt,.orditem"),function(e){e.classList.add("lock");});
+  [].forEach.call(host.querySelectorAll(".syr"),function(e){e.disabled=true;});
+  var fig=host.querySelector(".ixfig");if(fig)fig.classList.add("lock");
+  ixContinueBar(host);
+  if(window._lessonUpd)window._lessonUpd();
+}
 function ixRender(host,x,idx){
   host.className="ix";
   host.dataset.key=ixKey(S.lesson,idx);
   host.innerHTML=ixHead(x)+'<div class="ixbody"></div><div class="ixbar"></div>';
   var body=host.querySelector(".ixbody");
   var t=x.type==="sites"?"hotspot":x.type;
-  ({hotspot:ixHotspot,choice:ixChoice,multi:ixMulti,fill:ixFill,order:ixOrder}[t]||ixChoice)(host,body,x);
+  if(S.qxp.has(host.dataset.key)){ixRestoreSolved(host,body,x);return;}   // earned earlier — keep it
+  var R=IX_REND[t];
+  if(!R){body.innerHTML='<div class="fbwhy" style="padding:10px 4px">This practice step could not be displayed. You can continue.</div>';ixAutoSolve(host);return;}   // unknown type — fail open
+  R(host,body,x);
+  if(!ixSolvable(t,x,body)){body.innerHTML+='<div class="fbwhy" style="padding:8px 4px">This step is being updated — you can continue.</div>';ixAutoSolve(host);}   // unsolvable content — fail open
 }
 
 function ixHotspot(host,body,x){
