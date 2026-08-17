@@ -1504,7 +1504,7 @@ function lessonCourseOf(id){for(var i=0;i<COURSE_IDS.length;i++){if(courseLesson
 
 function render(){
   touchStreak();
-  var v={home:vHome,lesson:vLesson,exam:vExam,cert:vCert,pricing:vPricing,rehearse:vRehearse,evaluation:vEval}[S.view]||vHome;
+  var v={home:vHome,lesson:vLesson,exam:vExam,cert:vCert,pricing:vPricing,rehearse:vRehearse,evaluation:vEval,myce:vMyCE,verify:vVerify}[S.view]||vHome;
   el("view").innerHTML=v();
   syncBar();
   if(S.view==="lesson")wireLesson();
@@ -1909,21 +1909,113 @@ function vCert(){
   var c=S.course,ex=S.exams[c];
   if(!ex||!ex.passed){return '<div style="text-align:center;padding:40px 0"><h2 style="color:var(--head)">Certificate locked</h2><p style="color:var(--muted);margin:10px 0 16px">Pass the '+COURSES[c].name+' final exam (80%) to unlock your certificate.</p><button class="btn btn-gold" onclick="go(\'exam\',\''+c+'\')">Go to final exam</button></div>';}
   if(!ceEvalDone(c)){return '<div style="text-align:center;padding:40px 0"><h2 style="color:var(--head)">One step left</h2><p style="color:var(--muted);margin:10px 0 16px;max-width:440px;margin-left:auto;margin-right:auto">A short post-activity evaluation is required before your certificate can be issued. It takes about a minute.</p><button class="btn btn-gold" onclick="go(\'evaluation\',\''+c+'\')">Start the evaluation</button></div>';}
-  if(!S.name){return '<div style="text-align:center;padding:40px 0"><h2 style="color:var(--head)">Name your certificate</h2><p style="color:var(--muted);margin:10px 0 16px">Enter the name to appear on your IV Rejuve Certificate of Completion.</p><input id="nameIn" placeholder="Full name" style="border:1px solid var(--stone);border-radius:12px;padding:11px 14px;font:inherit;min-width:260px"/><br><div id="nameErr" style="color:var(--bad);font-size:.84rem;font-weight:600;margin-top:8px;min-height:1.1em"></div><button class="btn btn-gold" style="margin-top:14px" onclick="setName()">Generate certificate</button></div>';}
+  if(!S.name){
+    var _dl='display:block;font-size:.8rem;font-weight:700;color:var(--head);margin:10px 0 4px',
+        _di='width:100%;border:1px solid var(--stone);border-radius:10px;padding:10px 12px;font:inherit;background:#fff;box-sizing:border-box',
+        _lt=(S.license&&S.license.type)||"";
+    return '<div style="max-width:460px;margin:0 auto;padding:26px 0">'
+      +'<h2 style="color:var(--head);text-align:center">Your certificate details</h2>'
+      +'<p style="color:var(--muted);text-align:center;margin:8px 0 18px;font-size:.9rem">The name appears on your certificate. Your license is recorded on your CE completion record for your renewal and for provider audit — optional, but recommended for nurses.</p>'
+      +'<label style="'+_dl+'">Full name <span style="color:var(--bad)">*</span></label>'
+      +'<input id="nameIn" placeholder="e.g., Jane Smith" style="'+_di+'" value="'+esc(S.name||"")+'"/>'
+      +'<div style="display:flex;gap:10px">'
+        +'<div style="flex:1"><label style="'+_dl+'">License type</label>'
+          +'<select id="licType" style="'+_di+'">'+["","RN","LPN","APRN","Other"].map(function(o){return '<option value="'+o+'"'+(o===_lt?' selected':'')+'>'+(o||"Select…")+'</option>';}).join('')+'</select></div>'
+        +'<div style="width:110px"><label style="'+_dl+'">State</label>'
+          +'<input id="licState" style="'+_di+'" value="'+esc((S.license&&S.license.state)||"OH")+'"/></div>'
+      +'</div>'
+      +'<label style="'+_dl+'">License number</label>'
+      +'<input id="licNum" placeholder="Optional" style="'+_di+'" value="'+esc((S.license&&S.license.num)||"")+'"/>'
+      +'<div id="nameErr" style="color:var(--bad);font-size:.84rem;font-weight:600;margin-top:8px;min-height:1.1em"></div>'
+      +'<button class="btn btn-gold" style="margin-top:14px;width:100%" onclick="setCertDetails()">Generate certificate</button>'
+      +'</div>';
+  }
   var id=credId(c);var mods=COURSES[c].modules.length;var _rec=ceIssueRecord(c);
-  var h='<div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:8px"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button><button class="btn btn-gold" onclick="window.print()">🖨 Print / Save PDF</button></div>';
-  h+='<div class="cert"><div class="cl">IV Rejuve Academy · Clinical Skills Training</div><h1>Certificate of Completion</h1><div style="font-size:.8rem;color:rgba(251,250,246,.7)">This certifies that</div><div class="who">'+esc(S.name)+'</div>'
-    +'<div class="sum">has successfully completed the <b style="color:#E3CE9A">'+COURSES[c].name+'</b> course — '+mods+' modules of evidence-based instruction and knowledge checks — and passed the final competency assessment.</div>'
-    +'<div class="meta"><div><s>Exam score</s><b>'+ex.score+'%</b></div><div><s>Date</s><b>'+new Date(_rec.completed_at).toLocaleDateString()+'</b></div></div>'
-    +'<div class="sig"><div>Lacey Smith, FNP-C<br><span style="opacity:.7">Founder &amp; Lead Instructor</span></div><div>IV Rejuve Academy<br><span style="opacity:.7">Digital badge issued</span></div></div>'
-    +'<div class="cid">Credential ID: '+id+'</div>'
-    +'<div style="font-size:.66rem;color:rgba(251,250,246,.6);margin-top:16px;line-height:1.5">Educational instruction only. Not a license or authorization to perform any procedure. Skills must be validated under qualified supervision within your scope of practice.</div>'
+  var a=CE.acts[c]||{};var hrs=ceHours(c);var accr=ceIsAccredited(c);var lic=S.license||{};
+  var licLine=(lic.type||lic.num)?((lic.type||"License")+(lic.num?" #"+esc(lic.num):"")+(lic.state?" ("+esc(lic.state)+")":"")):"";
+  var h='<div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:8px;flex-wrap:wrap"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button><button class="btn btn-ghost" onclick="go(\'myce\')">My CE transcript</button><button class="btn btn-gold" onclick="window.print()">🖨 Print / Save PDF</button></div>';
+  h+='<div class="cert"><div class="cl">IV Rejuve Academy · Clinical Skills Training</div>'
+    +'<h1>'+(accr?'Certificate of Nursing Continuing Education':'Certificate of Completion')+'</h1>'
+    +'<div style="font-size:.8rem;color:rgba(251,250,246,.7)">This certifies that</div><div class="who">'+esc(S.name)+'</div>'
+    +(licLine?'<div style="font-size:.78rem;color:rgba(251,250,246,.7);margin-top:2px">'+licLine+'</div>':'')
+    +'<div class="sum">has successfully completed <b style="color:#E3CE9A">'+COURSES[c].name+'</b> — '+mods+' modules of evidence-based instruction with interactive competency practice and knowledge checks — and passed the final competency assessment.</div>'
+    +'<div class="meta"><div><s>'+(accr?"CE contact hours":"Contact hours")+'</s><b>'+hrs.toFixed(2)+'</b></div><div><s>Exam score</s><b>'+ex.score+'%</b></div><div><s>Completed</s><b>'+new Date(_rec.completed_at).toLocaleDateString()+'</b></div></div>'
+    +'<div style="font-size:.66rem;color:rgba(251,250,246,.72);margin-top:12px;line-height:1.5">Awarded for completing every module, passing the final assessment at 80% or higher, and completing the required post-activity evaluation.</div>'
+    +'<div class="sig"><div>Lacey Smith, FNP-C<br><span style="opacity:.7">Nurse Planner &amp; Lead Instructor</span></div><div>'+esc(a.provider_name||"IV Rejuve Academy")+(a.provider_number?'<br><span style="opacity:.7">Provider # '+esc(a.provider_number)+'</span>':"")+'</div></div>'
+    +'<div class="cid">Credential ID: '+id+' · Verify at '+esc(location.host)+location.pathname+'#verify</div>'
+    +(accr&&a.approval_statement?'<div style="font-size:.66rem;color:rgba(251,250,246,.72);margin-top:12px;line-height:1.5">'+esc(a.approval_statement)+(a.approved_to?" Activity valid through "+new Date(a.approved_to).toLocaleDateString()+".":"")+'</div>':'<div style="font-size:.66rem;color:rgba(251,250,246,.6);margin-top:12px;line-height:1.5">This certificate records '+hrs.toFixed(2)+' contact hours of instruction and is not nursing continuing-education credit. Approval as a provider of nursing continuing professional development through the Ohio Nurses Association is in progress.</div>')
+    +'<div style="font-size:.66rem;color:rgba(251,250,246,.55);margin-top:10px;line-height:1.5">Educational instruction only. Not a license or authorization to perform any procedure. Skills must be validated under qualified supervision within your scope of practice.</div>'
     +'</div>';
   return h;
 }
-function setName(){var i=el("nameIn"),v=(i&&i.value||"").trim();
+function setCertDetails(){
+  var i=el("nameIn"),v=(i&&i.value||"").trim();
   if(!v){var e=el("nameErr");if(e)e.textContent="Please enter the name for your certificate.";if(i)i.focus();return;}
-  S.name=v;persist();render();}
+  S.name=v;
+  var lt=(el("licType")&&el("licType").value)||"";
+  S.license={type:lt,num:(el("licNum")&&el("licNum").value||"").trim(),state:((el("licState")&&el("licState").value||"OH").trim()||"OH")};
+  persist();render();
+}
+function setName(){setCertDetails();}
+
+/* ============ CE transcript (learner CE wallet + Ohio renewal tracker) ============ */
+function vMyCE(){
+  var recs=[];COURSE_IDS.forEach(function(c){var r=CE.recs[c];if(r)recs.push({c:c,r:r});});
+  var total=recs.reduce(function(s,x){return s+(parseFloat(x.r.contact_hours)||0);},0);
+  var goal=24, pct=Math.min(100,Math.round(total/goal*100));
+  var anyAccr=recs.some(function(x){return ceIsAccredited(x.c);});
+  var h='<div style="max-width:640px;margin:0 auto">'
+   +'<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button><button class="btn btn-gold" onclick="window.print()">🖨 Print / Save transcript</button></div>'
+   +'<span class="eyebrow">Your record</span><h2 style="color:var(--head);margin:4px 0 2px">CE transcript</h2>'
+   +'<p style="color:var(--muted);font-size:.9rem;margin:0 0 16px">'+esc(S.name||"—")+(S.license&&S.license.type?(" · "+esc(S.license.type)+(S.license.num?" #"+esc(S.license.num):"")+(S.license.state?" ("+esc(S.license.state)+")":"")):"")+'</p>'
+   +'<div style="background:rgba(230,246,246,.05);border:1px solid rgba(120,235,228,.22);border-radius:14px;padding:16px;margin-bottom:16px">'
+   +'<div style="display:flex;justify-content:space-between;font-weight:700;color:var(--head)"><span>Ohio renewal progress</span><span>'+total.toFixed(2)+' / '+goal+' hrs</span></div>'
+   +'<div style="height:10px;background:rgba(255,255,255,.08);border-radius:6px;margin:8px 0;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,#14C9C6,#22E0DA)"></div></div>'
+   +'<div style="font-size:.8rem;color:var(--muted);line-height:1.5">Ohio RNs and LPNs need <b>24 contact hours</b> per 2-year renewal, including <b>1 hour of Category A</b> (Ohio nursing law and rules). '+(anyAccr?'':'These count as CE once IV Rejuve Academy&rsquo;s Ohio Nurses Association provider approval is granted (in progress). ')+'The Category A law-and-rules hour is not offered here — complete it through an OBN-approved Category A provider.</div></div>';
+  if(!recs.length){
+    h+='<div style="text-align:center;color:var(--muted);padding:24px 0">No completions yet. Finish a course and its evaluation to earn your first certificate.</div>';
+  }else{
+    h+='<div style="display:flex;flex-direction:column;gap:10px">';
+    recs.forEach(function(x){var r=x.r,accr=ceIsAccredited(x.c);
+      h+='<div style="background:rgba(230,246,246,.04);border:1px solid rgba(120,235,228,.16);border-radius:12px;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">'
+        +'<div><div style="font-weight:700;color:var(--head)">'+esc(COURSES[x.c].name)+'</div>'
+        +'<div style="font-size:.8rem;color:var(--muted)">'+(parseFloat(r.contact_hours)||0).toFixed(2)+(accr?' CE contact hours':' contact hours')+' · '+new Date(r.completed_at).toLocaleDateString()+' · '+r.credential_id+'</div></div>'
+        +'<button class="btn btn-ghost" onclick="go(\'cert\',\''+x.c+'\')">View certificate</button></div>';
+    });
+    h+='</div>';
+  }
+  h+='<div style="font-size:.72rem;color:var(--muted);margin:16px 0 30px;line-height:1.5">Completion records are retained for 6 years and available to the provider for audit. Verify any certificate at '+esc(location.host)+location.pathname+'#verify.</div></div>';
+  return h;
+}
+/* ============ Public credential verification ============ */
+function vVerify(){
+  var pre=((location.hash||"").indexOf("#verify/")===0)?location.hash.slice(8):"";
+  return '<div style="max-width:520px;margin:0 auto;padding:20px 0">'
+   +'<div style="margin-bottom:6px"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button></div>'
+   +'<span class="eyebrow">Credential check</span><h2 style="color:var(--head);margin:4px 0 8px">Verify a certificate</h2>'
+   +'<p style="color:var(--muted);font-size:.9rem;margin:0 0 14px">Enter a Credential ID (starts with LMV-) to confirm it was issued by IV Rejuve Academy.</p>'
+   +'<div style="display:flex;gap:8px"><input id="vfId" placeholder="LMV-2026-12345" value="'+esc(pre)+'" style="flex:1;border:1px solid var(--stone);border-radius:10px;padding:10px 12px;font:inherit;background:#fff;box-sizing:border-box"/><button class="btn btn-gold" onclick="ceVerify()">Verify</button></div>'
+   +'<div id="vfOut" style="margin-top:16px"></div></div>';
+}
+function ceVerify(){
+  var id=(el("vfId")&&el("vfId").value||"").trim();var out=el("vfOut");if(!out)return;
+  if(!id){out.innerHTML='<div style="color:var(--bad)">Enter a Credential ID.</div>';return;}
+  out.innerHTML='<div style="color:var(--muted)">Checking…</div>';
+  fetch(SB_URL+"/functions/v1/verify-credential",{method:"POST",headers:{"Content-Type":"application/json",apikey:SB_ANON},body:JSON.stringify({credential_id:id})})
+   .then(function(r){return r.json();}).then(function(j){
+     if(j&&j.valid){
+       out.innerHTML='<div style="background:rgba(20,201,198,.1);border:1px solid rgba(34,224,218,.4);border-radius:12px;padding:16px">'
+        +'<div style="font-weight:800;color:#22E0DA;margin-bottom:6px">✓ Valid certificate</div>'
+        +'<div style="color:var(--head)"><b>'+esc(j.learner_name||"")+'</b></div>'
+        +'<div style="color:var(--muted);font-size:.88rem;line-height:1.6">'+esc(j.course||"")+'<br>'+(j.contact_hours!=null?(Number(j.contact_hours).toFixed(2)+(j.accredited?" CE contact hours":" contact hours")+"<br>"):"")+(j.completed_at?("Completed "+new Date(j.completed_at).toLocaleDateString()+"<br>"):"")+"Issued by "+esc(j.provider||"IV Rejuve Academy")+'</div></div>';
+     }else{
+       out.innerHTML='<div style="background:rgba(216,71,75,.1);border:1px solid rgba(216,71,75,.4);border-radius:12px;padding:16px;color:#ffb4b6">No certificate found for that Credential ID.</div>';
+     }
+   }).catch(function(){out.innerHTML='<div style="color:var(--bad)">Could not reach the verification service. Try again.</div>';});
+}
+function ceHashRoute(){if((location.hash||"").indexOf("#verify")===0){S.view="verify";try{render();}catch(e){}return true;}return false;}
+window.addEventListener("hashchange",ceHashRoute);
+setTimeout(function(){try{ceHashRoute();}catch(e){}},600);   // honor a #verify deep link on first load
 
 /* ============ PRICING ============ */
 function vPricing(){
@@ -3781,6 +3873,8 @@ var CE_EVAL_Qs=[
   {id:"biasnote",  k:"text", q:"If you answered no, please tell us where you saw bias.",req:false},
   {id:"hours",     k:"scale",q:"How long did the activity actually take you, relative to the stated contact hours?",req:true,
    labs:["Much less","Less","About right","More","Much more"]},
+  {id:"confidence",k:"scale",q:"How much did your confidence to perform this skill safely improve?",req:true,
+   labs:["Not at all","A little","Somewhat","Quite a bit","A great deal"]},
   {id:"change",    k:"text", q:"What will you do differently in your practice as a result of this activity?",req:true},
   {id:"future",    k:"text", q:"What topics would you like to see covered in future?",req:false}
 ];
@@ -3861,6 +3955,9 @@ function ceIssueRecord(c){
   var rec={
     course_slug:c,
     learner_name:S.name||"",
+    license_type:(S.license&&S.license.type)||"",
+    license_number:(S.license&&S.license.num)||"",
+    license_state:(S.license&&S.license.state)||"OH",
     contact_hours:ceHours(c),
     exam_score:ex.score||null,
     completed_at:new Date().toISOString(),
@@ -3899,8 +3996,9 @@ function ceSyncRecord(c,rec){
   cePost("ce_records",{
     user_id:sess.user.id,course_slug:c,activity_id:a?a.id:null,
     learner_name:rec.learner_name,learner_email:sess.user.email,
+    license_type:rec.license_type,license_number:rec.license_number,license_state:rec.license_state,
     contact_hours:rec.contact_hours,exam_score:rec.exam_score,
-    credential_id:rec.credential_id,accredited_at_issue:rec.accredited_at_issue
+    credential_id:rec.credential_id,accredited_at_issue:rec.accredited_at_issue,retain_until:rec.retain_until
   });
 }
 
