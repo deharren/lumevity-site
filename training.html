@@ -172,7 +172,7 @@
   .block.tips{background:rgba(14,138,147,.13);border:1px solid rgba(14,138,147,.32);} .block.tips .bl{color:#7FE0EC;} .block.tips li::before{content:"+";color:var(--good);}
   .block.mist{background:rgba(224,84,87,.13);border:1px solid rgba(224,84,87,.32);} .block.mist .bl{color:#F2B7B4;} .block.mist li::before{content:"\00d7";color:var(--bad);}
   .block.take{background:linear-gradient(160deg,#0E4E58,#0A2C3A);color:#fff;border:1px solid rgba(120,235,228,.22);} .block.take .bl{color:var(--gold2);} .block.take li{color:rgba(251,250,246,.9);} .block.take li::before{content:"\25c6";color:var(--gold2);font-size:.7rem;top:3px;}
-  .illo{background:linear-gradient(160deg,#0E4E58,#0A2C3A);border:1px solid rgba(120,235,228,.2);border-radius:14px;padding:16px;margin-bottom:14px;display:flex;justify-content:center;} .illo svg{width:100%;max-width:420px;height:auto;max-height:30vh;}
+  .illo{background:linear-gradient(160deg,#0E4E58,#0A2C3A);border:1px solid rgba(120,235,228,.2);border-radius:14px;padding:16px;margin-bottom:14px;display:flex;justify-content:center;} .illo svg{width:100%;max-width:420px;height:auto;max-height:30vh;} .illo img.figimg{width:100%;max-width:520px;height:auto;border-radius:12px;display:block;}
   .lnav{display:flex;justify-content:space-between;gap:12px;padding:14px 30px 4px;}
   .lnav .sp{flex:1;}
   /* quiz */
@@ -400,6 +400,10 @@
   .ix .ixfig .hot.ok{fill:#12A0AE;stroke:#0B6E76;stroke-width:3.5;}
   .ix .ixfig .hot.no{fill:#D8474B;stroke:#8f2f32;stroke-width:3;}
   .ix .ixfig.lock .hot{cursor:default;}
+  .ix .ixfig img.figimg{width:100%;max-width:600px;height:auto;border-radius:12px;display:block;margin:0 auto;}
+  .ix .ixfig svg.fighot,.illo svg.fighot{width:100%;max-width:640px;height:auto;display:block;margin:0 auto;border-radius:12px;}
+  .ix .ixfig .hot.ok{fill:#12A0AE;fill-opacity:.82;stroke:#0B6E76;stroke-width:5;}
+  .ix .ixfig .hot.no{fill:#D8474B;fill-opacity:.82;stroke:#8f2f32;stroke-width:5;}
 
   .ix .ixopts{display:grid;gap:9px;}
   .ix .ixopts.g2{grid-template-columns:1fr 1fr;}
@@ -758,6 +762,41 @@ function svgLayers(){return '<svg viewBox="0 0 340 190"><rect x="20" y="30" widt
 function svgVeinX(){return '<svg viewBox="0 0 340 180"><circle cx="120" cy="90" r="66" fill="none" stroke="#8a5a3a" stroke-width="10" opacity=".5"/><circle cx="120" cy="90" r="54" fill="none" stroke="#b05a4a" stroke-width="12" opacity=".55"/><circle cx="120" cy="90" r="42" fill="#c2637a" opacity=".25"/><circle cx="120" cy="90" r="42" fill="none" stroke="#7fa7b5" stroke-width="4"/><text x="210" y="52" fill="#E3CE9A" font-size="11" font-family="Inter">tunica adventitia</text><text x="210" y="90" fill="#E3CE9A" font-size="11" font-family="Inter">tunica media</text><text x="210" y="128" fill="#E3CE9A" font-size="11" font-family="Inter">tunica intima + lumen</text></svg>';}
 function svgMini(k){var m={arm:'<rect x="4" y="14" width="32" height="12" rx="6" fill="#E3CE9A"/><path d="M6 20h28" stroke="#DCE2E8" stroke-width="2"/>',im:'<circle cx="20" cy="12" r="5" fill="#E3CE9A"/><rect x="15" y="18" width="10" height="16" rx="4" fill="#E3CE9A"/>',subq:'<rect x="12" y="10" width="16" height="22" rx="7" fill="#E3CE9A"/><circle cx="20" cy="21" r="4" fill="#0e3a33"/>'};return '<svg viewBox="0 0 40 40">'+(m[k]||m.arm)+'</svg>';}
 function illoSVG(k){return ({arm:svgArm(false),im:svgIM(false),subq:svgSubQ(false),angle:svgAngle(),layers:svgLayers(),veinx:svgVeinX()})[k]||'';}
+
+/* ===== AI-generated hosted clinical figures (gpt-image-2, Supabase bucket) =====
+   These overrides replace the hand-drawn SVG figures everywhere they are used:
+   lesson illustrations (illoSVG), glossary term figures (gArm/gIM/gSkin/gGauges/
+   gFlashback via figFor) and the interactive "sites" games (svg*(true)).
+   Interactive figures render the photo with transparent .hot ellipse hitboxes. */
+var FIG_BASE="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/";
+function figURL(n){return FIG_BASE+n;}
+function figImg(n,alt){return '<img class="figimg" src="'+figURL(n)+'" alt="'+(alt||'')+'" loading="lazy"/>';}
+function figHotspots(n,alt,spots){
+  var s='<svg class="fighot" viewBox="0 0 1536 1024" role="img" aria-label="'+(alt||'')+'">'
+    +'<image href="'+figURL(n)+'" x="0" y="0" width="1536" height="1024" preserveAspectRatio="xMidYMid meet"/>';
+  spots.forEach(function(p){
+    s+='<ellipse class="hot" data-id="'+p.id+'" cx="'+p.cx+'" cy="'+p.cy+'" rx="'+p.rx+'" ry="'+p.ry+'" '
+      +'fill="#0E8A93" fill-opacity="0.14" stroke="#0E8A93" stroke-opacity="0.55" stroke-width="3" stroke-dasharray="7 5"/>';
+  });
+  return s+'</svg>';
+}
+var FOREARM_SPOTS=[{id:"good",cx:845,cy:395,rx:95,ry:72},{id:"valve",cx:1155,cy:340,rx:82,ry:70},{id:"hand",cx:520,cy:350,rx:82,ry:72}];
+var SUBQ_SPOTS=[{id:"abdomen",cx:500,cy:505,rx:92,ry:82},{id:"navel",cx:660,cy:430,rx:56,ry:56},{id:"arm",cx:1030,cy:200,rx:80,ry:92}];
+var IM_SPOTS=[{id:"deltoid",cx:292,cy:410,rx:95,ry:98},{id:"ventro",cx:690,cy:513,rx:98,ry:98},{id:"vastus",cx:1212,cy:523,rx:95,ry:100}];
+svgArm=function(i){return i?figHotspots('forearm-veins-v1.png','Forearm veins — tap the best vein to cannulate',FOREARM_SPOTS):figImg('forearm-veins-v1.png','Superficial veins of the forearm');};
+svgIM=function(i){return i?figHotspots('im-sites-v1.png','IM sites — tap the correct injection site',IM_SPOTS):figImg('im-sites-v1.png','Intramuscular injection sites');};
+svgSubQ=function(i){return i?figHotspots('subq-sites-v1.png','SubQ sites — tap a good injection site',SUBQ_SPOTS):figImg('subq-sites-v1.png','Subcutaneous injection sites');};
+svgAngle=function(){return figImg('skin-angles-v1.png','Skin layers with injection needle angles (90 IM, 45 SubQ)');};
+svgLayers=function(){return figImg('skin-angles-v1.png','Skin layers');};
+svgVeinX=function(){return figImg('vein-xsection-v1.png','Vein wall cross-section');};
+illoSVG=function(k){var m={arm:'forearm-veins-v1.png',im:'im-sites-v1.png',subq:'subq-sites-v1.png',angle:'skin-angles-v1.png',layers:'skin-angles-v1.png',veinx:'vein-xsection-v1.png'};return m[k]?figImg(m[k],k):'';};
+/* Glossary term figures -> hosted images (highlight-per-term is dropped in favor of atlas-quality art) */
+var gArm=function(){return figImg('forearm-veins-v1.png','Superficial veins of the forearm');};
+var gIM=function(){return figImg('im-sites-v1.png','Intramuscular injection sites');};
+var gSkin=function(){return figImg('skin-angles-v1.png','Skin layers with injection angles');};
+var gGauges=function(){return figImg('gauge-flashback-v1.png','IV catheter gauges and flashback');};
+var gFlashback=function(){return figImg('gauge-flashback-v1.png','IV catheter flashback');};
+
 function renderSection(s){var h='';if(s.h)h+='<h3>'+s.h+'</h3>';if(s.p)s.p.forEach(function(p){h+='<p class="lp">'+p+'</p>';});if(s.list)h+='<ul class="slist">'+s.list.map(function(i){return '<li>'+i+'</li>';}).join('')+'</ul>';if(s.table){h+='<table class="ltable"><thead><tr>'+s.table.head.map(function(c){return '<th>'+c+'</th>';}).join('')+'</tr></thead><tbody>'+s.table.rows.map(function(r){return '<tr>'+r.map(function(c){return '<td>'+c+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table>';}if(s.note)h+='<div class="note '+s.note.k+'"><b>'+(s.note.k==='safe'?'Safety: ':s.note.k==='tip'?'Tip: ':'Evidence: ')+'</b>'+s.note.t+'</div>';return h;}
 
 /* ============ CONTENT (reused IV Rejuve clinical modules) ============ */
