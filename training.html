@@ -791,7 +791,7 @@ svgSubQ=function(i){return i?figHotspots('subq-sites-v1.png','SubQ sites — tap
 svgAngle=function(){return figImg('skin-angles-v1.png','Skin layers with injection needle angles (90 IM, 45 SubQ)');};
 svgLayers=function(){return figImg('skin-angles-v1.png','Skin layers');};
 svgVeinX=function(){return figImg('vein-xsection-v1.png','Vein wall cross-section');};
-illoSVG=function(k){var m={arm:'forearm-veins-v1.png',im:'im-sites-v2.png',subq:'subq-sites-v1.png',angle:'skin-angles-v1.png',layers:'skin-angles-v1.png',veinx:'vein-xsection-v1.png'};return m[k]?figImg(m[k],k):'';};
+illoSVG=function(k){var m={arm:'forearm-veins-v1.png',im:'im-sites-v2.png',subq:'subq-sites-v1.png',angle:'skin-angles-v1.png',layers:'skin-angles-v1.png',veinx:'vein-xsection-v1.png',gauge:'gauge-flashback-v1.png',flashback:'gauge-flashback-v1.png'};return m[k]?figImg(m[k],k):'';};
 /* Glossary term figures -> hosted images (highlight-per-term is dropped in favor of atlas-quality art) */
 var gArm=function(){return figImg('forearm-veins-v1.png','Superficial veins of the forearm');};
 var gIM=function(){return figImg('im-sites-v2.png','Intramuscular injection sites');};
@@ -825,7 +825,7 @@ const IV_LESSONS={
     takeaways:["Forearm cephalic/median veins are the workhorse targets; go distal-to-proximal.","Pulsatile = artery; sharp electric pain = nerve — both mean stop.","Protect the intima: right-sized catheter, straight segment, secure line.","Valves live at branch points — thread through straight, unbranched veins."],
     refs:"INS Infusion Therapy Standards of Practice (2024, 9th ed.); StatPearls, Peripheral Line Placement."},
 
-  iv_equipment:{title:"Equipment & catheter selection",stage:"IV · Module 2",mini:"kit",illo:"arm",
+  iv_equipment:{title:"Equipment & catheter selection",stage:"IV · Module 2",mini:"kit",illo:"gauge",
     objectives:["Select catheter gauge by clinical need using the standard color code","Explain over-the-needle catheter design and the flashback chamber","Assemble the full supply set for a safe, aseptic insertion","Describe safety-engineered sharps and why they are required"],
     lead:"Choosing the right catheter and having every supply ready before you start keeps your insertion window short and your technique clean. The guiding rule: the smallest gauge and shortest catheter that will deliver the therapy.",
     sections:[
@@ -3863,9 +3863,7 @@ var LESSON_FIGS={
   iv_anatomy:[
     {h:"venous map",fig:"arm:cephalic",cap:"Superficial veins of the arm",sub:"Cephalic laterally, basilic medially, median cubital across the elbow"},
     {h:"inside the vessel",fig:"veinx",cap:"The vein wall in cross-section",sub:"Intima, media and adventitia — the intima is what your catheter scrapes"}],
-  iv_equipment:[
-    {h:"gauge chart",fig:"gauges",cap:"IV catheter color code",sub:"Standardized gauge colors; a larger number is a thinner catheter"},
-    {h:"how the catheter",fig:"flashback",cap:"Flashback confirms the vein",sub:"Blood fills the chamber the moment the needle tip enters the vein"}],
+  iv_equipment:[],
   iv_sites:[
     {h:"what makes a good target",fig:"arm:cephalic",cap:"Work distal to proximal",sub:"A straight, well-supported forearm segment away from joints"}],
   im_anatomy:[
