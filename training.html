@@ -143,7 +143,9 @@
   .lhead{position:sticky;top:57px;z-index:20;background:var(--paper);padding:8px 0 12px;}
   .lcrumb{font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:8px;margin-bottom:6px;}
   .lcrumb a{color:var(--tealtext);font-weight:700;cursor:pointer;}
-  .lhead h2{font-size:1.5rem;color:var(--head);margin-bottom:8px;}
+  .lhead h2{font-size:1.5rem;color:var(--head);margin-bottom:8px;padding-right:42px;}
+  .lclose{position:absolute;top:6px;right:0;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--stone);background:var(--white);color:var(--muted);font-size:1.05rem;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:22;transition:.15s;}
+  .lclose:hover{color:var(--head);border-color:var(--tealtext);}
   .steprow{display:flex;align-items:center;gap:12px;}
   .stepbar{flex:1;height:7px;border-radius:6px;background:var(--pearl);overflow:hidden;} .stepbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#22C3D6,#22A6A6 60%,#14C9C6);transition:width .35s;}
   .stepn{font-size:.72rem;font-weight:800;color:var(--muted);white-space:nowrap;}
@@ -1527,7 +1529,12 @@ function go(view,arg){
     if(!ceGate(gc,function(){go(view,arg);}))return;
   }
   S.view=view;if(view==="home"&&arg)setCourse(arg);if(view==="exam"||view==="cert"){if(arg)setCourse(arg);}window.scrollTo(0,0);render();}
-function openLesson(id){var c=lessonCourseOf(id);if(!lessonUnlocked(c,id)){flash();return;}if(ceNeedsDisclosure(c)){ceShowDisclosure(c,function(){openLesson(id);});return;}setCourse(c);S.lesson=id;S.step=0;S.view="lesson";window.scrollTo(0,0);render();}
+/* Resume support: remember the exact step a learner was on, so closing mid-lesson
+   and returning picks up where they left off. Cleared once the lesson is completed. */
+function resumeStepFor(id){try{var r=Store.get("lmv_resume",null);if(r&&r.lesson===id&&!S.done.has(id)){var t=lessonSteps(id).length;var s=r.step|0;if(s>0&&s<t)return s;}}catch(e){}return 0;}
+function saveResume(){try{if(S.view==="lesson"&&S.lesson!=null){Store.set("lmv_resume",{lesson:S.lesson,step:S.step});}}catch(e){}}
+function exitLesson(){saveResume();go('home');}
+function openLesson(id){var c=lessonCourseOf(id);if(!lessonUnlocked(c,id)){flash();return;}if(ceNeedsDisclosure(c)){ceShowDisclosure(c,function(){openLesson(id);});return;}setCourse(c);S.lesson=id;S.step=resumeStepFor(id);S.view="lesson";window.scrollTo(0,0);render();}
 function lessonCourseOf(id){for(var i=0;i<COURSE_IDS.length;i++){if(courseLessons(COURSE_IDS[i]).indexOf(id)>=0)return COURSE_IDS[i];}return "iv";}
 
 function render(){
@@ -1649,7 +1656,7 @@ function lessonCard(c){
   ls.forEach(function(id){
     var mark,label,cls,click='';
     if(S.done.has(id)){ mark='✓'; label='Completed'; cls='done'; click='openLesson(\''+id+'\')'; }
-    else if(id===curId){ mark='▶'; label='Ready — tap to start'; cls='now'; click='openLesson(\''+id+'\')'; }
+    else if(id===curId){ mark='▶'; label=(resumeStepFor(id)>0?'Resume where you left off':'Ready — tap to start'); cls='now'; click='openLesson(\''+id+'\')'; }
     else if(lessonUnlocked(c,id)){ mark=String(ls.indexOf(id)+1); label=DEV_UNLOCK_ALL?'Tap to open (preview)':'Tap to start'; cls='now'; click='openLesson(\''+id+'\')'; }
     else { mark=String(ls.indexOf(id)+1); label='Locked — finish the previous lesson'; cls='todo'; }
     rows+='<div class="lc-les'+(click?' tap':'')+'" '+(click?'onclick="'+click+'"':'')+'>'
@@ -1722,7 +1729,7 @@ function vLesson(){
   if(S.step>=total)S.step=total-1;
   var modTitle="";COURSES[c].modules.forEach(function(m){if(m.lessons.indexOf(id)>=0)modTitle=m.title;});
   var h='<div class="lesson">';
-  h+='<div class="lhead"><div class="lcrumb"><a onclick="go(\'home\')">'+COURSES[c].name+'</a><span>›</span> '+modTitle+'</div><h2>'+L0.title+'</h2>'
+  h+='<div class="lhead"><button class="lclose" onclick="exitLesson()" aria-label="Close lesson — your place is saved" title="Close — your place is saved">✕</button><div class="lcrumb"><a onclick="exitLesson()">'+COURSES[c].name+'</a><span>›</span> '+modTitle+'</div><h2>'+L0.title+'</h2>'
     +'<div class="steprow"><div class="stepbar"><i id="stepFill"></i></div><div class="stepn" id="stepN"></div></div>'
     +'<div class="dots" id="dots"></div></div>';
   h+='<div class="slidebox"><div class="slidetrack" id="strack">';
@@ -1771,6 +1778,7 @@ function wireLesson(){
     if(_lk){_nx.classList.add("nxlock");_nx.setAttribute("aria-disabled","true");_nx.removeAttribute("disabled");_nx.textContent="Answer to continue";}
     else{_nx.classList.remove("nxlock");_nx.removeAttribute("aria-disabled");_nx.textContent="Next →";}
     if(isKC&&!el("kcHost").dataset.built){buildKC();}
+    saveResume();
     syncBar();
   }
   window._lessonUpd=upd;
@@ -1869,7 +1877,7 @@ function checkKCdone(host,qs){
   var res=el("kcResult");if(!res)return;
   if(solvedN===qs.length){
     if(!S.done.has(S.lesson)){
-      S.done.add(S.lesson);awardXP(XP_LESSON);persist();
+      S.done.add(S.lesson);awardXP(XP_LESSON);Store.del("lmv_resume");persist();
       var c=lessonCourseOf(S.lesson);celebrate("🎓","Lesson complete","+"+XP_LESSON+" XP");
     }
     res.innerHTML='<div class="passban">✓ Lesson passed. '+nextActionHTML()+'</div>';
