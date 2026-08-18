@@ -4121,7 +4121,7 @@ function vProfile(){
 var _pfBackup=null;
 function pfTourStart(){try{_pfBackup=JSON.parse(JSON.stringify(P()));}catch(e){_pfBackup=null;}S.profile={};_pfCele=false;S.pfTour={step:0};window.scrollTo(0,0);render();}
 function pfTourScroll(){setTimeout(function(){if(!S.pfTour)return;var c=el("pfc-"+PROFILE_SECTIONS[S.pfTour.step].key);if(c){var y=c.getBoundingClientRect().top+window.pageYOffset-180;window.scrollTo({top:Math.max(0,y),behavior:"smooth"});}},80);}
-function pfTourNext(){if(!S.pfTour)return;if(S.pfTour.step<PROFILE_SECTIONS.length-1){S.pfTour.step++;render();pfTourScroll();}else{S.pfTour=null;profileSave();render();if(profileComplete())celebrate("🎉","Profile complete","You&rsquo;re CE-ready!");}}
+function pfTourNext(){if(!S.pfTour)return;if(S.pfTour.step<PROFILE_SECTIONS.length-1){S.pfTour.step++;render();pfTourScroll();}else{S.pfTour=null;profileSave();render();if(profileComplete())celebrate("🎉","Profile complete","You're CE-ready!");}}
 function pfTourExit(){if(_pfBackup)S.profile=_pfBackup;_pfBackup=null;S.pfTour=null;profileSave();render();}
 function pfFlash(elx){if(!elx)return;elx.style.transition="box-shadow .3s";elx.style.boxShadow="0 0 0 3px rgba(34,224,218,.5)";setTimeout(function(){elx.style.boxShadow="";},480);}
 function pfTypeInto(f,v){
@@ -4143,7 +4143,7 @@ function pfSet(k,v){
   var sub=el("pfSub");if(sub)sub.innerHTML=pfSubtitle(pct);
   var track=el("pfTrack");if(track)track.innerHTML=pfSegs();
   PROFILE_SECTIONS.forEach(function(s){var c=el("pfc-"+s.key);if(c)c.classList.toggle("done",pfSectionDone(s));});
-  if(profileComplete()){if(!_pfCele){_pfCele=true;celebrate("🎉","Profile complete","You&rsquo;re CE-ready!");}}else{_pfCele=false;}
+  if(profileComplete()){if(!_pfCele){_pfCele=true;celebrate("🎉","Profile complete","You're CE-ready!");}}else{_pfCele=false;}
 }
 function pfDone(){profileSave();if(profileComplete())celebrate("✅","Saved","Your CE profile is ready");go("home");}
 var PF_DUMMY={firstName:"Jordan",lastName:"Rivers",credentials:"RN",licenseNum:"RN-448215",licenseState:"OH",licenseExp:"2027-08",email:"jordan.rivers@example.com",phone:"(513) 555-0142",addr1:"124 Vine Street",city:"Cincinnati",state:"OH",zip:"45202",employer:"Tri-State Medical Center"};
