@@ -198,6 +198,36 @@
   .cele .ci{font-size:3rem;} .cele .ct{font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2);font-weight:800;margin-top:8px;} .cele .cs{font-family:var(--fdisp);font-size:1.3rem;margin-top:3px;}
   /* Negative / "answer wasn't right yet" state — soft red tone so it clearly reads as not-correct (not harsh) */
   .cele.warn .pop{background:linear-gradient(160deg,#5E1B24,#3A121A);border-color:rgba(255,150,150,.5);box-shadow:0 30px 70px rgba(60,10,16,.55);} .cele.warn .ct{color:#FF9C9C;}
+  /* ===== CE contact-hour vault / rewards ===== */
+  @keyframes cevwave{from{transform:translateX(0)}to{transform:translateX(-64px)}}
+  @keyframes cevrise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .cevault{position:relative;background:linear-gradient(160deg,#124C57,#0A2A37);border:1px solid rgba(120,235,228,.28);border-radius:22px;padding:22px 24px;margin:18px 0 0;box-shadow:0 30px 70px rgba(3,20,26,.35);display:grid;grid-template-columns:auto 1fr;gap:22px 26px;align-items:center;overflow:hidden;animation:cevrise .5s ease;}
+  .cevault::before{content:"";position:absolute;inset:0;background:radial-gradient(520px 220px at 88% -20%,rgba(34,224,218,.16),transparent 60%);pointer-events:none;}
+  .cev-bagwrap{position:relative;width:118px;height:190px;filter:drop-shadow(0 10px 22px rgba(0,0,0,.35));}
+  .cev-bagnum{position:absolute;left:0;right:6px;top:52%;transform:translateY(-50%);text-align:center;pointer-events:none;}
+  .cev-bagnum b{display:block;font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:1.45rem;font-weight:800;color:#fff;line-height:1;text-shadow:0 1px 4px rgba(0,20,20,.6),0 0 2px rgba(0,20,20,.5);}
+  .cev-bagnum span{font-size:.54rem;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.9);text-transform:uppercase;text-shadow:0 1px 3px rgba(0,20,20,.6);}
+  .cev-main{min-width:0;}
+  .cev-eyebrow{display:flex;align-items:center;gap:8px;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:#7FE6F0;}
+  .cev-prev{font-size:.56rem;letter-spacing:.08em;background:rgba(201,162,75,.22);color:#F2D399;border:1px solid rgba(201,162,75,.5);padding:2px 7px;border-radius:50px;}
+  .cev-big{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#fff;margin:7px 0 2px;font-size:1.05rem;}
+  .cev-big b{font-size:2rem;font-weight:800;color:#fff;}
+  .cev-big span{color:rgba(230,246,246,.6);font-weight:700;}
+  .cev-copy{color:rgba(190,235,235,.92);font-size:.86rem;margin:2px 0 12px;}
+  .cev-nextrow{display:flex;justify-content:space-between;font-size:.72rem;color:rgba(230,246,246,.78);font-weight:700;margin-bottom:6px;}
+  .cev-nextrow b{color:#7FE6F0;}
+  .cev-bar{height:9px;border-radius:6px;background:rgba(255,255,255,.09);overflow:hidden;}
+  .cev-bar i{display:block;height:100%;background:linear-gradient(90deg,#14C9C6,#22E0DA);border-radius:6px;box-shadow:0 0 12px rgba(34,224,218,.6);}
+  .cev-ohio{margin-top:12px;font-size:.8rem;color:rgba(230,246,246,.8);}
+  .cev-ohio b{color:#22E0DA;}
+  .cev-rewards{grid-column:1/-1;display:flex;gap:9px;flex-wrap:wrap;margin-top:4px;}
+  .cev-chip{display:flex;align-items:center;gap:7px;padding:8px 12px;border-radius:12px;background:rgba(230,246,246,.05);border:1px solid rgba(120,235,228,.14);font-size:.74rem;font-weight:700;color:rgba(234,247,247,.5);}
+  .cev-chip .ic{font-size:1rem;filter:grayscale(1);opacity:.5;}
+  .cev-chip.on{background:linear-gradient(150deg,rgba(34,224,218,.16),rgba(20,201,198,.06));border-color:rgba(34,224,218,.5);color:#EAFFFF;}
+  .cev-chip.on .ic{filter:none;opacity:1;}
+  .cev-chip.next{border-color:rgba(201,162,75,.55);color:#F2D399;}
+  .cev-foot{grid-column:1/-1;display:flex;justify-content:flex-end;margin-top:2px;}
+  @media(max-width:640px){.cevault{grid-template-columns:1fr;justify-items:center;text-align:center;}.cev-nextrow,.cev-main{width:100%;}.cev-eyebrow{justify-content:center;}}
   .confetti{position:fixed;inset:0;pointer-events:none;z-index:199;overflow:hidden;} .confetti i{position:absolute;top:-12px;width:9px;height:14px;border-radius:2px;animation:fall linear forwards;}
 
   /* Mascot */
@@ -1650,6 +1680,8 @@ function vHome(){
     +'</div>';
   h+='<div class="xpstrip"><span class="lab">'+rank.n+'</span><div class="xb"><i style="width:'+fp+'%"></i></div><span class="lab">'+(nxt?nxt.n:'Max')+' · '+S.xp+' XP</span></div>';
   h+='<div class="propromo"><div class="flame" style="font-size:1.4rem">⚡</div><p>Unlock <b>all three courses</b>, HD video demos, competency checklists, verifiable <b>certificates of completion</b>, and the live clinical assistant.</p><button class="btn btn-gold" onclick="go(\'pricing\')">Go Pro</button></div>';
+  // CE contact-hour rewards vault (shown when the CE track is active/previewed)
+  if(ceAnyActive())h+=ceVaultPanel();
   // focused lesson card with integrated course switcher (white pill row removed)
   h+=lessonCard(S.course);
   return h;
@@ -1900,7 +1932,7 @@ function checkKCdone(host,qs){
   if(solvedN===qs.length){
     if(!S.done.has(S.lesson)){
       S.done.add(S.lesson);awardXP(XP_LESSON);clearResume(S.lesson);persist();
-      var c=lessonCourseOf(S.lesson);celebrate("🎓","Lesson complete","+"+XP_LESSON+" XP");
+      var c=lessonCourseOf(S.lesson);celebrate("🎓","Lesson complete","+"+XP_LESSON+" XP");ceLessonReward(S.lesson);
     }
     res.innerHTML='<div class="passban">✓ Lesson passed. '+nextActionHTML()+'</div>';
   } else {
@@ -2002,7 +2034,7 @@ function vCert(){
     +'<div style="font-size:.66rem;color:rgba(251,250,246,.72);margin-top:12px;line-height:1.5">Awarded for completing every module, passing the final assessment at 80% or higher, and completing the required post-activity evaluation.</div>'
     +'<div class="sig"><div>Lacey Smith, FNP-C<br><span style="opacity:.7">Nurse Planner &amp; Lead Instructor</span></div><div>'+esc(a.provider_name||"IV Rejuve Academy")+(a.provider_number?'<br><span style="opacity:.7">Provider # '+esc(a.provider_number)+'</span>':"")+'</div></div>'
     +'<div class="cid">Credential ID: '+id+' · Verify at '+esc(location.host)+location.pathname+'#verify</div>'
-    +(accr&&a.approval_statement?'<div style="font-size:.66rem;color:rgba(251,250,246,.72);margin-top:12px;line-height:1.5">'+esc(a.approval_statement)+(a.approved_to?" Activity valid through "+new Date(a.approved_to).toLocaleDateString()+".":"")+'</div>':'<div style="font-size:.66rem;color:rgba(251,250,246,.6);margin-top:12px;line-height:1.5">This certificate records '+hrs.toFixed(2)+' contact hours of instruction and is not nursing continuing-education credit. Approval as a provider of nursing continuing professional development through the Ohio Nurses Association is in progress.</div>')
+    +(accr?'<div style="font-size:.66rem;color:rgba(251,250,246,.72);margin-top:12px;line-height:1.5">'+(a.approval_statement?esc(a.approval_statement):('This activity awards '+hrs.toFixed(2)+' nursing continuing-education contact hours. IV Rejuve Academy is an approved provider of nursing continuing professional development through the Ohio Nurses Association.'))+(a.approved_to?" Activity valid through "+new Date(a.approved_to).toLocaleDateString()+".":"")+((CE_PREVIEW&&!ceRealAccredited())?' <b style="color:#E3CE9A">[Preview — pending ONA approval]</b>':"")+'</div>':'<div style="font-size:.66rem;color:rgba(251,250,246,.6);margin-top:12px;line-height:1.5">This certificate records '+hrs.toFixed(2)+' contact hours of instruction and is not nursing continuing-education credit. Approval as a provider of nursing continuing professional development through the Ohio Nurses Association is in progress.</div>')
     +'<div style="font-size:.66rem;color:rgba(251,250,246,.55);margin-top:10px;line-height:1.5">Educational instruction only. Not a license or authorization to perform any procedure. Skills must be validated under qualified supervision within your scope of practice.</div>'
     +'</div>';
   return h;
@@ -2027,7 +2059,8 @@ function vMyCE(){
    +'<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button><button class="btn btn-gold" onclick="window.print()">🖨 Print / Save transcript</button></div>'
    +'<span class="eyebrow">Your record</span><h2 style="color:var(--head);margin:4px 0 2px">CE transcript</h2>'
    +'<p style="color:var(--muted);font-size:.9rem;margin:0 0 16px">'+esc(S.name||"—")+(S.license&&S.license.type?(" · "+esc(S.license.type)+(S.license.num?" #"+esc(S.license.num):"")+(S.license.state?" ("+esc(S.license.state)+")":"")):"")+'</p>'
-   +'<div style="background:rgba(230,246,246,.05);border:1px solid rgba(120,235,228,.22);border-radius:14px;padding:16px;margin-bottom:16px">'
+   +(ceAnyActive()?ceVaultPanel():'')
+   +'<div style="background:rgba(230,246,246,.05);border:1px solid rgba(120,235,228,.22);border-radius:14px;padding:16px;margin:16px 0">'
    +'<div style="display:flex;justify-content:space-between;font-weight:700;color:var(--head)"><span>'+(anyAccr?'Ohio renewal progress':'Contact hours earned')+'</span><span>'+total.toFixed(2)+(anyAccr?(' / '+goal+' hrs'):' hrs')+'</span></div>'
    +(anyAccr?'<div style="height:10px;background:rgba(255,255,255,.08);border-radius:6px;margin:8px 0;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,#14C9C6,#22E0DA)"></div></div>':'<div style="height:8px"></div>')
    +(anyAccr
@@ -3879,8 +3912,76 @@ function ceHours(c){
   if(a&&a.contact_hours)return parseFloat(a.contact_hours);
   return parseFloat((COURSES[c]&&COURSES[c].hrs)||0);   // fall back to the curriculum's own figure
 }
-function ceIsAccredited(c){var a=CE.acts[c];return !!(a&&a.accredited);}
+/* CE_PREVIEW: TEMP — preview the ACCREDITED CE experience without flipping the DB
+   (nothing false is persisted server-side; verify/records stay truthful). Set
+   CE_PREVIEW=false before go-live; real CE turns on via ce_activities.accredited=true. */
+var CE_PREVIEW=true;
+function ceIsAccredited(c){if(CE_PREVIEW)return true;var a=CE.acts[c];return !!(a&&a.accredited);}
+function ceRealAccredited(){for(var i=0;i<COURSE_IDS.length;i++){var a=CE.acts[COURSE_IDS[i]];if(a&&a.accredited)return true;}return false;}
+function ceAnyActive(){return CE_PREVIEW||ceRealAccredited();}
 function ceCreditWord(c){return ceIsAccredited(c)?"CE contact hours":"contact hours";}
+
+/* ============ CE contact-hour REWARDS (gamified live progress) ============
+   Contact hours accrue per-lesson (course hours / lessons) so learners watch an
+   IV bag fill and unlock milestone rewards as they go, framed against the Ohio
+   24-hr / 2-yr renewal. The official CE record still issues at course completion. */
+function ceCourseHrs(c){return parseFloat((COURSES[c]&&COURSES[c].hrs)||(CE.acts[c]&&CE.acts[c].contact_hours)||0)||0;}
+function ceLessonHrs(id){var c=lessonCourseOf(id);var n=courseLessons(c).length||1;return ceCourseHrs(c)/n;}
+function ceEarnedHrs(){var t=0;S.done.forEach(function(id){if(L[id])t+=ceLessonHrs(id);});return t;}
+function ceProgramHrs(){return COURSE_IDS.reduce(function(s,c){return s+ceCourseHrs(c);},0);}
+var CE_MILESTONES=[{h:0.5,name:"Line primed",icon:"💧"},{h:1,name:"Hour one",icon:"🩸"},{h:2,name:"In the flow",icon:"⚡"},{h:3.5,name:"IV credit",icon:"🏅"},{h:6,name:"Six on the board",icon:"🌟"},{h:8,name:"Program complete",icon:"🏆"}];
+function ceBagSVG(pct){
+  pct=Math.max(0,Math.min(1,pct));
+  var topY=30,botY=164,range=botY-topY;var fy=botY-range*pct;
+  return '<svg viewBox="0 0 118 190" width="118" height="190" xmlns="http://www.w3.org/2000/svg">'
+   +'<defs>'
+   +'<linearGradient id="cevfluid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3DEBE4"/><stop offset="1" stop-color="#0FB6B4"/></linearGradient>'
+   +'<clipPath id="cevclip"><path d="M32 26 h54 a10 10 0 0 1 10 10 v104 a16 16 0 0 1 -16 16 h-42 a16 16 0 0 1 -16 -16 v-104 a10 10 0 0 1 10 -10 z"/></clipPath>'
+   +'</defs>'
+   +'<rect x="54" y="4" width="10" height="10" rx="3" fill="none" stroke="rgba(230,246,246,.5)" stroke-width="3"/>'
+   +'<line x1="59" y1="14" x2="59" y2="26" stroke="rgba(230,246,246,.4)" stroke-width="2"/>'
+   +'<path d="M32 26 h54 a10 10 0 0 1 10 10 v104 a16 16 0 0 1 -16 16 h-42 a16 16 0 0 1 -16 -16 v-104 a10 10 0 0 1 10 -10 z" fill="rgba(255,255,255,.06)" stroke="rgba(180,240,240,.55)" stroke-width="2"/>'
+   +'<g clip-path="url(#cevclip)">'
+   +'<rect x="18" y="'+fy+'" width="82" height="'+(range+20)+'" fill="url(#cevfluid)"/>'
+   +'<g style="animation:cevwave 2.6s linear infinite"><path d="M8 '+fy+' q16 -8 32 0 t32 0 t32 0 t32 0 v40 h-128 z" fill="rgba(255,255,255,.18)"/></g>'
+   +'<g style="animation:cevwave 3.7s linear infinite reverse"><path d="M8 '+(fy+4)+' q16 7 32 0 t32 0 t32 0 t32 0 v40 h-128 z" fill="rgba(20,140,140,.35)"/></g>'
+   +'</g>'
+   +'<g stroke="rgba(200,245,245,.45)" stroke-width="1.4"><line x1="86" y1="52" x2="92" y2="52"/><line x1="86" y1="82" x2="92" y2="82"/><line x1="86" y1="112" x2="92" y2="112"/><line x1="86" y1="142" x2="92" y2="142"/></g>'
+   +'<rect x="54" y="156" width="10" height="8" fill="rgba(200,245,245,.5)"/>'
+   +'<line x1="59" y1="164" x2="59" y2="184" stroke="rgba(200,245,245,.4)" stroke-width="2"/>'
+   +'<circle cx="59" cy="186" r="2.5" fill="#22E0DA"/>'
+   +'</svg>';
+}
+function ceVaultPanel(){
+  var earned=ceEarnedHrs(),prog=ceProgramHrs(),pct=prog?earned/prog:0;
+  var next=null,prev=null;
+  for(var i=0;i<CE_MILESTONES.length;i++){var m=CE_MILESTONES[i];if(m.h<=earned+1e-9)prev=m;else if(!next)next=m;}
+  var lo=prev?prev.h:0,hi=next?next.h:prog;var seg=hi>lo?Math.max(0,Math.min(100,Math.round((earned-lo)/(hi-lo)*100))):100;
+  var ohio=Math.round(earned/24*100);
+  var copy=!next?'Every contact hour banked — outstanding work.':('You&rsquo;re '+(next.h-earned).toFixed(2)+' CH from your next reward: '+esc(next.name)+'.');
+  var chips=CE_MILESTONES.map(function(m){var on=earned>=m.h-1e-9;var isnext=next&&m.h===next.h;return '<div class="cev-chip'+(on?' on':'')+(isnext?' next':'')+'"><span class="ic">'+(on?m.icon:(isnext?'✨':'🔒'))+'</span>'+esc(m.name)+' · '+m.h+'h</div>';}).join('');
+  var prevChip=(CE_PREVIEW&&!ceRealAccredited())?'<span class="cev-prev">Preview</span>':'';
+  return '<div class="cevault">'
+   +'<div class="cev-bagwrap">'+ceBagSVG(pct)+'<div class="cev-bagnum"><b>'+earned.toFixed(2)+'</b><span>of '+prog.toFixed(1)+' CH</span></div></div>'
+   +'<div class="cev-main">'
+     +'<div class="cev-eyebrow">CE contact hours '+prevChip+'</div>'
+     +'<div class="cev-big"><b>'+earned.toFixed(2)+'</b> <span>/ '+prog.toFixed(2)+' CH earned</span></div>'
+     +'<div class="cev-copy">'+copy+'</div>'
+     +(next?('<div class="cev-nextrow"><span>Next reward · '+esc(next.name)+'</span><span><b>'+next.h.toFixed(1)+' CH</b></span></div><div class="cev-bar"><i style="width:'+seg+'%"></i></div>'):'')
+     +'<div class="cev-ohio">🎯 <b>'+ohio+'%</b> of your 24-hour Ohio renewal</div>'
+   +'</div>'
+   +'<div class="cev-rewards">'+chips+'</div>'
+   +'<div class="cev-foot"><button class="btn btn-ghost" style="font-size:.8rem;padding:8px 14px" onclick="go(\'myce\')">View CE transcript →</button></div>'
+   +'</div>';
+}
+function ceLessonReward(id){
+  if(!ceAnyActive())return;
+  var add=ceLessonHrs(id);if(!(add>0))return;
+  var after=ceEarnedHrs(),before=after-add,crossed=null;
+  for(var i=0;i<CE_MILESTONES.length;i++){var m=CE_MILESTONES[i];if(before<m.h-1e-9&&after>=m.h-1e-9){crossed=m;break;}}
+  if(crossed){celebrate(crossed.icon,"Reward unlocked",crossed.name+" · "+after.toFixed(2)+" CH banked");}
+  else{celebrate("💧","Contact hours banked","+"+add.toFixed(2)+" CH · "+after.toFixed(2)+" of "+ceProgramHrs().toFixed(1)+" CH");}
+}
 
 /* ---- conflict-of-interest disclosure (shown before the activity) ---- */
 function ceDisclosureText(c){
