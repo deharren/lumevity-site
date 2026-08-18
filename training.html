@@ -1457,7 +1457,7 @@ var COURSES={
     {title:"Asepsis & Injection",lessons:["im_asepsis","im_procedure"]},
     {title:"Records & Complications",lessons:["im_complications","im_documentation"]},
     {title:"Populations & Cases",lessons:["im_special","im_cases"]}]},
-  subq:{name:"Subcutaneous Injection",tag:"Comfortable, accurate subcutaneous injections.",hrs:"2",mini:"subq",modules:[
+  subq:{name:"SubQ Injection",tag:"Comfortable, accurate subcutaneous injections.",hrs:"2",mini:"subq",modules:[
     {title:"Foundations",lessons:["sq_anatomy","sq_equipment"]},
     {title:"Assess & Sites",lessons:["sq_assessment","sq_sites"]},
     {title:"Asepsis & Injection",lessons:["sq_asepsis","sq_procedure"]},
@@ -4095,6 +4095,9 @@ function flash(){celebrate("🔒","Locked","Finish the previous lesson first");}
 var SB_URL="https://dnjvsfwdrffzawrlrrma.supabase.co";
 var SB_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRuanZzZndkcmZmemF3cmxycm1hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5MDgxMTgsImV4cCI6MjA5ODQ4NDExOH0.6coWHPrl5IHGWex_W0Q29NU5E3hA-lyfswxPCxtbThs";
 var ORG_SLUG="lumevity";
+/* Shorten long course display names so tabs/headers fit (DB curriculum still says
+   "Subcutaneous Injection"). Matches the app's own "SubQ" convention. */
+var COURSE_NAME_FIX={subq:"SubQ Injection"};
 function applyCurriculum(list){
   try{
     if(!list||!list.length) return false;
@@ -4103,7 +4106,7 @@ function applyCurriculum(list){
     list.forEach(function(row){
       var d=row.published; if(!d||!d.modules||!d.modules.length) return;
       ids.push(row.slug);
-      NC[row.slug]={name:d.title||row.title,tag:d.tag,hrs:d.hrs,mini:d.mini,modules:d.modules.map(function(m){
+      NC[row.slug]={name:(COURSE_NAME_FIX[row.slug]||d.title||row.title),tag:d.tag,hrs:d.hrs,mini:d.mini,modules:d.modules.map(function(m){
         return {title:m.title,lessons:(m.lessons||[]).map(function(l){NL[l.id]=l;return l.id;})};
       })};
     });
