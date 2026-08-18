@@ -797,7 +797,7 @@ svgSubQ=function(i){return i?figHotspots('subq-sites-v1.png','SubQ sites — tap
 svgAngle=function(){return figImg('skin-angles-v1.png','Skin layers with injection needle angles (90 IM, 45 SubQ)');};
 svgLayers=function(){return figImg('skin-angles-v1.png','Skin layers');};
 svgVeinX=function(){return figImg('vein-xsection-v1.png','Vein wall cross-section');};
-illoSVG=function(k){var m={arm:'forearm-veins-v1.png',im:'im-sites-v2.png',subq:'subq-sites-v1.png',angle:'skin-angles-v1.png',layers:'skin-angles-v1.png',veinx:'vein-xsection-v1.png',gauge:'gauge-flashback-v1.png',flashback:'gauge-flashback-v1.png',complications:'iv-complications-v1.png',documentation:'iv-doc-ehr-a-v1.png'};var alt={complications:'Infiltration, phlebitis, and hematoma compared on the forearm',documentation:'Electronic health record screen documenting a peripheral IV insertion, site details, and follow-up monitoring'};return m[k]?figImg(m[k],alt[k]||k):'';};
+illoSVG=function(k){var m={arm:'forearm-veins-v1.png',im:'im-sites-v2.png',subq:'subq-sites-v1.png',angle:'skin-angles-v1.png',layers:'skin-angles-v1.png',veinx:'vein-xsection-v1.png',gauge:'gauge-flashback-v1.png',flashback:'gauge-flashback-v1.png',complications:'iv-complications-v1.png',documentation:'iv-doc-ehr-a-v1.png',cx_hematoma:'iv-cx-hematoma-v1.png',cx_infiltration:'iv-cx-infiltration-v1.png',cx_phlebitis:'iv-cx-phlebitis-v1.png',cx_extravasation:'iv-cx-extravasation-v1.png',cx_airembolism:'iv-cx-airembolism-v1.png',cx_vasovagal:'iv-cx-vasovagal-v1.png'};var alt={complications:'Infiltration, phlebitis, and hematoma compared on the forearm',documentation:'Electronic health record screen documenting a peripheral IV insertion, site details, and follow-up monitoring',cx_hematoma:'Hematoma at an IV site — bruising from blood under the skin',cx_infiltration:'Infiltration — pale, swollen, taut tissue around an IV site',cx_phlebitis:'Phlebitis — red, inflamed vein with a streak along its path',cx_extravasation:'Extravasation — severe swelling and tissue injury at an IV site',cx_airembolism:'Air embolism — air bubbles traveling in a blood vessel',cx_vasovagal:'Vasovagal reaction — pallor and faintness during the procedure'};return m[k]?figImg(m[k],alt[k]||k):'';};
 /* Glossary term figures -> hosted images (highlight-per-term is dropped in favor of atlas-quality art) */
 var gArm=function(){return figImg('forearm-veins-v1.png','Superficial veins of the forearm');};
 var gIM=function(){return figImg('im-sites-v2.png','Intramuscular injection sites');};
@@ -2565,37 +2565,37 @@ var GLOSSARY={
     why:"The single most effective way to prevent lipohypertrophy and keep absorption predictable. 'Somewhere near there' is not rotation — a written or mental map is."},
 
   /* --- complications --- */
-  infiltration:{t:"Infiltration",alt:["infiltration","infiltrate","infiltrated"],see:["extravasation","phlebitis"],
+  infiltration:{t:"Infiltration",fig:"cx_infiltration",alt:["infiltration","infiltrate","infiltrated"],see:["extravasation","phlebitis"],
     d:"Leakage of a <b>non-vesicant</b> infusion into the tissue around the vein, causing swelling, coolness, tightness and a sluggish or stopped drip.",
     why:"Stop the infusion and remove the catheter. Usually resolves, but a large-volume infiltration can still compromise circulation — measure and document it."},
-  extravasation:{t:"Extravasation",alt:["extravasation","extravasate"],see:["infiltration"],
+  extravasation:{t:"Extravasation",fig:"cx_extravasation",alt:["extravasation","extravasate"],see:["infiltration"],
     d:"The same leakage, but of a <b>vesicant</b> — a drug that blisters and destroys tissue.",
     why:"A clinical emergency. Stop immediately, leave the catheter in to aspirate residual drug, and escalate: extravasation of some agents causes necrosis needing surgical repair."},
-  phlebitis:{t:"Phlebitis",pron:"fleh-BY-tis",alt:["phlebitis"],see:["tunica_intima","thrombophlebitis"],
+  phlebitis:{t:"Phlebitis",pron:"fleh-BY-tis",fig:"cx_phlebitis",alt:["phlebitis"],see:["tunica_intima","thrombophlebitis"],
     d:"Inflammation of the vein wall — red, warm, tender, often with a palpable cord along the vein. Causes may be mechanical, chemical, or infective.",
     why:"Grade it on a standard scale and remove the catheter. Rising phlebitis rates on a unit usually point at oversized catheters, poor securement or dwell time."},
-  thrombophlebitis:{t:"Thrombophlebitis",alt:["thrombophlebitis"],see:["phlebitis"],
+  thrombophlebitis:{t:"Thrombophlebitis",fig:"cx_phlebitis",alt:["thrombophlebitis"],see:["phlebitis"],
     d:"Phlebitis with an accompanying clot in the inflamed vein.",
     why:"Adds a hard, cord-like vein to the inflammatory signs. Remove the catheter and escalate — do not use that vein again."},
-  hematoma:{t:"Hematoma",alt:["hematoma","haematoma"],see:["tourniquet"],
+  hematoma:{t:"Hematoma",fig:"cx_hematoma",alt:["hematoma","haematoma"],see:["tourniquet"],
     d:"A collection of blood in the tissue, from puncturing through the far wall of the vein or from inadequate pressure after removal.",
     why:"Prevent it with a controlled angle, prompt tourniquet release, and firm pressure on removal. Never rub the site afterwards — particularly after anticoagulant injections."},
   induration:{t:"Induration",alt:["induration","indurated"],see:["phlebitis","lipohypertrophy"],
     d:"Abnormal hardening of tissue, felt as a firm area under the skin.",
     why:"A sign of chronic irritation or infection. Palpate for it during every site check — it is felt long before it is seen."},
-  erythema:{t:"Erythema",pron:"eh-rih-THEE-muh",alt:["erythema","erythematous"],see:["phlebitis"],
+  erythema:{t:"Erythema",pron:"eh-rih-THEE-muh",fig:"cx_phlebitis",alt:["erythema","erythematous"],see:["phlebitis"],
     d:"Redness of the skin from increased blood flow.",
     why:"Often the first visible sign of phlebitis or infection at a site. Note how far it extends from the insertion point, and re-check."},
   sclerosed:{t:"Sclerosed vein",alt:["sclerosed vein","sclerosed","sclerosis"],see:["cephalic","venous_valve"],
     d:"A vein that has become hardened, thickened and cord-like from repeated punctures or irritant infusions.",
     why:"It feels firm and ropey rather than soft and springy, will not thread and will not flush. Palpate before choosing — a visible vein is not automatically a usable one."},
-  vasovagal:{t:"Vasovagal response",alt:["vasovagal response","vasovagal","vasovagal reaction"],see:["tunica_media"],
+  vasovagal:{t:"Vasovagal response",fig:"cx_vasovagal",alt:["vasovagal response","vasovagal","vasovagal reaction"],see:["tunica_media"],
     d:"A reflex drop in heart rate and blood pressure triggered by pain, anxiety or the sight of blood, causing pallor, sweating, nausea and possibly fainting.",
     why:"Anticipate it, especially in young, anxious or fasted patients. Sit or lie the patient down <b>before</b> the procedure — most injuries come from the fall, not the faint."},
   needlestick:{t:"Needlestick injury",alt:["needlestick injury","needlestick","sharps injury"],see:["sesip"],
     d:"Accidental puncture with a used sharp, carrying bloodborne-pathogen exposure risk.",
     why:"Never recap. Activate the safety mechanism at once, dispose at point of use, and report immediately — post-exposure prophylaxis is time-critical."},
-  air_embolism:{t:"Air embolism",alt:["air embolism"],see:["flush","patency"],
+  air_embolism:{t:"Air embolism",fig:"cx_airembolism",alt:["air embolism"],see:["flush","patency"],
     d:"Air entering the venous circulation and travelling to the heart or lungs.",
     why:"Rare with peripheral lines but serious. Prime all tubing fully, keep connections tight, and clear air from syringes before injecting."}
 };
