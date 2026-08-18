@@ -803,14 +803,14 @@ function figHotspots(n,alt,spots){
 }
 var FOREARM_SPOTS=[{id:"good",cx:845,cy:395,rx:95,ry:72},{id:"valve",cx:1155,cy:340,rx:82,ry:70},{id:"hand",cx:520,cy:350,rx:82,ry:72}];
 var SUBQ_SPOTS=[{id:"abdomen",cx:500,cy:505,rx:92,ry:82},{id:"navel",cx:660,cy:430,rx:56,ry:56},{id:"arm",cx:1030,cy:200,rx:80,ry:92}];
-var IM_SPOTS=[{id:"deltoid",cx:285,cy:320,rx:98,ry:105},{id:"ventro",cx:785,cy:300,rx:105,ry:120},{id:"vastus",cx:1278,cy:540,rx:98,ry:115}];
+var IM_SPOTS=[{id:"deltoid",cx:258,cy:349,rx:98,ry:110},{id:"ventro",cx:668,cy:364,rx:110,ry:120},{id:"vastus",cx:1252,cy:499,rx:98,ry:120}];
 svgArm=function(i){return i?figHotspots('forearm-veins-v1.png','Forearm veins — tap the best vein to cannulate',FOREARM_SPOTS):figImg('forearm-veins-v1.png','Superficial veins of the forearm');};
-svgIM=function(i){return i?figHotspots('im-sites-v2.png','IM sites — tap the correct injection site',IM_SPOTS):figImg('im-sites-v2.png','Intramuscular injection sites');};
+svgIM=function(i){return i?figHotspots('im-sites-v4.png','IM sites — tap the correct injection site',IM_SPOTS):figImg('im-sites-v4.png','Intramuscular injection sites');};
 svgSubQ=function(i){return i?figHotspots('subq-sites-v1.png','SubQ sites — tap a good injection site',SUBQ_SPOTS):figImg('subq-sites-v1.png','Subcutaneous injection sites');};
 svgAngle=function(){return figImg('skin-angles-v1.png','Skin layers with injection needle angles (90 IM, 45 SubQ)');};
 svgLayers=function(){return figImg('skin-angles-v1.png','Skin layers');};
 svgVeinX=function(){return figImg('vein-xsection-v1.png','Vein wall cross-section');};
-illoSVG=function(k){var m={arm:'forearm-veins-v1.png',im:'im-sites-v2.png',subq:'subq-sites-v1.png',angle:'skin-angles-v1.png',layers:'skin-angles-v1.png',veinx:'vein-xsection-v1.png',gauge:'gauge-flashback-v1.png',flashback:'gauge-flashback-v1.png',complications:'iv-complications-v1.png',documentation:'iv-doc-ehr-a-v1.png',cx_hematoma:'iv-cx-hematoma-v1.png',cx_infiltration:'iv-cx-infiltration-v1.png',cx_phlebitis:'iv-cx-phlebitis-v1.png',cx_extravasation:'iv-cx-extravasation-v1.png',cx_airembolism:'iv-cx-airembolism-v1.png',cx_vasovagal:'iv-cx-vasovagal-v1.png'};var alt={complications:'Infiltration, phlebitis, and hematoma compared on the forearm',documentation:'Electronic health record screen documenting a peripheral IV insertion, site details, and follow-up monitoring',cx_hematoma:'Hematoma at an IV site — bruising from blood under the skin',cx_infiltration:'Infiltration — pale, swollen, taut tissue around an IV site',cx_phlebitis:'Phlebitis — red, inflamed vein with a streak along its path',cx_extravasation:'Extravasation — severe swelling and tissue injury at an IV site',cx_airembolism:'Air embolism — air bubbles traveling in a blood vessel',cx_vasovagal:'Vasovagal reaction — pallor and faintness during the procedure'};return m[k]?figImg(m[k],alt[k]||k):'';};
+illoSVG=function(k){var m={arm:'forearm-veins-v1.png',im:'im-sites-v4.png',subq:'subq-sites-v1.png',angle:'skin-angles-v1.png',layers:'skin-angles-v1.png',veinx:'vein-xsection-v1.png',gauge:'gauge-flashback-v1.png',flashback:'gauge-flashback-v1.png',complications:'iv-complications-v1.png',documentation:'iv-doc-ehr-a-v1.png',cx_hematoma:'iv-cx-hematoma-v1.png',cx_infiltration:'iv-cx-infiltration-v1.png',cx_phlebitis:'iv-cx-phlebitis-v1.png',cx_extravasation:'iv-cx-extravasation-v1.png',cx_airembolism:'iv-cx-airembolism-v1.png',cx_vasovagal:'iv-cx-vasovagal-v1.png'};var alt={complications:'Infiltration, phlebitis, and hematoma compared on the forearm',documentation:'Electronic health record screen documenting a peripheral IV insertion, site details, and follow-up monitoring',cx_hematoma:'Hematoma at an IV site — bruising from blood under the skin',cx_infiltration:'Infiltration — pale, swollen, taut tissue around an IV site',cx_phlebitis:'Phlebitis — red, inflamed vein with a streak along its path',cx_extravasation:'Extravasation — severe swelling and tissue injury at an IV site',cx_airembolism:'Air embolism — air bubbles traveling in a blood vessel',cx_vasovagal:'Vasovagal reaction — pallor and faintness during the procedure'};return m[k]?figImg(m[k],alt[k]||k):'';};
 /* Per-lesson hero-image overrides. The live curriculum comes from Supabase and its
    lesson `illo` values can lag behind these updated figures, so force the right image
    by lesson id at render time (survives the DB curriculum swap). */
@@ -820,7 +820,7 @@ var ILLO_OVERRIDE={iv_documentation:'documentation',iv_complications:'complicati
 var ILLO_HIDE={iv_equipment:1};
 /* Glossary term figures -> hosted images (highlight-per-term is dropped in favor of atlas-quality art) */
 var gArm=function(){return figImg('forearm-veins-v1.png','Superficial veins of the forearm');};
-var gIM=function(){return figImg('im-sites-v2.png','Intramuscular injection sites');};
+var gIM=function(){return figImg('im-sites-v4.png','Intramuscular injection sites');};
 var gSkin=function(){return figImg('skin-angles-v1.png','Skin layers with injection angles');};
 var gGauges=function(){return figImg('gauge-flashback-v1.png','IV catheter gauges and flashback');};
 var gFlashback=function(){return figImg('gauge-flashback-v1.png','IV catheter flashback');};
