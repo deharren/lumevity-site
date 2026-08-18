@@ -798,6 +798,10 @@ svgAngle=function(){return figImg('skin-angles-v1.png','Skin layers with injecti
 svgLayers=function(){return figImg('skin-angles-v1.png','Skin layers');};
 svgVeinX=function(){return figImg('vein-xsection-v1.png','Vein wall cross-section');};
 illoSVG=function(k){var m={arm:'forearm-veins-v1.png',im:'im-sites-v2.png',subq:'subq-sites-v1.png',angle:'skin-angles-v1.png',layers:'skin-angles-v1.png',veinx:'vein-xsection-v1.png',gauge:'gauge-flashback-v1.png',flashback:'gauge-flashback-v1.png',complications:'iv-complications-v1.png',documentation:'iv-doc-ehr-a-v1.png',cx_hematoma:'iv-cx-hematoma-v1.png',cx_infiltration:'iv-cx-infiltration-v1.png',cx_phlebitis:'iv-cx-phlebitis-v1.png',cx_extravasation:'iv-cx-extravasation-v1.png',cx_airembolism:'iv-cx-airembolism-v1.png',cx_vasovagal:'iv-cx-vasovagal-v1.png'};var alt={complications:'Infiltration, phlebitis, and hematoma compared on the forearm',documentation:'Electronic health record screen documenting a peripheral IV insertion, site details, and follow-up monitoring',cx_hematoma:'Hematoma at an IV site — bruising from blood under the skin',cx_infiltration:'Infiltration — pale, swollen, taut tissue around an IV site',cx_phlebitis:'Phlebitis — red, inflamed vein with a streak along its path',cx_extravasation:'Extravasation — severe swelling and tissue injury at an IV site',cx_airembolism:'Air embolism — air bubbles traveling in a blood vessel',cx_vasovagal:'Vasovagal reaction — pallor and faintness during the procedure'};return m[k]?figImg(m[k],alt[k]||k):'';};
+/* Per-lesson hero-image overrides. The live curriculum comes from Supabase and its
+   lesson `illo` values can lag behind these updated figures, so force the right image
+   by lesson id at render time (survives the DB curriculum swap). */
+var ILLO_OVERRIDE={iv_documentation:'documentation',iv_complications:'complications'};
 /* Glossary term figures -> hosted images (highlight-per-term is dropped in favor of atlas-quality art) */
 var gArm=function(){return figImg('forearm-veins-v1.png','Superficial veins of the forearm');};
 var gIM=function(){return figImg('im-sites-v2.png','Intramuscular injection sites');};
@@ -1483,7 +1487,11 @@ function curStreak(){return (S.last===todayStr()||S.last===yestStr())?S.streak:0
 /* ============ Progress ============ */
 function courseDone(c){var ls=courseLessons(c);var d=0;ls.forEach(function(i){if(S.done.has(i))d++;});return{done:d,total:ls.length,p:Math.round(d/ls.length*100)};}
 function overallFraction(){var d=0;S.done.forEach(function(i){if(L[i])d++;});var frac=0;if(S.view==="lesson"&&S.lesson&&!S.done.has(S.lesson)){var st=lessonSteps(S.lesson);frac=st.length?(S.step/st.length):0;}return Math.min(1,(d+frac)/TOTAL_LESSONS);}
-function lessonUnlocked(c,id){var ls=courseLessons(c);var idx=ls.indexOf(id);if(idx<=0)return true;for(var k=0;k<idx;k++){if(!S.done.has(ls[k]))return false;}return true;}
+/* ⚠️ TEMPORARY — DEV/CLIENT PREVIEW ONLY. Set DEV_UNLOCK_ALL=false before GO-LIVE.
+   When true, every lesson is tappable so a reviewer can jump to any lesson without
+   completing the prior ones. This bypasses the normal sequential gating. */
+var DEV_UNLOCK_ALL=true;
+function lessonUnlocked(c,id){if(DEV_UNLOCK_ALL)return true;var ls=courseLessons(c);var idx=ls.indexOf(id);if(idx<=0)return true;for(var k=0;k<idx;k++){if(!S.done.has(ls[k]))return false;}return true;}
 
 /* ============ XP / celebrate ============ */
 function awardXP(n,anchor){if(n<=0)return;var before=rankIndex(S.xp);S.xp+=n;var after=rankIndex(S.xp);persist();xpBurst(n,anchor);syncBar();if(after>before)celebrate("⬆️","Rank up",RANKS[after].n);}
@@ -1711,7 +1719,7 @@ function vLesson(){
 }
 function stepHTML(L0,st){
   if(st.t==="overview"){
-    var h='';if(L0.illo)h+='<div class="illo">'+illoSVG(L0.illo)+'</div>';
+    var h='';var _illoK=(ILLO_OVERRIDE[S.lesson]||L0.illo);if(_illoK)h+='<div class="illo">'+illoSVG(_illoK)+'</div>';
     h+='<div class="stag">'+L0.stage+'</div><h3>'+L0.title+'</h3>';
     if(L0.lead)h+='<p class="lp" style="font-size:1.06rem">'+L0.lead+'</p>';
     if(L0.objectives)h+='<div class="obj"><div class="ol">Learning objectives</div><ul>'+L0.objectives.map(function(o){return '<li>'+o+'</li>';}).join('')+'</ul></div>';
@@ -3567,7 +3575,7 @@ var REHEARSAL={
      {id:"14",lab:"14G",fb:"Resuscitation-sized. Substantially increases intimal trauma and phlebitis risk here."}]},
    {type:"hotspot",h:"Step 3 — pick the site",
     q:"Tap the segment you would target on the right forearm.",
-    svg:ixArmHot(),correct:"good",
+    svg:svgArm(true),correct:"good",
     fb:{good:"Correct — a straight, well-supported forearm segment away from joints and branch points.",
         valve:"That is a branch point, where valves cluster. The catheter will snag and the line may fail early.",
         hand:"The dorsal hand is fragile and prone to infiltration — a poor choice for a 5-day course.",
