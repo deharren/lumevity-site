@@ -635,6 +635,19 @@
 .lc-dot.todo{background:rgba(230,246,246,.08);color:rgba(230,246,246,.5);}
 .lc-les p{font-size:.9rem;color:#eaf7f7;font-weight:600;}
 .lc-les small{display:block;font-size:.68rem;color:rgba(230,246,246,.55);margin-top:1px;}
+.lc-list{display:block;}
+/* ===== Desktop layout: use the horizontal space instead of a phone-width column ===== */
+@media(min-width:1000px){
+  .wrap{max-width:1200px;}
+  .view .lcardwrap{max-width:1120px;}
+  .lcardwrap .lcard{padding:26px 26px 24px;}
+  .lcard .lc-tabs{margin-bottom:18px;}
+  .lcard .lc-list{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;align-items:stretch;}
+  .lcard .lc-list .lc-les{margin-bottom:0;}
+}
+@media(min-width:1360px){
+  .lcard .lc-list{grid-template-columns:1fr 1fr 1fr;}
+}
 /* ===== Dark teal lesson theme — congruent with the lesson card ===== */
 .lesson{max-width:860px;}
 .lesson .slidebox{background:linear-gradient(160deg,#134E58,#0A2C38);border:1px solid rgba(120,235,228,.25);box-shadow:0 24px 60px rgba(3,20,26,.28);transition:height .35s ease;}
@@ -1688,7 +1701,7 @@ function lessonCard(c){
     +'<div class="lc-top"><h4>'+esc(C.name)+'</h4><span class="lc-prog">'+cd.p+'% complete</span></div>'
     +'<div class="lc-sub">'+C.modules.length+' modules · '+subLabel+'</div>'
     +'<div class="lc-bar"><i style="width:'+cd.p+'%"></i></div>'
-    +rows
+    +'<div class="lc-list">'+rows+'</div>'
     +'</div></div>';
 }
 function journeyMap(c){
