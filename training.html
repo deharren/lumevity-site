@@ -690,6 +690,17 @@
 .slide .qwhy{background:rgba(230,246,246,.06)!important;color:rgba(234,247,247,.82)!important;}
 .slide .qwhy b{color:#7FE6F0!important;}
 .slide .qsep{border-top:1px dashed rgba(120,235,228,.18);}
+/* Final exam question cards render in .exambody (not a .slide), so mirror the dark-theme readability here */
+.exambody .qq{color:#ffffff!important;}
+.exambody .qopt{background:rgba(230,246,246,.05);border:1.5px solid rgba(120,235,228,.18);color:#eaf7f7;}
+.exambody .qopt:hover{border-color:rgba(120,235,228,.5);}
+.exambody .qopt.correct{border-color:#22E0DA;background:rgba(34,224,218,.16);}
+.exambody .qopt.correct .mk{color:#22E0DA;}
+.exambody .qopt.wrong{border-color:#E05457;background:rgba(224,84,87,.16);}
+.exambody .qopt.wrong .mk{color:#F2B7B4;}
+.exambody .qwhy{background:rgba(230,246,246,.06)!important;color:rgba(234,247,247,.82)!important;}
+.exambody .qwhy b{color:#7FE6F0!important;}
+.exambody .qsep{border-top:1px dashed rgba(120,235,228,.18);}
 .slide .passban{background:rgba(20,201,198,.14)!important;border:1px solid rgba(120,235,228,.4)!important;color:#C6ECF2!important;}
 .slide .passban b{color:#22E0DA!important;}
 .slide .reviewban{background:rgba(224,84,87,.14)!important;border:1px solid rgba(224,84,87,.4)!important;color:#F3C7C4!important;}
@@ -1636,6 +1647,7 @@ function lessonCard(c){
     var mark,label,cls,click='';
     if(S.done.has(id)){ mark='✓'; label='Completed'; cls='done'; click='openLesson(\''+id+'\')'; }
     else if(id===curId){ mark='▶'; label='Ready — tap to start'; cls='now'; click='openLesson(\''+id+'\')'; }
+    else if(lessonUnlocked(c,id)){ mark=String(ls.indexOf(id)+1); label=DEV_UNLOCK_ALL?'Tap to open (preview)':'Tap to start'; cls='now'; click='openLesson(\''+id+'\')'; }
     else { mark=String(ls.indexOf(id)+1); label='Locked — finish the previous lesson'; cls='todo'; }
     rows+='<div class="lc-les'+(click?' tap':'')+'" '+(click?'onclick="'+click+'"':'')+'>'
       +'<span class="lc-dot '+cls+'">'+mark+'</span>'
