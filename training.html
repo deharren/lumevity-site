@@ -1506,7 +1506,7 @@ function overallFraction(){var d=0;S.done.forEach(function(i){if(L[i])d++;});var
 /* ⚠️ TEMPORARY — DEV/CLIENT PREVIEW ONLY. Set DEV_UNLOCK_ALL=false before GO-LIVE.
    When true, every lesson is tappable so a reviewer can jump to any lesson without
    completing the prior ones. This bypasses the normal sequential gating. */
-var DEV_UNLOCK_ALL=true;
+var DEV_UNLOCK_ALL=false;
 function lessonUnlocked(c,id){if(DEV_UNLOCK_ALL)return true;var ls=courseLessons(c);var idx=ls.indexOf(id);if(idx<=0)return true;for(var k=0;k<idx;k++){if(!S.done.has(ls[k]))return false;}return true;}
 
 /* ============ XP / celebrate ============ */
@@ -1531,9 +1531,16 @@ function go(view,arg){
   S.view=view;if(view==="home"&&arg)setCourse(arg);if(view==="exam"||view==="cert"){if(arg)setCourse(arg);}window.scrollTo(0,0);render();}
 /* Resume support: remember the exact step a learner was on, so closing mid-lesson
    and returning picks up where they left off. Cleared once the lesson is completed. */
-function resumeStepFor(id){try{var r=Store.get("lmv_resume",null);if(r&&r.lesson===id&&!S.done.has(id)){var t=lessonSteps(id).length;var s=r.step|0;if(s>0&&s<t)return s;}}catch(e){}return 0;}
-function saveResume(){try{if(S.view==="lesson"&&S.lesson!=null){Store.set("lmv_resume",{lesson:S.lesson,step:S.step});}}catch(e){}}
+/* Resume is a per-lesson map {lessonId:{step,n}} where n = step count fingerprint, so opening/reviewing
+   another lesson never wipes an in-progress lesson, and a curriculum edit that changes a lesson's shape
+   falls back to step 0 instead of dropping the learner onto an unrelated section. */
+function _resumeMap(){var m=Store.get("lmv_resume",{});if(!m||typeof m!=="object"||m.lesson!=null)m={};return m;} // {} also migrates the old single-object shape
+function resumeStepFor(id){try{var r=_resumeMap()[id];if(r&&!S.done.has(id)){var t=lessonSteps(id).length;var s=r.step|0;if(s>0&&s<t&&r.n===t)return s;}}catch(e){}return 0;}
+function saveResume(){try{if(S.view==="lesson"&&S.lesson!=null){var m=_resumeMap();m[S.lesson]={step:S.step,n:lessonSteps(S.lesson).length};Store.set("lmv_resume",m);}}catch(e){}}
+function clearResume(id){try{var m=_resumeMap();if(m[id]){delete m[id];Store.set("lmv_resume",m);}}catch(e){}}
 function exitLesson(){saveResume();go('home');}
+window.addEventListener('pagehide',saveResume);
+document.addEventListener('visibilitychange',function(){if(document.hidden)saveResume();});
 function openLesson(id){var c=lessonCourseOf(id);if(!lessonUnlocked(c,id)){flash();return;}if(ceNeedsDisclosure(c)){ceShowDisclosure(c,function(){openLesson(id);});return;}setCourse(c);S.lesson=id;S.step=resumeStepFor(id);S.view="lesson";window.scrollTo(0,0);render();}
 function lessonCourseOf(id){for(var i=0;i<COURSE_IDS.length;i++){if(courseLessons(COURSE_IDS[i]).indexOf(id)>=0)return COURSE_IDS[i];}return "iv";}
 
@@ -1877,7 +1884,7 @@ function checkKCdone(host,qs){
   var res=el("kcResult");if(!res)return;
   if(solvedN===qs.length){
     if(!S.done.has(S.lesson)){
-      S.done.add(S.lesson);awardXP(XP_LESSON);Store.del("lmv_resume");persist();
+      S.done.add(S.lesson);awardXP(XP_LESSON);clearResume(S.lesson);persist();
       var c=lessonCourseOf(S.lesson);celebrate("🎓","Lesson complete","+"+XP_LESSON+" XP");
     }
     res.innerHTML='<div class="passban">✓ Lesson passed. '+nextActionHTML()+'</div>';
@@ -1952,7 +1959,7 @@ function vCert(){
         _lt=(S.license&&S.license.type)||"";
     return '<div style="max-width:460px;margin:0 auto;padding:26px 0">'
       +'<h2 style="color:var(--head);text-align:center">Your certificate details</h2>'
-      +'<p style="color:var(--muted);text-align:center;margin:8px 0 18px;font-size:.9rem">The name appears on your certificate. Your license is recorded on your CE completion record for your renewal and for provider audit — optional, but recommended for nurses.</p>'
+      +'<p style="color:var(--muted);text-align:center;margin:8px 0 18px;font-size:.9rem">The name appears on your certificate. Your license is recorded on your completion record for provider audit — optional, but recommended for nurses.</p>'
       +'<label style="'+_dl+'">Full name <span style="color:var(--bad)">*</span></label>'
       +'<input id="nameIn" placeholder="e.g., Jane Smith" style="'+_di+'" value="'+esc(S.name||"")+'"/>'
       +'<div style="display:flex;gap:10px">'
@@ -2006,9 +2013,11 @@ function vMyCE(){
    +'<span class="eyebrow">Your record</span><h2 style="color:var(--head);margin:4px 0 2px">CE transcript</h2>'
    +'<p style="color:var(--muted);font-size:.9rem;margin:0 0 16px">'+esc(S.name||"—")+(S.license&&S.license.type?(" · "+esc(S.license.type)+(S.license.num?" #"+esc(S.license.num):"")+(S.license.state?" ("+esc(S.license.state)+")":"")):"")+'</p>'
    +'<div style="background:rgba(230,246,246,.05);border:1px solid rgba(120,235,228,.22);border-radius:14px;padding:16px;margin-bottom:16px">'
-   +'<div style="display:flex;justify-content:space-between;font-weight:700;color:var(--head)"><span>Ohio renewal progress</span><span>'+total.toFixed(2)+' / '+goal+' hrs</span></div>'
-   +'<div style="height:10px;background:rgba(255,255,255,.08);border-radius:6px;margin:8px 0;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,#14C9C6,#22E0DA)"></div></div>'
-   +'<div style="font-size:.8rem;color:var(--muted);line-height:1.5">Ohio RNs and LPNs need <b>24 contact hours</b> per 2-year renewal, including <b>1 hour of Category A</b> (Ohio nursing law and rules). '+(anyAccr?'':'These count as CE once IV Rejuve Academy&rsquo;s Ohio Nurses Association provider approval is granted (in progress). ')+'The Category A law-and-rules hour is not offered here — complete it through an OBN-approved Category A provider.</div></div>';
+   +'<div style="display:flex;justify-content:space-between;font-weight:700;color:var(--head)"><span>'+(anyAccr?'Ohio renewal progress':'Contact hours earned')+'</span><span>'+total.toFixed(2)+(anyAccr?(' / '+goal+' hrs'):' hrs')+'</span></div>'
+   +(anyAccr?'<div style="height:10px;background:rgba(255,255,255,.08);border-radius:6px;margin:8px 0;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,#14C9C6,#22E0DA)"></div></div>':'<div style="height:8px"></div>')
+   +(anyAccr
+     ? '<div style="font-size:.8rem;color:var(--muted);line-height:1.5">Ohio RNs and LPNs need <b>24 contact hours</b> per 2-year renewal, including <b>1 hour of Category A</b> (Ohio nursing law and rules). The Category A law-and-rules hour is not offered here — complete it through an OBN-approved Category A provider.</div></div>'
+     : '<div style="font-size:.82rem;color:#F2D399;line-height:1.5"><b>These hours are not yet CE credit.</b> IV Rejuve Academy is not currently an accredited provider; these are contact hours of instruction on a certificate of completion. They will count toward Ohio&rsquo;s 24-hour / 2-year renewal only once ONA provider approval is granted (in progress).</div></div>');
   if(!recs.length){
     h+='<div style="text-align:center;color:var(--muted);padding:24px 0">No completions yet. Finish a course and its evaluation to earn your first certificate.</div>';
   }else{
@@ -2919,6 +2928,9 @@ function ixRender(host,x,idx){
 function ixHotspot(host,body,x){
   body.innerHTML='<div class="ixfig" role="group" aria-label="'+esc(x.q||"Choose the correct site")+'">'+(x.svg||"")+'</div>';
   var fig=body.querySelector(".ixfig");
+  // The wrapping <svg role="img"> would collapse its subtree for assistive tech and hide the
+  // interactive hotspot buttons from screen readers. Demote it so the .hot role="button" children are exposed.
+  var _svg=fig.querySelector("svg");if(_svg){_svg.removeAttribute("role");_svg.removeAttribute("aria-label");}
   [].forEach.call(fig.querySelectorAll(".hot"),function(node){
     // make each target focusable and operable by keyboard, not pointer-only
     node.setAttribute("tabindex","0");
@@ -4162,13 +4174,18 @@ function bootRender(){ ceLoad();
   function head(cb){ try{ fetch(location.pathname,{method:'HEAD',cache:'no-store'}).then(function(r){cb(r.headers.get('etag')||r.headers.get('last-modified'));}).catch(function(){cb(null);}); }catch(e){ cb(null); } }
   head(function(t){ _tag=t; });
   function banner(){
-    if(_shown||document.getElementById('updBar'))return; _shown=true;
+    if(_shown||document.getElementById('updBar'))return;
+    if(document.querySelector('.modal, #demoLogin:not(.hide)'))return; // don't cover a modal/login
+    _shown=true;
     var b=document.createElement('div'); b.id='updBar';
-    b.style.cssText='position:fixed;left:12px;right:12px;bottom:12px;z-index:99999;background:#0E4E58;border:1px solid #22E0DA;border-radius:12px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 8px 26px rgba(0,0,0,.45);color:#EAF6F6;font:600 14px Inter,system-ui;max-width:520px;margin:0 auto';
+    b.style.cssText='position:fixed;left:12px;right:12px;bottom:max(12px,calc(env(safe-area-inset-bottom,0px) + 12px));z-index:1200;background:#0E4E58;border:1px solid #22E0DA;border-radius:12px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 8px 26px rgba(0,0,0,.45);color:#EAF6F6;font:600 14px Inter,system-ui;max-width:520px;margin:0 auto';
     b.innerHTML='<span>A newer version is available.</span>';
+    var wrap=document.createElement('div'); wrap.style.cssText='display:flex;align-items:center;gap:6px';
     var btn=document.createElement('button'); btn.textContent='Refresh'; btn.style.cssText='background:#22E0DA;color:#062a2f;border:none;border-radius:8px;padding:8px 14px;font:700 14px Inter,system-ui;cursor:pointer';
-    btn.onclick=function(){ location.reload(); };
-    b.appendChild(btn); document.body.appendChild(b);
+    btn.onclick=function(){ try{if(typeof saveResume==='function')saveResume();}catch(e){} location.reload(); };
+    var x=document.createElement('button'); x.setAttribute('aria-label','Dismiss update notice'); x.textContent='✕'; x.style.cssText='background:transparent;color:#9FE9E6;border:none;font-size:16px;line-height:1;padding:6px 8px;cursor:pointer';
+    x.onclick=function(){ b.remove(); _tag=null; head(function(t){_tag=t;}); }; // re-baseline so it only reappears on the NEXT deploy
+    wrap.appendChild(btn); wrap.appendChild(x); b.appendChild(wrap); document.body.appendChild(b);
   }
   function check(){ if(document.hidden||!_tag)return; head(function(t){ if(t&&t!==_tag)banner(); }); }
   document.addEventListener('visibilitychange',function(){ if(!document.hidden)check(); });
