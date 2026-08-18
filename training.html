@@ -813,6 +813,9 @@ illoSVG=function(k){var m={arm:'forearm-veins-v1.png',im:'im-sites-v2.png',subq:
    lesson `illo` values can lag behind these updated figures, so force the right image
    by lesson id at render time (survives the DB curriculum swap). */
 var ILLO_OVERRIDE={iv_documentation:'documentation',iv_complications:'complications'};
+/* Lessons whose overview (top) hero image should be hidden — e.g. iv_equipment already
+   shows the gauge/flashback figure inline on the gauge-chart step, so drop the duplicate hero. */
+var ILLO_HIDE={iv_equipment:1};
 /* Glossary term figures -> hosted images (highlight-per-term is dropped in favor of atlas-quality art) */
 var gArm=function(){return figImg('forearm-veins-v1.png','Superficial veins of the forearm');};
 var gIM=function(){return figImg('im-sites-v2.png','Intramuscular injection sites');};
@@ -1731,7 +1734,7 @@ function vLesson(){
 }
 function stepHTML(L0,st){
   if(st.t==="overview"){
-    var h='';var _illoK=(ILLO_OVERRIDE[S.lesson]||L0.illo);if(_illoK)h+='<div class="illo">'+illoSVG(_illoK)+'</div>';
+    var h='';var _illoK=(ILLO_OVERRIDE[S.lesson]||L0.illo);if(ILLO_HIDE[S.lesson])_illoK=null;if(_illoK)h+='<div class="illo">'+illoSVG(_illoK)+'</div>';
     h+='<div class="stag">'+L0.stage+'</div><h3>'+L0.title+'</h3>';
     if(L0.lead)h+='<p class="lp" style="font-size:1.06rem">'+L0.lead+'</p>';
     if(L0.objectives)h+='<div class="obj"><div class="ol">Learning objectives</div><ul>'+L0.objectives.map(function(o){return '<li>'+o+'</li>';}).join('')+'</ul></div>';
