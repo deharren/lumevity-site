@@ -266,6 +266,10 @@
   .pf-coach-actions{display:flex;gap:10px;flex-wrap:wrap;}
   .pf-tour .pf-card.pf-dim{opacity:.38;filter:saturate(.6);pointer-events:none;transition:.3s;}
   .pf-tour .pf-card.pf-spot{box-shadow:0 0 0 2px #22E0DA,0 18px 46px rgba(3,20,26,.4);border-color:#22E0DA;transition:.3s;}
+  .pf-toggle{display:flex;gap:10px;flex-wrap:wrap;}
+  .pf-tgl{flex:1;min-width:130px;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(120,235,228,.3);background:rgba(230,246,246,.04);color:rgba(234,247,247,.82);font:inherit;font-weight:700;font-size:.9rem;cursor:pointer;transition:.15s;}
+  .pf-tgl:hover{border-color:rgba(120,235,228,.6);}
+  .pf-tgl.on{background:linear-gradient(135deg,#22E0DA,#14C9C6);border-color:transparent;color:#06312f;box-shadow:0 8px 22px rgba(34,224,218,.3);}
   .confetti{position:fixed;inset:0;pointer-events:none;z-index:199;overflow:hidden;} .confetti i{position:absolute;top:-12px;width:9px;height:14px;border-radius:2px;animation:fall linear forwards;}
 
   /* Mascot */
@@ -4038,6 +4042,7 @@ function profileSave(){
 var PF_STATES=["OH","KY","IN","MI","PA","WV","IL","NY","CA","FL","TX","Other"];
 var PROFILE_SECTIONS=[
  {key:"identity",title:"Who you are",icon:"🩺",fields:[
+   {k:"isNurse",label:"Are you a licensed nurse?",type:"toggle",opts:[["yes","Yes, I'm licensed"],["no","Not yet / not a nurse"]],req:true,full:true},
    {k:"firstName",label:"First name",req:true},
    {k:"lastName",label:"Last name",req:true},
    {k:"credentials",label:"Credential",type:"select",opts:["","RN","LPN","APRN","Nursing student","Other"],req:true,full:true}
@@ -4060,9 +4065,12 @@ var PROFILE_SECTIONS=[
  ]}
 ];
 function pfFilled(f){return !!((P()[f.k]||"").toString().trim());}
+function pfIsNurse(){return P().isNurse==="yes";}
+function pfSectionApplicable(sec){var key=(typeof sec==="string")?sec:sec.key;if(key==="license")return pfIsNurse();return true;}
+function pfApplicableSections(){return PROFILE_SECTIONS.filter(pfSectionApplicable);}
 function pfSectionDone(sec){return sec.fields.every(function(f){return !f.req||pfFilled(f);});}
-function pfReqTotal(){var n=0;PROFILE_SECTIONS.forEach(function(s){s.fields.forEach(function(f){if(f.req)n++;});});return n;}
-function pfReqFilled(){var n=0;PROFILE_SECTIONS.forEach(function(s){s.fields.forEach(function(f){if(f.req&&pfFilled(f))n++;});});return n;}
+function pfReqTotal(){var n=0;pfApplicableSections().forEach(function(s){s.fields.forEach(function(f){if(f.req)n++;});});return n;}
+function pfReqFilled(){var n=0;pfApplicableSections().forEach(function(s){s.fields.forEach(function(f){if(f.req&&pfFilled(f))n++;});});return n;}
 function pfPct(){var t=pfReqTotal();return t?Math.round(pfReqFilled()/t*100):0;}
 function profileComplete(){return pfReqFilled()>=pfReqTotal();}
 function pfRing(pct){
@@ -4075,7 +4083,7 @@ function pfSubtitle(pct){
   if(pct<50)return "Nice start — keep the momentum going.";
   return "Almost there — just a couple more fields.";
 }
-function pfSegs(){return PROFILE_SECTIONS.map(function(s){return '<div class="pf-seg'+(pfSectionDone(s)?' on':'')+'"></div>';}).join('');}
+function pfSegs(){return pfApplicableSections().map(function(s){return '<div class="pf-seg'+(pfSectionDone(s)?' on':'')+'"></div>';}).join('');}
 var PF_COACH={
   identity:"Start with your name exactly as it appears on your license, and your credential.",
   license:"Your license number and state — this is what puts the hours on your official CE record.",
@@ -4092,20 +4100,24 @@ function vProfile(){
      +'<div class="pf-track" id="pfTrack">'+pfSegs()+'</div>'
      +(tour?'':'<button class="btn btn-gold" style="margin-top:14px;font-size:.82rem;padding:9px 16px" onclick="pfTourStart()">▶ Walk me through it</button>')
      +'</div></div>';
-  if(tour){
-    var sec=PROFILE_SECTIONS[tour.step],stepN=tour.step+1,total=PROFILE_SECTIONS.length;
+  var tourSecs=tour?pfApplicableSections():null, tourSec=tour?tourSecs[tour.step]:null;
+  if(tour&&tourSec){
+    var stepN=tour.step+1,total=tourSecs.length;
     h+='<div class="pf-coach"><div class="pf-coach-step">Guided setup · Step '+stepN+' of '+total+'</div>'
-      +'<div class="pf-coach-title">'+sec.icon+' '+esc(sec.title)+'</div>'
-      +'<div class="pf-coach-say">'+(PF_COACH[sec.key]||"Fill this in to keep going.")+'</div>'
+      +'<div class="pf-coach-title">'+tourSec.icon+' '+esc(tourSec.title)+'</div>'
+      +'<div class="pf-coach-say">'+(PF_COACH[tourSec.key]||"Fill this in to keep going.")+'</div>'
       +'<div class="pf-coach-actions"><button class="btn btn-ghost" style="font-size:.8rem;padding:8px 13px" onclick="pfTourFill()">✨ Fill for me</button><button class="btn btn-gold" style="font-size:.82rem;padding:9px 16px" onclick="pfTourNext()">'+(stepN<total?'Next step →':'Finish 🎉')+'</button></div></div>';
   }
-  PROFILE_SECTIONS.forEach(function(s,si){
-    var cls='pf-card'+(pfSectionDone(s)?' done':'')+(tour?(si===tour.step?' pf-spot':' pf-dim'):'');
+  PROFILE_SECTIONS.forEach(function(s){
+    if(!pfSectionApplicable(s))return;   // skip the license section for non-nurses
+    var cls='pf-card'+(pfSectionDone(s)?' done':'')+(tour?(s===tourSec?' pf-spot':' pf-dim'):'');
     h+='<div class="'+cls+'" id="pfc-'+s.key+'"><div class="pf-chead"><div class="pf-cico">'+s.icon+'</div><div class="pf-ctitle">'+esc(s.title)+'</div><div class="pf-cmark">✓ Done</div></div><div class="pf-grid">';
     s.fields.forEach(function(f){
       var val=(p[f.k]||"").toString(),inp;
       var lab='<label>'+esc(f.label)+(f.req?' <span class="req">*</span>':'')+'</label>';
-      if(f.type==="select"){
+      if(f.type==="toggle"){
+        inp='<div class="pf-toggle">'+f.opts.map(function(o){return '<button type="button" class="pf-tgl'+(val===o[0]?' on':'')+'" onclick="pfSetNurse(\''+o[0]+'\')">'+esc(o[1])+'</button>';}).join('')+'</div>';
+      }else if(f.type==="select"){
         inp='<select id="pff-'+f.k+'" onchange="pfSet(\''+f.k+'\',this.value)">'+f.opts.map(function(o){return '<option value="'+esc(o)+'"'+(o===val?' selected':'')+'>'+(o?esc(o):'Select…')+'</option>';}).join('')+'</select>';
       }else{
         inp='<input id="pff-'+f.k+'" type="'+(f.type||"text")+'" value="'+esc(val)+'" oninput="pfSet(\''+f.k+'\',this.value)" placeholder="'+esc(f.label)+'"/>';
@@ -4120,8 +4132,8 @@ function vProfile(){
 /* guided onboarding tour: spotlight each section, "fill for me" types the values in, ring climbs, celebration at the end */
 var _pfBackup=null;
 function pfTourStart(){try{_pfBackup=JSON.parse(JSON.stringify(P()));}catch(e){_pfBackup=null;}S.profile={};_pfCele=false;S.pfTour={step:0};window.scrollTo(0,0);render();}
-function pfTourScroll(){setTimeout(function(){if(!S.pfTour)return;var c=el("pfc-"+PROFILE_SECTIONS[S.pfTour.step].key);if(c){var y=c.getBoundingClientRect().top+window.pageYOffset-180;window.scrollTo({top:Math.max(0,y),behavior:"smooth"});}},80);}
-function pfTourNext(){if(!S.pfTour)return;if(S.pfTour.step<PROFILE_SECTIONS.length-1){S.pfTour.step++;render();pfTourScroll();}else{S.pfTour=null;profileSave();render();if(profileComplete())celebrate("🎉","Profile complete","You're CE-ready!");}}
+function pfTourScroll(){setTimeout(function(){if(!S.pfTour)return;var secs=pfApplicableSections(),s=secs[S.pfTour.step];if(!s)return;var c=el("pfc-"+s.key);if(c){var y=c.getBoundingClientRect().top+window.pageYOffset-180;window.scrollTo({top:Math.max(0,y),behavior:"smooth"});}},80);}
+function pfTourNext(){if(!S.pfTour)return;if(S.pfTour.step<pfApplicableSections().length-1){S.pfTour.step++;render();pfTourScroll();}else{S.pfTour=null;profileSave();render();if(profileComplete())celebrate("🎉","Profile complete","You're CE-ready!");}}
 function pfTourExit(){if(_pfBackup)S.profile=_pfBackup;_pfBackup=null;S.pfTour=null;profileSave();render();}
 function pfFlash(elx){if(!elx)return;elx.style.transition="box-shadow .3s";elx.style.boxShadow="0 0 0 3px rgba(34,224,218,.5)";setTimeout(function(){elx.style.boxShadow="";},480);}
 function pfTypeInto(f,v){
@@ -4131,9 +4143,10 @@ function pfTypeInto(f,v){
   var i=0;elx.value="";(function step(){if(!S.pfTour){return;}if(i<=v.length){elx.value=v.slice(0,i);pfSet(f.k,elx.value);i++;setTimeout(step,26);}else{pfFlash(elx);}})();
 }
 function pfTourFill(){
-  if(!S.pfTour)return;var sec=PROFILE_SECTIONS[S.pfTour.step],src=_pfBackup||{};
-  sec.fields.forEach(function(f,i){var v=(src[f.k]!=null&&src[f.k]!=="")?src[f.k]:(PF_DUMMY[f.k]||"");if(!v)return;setTimeout(function(){pfTypeInto(f,v);},i*300);});
+  if(!S.pfTour)return;var sec=pfApplicableSections()[S.pfTour.step];if(!sec)return;var src=_pfBackup||{};
+  sec.fields.forEach(function(f,i){var v=(src[f.k]!=null&&src[f.k]!=="")?src[f.k]:(PF_DUMMY[f.k]||"");if(!v)return;if(f.type==="toggle"){setTimeout(function(){pfSetNurse(v);},i*300);return;}setTimeout(function(){pfTypeInto(f,v);},i*300);});
 }
+function pfSetNurse(v){P().isNurse=v;profileSave();if(profileComplete()){if(!_pfCele){_pfCele=true;celebrate("🎉","Profile complete","You're CE-ready!");}}else{_pfCele=false;}render();if(S.pfTour)pfTourScroll();}
 window.addEventListener("resize",function(){});
 var _pfCele=false;
 function pfSet(k,v){
@@ -4146,7 +4159,7 @@ function pfSet(k,v){
   if(profileComplete()){if(!_pfCele){_pfCele=true;celebrate("🎉","Profile complete","You're CE-ready!");}}else{_pfCele=false;}
 }
 function pfDone(){profileSave();if(profileComplete())celebrate("✅","Saved","Your CE profile is ready");go("home");}
-var PF_DUMMY={firstName:"Jordan",lastName:"Rivers",credentials:"RN",licenseNum:"RN-448215",licenseState:"OH",licenseExp:"2027-08",email:"jordan.rivers@example.com",phone:"(513) 555-0142",addr1:"124 Vine Street",city:"Cincinnati",state:"OH",zip:"45202",employer:"Tri-State Medical Center"};
+var PF_DUMMY={isNurse:"yes",firstName:"Jordan",lastName:"Rivers",credentials:"RN",licenseNum:"RN-448215",licenseState:"OH",licenseExp:"2027-08",email:"jordan.rivers@example.com",phone:"(513) 555-0142",addr1:"124 Vine Street",city:"Cincinnati",state:"OH",zip:"45202",employer:"Tri-State Medical Center"};
 function pfSeedDummy(force){
   var p=P();if(!force){var any=Object.keys(p).some(function(k){return (p[k]||"").toString().trim();});if(any)return;}
   S.profile=JSON.parse(JSON.stringify(PF_DUMMY));
