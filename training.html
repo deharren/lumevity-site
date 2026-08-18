@@ -2820,11 +2820,6 @@ function ixFeedback(host,ok,msg,onNext){
   // some authored feedback already opens with its own verdict — don't double it up
   var hasVerdict=/^\s*(correct|right|exactly|yes|not quite|no[,.]|incorrect|that is (right|correct)|that's (right|correct))\b/i.test(msg.replace(/<[^>]+>/g,""));
   fb.innerHTML=(hasVerdict?"":'<b>'+(ok?"Correct — ":"Not quite — ")+'</b>')+msg;
-  if(!ok&&host.dataset.solved!=="1"){
-    var _m=(parseInt(host.dataset.miss||"0",10)||0)+1; host.dataset.miss=_m;
-    if(_m>=4){var _bar=host.querySelector(".ixbar");
-      if(_bar&&!_bar.querySelector(".ixskip")){var _sk=document.createElement("button");_sk.type="button";_sk.className="ixbtn ixskip";_sk.style.cssText="opacity:.85";_sk.textContent="Continue anyway →";_sk.onclick=function(){ixAutoSolve(host);};_bar.appendChild(_sk);}}
-  }
   if(onNext)onNext(fb);
 }
 function ixSolve(host,ok){
