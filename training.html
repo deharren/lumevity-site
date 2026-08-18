@@ -4106,6 +4106,26 @@ function bootRender(){ ceLoad();
     setTimeout(finish, 4500);
   }catch(e){ finish(); }
 })();
+
+/* ===== Auto-update: detect a new deploy and offer a one-tap refresh (prevents stale-cache bugs for open tabs) ===== */
+(function(){
+  var _tag=null,_shown=false;
+  function head(cb){ try{ fetch(location.pathname,{method:'HEAD',cache:'no-store'}).then(function(r){cb(r.headers.get('etag')||r.headers.get('last-modified'));}).catch(function(){cb(null);}); }catch(e){ cb(null); } }
+  head(function(t){ _tag=t; });
+  function banner(){
+    if(_shown||document.getElementById('updBar'))return; _shown=true;
+    var b=document.createElement('div'); b.id='updBar';
+    b.style.cssText='position:fixed;left:12px;right:12px;bottom:12px;z-index:99999;background:#0E4E58;border:1px solid #22E0DA;border-radius:12px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 8px 26px rgba(0,0,0,.45);color:#EAF6F6;font:600 14px Inter,system-ui;max-width:520px;margin:0 auto';
+    b.innerHTML='<span>A newer version is available.</span>';
+    var btn=document.createElement('button'); btn.textContent='Refresh'; btn.style.cssText='background:#22E0DA;color:#062a2f;border:none;border-radius:8px;padding:8px 14px;font:700 14px Inter,system-ui;cursor:pointer';
+    btn.onclick=function(){ location.reload(); };
+    b.appendChild(btn); document.body.appendChild(b);
+  }
+  function check(){ if(document.hidden||!_tag)return; head(function(t){ if(t&&t!==_tag)banner(); }); }
+  document.addEventListener('visibilitychange',function(){ if(!document.hidden)check(); });
+  window.addEventListener('focus',check);
+  setInterval(check,4*60*1000);
+})();
 </script>
 </body>
 </html>
