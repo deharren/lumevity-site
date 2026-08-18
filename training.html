@@ -797,7 +797,7 @@ svgSubQ=function(i){return i?figHotspots('subq-sites-v1.png','SubQ sites — tap
 svgAngle=function(){return figImg('skin-angles-v1.png','Skin layers with injection needle angles (90 IM, 45 SubQ)');};
 svgLayers=function(){return figImg('skin-angles-v1.png','Skin layers');};
 svgVeinX=function(){return figImg('vein-xsection-v1.png','Vein wall cross-section');};
-illoSVG=function(k){var m={arm:'forearm-veins-v1.png',im:'im-sites-v2.png',subq:'subq-sites-v1.png',angle:'skin-angles-v1.png',layers:'skin-angles-v1.png',veinx:'vein-xsection-v1.png',gauge:'gauge-flashback-v1.png',flashback:'gauge-flashback-v1.png'};return m[k]?figImg(m[k],k):'';};
+illoSVG=function(k){var m={arm:'forearm-veins-v1.png',im:'im-sites-v2.png',subq:'subq-sites-v1.png',angle:'skin-angles-v1.png',layers:'skin-angles-v1.png',veinx:'vein-xsection-v1.png',gauge:'gauge-flashback-v1.png',flashback:'gauge-flashback-v1.png',complications:'iv-complications-v1.png'};var alt={complications:'Infiltration, phlebitis, and hematoma compared on the forearm'};return m[k]?figImg(m[k],alt[k]||k):'';};
 /* Glossary term figures -> hosted images (highlight-per-term is dropped in favor of atlas-quality art) */
 var gArm=function(){return figImg('forearm-veins-v1.png','Superficial veins of the forearm');};
 var gIM=function(){return figImg('im-sites-v2.png','Intramuscular injection sites');};
@@ -937,7 +937,7 @@ const IV_LESSONS={
     takeaways:["Anchor, bevel-up, shallow angle, watch for two flashbacks.","First flash = needle in; drop the angle and advance before threading.","Release the tourniquet before opening the system.","Confirm free-flowing, painless flush — resistance means stop."],
     refs:"INS Standards of Practice (2024); StatPearls; Perry, Potter & Ostendorf, Clinical Nursing Skills & Techniques."},
 
-  iv_complications:{title:"Complications & troubleshooting",stage:"IV · Module 7",mini:"veinx",illo:"arm",
+  iv_complications:{title:"Complications & troubleshooting",stage:"IV · Module 7",mini:"veinx",illo:"complications",
     objectives:["Distinguish infiltration from extravasation and manage each","Grade phlebitis and infiltration with the INS scales","Recognize hematoma, nerve injury, and arterial puncture","Take correct first actions for each complication"],
     lead:"Even excellent technique meets complications. What separates a safe clinician is early recognition and the right first move — often 'stop the infusion' before anything else.",
     sections:[
