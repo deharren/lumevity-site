@@ -1770,7 +1770,7 @@ function wireLesson(){
   upd();
 }
 function scrollLessonTop(){requestAnimationFrame(function(){var lh=document.querySelector('.lhead')||document.querySelector('.slidebox');if(lh){var y=lh.getBoundingClientRect().top+window.pageYOffset-8;window.scrollTo({top:Math.max(0,y),behavior:'smooth'});}});}
-function ixStepSolved(i){var st=lessonSteps(S.lesson)[i];if(!st||st.t!=="inter")return true;var h=el("ixHost"+st.i);return !!(h&&h.dataset.solved==="1");}
+function ixStepSolved(i){var st=lessonSteps(S.lesson)[i];if(!st||st.t!=="inter")return true;if(S.qxp.has(ixKey(S.lesson,st.i)))return true;var h=el("ixHost"+st.i);return !!(h&&h.dataset.solved==="1");}
 function stepLocked(i){var st=lessonSteps(S.lesson)[i];return !!(st&&st.t==="inter"&&!ixStepSolved(i));}
 function stepMove(d){var steps=lessonSteps(S.lesson),total=steps.length;var n=S.step+d;if(n<0||n>=total)return;if(d>0&&stepLocked(S.step)){celebrate("🔒","Not yet","Answer correctly to continue");return;}S.step=n;window._lessonUpd();scrollLessonTop();}
 function stepGo(i){if(i>S.step){for(var k=S.step;k<i;k++){if(stepLocked(k)){celebrate("🔒","Not yet","Answer the practice step before moving on");return;}}}S.step=i;window._lessonUpd();scrollLessonTop();}
@@ -2872,7 +2872,7 @@ function ixRender(host,x,idx){
   host.innerHTML=ixHead(x)+'<div class="ixbody"></div><div class="ixbar"></div>';
   var body=host.querySelector(".ixbody");
   var t=x.type==="sites"?"hotspot":x.type;
-  if(S.qxp.has(host.dataset.key)){ixRestoreSolved(host,body,x);return;}   // earned earlier — keep it
+  // Already earned (in S.qxp)? Render it FRESH and interactive so it stays re-playable; ixStepSolved keeps Next unlocked via S.qxp.
   var R=IX_REND[t];
   if(!R){body.innerHTML='<div class="fbwhy" style="padding:10px 4px">This practice step could not be displayed. You can continue.</div>';ixAutoSolve(host);return;}   // unknown type — fail open
   R(host,body,x);
