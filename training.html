@@ -200,6 +200,7 @@
   .cele.warn .pop{background:linear-gradient(160deg,#5E1B24,#3A121A);border-color:rgba(255,150,150,.5);box-shadow:0 30px 70px rgba(60,10,16,.55);} .cele.warn .ct{color:#FF9C9C;}
   /* ===== CE contact-hour vault / rewards ===== */
   @keyframes cevwave{from{transform:translateX(0)}to{transform:translateX(-64px)}}
+  @keyframes cevfill{from{transform:translateY(150px)}to{transform:translateY(0)}}
   @keyframes cevrise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   .cevault{position:relative;background:linear-gradient(160deg,#124C57,#0A2A37);border:1px solid rgba(120,235,228,.28);border-radius:22px;padding:22px 24px;margin:18px 0 0;box-shadow:0 30px 70px rgba(3,20,26,.35);display:grid;grid-template-columns:auto 1fr;gap:22px 26px;align-items:center;overflow:hidden;animation:cevrise .5s ease;}
   .cevault::before{content:"";position:absolute;inset:0;background:radial-gradient(520px 220px at 88% -20%,rgba(34,224,218,.16),transparent 60%);pointer-events:none;}
@@ -226,8 +227,37 @@
   .cev-chip.on{background:linear-gradient(150deg,rgba(34,224,218,.16),rgba(20,201,198,.06));border-color:rgba(34,224,218,.5);color:#EAFFFF;}
   .cev-chip.on .ic{filter:none;opacity:1;}
   .cev-chip.next{border-color:rgba(201,162,75,.55);color:#F2D399;}
-  .cev-foot{grid-column:1/-1;display:flex;justify-content:flex-end;margin-top:2px;}
-  @media(max-width:640px){.cevault{grid-template-columns:1fr;justify-items:center;text-align:center;}.cev-nextrow,.cev-main{width:100%;}.cev-eyebrow{justify-content:center;}}
+  .cev-foot{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:2px;}
+  @media(max-width:640px){.cevault{grid-template-columns:1fr;justify-items:center;text-align:center;}.cev-nextrow,.cev-main{width:100%;}.cev-eyebrow{justify-content:center;}.cev-foot{justify-content:center;}}
+  /* ===== CE profile + gamified onboarding ===== */
+  .tbtn.prof{background:transparent;color:var(--muted);border:1px solid var(--stone);}
+  @media(max-width:720px){.tbtn.prof{padding:8px 12px;}}
+  .pfwrap{max-width:760px;margin:0 auto;}
+  .pf-hero{display:flex;gap:22px;align-items:center;background:linear-gradient(160deg,#124C57,#0A2A37);border:1px solid rgba(120,235,228,.28);border-radius:22px;padding:22px 26px;margin-bottom:16px;box-shadow:0 24px 60px rgba(3,20,26,.3);animation:cevrise .5s ease;}
+  .pf-ring{position:relative;width:110px;height:110px;flex:none;}
+  .pf-ring .pct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .pf-ring .pct b{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:1.55rem;font-weight:800;color:#fff;line-height:1;}
+  .pf-ring .pct span{font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;color:#7FE6F0;font-weight:800;margin-top:2px;}
+  .pf-heromain{min-width:0;}
+  .pf-sub{color:rgba(190,235,235,.92);font-size:.9rem;margin-top:2px;}
+  .pf-track{display:flex;gap:6px;margin-top:12px;}
+  .pf-seg{height:7px;border-radius:4px;flex:1;background:rgba(255,255,255,.1);transition:background .3s;}
+  .pf-seg.on{background:linear-gradient(90deg,#14C9C6,#22E0DA);box-shadow:0 0 10px rgba(34,224,218,.5);}
+  .pf-card{background:linear-gradient(160deg,#134E58,#0A2C38);border:1px solid rgba(120,235,228,.2);border-radius:16px;padding:16px 18px 18px;margin-bottom:12px;transition:border-color .2s,box-shadow .2s;}
+  .pf-card.done{border-color:rgba(34,224,218,.55);box-shadow:0 0 0 1px rgba(34,224,218,.25),0 10px 30px rgba(3,20,26,.25);}
+  .pf-chead{display:flex;align-items:center;gap:11px;margin-bottom:14px;}
+  .pf-cico{width:36px;height:36px;border-radius:11px;background:rgba(120,235,228,.14);display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex:none;}
+  .pf-ctitle{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;color:#fff;font-size:1.02rem;}
+  .pf-cmark{margin-left:auto;font-size:.72rem;font-weight:800;color:#22E0DA;opacity:0;transform:scale(.8);transition:.25s;}
+  .pf-card.done .pf-cmark{opacity:1;transform:scale(1);}
+  .pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;}
+  .pf-f{display:flex;flex-direction:column;gap:5px;min-width:0;}
+  .pf-f.full{grid-column:1/-1;}
+  .pf-f label{font-size:.72rem;font-weight:700;color:rgba(210,240,240,.8);}
+  .pf-f label .req{color:#FF9C9C;}
+  .pf-f input,.pf-f select{border:1px solid rgba(120,235,228,.28);border-radius:10px;padding:10px 12px;font:inherit;font-size:.92rem;background:rgba(255,255,255,.96);color:#123;box-sizing:border-box;width:100%;}
+  .pf-f input:focus,.pf-f select:focus{outline:none;border-color:#22E0DA;box-shadow:0 0 0 3px rgba(34,224,218,.22);}
+  @media(max-width:560px){.pf-hero{flex-direction:column;text-align:center;}.pf-grid{grid-template-columns:1fr;}}
   .confetti{position:fixed;inset:0;pointer-events:none;z-index:199;overflow:hidden;} .confetti i{position:absolute;top:-12px;width:9px;height:14px;border-radius:2px;animation:fall linear forwards;}
 
   /* Mascot */
@@ -771,6 +801,7 @@
   </div>
   <div class="ovwrap">
     <div class="ov"><span class="pc" id="ovPct">0%</span><div class="bar"><i id="ovBar"></i></div></div>
+    <button class="tbtn prof" onclick="go('profile')">Profile</button>
     <button class="tbtn pro" onclick="go('pricing')">⚡ Go Pro</button>
     <button class="tbtn reset" onclick="resetAll()">Reset</button>
   </div>
@@ -1591,7 +1622,7 @@ function lessonCourseOf(id){for(var i=0;i<COURSE_IDS.length;i++){if(courseLesson
 
 function render(){
   touchStreak();
-  var v={home:vHome,lesson:vLesson,exam:vExam,cert:vCert,pricing:vPricing,rehearse:vRehearse,evaluation:vEval,myce:vMyCE,verify:vVerify}[S.view]||vHome;
+  var v={home:vHome,lesson:vLesson,exam:vExam,cert:vCert,pricing:vPricing,rehearse:vRehearse,evaluation:vEval,myce:vMyCE,verify:vVerify,profile:vProfile}[S.view]||vHome;
   el("view").innerHTML=v();
   syncBar();
   if(S.view==="lesson")wireLesson();
@@ -3941,11 +3972,12 @@ function ceBagSVG(pct){
    +'<rect x="54" y="4" width="10" height="10" rx="3" fill="none" stroke="rgba(230,246,246,.5)" stroke-width="3"/>'
    +'<line x1="59" y1="14" x2="59" y2="26" stroke="rgba(230,246,246,.4)" stroke-width="2"/>'
    +'<path d="M32 26 h54 a10 10 0 0 1 10 10 v104 a16 16 0 0 1 -16 16 h-42 a16 16 0 0 1 -16 -16 v-104 a10 10 0 0 1 10 -10 z" fill="rgba(255,255,255,.06)" stroke="rgba(180,240,240,.55)" stroke-width="2"/>'
-   +'<g clip-path="url(#cevclip)">'
-   +'<rect x="18" y="'+fy+'" width="82" height="'+(range+20)+'" fill="url(#cevfluid)"/>'
-   +'<g style="animation:cevwave 2.6s linear infinite"><path d="M8 '+fy+' q16 -8 32 0 t32 0 t32 0 t32 0 v40 h-128 z" fill="rgba(255,255,255,.18)"/></g>'
-   +'<g style="animation:cevwave 3.7s linear infinite reverse"><path d="M8 '+(fy+4)+' q16 7 32 0 t32 0 t32 0 t32 0 v40 h-128 z" fill="rgba(20,140,140,.35)"/></g>'
-   +'</g>'
+   +'<g clip-path="url(#cevclip)"><g style="animation:cevfill 1.05s cubic-bezier(.22,.9,.25,1) both">'
+   +'<rect x="18" y="'+fy+'" width="82" height="'+(range+40)+'" fill="url(#cevfluid)"/>'
+   +'<g style="animation:cevwave 2.4s linear infinite"><path d="M8 '+fy+' q16 -9 32 0 t32 0 t32 0 t32 0 v50 h-128 z" fill="rgba(255,255,255,.2)"/></g>'
+   +'<g style="animation:cevwave 3.6s linear infinite reverse"><path d="M8 '+(fy+3)+' q16 8 32 0 t32 0 t32 0 t32 0 v50 h-128 z" fill="rgba(20,140,140,.38)"/></g>'
+   +'<ellipse cx="46" cy="'+(fy+9)+'" rx="15" ry="4" fill="rgba(255,255,255,.28)"/>'
+   +'</g></g>'
    +'<g stroke="rgba(200,245,245,.45)" stroke-width="1.4"><line x1="86" y1="52" x2="92" y2="52"/><line x1="86" y1="82" x2="92" y2="82"/><line x1="86" y1="112" x2="92" y2="112"/><line x1="86" y1="142" x2="92" y2="142"/></g>'
    +'<rect x="54" y="156" width="10" height="8" fill="rgba(200,245,245,.5)"/>'
    +'<line x1="59" y1="164" x2="59" y2="184" stroke="rgba(200,245,245,.4)" stroke-width="2"/>'
@@ -3958,20 +3990,20 @@ function ceVaultPanel(){
   for(var i=0;i<CE_MILESTONES.length;i++){var m=CE_MILESTONES[i];if(m.h<=earned+1e-9)prev=m;else if(!next)next=m;}
   var lo=prev?prev.h:0,hi=next?next.h:prog;var seg=hi>lo?Math.max(0,Math.min(100,Math.round((earned-lo)/(hi-lo)*100))):100;
   var ohio=Math.round(earned/24*100);
-  var copy=!next?'Every contact hour banked — outstanding work.':('You&rsquo;re '+(next.h-earned).toFixed(2)+' CH from your next reward: '+esc(next.name)+'.');
-  var chips=CE_MILESTONES.map(function(m){var on=earned>=m.h-1e-9;var isnext=next&&m.h===next.h;return '<div class="cev-chip'+(on?' on':'')+(isnext?' next':'')+'"><span class="ic">'+(on?m.icon:(isnext?'✨':'🔒'))+'</span>'+esc(m.name)+' · '+m.h+'h</div>';}).join('');
+  var copy=!next?'Every contact hour banked — outstanding work.':('You&rsquo;re '+(next.h-earned).toFixed(2)+' CE from your next reward: '+esc(next.name)+'.');
+  var chips=CE_MILESTONES.map(function(m){var on=earned>=m.h-1e-9;var isnext=next&&m.h===next.h;return '<div class="cev-chip'+(on?' on':'')+(isnext?' next':'')+'"><span class="ic">'+(on?m.icon:(isnext?'✨':'🔒'))+'</span>'+esc(m.name)+' · '+m.h+' CE</div>';}).join('');
   var prevChip=(CE_PREVIEW&&!ceRealAccredited())?'<span class="cev-prev">Preview</span>':'';
   return '<div class="cevault">'
-   +'<div class="cev-bagwrap">'+ceBagSVG(pct)+'<div class="cev-bagnum"><b>'+earned.toFixed(2)+'</b><span>of '+prog.toFixed(1)+' CH</span></div></div>'
+   +'<div class="cev-bagwrap">'+ceBagSVG(pct)+'<div class="cev-bagnum"><b>'+earned.toFixed(2)+'</b><span>of '+prog.toFixed(1)+' CE</span></div></div>'
    +'<div class="cev-main">'
      +'<div class="cev-eyebrow">CE contact hours '+prevChip+'</div>'
-     +'<div class="cev-big"><b>'+earned.toFixed(2)+'</b> <span>/ '+prog.toFixed(2)+' CH earned</span></div>'
+     +'<div class="cev-big"><b>'+earned.toFixed(2)+'</b> <span>/ '+prog.toFixed(2)+' CE earned</span></div>'
      +'<div class="cev-copy">'+copy+'</div>'
-     +(next?('<div class="cev-nextrow"><span>Next reward · '+esc(next.name)+'</span><span><b>'+next.h.toFixed(1)+' CH</b></span></div><div class="cev-bar"><i style="width:'+seg+'%"></i></div>'):'')
+     +(next?('<div class="cev-nextrow"><span>Next reward · '+esc(next.name)+'</span><span><b>'+next.h.toFixed(1)+' CE</b></span></div><div class="cev-bar"><i style="width:'+seg+'%"></i></div>'):'')
      +'<div class="cev-ohio">🎯 <b>'+ohio+'%</b> of your 24-hour Ohio renewal</div>'
    +'</div>'
    +'<div class="cev-rewards">'+chips+'</div>'
-   +'<div class="cev-foot"><button class="btn btn-ghost" style="font-size:.8rem;padding:8px 14px" onclick="go(\'myce\')">View CE transcript →</button></div>'
+   +'<div class="cev-foot"><button class="btn btn-ghost" style="font-size:.8rem;padding:8px 14px" onclick="go(\'profile\')">'+(profileComplete()?'CE profile ✓':('Complete your CE profile · '+pfPct()+'%'))+'</button><button class="btn btn-ghost" style="font-size:.8rem;padding:8px 14px" onclick="go(\'myce\')">View CE transcript →</button></div>'
    +'</div>';
 }
 function ceLessonReward(id){
@@ -3979,8 +4011,103 @@ function ceLessonReward(id){
   var add=ceLessonHrs(id);if(!(add>0))return;
   var after=ceEarnedHrs(),before=after-add,crossed=null;
   for(var i=0;i<CE_MILESTONES.length;i++){var m=CE_MILESTONES[i];if(before<m.h-1e-9&&after>=m.h-1e-9){crossed=m;break;}}
-  if(crossed){celebrate(crossed.icon,"Reward unlocked",crossed.name+" · "+after.toFixed(2)+" CH banked");}
-  else{celebrate("💧","Contact hours banked","+"+add.toFixed(2)+" CH · "+after.toFixed(2)+" of "+ceProgramHrs().toFixed(1)+" CH");}
+  if(crossed){celebrate(crossed.icon,"Reward unlocked",crossed.name+" · "+after.toFixed(2)+" CE banked");}
+  else{celebrate("💧","CE banked","+"+add.toFixed(2)+" CE · "+after.toFixed(2)+" of "+ceProgramHrs().toFixed(1)+" CE");}
+}
+
+/* ============ CE learner PROFILE + gamified onboarding ============
+   Bare-bones info a nursing CE record needs: legal name, credential, license
+   (number/state/expiry), email/phone, and mailing address. Filling it is framed
+   as a short quest with a live completion ring, per-section checkmarks, and a
+   celebration at 100% so it doesn't feel like a boring form. */
+function P(){if(!S.profile){try{S.profile=Store.get("lmv_profile",{})||{};}catch(e){S.profile={};}}return S.profile;}
+function profileSave(){
+  try{Store.set("lmv_profile",P());}catch(e){}
+  var p=P(),nm=[p.firstName,p.lastName].filter(Boolean).join(" ").trim();if(nm)S.name=nm;
+  if(p.credentials||p.licenseNum||p.licenseState){S.license={type:(/^(RN|LPN|APRN)$/.test(p.credentials||"")?p.credentials:((S.license&&S.license.type)||"")),num:p.licenseNum||"",state:p.licenseState||""};}
+  try{persist();}catch(e){}
+}
+var PF_STATES=["OH","KY","IN","MI","PA","WV","IL","NY","CA","FL","TX","Other"];
+var PROFILE_SECTIONS=[
+ {key:"identity",title:"Who you are",icon:"🩺",fields:[
+   {k:"firstName",label:"First name",req:true},
+   {k:"lastName",label:"Last name",req:true},
+   {k:"credentials",label:"Credential",type:"select",opts:["","RN","LPN","APRN","Nursing student","Other"],req:true,full:true}
+ ]},
+ {key:"license",title:"Your nursing license",icon:"📋",fields:[
+   {k:"licenseNum",label:"License number",req:true},
+   {k:"licenseState",label:"License state",type:"select",opts:[""].concat(PF_STATES),req:true},
+   {k:"licenseExp",label:"Expires",type:"month",req:false,full:true}
+ ]},
+ {key:"contact",title:"How we reach you",icon:"✉️",fields:[
+   {k:"email",label:"Email",type:"email",req:true,full:true},
+   {k:"phone",label:"Mobile phone",type:"tel",req:false,full:true}
+ ]},
+ {key:"address",title:"Where you practice",icon:"📍",fields:[
+   {k:"addr1",label:"Street address",req:true,full:true},
+   {k:"city",label:"City",req:true},
+   {k:"state",label:"State",type:"select",opts:[""].concat(PF_STATES),req:true},
+   {k:"zip",label:"ZIP code",req:true},
+   {k:"employer",label:"Employer / practice (optional)",req:false,full:true}
+ ]}
+];
+function pfFilled(f){return !!((P()[f.k]||"").toString().trim());}
+function pfSectionDone(sec){return sec.fields.every(function(f){return !f.req||pfFilled(f);});}
+function pfReqTotal(){var n=0;PROFILE_SECTIONS.forEach(function(s){s.fields.forEach(function(f){if(f.req)n++;});});return n;}
+function pfReqFilled(){var n=0;PROFILE_SECTIONS.forEach(function(s){s.fields.forEach(function(f){if(f.req&&pfFilled(f))n++;});});return n;}
+function pfPct(){var t=pfReqTotal();return t?Math.round(pfReqFilled()/t*100):0;}
+function profileComplete(){return pfReqFilled()>=pfReqTotal();}
+function pfRing(pct){
+  var r=48,c=2*Math.PI*r,off=c*(1-pct/100);
+  return '<svg viewBox="0 0 110 110" width="110" height="110"><circle cx="55" cy="55" r="'+r+'" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="9"/><circle cx="55" cy="55" r="'+r+'" fill="none" stroke="#22E0DA" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 55 55)" style="transition:stroke-dashoffset .55s cubic-bezier(.2,.9,.3,1)"/></svg>';
+}
+function pfSubtitle(pct){
+  if(pct>=100)return "You&rsquo;re CE-ready — everything we need is on file. 🎉";
+  if(pct===0)return "About two minutes. Let&rsquo;s get you CE-ready.";
+  if(pct<50)return "Nice start — keep the momentum going.";
+  return "Almost there — just a couple more fields.";
+}
+function pfSegs(){return PROFILE_SECTIONS.map(function(s){return '<div class="pf-seg'+(pfSectionDone(s)?' on':'')+'"></div>';}).join('');}
+function vProfile(){
+  var p=P(),pct=pfPct();
+  var h='<div class="pfwrap">'
+   +'<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button>'+(profileComplete()?'<button class="btn btn-ghost" onclick="go(\'myce\')">My CE transcript</button>':'')+'</div>'
+   +'<div class="pf-hero"><div class="pf-ring" id="pfRing">'+pfRing(pct)+'<div class="pct"><b>'+pct+'%</b><span>complete</span></div></div>'
+     +'<div class="pf-heromain"><span class="eyebrow" style="color:#7FE6F0">CE profile</span><h2 style="color:#fff;margin:2px 0 4px;font-family:\'Plus Jakarta Sans\',system-ui,sans-serif;font-size:1.5rem">Your nurse profile</h2>'
+     +'<div class="pf-sub" id="pfSub">'+pfSubtitle(pct)+'</div>'
+     +'<div class="pf-track" id="pfTrack">'+pfSegs()+'</div></div></div>';
+  PROFILE_SECTIONS.forEach(function(s){
+    h+='<div class="pf-card'+(pfSectionDone(s)?' done':'')+'" id="pfc-'+s.key+'"><div class="pf-chead"><div class="pf-cico">'+s.icon+'</div><div class="pf-ctitle">'+esc(s.title)+'</div><div class="pf-cmark">✓ Done</div></div><div class="pf-grid">';
+    s.fields.forEach(function(f){
+      var val=(p[f.k]||"").toString(),inp;
+      var lab='<label>'+esc(f.label)+(f.req?' <span class="req">*</span>':'')+'</label>';
+      if(f.type==="select"){
+        inp='<select onchange="pfSet(\''+f.k+'\',this.value)">'+f.opts.map(function(o){return '<option value="'+esc(o)+'"'+(o===val?' selected':'')+'>'+(o?esc(o):'Select…')+'</option>';}).join('')+'</select>';
+      }else{
+        inp='<input type="'+(f.type||"text")+'" value="'+esc(val)+'" oninput="pfSet(\''+f.k+'\',this.value)" placeholder="'+esc(f.label)+'"/>';
+      }
+      h+='<div class="pf-f'+(f.full?' full':'')+'">'+lab+inp+'</div>';
+    });
+    h+='</div></div>';
+  });
+  h+='<div style="display:flex;justify-content:flex-end;gap:8px;margin:6px 0 34px"><button class="btn btn-gold" onclick="pfDone()">'+(profileComplete()?'Done →':'Save &amp; continue')+'</button></div></div>';
+  return h;
+}
+var _pfCele=false;
+function pfSet(k,v){
+  P()[k]=v;profileSave();
+  var pct=pfPct();
+  var ring=el("pfRing");if(ring)ring.innerHTML=pfRing(pct)+'<div class="pct"><b>'+pct+'%</b><span>complete</span></div>';
+  var sub=el("pfSub");if(sub)sub.innerHTML=pfSubtitle(pct);
+  var track=el("pfTrack");if(track)track.innerHTML=pfSegs();
+  PROFILE_SECTIONS.forEach(function(s){var c=el("pfc-"+s.key);if(c)c.classList.toggle("done",pfSectionDone(s));});
+  if(profileComplete()){if(!_pfCele){_pfCele=true;celebrate("🎉","Profile complete","You&rsquo;re CE-ready!");}}else{_pfCele=false;}
+}
+function pfDone(){profileSave();if(profileComplete())celebrate("✅","Saved","Your CE profile is ready");go("home");}
+function pfSeedDummy(force){
+  var p=P();if(!force){var any=Object.keys(p).some(function(k){return (p[k]||"").toString().trim();});if(any)return;}
+  S.profile={firstName:"Jordan",lastName:"Rivers",credentials:"RN",licenseNum:"RN-448215",licenseState:"OH",licenseExp:"2027-08",email:"jordan.rivers@example.com",phone:"(513) 555-0142",addr1:"124 Vine Street",city:"Cincinnati",state:"OH",zip:"45202",employer:"Tri-State Medical Center"};
+  profileSave();
 }
 
 /* ---- conflict-of-interest disclosure (shown before the activity) ---- */
@@ -4224,7 +4351,7 @@ function sectionFigsHTML(id,si){
 
 /* ============ Reset ============ */
 function resetAll(){openModal('<h3>Reset progress?</h3><p>This clears your XP, streak, completed lessons, exams, and certificates on this device.</p><button class="btn btn-ghost" onclick="closeModal()">Cancel</button> <button class="btn btn-gold" onclick="doReset()">Reset</button>');}
-function doReset(){["lmv_done","lmv_xp","lmv_qxp","lmv_streak","lmv_best","lmv_last","lmv_exams","lmv_name","lmv_certs","lmv_ce_ack","lmv_ce_eval","lmv_ce_recs"].forEach(function(k){Store.del(k);});S.done=new Set();S.xp=0;S.qxp=new Set();S.streak=0;S.best=0;S.last=null;S.exams={};S.name="";S.certs={};CE.ack={};CE.evals={};CE.recs={};_ceEval={};_ceEvalFor=null;closeModal();go("home");}
+function doReset(){["lmv_done","lmv_xp","lmv_qxp","lmv_streak","lmv_best","lmv_last","lmv_exams","lmv_name","lmv_certs","lmv_ce_ack","lmv_ce_eval","lmv_ce_recs","lmv_profile","lmv_resume"].forEach(function(k){Store.del(k);});S.done=new Set();S.xp=0;S.qxp=new Set();S.streak=0;S.best=0;S.last=null;S.exams={};S.name="";S.certs={};S.license=null;S.profile={};_pfCele=false;CE.ack={};CE.evals={};CE.recs={};_ceEval={};_ceEvalFor=null;closeModal();go("home");}
 function flash(){celebrate("🔒","Locked","Finish the previous lesson first");}
 
 /* ============ init: load curriculum from Supabase, fall back to bundled ============ */
@@ -4269,6 +4396,7 @@ function demoTrainingLogin(){
   },1000);
 }
 function bootRender(){ ceLoad();
+  try{ if(CE_PREVIEW)pfSeedDummy(false); }catch(e){}  // demo/preview: seed dummy CE profile data for testing (only if empty)
   // Public credential verification bypasses the learner login gate (employers/boards have no account)
   if((location.hash||"").indexOf("#verify")===0){ S.view="verify"; var g=document.getElementById('demoLogin'); if(g)g.style.display='none'; }
   render(); setTimeout(function(){var l=document.querySelector('.brand .logo');if(l)l.classList.add('glow');},900); if(!DEMO_LOGIN){var o=document.getElementById('demoLogin');if(o)o.style.display='none';} }
