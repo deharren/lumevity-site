@@ -1519,7 +1519,7 @@ function overallFraction(){var d=0;S.done.forEach(function(i){if(L[i])d++;});var
 /* ⚠️ TEMPORARY — DEV/CLIENT PREVIEW ONLY. Set DEV_UNLOCK_ALL=false before GO-LIVE.
    When true, every lesson is tappable so a reviewer can jump to any lesson without
    completing the prior ones. This bypasses the normal sequential gating. */
-var DEV_UNLOCK_ALL=false;
+var DEV_UNLOCK_ALL=true;
 function lessonUnlocked(c,id){if(DEV_UNLOCK_ALL)return true;var ls=courseLessons(c);var idx=ls.indexOf(id);if(idx<=0)return true;for(var k=0;k<idx;k++){if(!S.done.has(ls[k]))return false;}return true;}
 
 /* ============ XP / celebrate ============ */
