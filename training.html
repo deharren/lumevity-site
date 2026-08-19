@@ -4126,7 +4126,7 @@ function pfSectionSummary(s){
 }
 function pfFieldHTML(p,f){
   var val=(p[f.k]||"").toString(),inp;
-  var lab='<label>'+esc(f.label)+(f.req?' <span class="req">*</span>':'')+' <span class="pf-ok">✓</span></label>';
+  var lab='<label><span>'+esc(f.label)+(f.req?' <span class="req">*</span>':'')+'</span><span class="pf-ok">✓</span></label>';
   if(f.type==="toggle"){
     inp='<div class="pf-toggle">'+f.opts.map(function(o){return '<button type="button" class="pf-tgl'+(val===o[0]?' on':'')+'" onclick="pfSetNurse(\''+o[0]+'\')">'+esc(o[1])+'</button>';}).join('')+'</div>';
   }else if(f.type==="select"){
