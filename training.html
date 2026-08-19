@@ -2067,7 +2067,7 @@ function vCert(){
   var id=credId(c);var mods=COURSES[c].modules.length;var _rec=ceIssueRecord(c);
   var a=CE.acts[c]||{};var hrs=ceHours(c);var accr=ceIsAccredited(c);var lic=S.license||{};
   var licLine=(lic.type||lic.num)?((lic.type||"License")+(lic.num?" #"+esc(lic.num):"")+(lic.state?" ("+esc(lic.state)+")":"")):"";
-  var h='<div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:8px;flex-wrap:wrap"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button><button class="btn btn-ghost" onclick="go(\'myce\')">My CE transcript</button><button class="btn btn-gold" onclick="window.print()">🖨 Print / Save PDF</button></div>';
+  var h='<div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:8px;flex-wrap:wrap"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button><button class="btn btn-ghost" onclick="go(\'myce\')">'+(ceEligible()?'My CE transcript':'My record')+'</button><button class="btn btn-gold" onclick="window.print()">🖨 Print / Save PDF</button></div>';
   h+='<div class="cert"><div class="cl">IV Rejuve Academy · Clinical Skills Training</div>'
     +'<h1>'+(accr?'Certificate of Nursing Continuing Education':'Certificate of Completion')+'</h1>'
     +'<div style="font-size:.8rem;color:rgba(251,250,246,.7)">This certifies that</div><div class="who">'+esc(S.name)+'</div>'
@@ -2100,15 +2100,17 @@ function vMyCE(){
   var anyAccr=recs.some(function(x){return ceIsAccredited(x.c);});
   var h='<div style="max-width:640px;margin:0 auto">'
    +'<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button><button class="btn btn-gold" onclick="window.print()">🖨 Print / Save transcript</button></div>'
-   +'<span class="eyebrow">Your record</span><h2 style="color:var(--head);margin:4px 0 2px">CE transcript</h2>'
+   +'<span class="eyebrow">Your record</span><h2 style="color:var(--head);margin:4px 0 2px">'+(ceEligible()?'CE transcript':'Training record')+'</h2>'
    +'<p style="color:var(--muted);font-size:.9rem;margin:0 0 16px">'+esc(S.name||"—")+(S.license&&S.license.type?(" · "+esc(S.license.type)+(S.license.num?" #"+esc(S.license.num):"")+(S.license.state?" ("+esc(S.license.state)+")":"")):"")+'</p>'
    +(ceAnyActive()?ceVaultPanel():'')
    +'<div style="background:rgba(230,246,246,.05);border:1px solid rgba(120,235,228,.22);border-radius:14px;padding:16px;margin:16px 0">'
-   +'<div style="display:flex;justify-content:space-between;font-weight:700;color:var(--head)"><span>'+(anyAccr?'Ohio renewal progress':'Contact hours earned')+'</span><span>'+total.toFixed(2)+(anyAccr?(' / '+goal+' hrs'):' hrs')+'</span></div>'
+   +'<div style="display:flex;justify-content:space-between;font-weight:700;color:var(--head)"><span>'+(anyAccr?'Ohio renewal progress':(ceEligible()?'Contact hours earned':'Training hours completed'))+'</span><span>'+total.toFixed(2)+(anyAccr?(' / '+goal+' hrs'):' hrs')+'</span></div>'
    +(anyAccr?'<div style="height:10px;background:rgba(255,255,255,.08);border-radius:6px;margin:8px 0;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,#14C9C6,#22E0DA)"></div></div>':'<div style="height:8px"></div>')
    +(anyAccr
      ? '<div style="font-size:.8rem;color:var(--muted);line-height:1.5">Ohio RNs and LPNs need <b>24 contact hours</b> per 2-year renewal, including <b>1 hour of Category A</b> (Ohio nursing law and rules). The Category A law-and-rules hour is not offered here — complete it through an OBN-approved Category A provider.</div></div>'
-     : '<div style="font-size:.82rem;color:#F2D399;line-height:1.5"><b>These hours are not yet CE credit.</b> IV Rejuve Academy is not currently an accredited provider; these are contact hours of instruction on a certificate of completion. They will count toward Ohio&rsquo;s 24-hour / 2-year renewal only once ONA provider approval is granted (in progress).</div></div>');
+     : (ceEligible()
+        ? '<div style="font-size:.82rem;color:#F2D399;line-height:1.5"><b>These hours are not yet CE credit.</b> IV Rejuve Academy is not currently an accredited provider; these are contact hours of instruction on a certificate of completion. They will count toward Ohio&rsquo;s 24-hour / 2-year renewal only once ONA provider approval is granted (in progress).</div></div>'
+        : '<div style="font-size:.82rem;color:var(--muted);line-height:1.5">These are hours of instruction recorded on your certificate of completion.</div></div>'));
   if(!recs.length){
     h+='<div style="text-align:center;color:var(--muted);padding:24px 0">No completions yet. Finish a course and its evaluation to earn your first certificate.</div>';
   }else{
@@ -3959,7 +3961,10 @@ function ceHours(c){
    (nothing false is persisted server-side; verify/records stay truthful). Set
    CE_PREVIEW=false before go-live; real CE turns on via ce_activities.accredited=true. */
 var CE_PREVIEW=true;
-function ceIsAccredited(c){if(CE_PREVIEW)return true;var a=CE.acts[c];return !!(a&&a.accredited);}
+/* CE is Ohio-nurses-only. Only advertise/label CE for an Ohio-licensed nurse; everyone
+   else keeps the identical progress-fill screen with neutral "hours" wording. */
+function ceEligible(){try{return pfIsNurse()&&((P().licenseState||"")==="OH");}catch(e){return false;}}
+function ceIsAccredited(c){if(!ceEligible())return false;if(CE_PREVIEW)return true;var a=CE.acts[c];return !!(a&&a.accredited);}
 function ceRealAccredited(){for(var i=0;i<COURSE_IDS.length;i++){var a=CE.acts[COURSE_IDS[i]];if(a&&a.accredited)return true;}return false;}
 function ceAnyActive(){return CE_PREVIEW||ceRealAccredited();}
 function ceCreditWord(c){return ceIsAccredited(c)?"CE contact hours":"contact hours";}
@@ -4002,20 +4007,23 @@ function ceVaultPanel(){
   for(var i=0;i<CE_MILESTONES.length;i++){var m=CE_MILESTONES[i];if(m.h<=earned+1e-9)prev=m;else if(!next)next=m;}
   var lo=prev?prev.h:0,hi=next?next.h:prog;var seg=hi>lo?Math.max(0,Math.min(100,Math.round((earned-lo)/(hi-lo)*100))):100;
   var ohio=Math.round(earned/24*100);
-  var copy=!next?'Every contact hour banked — outstanding work.':('You&rsquo;re '+(next.h-earned).toFixed(2)+' CE from your next reward: '+esc(next.name)+'.');
-  var chips=CE_MILESTONES.map(function(m){var on=earned>=m.h-1e-9;var isnext=next&&m.h===next.h;return '<div class="cev-chip'+(on?' on':'')+(isnext?' next':'')+'"><span class="ic">'+(on?m.icon:(isnext?'✨':'🔒'))+'</span>'+esc(m.name)+' · '+m.h+' CE</div>';}).join('');
-  var prevChip=(CE_PREVIEW&&!ceRealAccredited())?'<span class="cev-prev">Preview</span>':'';
+  var elig=ceEligible(), U=elig?'CE':'hrs', unitLong=elig?'CE':'hours';
+  var copy=!next?('Every '+(elig?'contact hour':'hour')+' banked — outstanding work.'):('You&rsquo;re '+(next.h-earned).toFixed(2)+' '+unitLong+' from your next reward: '+esc(next.name)+'.');
+  var chips=CE_MILESTONES.map(function(m){var on=earned>=m.h-1e-9;var isnext=next&&m.h===next.h;return '<div class="cev-chip'+(on?' on':'')+(isnext?' next':'')+'"><span class="ic">'+(on?m.icon:(isnext?'✨':'🔒'))+'</span>'+esc(m.name)+' · '+m.h+(elig?' CE':' h')+'</div>';}).join('');
+  var prevChip=(elig&&CE_PREVIEW&&!ceRealAccredited())?'<span class="cev-prev">Preview</span>':'';
+  var eyebrow=elig?('CE contact hours '+prevChip):'Program progress';
+  var footStat=elig?('<div class="cev-ohio">🎯 <b>'+ohio+'%</b> of your 24-hour Ohio renewal</div>'):('<div class="cev-ohio">🎯 <b>'+Math.round(pct*100)+'%</b> of the full training program</div>');
   return '<div class="cevault">'
-   +'<div class="cev-bagwrap">'+ceBagSVG(pct)+'<div class="cev-bagnum"><b>'+earned.toFixed(2)+'</b><span>of '+prog.toFixed(1)+' CE</span></div></div>'
+   +'<div class="cev-bagwrap">'+ceBagSVG(pct)+'<div class="cev-bagnum"><b>'+earned.toFixed(2)+'</b><span>of '+prog.toFixed(1)+' '+U+'</span></div></div>'
    +'<div class="cev-main">'
-     +'<div class="cev-eyebrow">CE contact hours '+prevChip+'</div>'
-     +'<div class="cev-big"><b>'+earned.toFixed(2)+'</b> <span>/ '+prog.toFixed(2)+' CE earned</span></div>'
+     +'<div class="cev-eyebrow">'+eyebrow+'</div>'
+     +'<div class="cev-big"><b>'+earned.toFixed(2)+'</b> <span>/ '+prog.toFixed(2)+' '+unitLong+(elig?' earned':'')+'</span></div>'
      +'<div class="cev-copy">'+copy+'</div>'
-     +(next?('<div class="cev-nextrow"><span>Next reward · '+esc(next.name)+'</span><span><b>'+next.h.toFixed(1)+' CE</b></span></div><div class="cev-bar"><i style="width:'+seg+'%"></i></div>'):'')
-     +'<div class="cev-ohio">🎯 <b>'+ohio+'%</b> of your 24-hour Ohio renewal</div>'
+     +(next?('<div class="cev-nextrow"><span>Next reward · '+esc(next.name)+'</span><span><b>'+next.h.toFixed(1)+' '+U+'</b></span></div><div class="cev-bar"><i style="width:'+seg+'%"></i></div>'):'')
+     +footStat
    +'</div>'
    +'<div class="cev-rewards">'+chips+'</div>'
-   +'<div class="cev-foot"><button class="btn btn-ghost" style="font-size:.8rem;padding:8px 14px" onclick="go(\'profile\')">'+(profileComplete()?'CE profile ✓':('Complete your CE profile · '+pfPct()+'%'))+'</button><button class="btn btn-ghost" style="font-size:.8rem;padding:8px 14px" onclick="go(\'myce\')">View CE transcript →</button></div>'
+   +'<div class="cev-foot"><button class="btn btn-ghost" style="font-size:.8rem;padding:8px 14px" onclick="go(\'profile\')">'+(profileComplete()?(elig?'CE profile ✓':'Profile ✓'):((elig?'Complete your CE profile · ':'Complete your profile · ')+pfPct()+'%'))+'</button><button class="btn btn-ghost" style="font-size:.8rem;padding:8px 14px" onclick="go(\'myce\')">'+(elig?'View CE transcript →':'View my record →')+'</button></div>'
    +'</div>';
 }
 function ceLessonReward(id){
@@ -4023,8 +4031,9 @@ function ceLessonReward(id){
   var add=ceLessonHrs(id);if(!(add>0))return;
   var after=ceEarnedHrs(),before=after-add,crossed=null;
   for(var i=0;i<CE_MILESTONES.length;i++){var m=CE_MILESTONES[i];if(before<m.h-1e-9&&after>=m.h-1e-9){crossed=m;break;}}
-  if(crossed){celebrate(crossed.icon,"Reward unlocked",crossed.name+" · "+after.toFixed(2)+" CE banked");}
-  else{celebrate("💧","CE banked","+"+add.toFixed(2)+" CE · "+after.toFixed(2)+" of "+ceProgramHrs().toFixed(1)+" CE");}
+  var U=ceEligible()?"CE":"hrs";
+  if(crossed){celebrate(crossed.icon,"Reward unlocked",crossed.name+" · "+after.toFixed(2)+" "+U+" banked");}
+  else{celebrate("💧",(ceEligible()?"CE banked":"Hours banked"),"+"+add.toFixed(2)+" "+U+" · "+after.toFixed(2)+" of "+ceProgramHrs().toFixed(1)+" "+U);}
 }
 
 /* ============ CE learner PROFILE + gamified onboarding ============
@@ -4077,9 +4086,11 @@ function pfRing(pct){
   var r=48,c=2*Math.PI*r,off=c*(1-pct/100);
   return '<svg viewBox="0 0 110 110" width="110" height="110"><circle cx="55" cy="55" r="'+r+'" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="9"/><circle cx="55" cy="55" r="'+r+'" fill="none" stroke="#22E0DA" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 55 55)" style="transition:stroke-dashoffset .55s cubic-bezier(.2,.9,.3,1)"/></svg>';
 }
+function pfCompleteSub(){return ceEligible()?"You're CE-ready!":"You're all set!";}
 function pfSubtitle(pct){
-  if(pct>=100)return "You&rsquo;re CE-ready — everything we need is on file. 🎉";
-  if(pct===0)return "About two minutes. Let&rsquo;s get you CE-ready.";
+  var goal=ceEligible()?"CE-ready":"set up";
+  if(pct>=100)return "You&rsquo;re "+(ceEligible()?"CE-ready":"all set")+" — everything we need is on file. 🎉";
+  if(pct===0)return "About two minutes. Let&rsquo;s get you "+goal+".";
   if(pct<50)return "Nice start — keep the momentum going.";
   return "Almost there — just a couple more fields.";
 }
@@ -4093,9 +4104,9 @@ var PF_COACH={
 function vProfile(){
   var p=P(),pct=pfPct(),tour=S.pfTour;
   var h='<div class="pfwrap'+(tour?' pf-tour':'')+'">'
-   +'<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px"><button class="btn btn-ghost" onclick="'+(tour?'pfTourExit()':'go(\'home\')')+'">'+(tour?'✕ Exit tour':'← Home')+'</button>'+((!tour&&profileComplete())?'<button class="btn btn-ghost" onclick="go(\'myce\')">My CE transcript</button>':'')+'</div>'
+   +'<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px"><button class="btn btn-ghost" onclick="'+(tour?'pfTourExit()':'go(\'home\')')+'">'+(tour?'✕ Exit tour':'← Home')+'</button>'+((!tour&&profileComplete())?'<button class="btn btn-ghost" onclick="go(\'myce\')">'+(ceEligible()?'My CE transcript':'My record')+'</button>':'')+'</div>'
    +'<div class="pf-hero"><div class="pf-ring" id="pfRing">'+pfRing(pct)+'<div class="pct"><b>'+pct+'%</b><span>complete</span></div></div>'
-     +'<div class="pf-heromain"><span class="eyebrow" style="color:#7FE6F0">CE profile</span><h2 style="color:#fff;margin:2px 0 4px;font-family:\'Plus Jakarta Sans\',system-ui,sans-serif;font-size:1.5rem">Your nurse profile</h2>'
+     +'<div class="pf-heromain"><span class="eyebrow" style="color:#7FE6F0">'+(ceEligible()?'CE profile':'Your profile')+'</span><h2 style="color:#fff;margin:2px 0 4px;font-family:\'Plus Jakarta Sans\',system-ui,sans-serif;font-size:1.5rem">'+(pfIsNurse()?'Your nurse profile':'Your profile')+'</h2>'
      +'<div class="pf-sub" id="pfSub">'+pfSubtitle(pct)+'</div>'
      +'<div class="pf-track" id="pfTrack">'+pfSegs()+'</div>'
      +(tour?'':'<button class="btn btn-gold" style="margin-top:14px;font-size:.82rem;padding:9px 16px" onclick="pfTourStart()">▶ Walk me through it</button>')
@@ -4133,7 +4144,7 @@ function vProfile(){
 var _pfBackup=null;
 function pfTourStart(){try{_pfBackup=JSON.parse(JSON.stringify(P()));}catch(e){_pfBackup=null;}S.profile={};_pfCele=false;S.pfTour={step:0};window.scrollTo(0,0);render();}
 function pfTourScroll(){setTimeout(function(){if(!S.pfTour)return;var secs=pfApplicableSections(),s=secs[S.pfTour.step];if(!s)return;var c=el("pfc-"+s.key);if(c){var y=c.getBoundingClientRect().top+window.pageYOffset-180;window.scrollTo({top:Math.max(0,y),behavior:"smooth"});}},80);}
-function pfTourNext(){if(!S.pfTour)return;if(S.pfTour.step<pfApplicableSections().length-1){S.pfTour.step++;render();pfTourScroll();}else{S.pfTour=null;profileSave();render();if(profileComplete())celebrate("🎉","Profile complete","You're CE-ready!");}}
+function pfTourNext(){if(!S.pfTour)return;if(S.pfTour.step<pfApplicableSections().length-1){S.pfTour.step++;render();pfTourScroll();}else{S.pfTour=null;profileSave();render();if(profileComplete())celebrate("🎉","Profile complete",pfCompleteSub());}}
 function pfTourExit(){if(_pfBackup)S.profile=_pfBackup;_pfBackup=null;S.pfTour=null;profileSave();render();}
 function pfFlash(elx){if(!elx)return;elx.style.transition="box-shadow .3s";elx.style.boxShadow="0 0 0 3px rgba(34,224,218,.5)";setTimeout(function(){elx.style.boxShadow="";},480);}
 function pfTypeInto(f,v){
@@ -4146,7 +4157,7 @@ function pfTourFill(){
   if(!S.pfTour)return;var sec=pfApplicableSections()[S.pfTour.step];if(!sec)return;var src=_pfBackup||{};
   sec.fields.forEach(function(f,i){var v=(src[f.k]!=null&&src[f.k]!=="")?src[f.k]:(PF_DUMMY[f.k]||"");if(!v)return;if(f.type==="toggle"){setTimeout(function(){pfSetNurse(v);},i*300);return;}setTimeout(function(){pfTypeInto(f,v);},i*300);});
 }
-function pfSetNurse(v){P().isNurse=v;profileSave();if(profileComplete()){if(!_pfCele){_pfCele=true;celebrate("🎉","Profile complete","You're CE-ready!");}}else{_pfCele=false;}render();if(S.pfTour)pfTourScroll();}
+function pfSetNurse(v){P().isNurse=v;profileSave();if(profileComplete()){if(!_pfCele){_pfCele=true;celebrate("🎉","Profile complete",pfCompleteSub());}}else{_pfCele=false;}render();if(S.pfTour)pfTourScroll();}
 window.addEventListener("resize",function(){});
 var _pfCele=false;
 function pfSet(k,v){
@@ -4156,9 +4167,9 @@ function pfSet(k,v){
   var sub=el("pfSub");if(sub)sub.innerHTML=pfSubtitle(pct);
   var track=el("pfTrack");if(track)track.innerHTML=pfSegs();
   PROFILE_SECTIONS.forEach(function(s){var c=el("pfc-"+s.key);if(c)c.classList.toggle("done",pfSectionDone(s));});
-  if(profileComplete()){if(!_pfCele){_pfCele=true;celebrate("🎉","Profile complete","You're CE-ready!");}}else{_pfCele=false;}
+  if(profileComplete()){if(!_pfCele){_pfCele=true;celebrate("🎉","Profile complete",pfCompleteSub());}}else{_pfCele=false;}
 }
-function pfDone(){profileSave();if(profileComplete())celebrate("✅","Saved","Your CE profile is ready");go("home");}
+function pfDone(){profileSave();if(profileComplete())celebrate("✅","Saved",ceEligible()?"Your CE profile is ready":"Your profile is ready");go("home");}
 var PF_DUMMY={isNurse:"yes",firstName:"Jordan",lastName:"Rivers",credentials:"RN",licenseNum:"RN-448215",licenseState:"OH",licenseExp:"2027-08",email:"jordan.rivers@example.com",phone:"(513) 555-0142",addr1:"124 Vine Street",city:"Cincinnati",state:"OH",zip:"45202",employer:"Tri-State Medical Center"};
 function pfSeedDummy(force){
   var p=P();if(!force){var any=Object.keys(p).some(function(k){return (p[k]||"").toString().trim();});if(any)return;}
