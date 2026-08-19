@@ -232,44 +232,58 @@
   /* ===== CE profile + gamified onboarding ===== */
   .tbtn.prof{background:transparent;color:var(--muted);border:1px solid var(--stone);}
   @media(max-width:720px){.tbtn.prof{padding:8px 12px;}}
-  .pfwrap{max-width:760px;margin:0 auto;}
-  .pf-hero{display:flex;gap:22px;align-items:center;background:linear-gradient(160deg,#124C57,#0A2A37);border:1px solid rgba(120,235,228,.28);border-radius:22px;padding:22px 26px;margin-bottom:16px;box-shadow:0 24px 60px rgba(3,20,26,.3);animation:cevrise .5s ease;}
-  .pf-ring{position:relative;width:110px;height:110px;flex:none;}
+  .pfwrap{max-width:660px;margin:0 auto;}
+  .pf-hero{position:relative;display:flex;gap:22px;align-items:center;background:linear-gradient(155deg,#154F5A,#0A2A37);border:1px solid rgba(120,235,228,.28);border-radius:22px;padding:22px 26px;margin-bottom:18px;box-shadow:0 24px 60px rgba(3,20,26,.32);overflow:hidden;animation:cevrise .5s ease;}
+  .pf-hero::after{content:"";position:absolute;inset:0;background:radial-gradient(420px 200px at 92% -30%,rgba(34,224,218,.15),transparent 60%);pointer-events:none;}
+  .pf-ring{position:relative;width:104px;height:104px;flex:none;}
   .pf-ring .pct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-  .pf-ring .pct b{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:1.55rem;font-weight:800;color:#fff;line-height:1;}
-  .pf-ring .pct span{font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;color:#7FE6F0;font-weight:800;margin-top:2px;}
-  .pf-heromain{min-width:0;}
-  .pf-sub{color:rgba(190,235,235,.92);font-size:.9rem;margin-top:2px;}
-  .pf-track{display:flex;gap:6px;margin-top:12px;}
-  .pf-seg{height:7px;border-radius:4px;flex:1;background:rgba(255,255,255,.1);transition:background .3s;}
-  .pf-seg.on{background:linear-gradient(90deg,#14C9C6,#22E0DA);box-shadow:0 0 10px rgba(34,224,218,.5);}
-  .pf-card{background:linear-gradient(160deg,#134E58,#0A2C38);border:1px solid rgba(120,235,228,.2);border-radius:16px;padding:16px 18px 18px;margin-bottom:12px;transition:border-color .2s,box-shadow .2s;}
-  .pf-card.done{border-color:rgba(34,224,218,.55);box-shadow:0 0 0 1px rgba(34,224,218,.25),0 10px 30px rgba(3,20,26,.25);}
-  .pf-chead{display:flex;align-items:center;gap:11px;margin-bottom:14px;}
-  .pf-cico{width:36px;height:36px;border-radius:11px;background:rgba(120,235,228,.14);display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex:none;}
-  .pf-ctitle{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;color:#fff;font-size:1.02rem;}
-  .pf-cmark{margin-left:auto;font-size:.72rem;font-weight:800;color:#22E0DA;opacity:0;transform:scale(.8);transition:.25s;}
-  .pf-card.done .pf-cmark{opacity:1;transform:scale(1);}
-  .pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;}
-  .pf-f{display:flex;flex-direction:column;gap:5px;min-width:0;}
+  .pf-ring .pct b{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:1.5rem;font-weight:800;color:#fff;line-height:1;}
+  .pf-ring .pct span{font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:#7FE6F0;font-weight:800;margin-top:3px;}
+  .pf-heromain{min-width:0;position:relative;}
+  .pf-sub{color:rgba(198,238,238,.9);font-size:.9rem;margin-top:3px;}
+  .pf-track{display:flex;gap:6px;margin-top:13px;}
+  .pf-seg{height:6px;border-radius:4px;flex:1;background:rgba(255,255,255,.1);transition:background .35s,box-shadow .35s;}
+  .pf-seg.on{background:linear-gradient(90deg,#14C9C6,#22E0DA);box-shadow:0 0 10px rgba(34,224,218,.55);}
+  .pf-save{margin-top:11px;font-size:.7rem;color:rgba(198,238,238,.58);display:flex;align-items:center;gap:6px;}
+  /* accordion sections — one open at a time, others collapse to a tidy summary */
+  .pf-sec{background:linear-gradient(160deg,#123F49,#0A2833);border:1px solid rgba(120,235,228,.16);border-radius:16px;margin-bottom:11px;overflow:hidden;transition:border-color .25s,box-shadow .25s,background .25s;}
+  .pf-sec.open{background:linear-gradient(160deg,#154E59,#0A2C38);border-color:rgba(34,224,218,.45);box-shadow:0 14px 40px rgba(3,20,26,.3);}
+  .pf-sec.done:not(.open){border-color:rgba(34,224,218,.26);}
+  .pf-chead{display:flex;align-items:center;gap:12px;padding:15px 18px;cursor:pointer;user-select:none;}
+  .pf-sec.open .pf-chead{cursor:default;padding-bottom:6px;}
+  .pf-cico{width:36px;height:36px;border-radius:11px;background:rgba(120,235,228,.13);display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex:none;transition:.25s;}
+  .pf-sec.done:not(.open) .pf-cico{background:linear-gradient(135deg,#22E0DA,#14C9C6);color:#06312f;font-weight:800;}
+  .pf-chmeta{min-width:0;flex:1;}
+  .pf-ctitle{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;color:#fff;font-size:1rem;line-height:1.2;}
+  .pf-csum{font-size:.78rem;color:rgba(198,238,238,.6);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .pf-cright{display:flex;align-items:center;gap:10px;flex:none;color:rgba(198,238,238,.5);font-size:.74rem;font-weight:700;}
+  .pf-cedit{color:#7FE6F0;}
+  .pf-chev{font-size:.66rem;opacity:.55;}
+  .pf-body{padding:4px 18px 18px;animation:pfexpand .3s ease;}
+  @keyframes pfexpand{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:none;}}
+  .pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 14px;}
+  .pf-f{display:flex;flex-direction:column;gap:6px;min-width:0;}
   .pf-f.full{grid-column:1/-1;}
-  .pf-f label{font-size:.72rem;font-weight:700;color:rgba(210,240,240,.8);}
-  .pf-f label .req{color:#FF9C9C;}
-  .pf-f input,.pf-f select{border:1px solid rgba(120,235,228,.28);border-radius:10px;padding:10px 12px;font:inherit;font-size:.92rem;background:rgba(255,255,255,.96);color:#123;box-sizing:border-box;width:100%;}
-  .pf-f input:focus,.pf-f select:focus{outline:none;border-color:#22E0DA;box-shadow:0 0 0 3px rgba(34,224,218,.22);}
-  @media(max-width:560px){.pf-hero{flex-direction:column;text-align:center;}.pf-grid{grid-template-columns:1fr;}}
-  /* guided onboarding tour */
+  .pf-f label{display:flex;align-items:center;justify-content:space-between;font-size:.72rem;font-weight:700;color:rgba(210,240,240,.82);}
+  .pf-f label .req{color:#FF9C9C;font-weight:800;}
+  .pf-ok{color:#22E0DA;font-weight:800;font-size:.8rem;opacity:0;transform:scale(.6);transition:.2s;}
+  .pf-f.ok .pf-ok{opacity:1;transform:scale(1);}
+  .pf-f input,.pf-f select{height:46px;border:1.5px solid rgba(255,255,255,.14);border-radius:12px;padding:0 14px;font:inherit;font-size:.95rem;background:rgba(255,255,255,.97);color:#12333B;box-sizing:border-box;width:100%;transition:border-color .18s,box-shadow .18s;}
+  .pf-f input::placeholder{color:#9fb0b3;}
+  .pf-f input:focus,.pf-f select:focus{outline:none;border-color:#22E0DA;box-shadow:0 0 0 3px rgba(34,224,218,.25);}
+  .pf-f.ok input,.pf-f.ok select{border-color:rgba(34,224,218,.5);}
+  .pf-secfoot{display:flex;justify-content:flex-end;align-items:center;gap:12px;margin-top:16px;}
+  @media(max-width:560px){.pf-hero{flex-direction:column;text-align:center;}.pf-heromain{width:100%;}.pf-track{justify-content:center;}.pf-save{justify-content:center;}.pf-grid{grid-template-columns:1fr;}}
+  /* guided onboarding tour (spotlight uses the accordion; keep the coach banner) */
   .pf-coach{position:sticky;top:64px;z-index:30;background:linear-gradient(160deg,#1B5C4E,#0C3A34);border:1px solid rgba(201,162,75,.4);border-left:4px solid #E3CE9A;border-radius:16px;padding:15px 18px;margin-bottom:14px;box-shadow:0 16px 40px rgba(3,20,26,.35);animation:cevrise .4s ease;}
   .pf-coach-step{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:#E3CE9A;}
   .pf-coach-title{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;color:#fff;font-size:1.1rem;margin:3px 0 2px;}
   .pf-coach-say{color:rgba(210,240,240,.9);font-size:.9rem;margin-bottom:12px;}
   .pf-coach-actions{display:flex;gap:10px;flex-wrap:wrap;}
-  .pf-tour .pf-card.pf-dim{opacity:.38;filter:saturate(.6);pointer-events:none;transition:.3s;}
-  .pf-tour .pf-card.pf-spot{box-shadow:0 0 0 2px #22E0DA,0 18px 46px rgba(3,20,26,.4);border-color:#22E0DA;transition:.3s;}
-  .pf-toggle{display:flex;gap:10px;flex-wrap:wrap;}
-  .pf-tgl{flex:1;min-width:130px;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(120,235,228,.3);background:rgba(230,246,246,.04);color:rgba(234,247,247,.82);font:inherit;font-weight:700;font-size:.9rem;cursor:pointer;transition:.15s;}
-  .pf-tgl:hover{border-color:rgba(120,235,228,.6);}
-  .pf-tgl.on{background:linear-gradient(135deg,#22E0DA,#14C9C6);border-color:transparent;color:#06312f;box-shadow:0 8px 22px rgba(34,224,218,.3);}
+  .pf-toggle{display:flex;gap:11px;flex-wrap:wrap;}
+  .pf-tgl{flex:1;min-width:150px;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:13px;border:1.5px solid rgba(120,235,228,.28);background:rgba(230,246,246,.04);color:rgba(234,247,247,.85);font:inherit;font-weight:700;font-size:.92rem;cursor:pointer;transition:.16s;}
+  .pf-tgl:hover{border-color:rgba(120,235,228,.6);background:rgba(230,246,246,.07);}
+  .pf-tgl.on{background:linear-gradient(135deg,#22E0DA,#14C9C6);border-color:transparent;color:#06312f;box-shadow:0 10px 26px rgba(34,224,218,.32);}
   .confetti{position:fixed;inset:0;pointer-events:none;z-index:199;overflow:hidden;} .confetti i{position:absolute;top:-12px;width:9px;height:14px;border-radius:2px;animation:fall linear forwards;}
 
   /* Mascot */
@@ -1616,7 +1630,7 @@ function go(view,arg){
     var gc=arg||S.course;
     if(!ceGate(gc,function(){go(view,arg);}))return;
   }
-  S.view=view;if(view==="home"&&arg)setCourse(arg);if(view==="exam"||view==="cert"){if(arg)setCourse(arg);}window.scrollTo(0,0);render();}
+  S.view=view;if(view==="home"&&arg)setCourse(arg);if(view==="exam"||view==="cert"){if(arg)setCourse(arg);}if(view==="profile")S.pfOpen=undefined;window.scrollTo(0,0);render();}
 /* Resume support: remember the exact step a learner was on, so closing mid-lesson
    and returning picks up where they left off. Cleared once the lesson is completed. */
 /* Resume is a per-lesson map {lessonId:{step,n}} where n = step count fingerprint, so opening/reviewing
@@ -4102,44 +4116,86 @@ var PF_COACH={
   contact:"Where your certificate lands. Email is all we need; phone is optional.",
   address:"Your practice address for the completion record. You&rsquo;re almost there!"
 };
+function pfSectionSummary(s){
+  var p=P();
+  if(s.key==="identity")return [[p.firstName,p.lastName].filter(Boolean).join(" "),p.credentials].filter(Boolean).join(" · ")||"—";
+  if(s.key==="license")return [p.licenseNum,p.licenseState].filter(Boolean).join(" · ")||"—";
+  if(s.key==="contact")return [p.email,p.phone].filter(Boolean).join(" · ")||"—";
+  if(s.key==="address")return [p.addr1,[p.city,p.state].filter(Boolean).join(", ")].filter(Boolean).join(" · ")||"—";
+  return "—";
+}
+function pfFieldHTML(p,f){
+  var val=(p[f.k]||"").toString(),inp;
+  var lab='<label>'+esc(f.label)+(f.req?' <span class="req">*</span>':'')+' <span class="pf-ok">✓</span></label>';
+  if(f.type==="toggle"){
+    inp='<div class="pf-toggle">'+f.opts.map(function(o){return '<button type="button" class="pf-tgl'+(val===o[0]?' on':'')+'" onclick="pfSetNurse(\''+o[0]+'\')">'+esc(o[1])+'</button>';}).join('')+'</div>';
+  }else if(f.type==="select"){
+    inp='<select id="pff-'+f.k+'" onchange="pfSet(\''+f.k+'\',this.value)">'+f.opts.map(function(o){return '<option value="'+esc(o)+'"'+(o===val?' selected':'')+'>'+(o?esc(o):'Select…')+'</option>';}).join('')+'</select>';
+  }else{
+    inp='<input id="pff-'+f.k+'" type="'+(f.type||"text")+'" value="'+esc(val)+'" oninput="pfSet(\''+f.k+'\',this.value)" placeholder="'+esc(f.label)+'"/>';
+  }
+  return '<div class="pf-f'+(f.full?' full':'')+(pfFilled(f)?' ok':'')+'" id="pfw-'+f.k+'">'+lab+inp+'</div>';
+}
 function vProfile(){
-  var p=P(),pct=pfPct(),tour=S.pfTour;
+  var p=P(),pct=pfPct(),tour=S.pfTour,apps=pfApplicableSections();
+  var tourSec=tour?apps[tour.step]:null;
+  if(!tour){
+    var appKeys=apps.map(function(x){return x.key;});
+    if(S.pfOpen===undefined||(S.pfOpen!==null&&appKeys.indexOf(S.pfOpen)<0)){var fi=null;apps.forEach(function(x){if(fi==null&&!pfSectionDone(x))fi=x.key;});S.pfOpen=fi;}
+  }
+  var openKey=tour?(tourSec?tourSec.key:null):S.pfOpen;
   var h='<div class="pfwrap'+(tour?' pf-tour':'')+'">'
    +'<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px"><button class="btn btn-ghost" onclick="'+(tour?'pfTourExit()':'go(\'home\')')+'">'+(tour?'✕ Exit tour':'← Home')+'</button>'+((!tour&&profileComplete())?'<button class="btn btn-ghost" onclick="go(\'myce\')">'+(ceEligible()?'My CE transcript':'My record')+'</button>':'')+'</div>'
    +'<div class="pf-hero"><div class="pf-ring" id="pfRing">'+pfRing(pct)+'<div class="pct"><b>'+pct+'%</b><span>complete</span></div></div>'
      +'<div class="pf-heromain"><span class="eyebrow" style="color:#7FE6F0">'+(ceEligible()?'CE profile':'Your profile')+'</span><h2 style="color:#fff;margin:2px 0 4px;font-family:\'Plus Jakarta Sans\',system-ui,sans-serif;font-size:1.5rem">'+(pfIsNurse()?'Your nurse profile':'Your profile')+'</h2>'
      +'<div class="pf-sub" id="pfSub">'+pfSubtitle(pct)+'</div>'
      +'<div class="pf-track" id="pfTrack">'+pfSegs()+'</div>'
-     +(tour?'':'<button class="btn btn-gold" style="margin-top:14px;font-size:.82rem;padding:9px 16px" onclick="pfTourStart()">▶ Walk me through it</button>')
+     +(tour?'':'<div class="pf-save">🔒 Saved automatically as you go · <a onclick="pfTourStart()" style="color:#7FE6F0;cursor:pointer;text-decoration:underline">walk me through it</a></div>')
      +'</div></div>';
-  var tourSecs=tour?pfApplicableSections():null, tourSec=tour?tourSecs[tour.step]:null;
   if(tour&&tourSec){
-    var stepN=tour.step+1,total=tourSecs.length;
+    var stepN=tour.step+1,total=apps.length;
     h+='<div class="pf-coach"><div class="pf-coach-step">Guided setup · Step '+stepN+' of '+total+'</div>'
       +'<div class="pf-coach-title">'+tourSec.icon+' '+esc(tourSec.title)+'</div>'
       +'<div class="pf-coach-say">'+(PF_COACH[tourSec.key]||"Fill this in to keep going.")+'</div>'
       +'<div class="pf-coach-actions"><button class="btn btn-ghost" style="font-size:.8rem;padding:8px 13px" onclick="pfTourFill()">✨ Fill for me</button><button class="btn btn-gold" style="font-size:.82rem;padding:9px 16px" onclick="pfTourNext()">'+(stepN<total?'Next step →':'Finish 🎉')+'</button></div></div>';
   }
-  PROFILE_SECTIONS.forEach(function(s){
-    if(!pfSectionApplicable(s))return;   // skip the license section for non-nurses
-    var cls='pf-card'+(pfSectionDone(s)?' done':'')+(tour?(s===tourSec?' pf-spot':' pf-dim'):'');
-    h+='<div class="'+cls+'" id="pfc-'+s.key+'"><div class="pf-chead"><div class="pf-cico">'+s.icon+'</div><div class="pf-ctitle">'+esc(s.title)+'</div><div class="pf-cmark">✓ Done</div></div><div class="pf-grid">';
-    s.fields.forEach(function(f){
-      var val=(p[f.k]||"").toString(),inp;
-      var lab='<label>'+esc(f.label)+(f.req?' <span class="req">*</span>':'')+'</label>';
-      if(f.type==="toggle"){
-        inp='<div class="pf-toggle">'+f.opts.map(function(o){return '<button type="button" class="pf-tgl'+(val===o[0]?' on':'')+'" onclick="pfSetNurse(\''+o[0]+'\')">'+esc(o[1])+'</button>';}).join('')+'</div>';
-      }else if(f.type==="select"){
-        inp='<select id="pff-'+f.k+'" onchange="pfSet(\''+f.k+'\',this.value)">'+f.opts.map(function(o){return '<option value="'+esc(o)+'"'+(o===val?' selected':'')+'>'+(o?esc(o):'Select…')+'</option>';}).join('')+'</select>';
-      }else{
-        inp='<input id="pff-'+f.k+'" type="'+(f.type||"text")+'" value="'+esc(val)+'" oninput="pfSet(\''+f.k+'\',this.value)" placeholder="'+esc(f.label)+'"/>';
+  apps.forEach(function(s){
+    var open=(s.key===openKey), done=pfSectionDone(s);
+    h+='<div class="pf-sec'+(open?' open':'')+(done?' done':'')+'" id="pfc-'+s.key+'">';
+    h+='<div class="pf-chead"'+((!tour)?' onclick="pfOpenSet(\''+s.key+'\')"':'')+'>'
+       +'<div class="pf-cico">'+((done&&!open)?'✓':s.icon)+'</div>'
+       +'<div class="pf-chmeta"><div class="pf-ctitle">'+esc(s.title)+'</div>'
+       +(open?'':'<div class="pf-csum">'+(done?esc(pfSectionSummary(s)):'Tap to fill this in')+'</div>')
+       +'</div>'
+       +(tour?'':'<div class="pf-cright">'+(open?'':(done?'<span class="pf-cedit">Edit</span>':''))+'<span class="pf-chev">'+(open?'▲':'▼')+'</span></div>')
+     +'</div>';
+    if(open){
+      h+='<div class="pf-body"><div class="pf-grid">';
+      s.fields.forEach(function(f){h+=pfFieldHTML(p,f);});
+      h+='</div>';
+      if(!tour){
+        var lastOne=apps.filter(function(x){return x.key!==s.key;}).every(pfSectionDone);
+        h+='<div class="pf-secfoot"><button class="btn btn-gold" style="font-size:.85rem;padding:10px 18px" onclick="pfOpenNext()">'+(lastOne?'Finish':'Continue →')+'</button></div>';
       }
-      h+='<div class="pf-f'+(f.full?' full':'')+'">'+lab+inp+'</div>';
-    });
-    h+='</div></div>';
+      h+='</div>';
+    }
+    h+='</div>';
   });
-  h+=(tour?'':'<div style="display:flex;justify-content:flex-end;gap:8px;margin:6px 0 34px"><button class="btn btn-gold" onclick="pfDone()">'+(profileComplete()?'Done →':'Save &amp; continue')+'</button></div>')+'</div>';
+  h+=(tour?'':'<div style="display:flex;justify-content:'+(profileComplete()?'flex-end':'center')+';gap:8px;margin:10px 0 34px">'+(profileComplete()?'<button class="btn btn-gold" onclick="pfDone()">Done →</button>':'<span style="color:var(--muted);font-size:.8rem">Each section saves the moment you fill it in.</span>')+'</div>')+'</div>';
   return h;
+}
+function pfScrollTo(key){setTimeout(function(){var c=el("pfc-"+key);if(c){var y=c.getBoundingClientRect().top+window.pageYOffset-76;window.scrollTo({top:Math.max(0,y),behavior:"smooth"});}},70);}
+function pfOpenSet(key){if(S.pfTour)return;S.pfOpen=(S.pfOpen===key?null:key);render();if(S.pfOpen)pfScrollTo(key);}
+function pfOpenNext(){
+  if(S.pfTour)return;
+  var apps=pfApplicableSections(),cur=S.pfOpen,idx=-1,i;
+  for(i=0;i<apps.length;i++)if(apps[i].key===cur)idx=i;
+  var next=null;
+  for(i=1;i<=apps.length;i++){var s=apps[(idx+i)%apps.length];if(!pfSectionDone(s)){next=s.key;break;}}
+  S.pfOpen=next;
+  if(!next&&profileComplete()&&!_pfCele){_pfCele=true;celebrate("🎉","Profile complete",pfCompleteSub());}
+  render();
+  if(next)pfScrollTo(next);else window.scrollTo({top:0,behavior:"smooth"});
 }
 /* guided onboarding tour: spotlight each section, "fill for me" types the values in, ring climbs, celebration at the end */
 var _pfBackup=null;
@@ -4167,6 +4223,7 @@ function pfSet(k,v){
   var ring=el("pfRing");if(ring)ring.innerHTML=pfRing(pct)+'<div class="pct"><b>'+pct+'%</b><span>complete</span></div>';
   var sub=el("pfSub");if(sub)sub.innerHTML=pfSubtitle(pct);
   var track=el("pfTrack");if(track)track.innerHTML=pfSegs();
+  var wf=el("pfw-"+k);if(wf)wf.classList.toggle("ok",!!(v||"").toString().trim());
   PROFILE_SECTIONS.forEach(function(s){var c=el("pfc-"+s.key);if(c)c.classList.toggle("done",pfSectionDone(s));});
   if(profileComplete()){if(!_pfCele){_pfCele=true;celebrate("🎉","Profile complete",pfCompleteSub());}}else{_pfCele=false;}
 }
