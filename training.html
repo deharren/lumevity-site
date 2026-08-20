@@ -1861,6 +1861,7 @@ function injAnglesSVG(){
   s+='</svg>';return s;
 }
 function sellBandHTML(){
+  var _nc=COURSE_IDS.length,_nm=COURSE_IDS.reduce(function(a,c){return a+((COURSES[c]&&COURSES[c].modules)?COURSES[c].modules.length:0);},0);
   return '<div class="sellband"><div class="sellcopy">'
    +'<span class="sbeye">Built for nursing students, medical assistants &amp; phlebotomists</span>'
    +'<h2>Hit the right layer. <span class="g">Every single time.</span></h2>'
@@ -1871,7 +1872,7 @@ function sellBandHTML(){
    +'<li><span class="ck">✓</span><span>Verifiable certificates &amp; CE contact hours</span></li>'
    +'</ul>'
    +'<div class="sellcta"><button class="btn btn-gold" onclick="continueLearning()">Start learning →</button><button class="btn btn-ghost" onclick="go(\'pricing\')">See what’s inside</button></div>'
-   +'<div class="selltrust"><span><b>3</b> full courses</span><span><b>16</b> modules</span><span>Built by <b>Lacey Smith, FNP-C</b></span></div>'
+   +'<div class="selltrust"><span><b>'+_nc+'</b> full courses</span><span><b>'+_nm+'</b> modules</span><span>Built by <b>Lacey Smith, FNP-C</b></span></div>'
    +'</div>'
    +'<div class="sellfig"><div class="figcard"><h3>Injection Angles — hit the right layer every time</h3>'
    + injAnglesSVG()
@@ -1894,10 +1895,11 @@ function vHome(){
     +'<h1>Confidence in <span class="g">Every Procedure</span></h1>'
     +'<p>Structured, evidence-based clinical procedure training for nursing students, medical assistants, and phlebotomists — learn, practice, and certify. Built by Lacey Smith, FNP-C.</p>'
     +'<div class="cta"><button class="btn btn-gold" onclick="continueLearning()">'+(doneCount?'Continue learning':'Start learning')+' →</button><button class="btn btn-ghost" onclick="go(\'pricing\')">View plans</button></div>'
-    +'<div class="badges"><div><b>'+doneCount+'/'+TOTAL_LESSONS+'</b><span>Lessons done</span></div><div><b>16</b><span>Modules</span></div><div><b>'+ov+'%</b><span>Complete</span></div></div>'
+    +'<div class="badges"><div><b>'+doneCount+'/'+TOTAL_LESSONS+'</b><span>Lessons done</span></div><div><b>'+COURSE_IDS.reduce(function(a,c){return a+((COURSES[c]&&COURSES[c].modules)?COURSES[c].modules.length:0);},0)+'</b><span>Modules</span></div><div><b>'+ov+'%</b><span>Complete</span></div></div>'
     +'</div><div><svg class="shield" viewBox="0 0 64 78" fill="none"><defs><linearGradient id="drpB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3AD8D2"/><stop offset=".5" stop-color="#12A0AE"/><stop offset="1" stop-color="#0B6472"/></linearGradient></defs><path d="M32 5C32 5 51 30 51 47A19 19 0 0 1 13 47C13 30 32 5 32 5Z" fill="url(#drpB)"/><path d="M40 22C45 30 46 40 42 48" stroke="#C9F5F3" stroke-width="2.4" stroke-linecap="round" opacity=".7"/><path d="M24 33C20.5 39.5 21 47 26 52C22.5 46 24.5 38.5 29 34.5C27.5 33.4 25.5 33 24 33Z" fill="#ffffff" opacity=".5"/><ellipse cx="32" cy="67" rx="16" ry="3" fill="#12A0AE" opacity=".22"/></svg></div></div>';
-  // homepage 5-second sell band
-  h+=sellBandHTML();
+  // homepage 5-second sell band — shown only to logged-out / brand-new visitors,
+  // not on a returning learner's dashboard (no auth session AND no progress yet).
+  if(!ceSession() && doneCount===0 && (S.xp||0)===0) h+=sellBandHTML();
   // gauges
   h+='<div class="cluster">'
     +'<div class="gauge">'+levelRing+'<div><div class="lbl">Clinical rank</div><div class="big">'+rank.n+'</div><div class="sub">'+(nxt?((nxt.x-S.xp)+' XP to '+nxt.n):'Top rank')+'</div></div></div>'
@@ -1905,7 +1907,7 @@ function vHome(){
     +'<div class="gauge">'+progRing+'<div><div class="lbl">Overall progress</div><div class="big">'+doneCount+'/'+TOTAL_LESSONS+'</div><div class="sub">lessons complete</div></div></div>'
     +'</div>';
   h+='<div class="xpstrip"><span class="lab">'+rank.n+'</span><div class="xb"><i style="width:'+fp+'%"></i></div><span class="lab">'+(nxt?nxt.n:'Max')+' · '+S.xp+' XP</span></div>';
-  h+='<div class="propromo"><div class="flame" style="font-size:1.4rem">⚡</div><p>Unlock <b>all three courses</b>, HD video demos, competency checklists, verifiable <b>certificates of completion</b>, and the live clinical assistant.</p><button class="btn btn-gold" onclick="go(\'pricing\')">Go Pro</button></div>';
+  h+='<div class="propromo"><div class="flame" style="font-size:1.4rem">⚡</div><p>Unlock <b>all '+(COURSE_IDS.length===1?'':(COURSE_IDS.length+' '))+'courses</b>, HD video demos, competency checklists, verifiable <b>certificates of completion</b>, and the live clinical assistant.</p><button class="btn btn-gold" onclick="go(\'pricing\')">Go Pro</button></div>';
   // CE contact-hour rewards vault (shown when the CE track is active/previewed)
   if(ceAnyActive())h+=ceVaultPanel();
   // focused lesson card with integrated course switcher (white pill row removed)
