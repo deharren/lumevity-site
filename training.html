@@ -92,24 +92,30 @@
   .figcard{background:#fbfaf6;border-radius:16px;padding:14px 14px 10px;box-shadow:0 16px 40px rgba(0,0,0,.28);}
   .figcard h3{font-family:var(--fdisp);font-weight:800;color:#0B2E36;font-size:1rem;margin:2px 2px 8px;text-align:center;}
   .angfig{width:100%;height:auto;display:block;}
-  /* One syringe at a time: the .ang wrapper fades a whole route (needle + its badge)
-     in/out so only the active route shows; the inner .ndlmove slides the syringe ALONG
-     ITS OWN AXIS (translateY inside the rotated frame) from retracted (--ins, tip above/at
-     the skin) to 0 (fully seated in the target layer) and back. 8s loop, 4 routes staggered
-     2s apart via negative animation-delay, so each route owns one clean quarter of the cycle. */
-  .angfig .ang{animation:angFade 8s linear infinite;}
-  .angfig .ndlmove{transform:translateY(0);animation:ndlInsert 8s infinite;}
-  @keyframes ndlInsert{
-    0%{transform:translateY(var(--ins));animation-timing-function:cubic-bezier(.15,.6,.25,1);} /* ease-out: decelerate into tissue */
-    9%{transform:translateY(0);}                                                               /* fully seated */
-    16%{transform:translateY(0);animation-timing-function:cubic-bezier(.55,0,.85,.35);}         /* hold, then ease-in withdraw */
-    23%{transform:translateY(var(--ins));}                                                      /* withdrawn along axis */
-    100%{transform:translateY(var(--ins));}                                                     /* wait, hidden, for the other routes */
-  }
-  @keyframes angFade{0%{opacity:0;}3%{opacity:1;}20%{opacity:1;}24%{opacity:0;}100%{opacity:0;}}
+  /* ACCUMULATE build-up (10s loop): the four routes ENTER IN ORDER — IM(0), SubQ(1),
+     IV(2), ID(3) — and PERSIST. Each route's .ndlmove slides the syringe ALONG ITS OWN
+     AXIS (translateY inside the rotated frame) from retracted (--ins, tip near the skin)
+     to 0 (fully seated in its target layer); its opacity wrapper (.r#) fades it in at its
+     entrance and HOLDS it visible. Only the entering route moves; already-landed routes
+     stay pinned at translateY(0). At ~57% all four are in — hold to 82% — then a common
+     fade-out (82%->89%) clears the card and the loop restarts empty. Per-route keyframes
+     bake the stagger, so every route shares one 10s period and loops together cleanly. */
+  .angfig .ndlmove{transform:translateY(0);}
+  .angfig .m0{animation:ndlIns0 10s infinite;} .angfig .m1{animation:ndlIns1 10s infinite;}
+  .angfig .m2{animation:ndlIns2 10s infinite;} .angfig .m3{animation:ndlIns3 10s infinite;}
+  .angfig .r0{animation:angF0 10s infinite;} .angfig .r1{animation:angF1 10s infinite;}
+  .angfig .r2{animation:angF2 10s infinite;} .angfig .r3{animation:angF3 10s infinite;}
+  @keyframes ndlIns0{0%{transform:translateY(var(--ins));}3%{transform:translateY(var(--ins));animation-timing-function:cubic-bezier(.16,.7,.3,1);}15%{transform:translateY(0);}100%{transform:translateY(0);}}
+  @keyframes ndlIns1{0%{transform:translateY(var(--ins));}17%{transform:translateY(var(--ins));animation-timing-function:cubic-bezier(.16,.7,.3,1);}29%{transform:translateY(0);}100%{transform:translateY(0);}}
+  @keyframes ndlIns2{0%{transform:translateY(var(--ins));}31%{transform:translateY(var(--ins));animation-timing-function:cubic-bezier(.16,.7,.3,1);}43%{transform:translateY(0);}100%{transform:translateY(0);}}
+  @keyframes ndlIns3{0%{transform:translateY(var(--ins));}45%{transform:translateY(var(--ins));animation-timing-function:cubic-bezier(.16,.7,.3,1);}57%{transform:translateY(0);}100%{transform:translateY(0);}}
+  @keyframes angF0{0%{opacity:0;}3%{opacity:0;}5%{opacity:1;}82%{opacity:1;}89%{opacity:0;}100%{opacity:0;}}
+  @keyframes angF1{0%{opacity:0;}17%{opacity:0;}19%{opacity:1;}82%{opacity:1;}89%{opacity:0;}100%{opacity:0;}}
+  @keyframes angF2{0%{opacity:0;}31%{opacity:0;}33%{opacity:1;}82%{opacity:1;}89%{opacity:0;}100%{opacity:0;}}
+  @keyframes angF3{0%{opacity:0;}45%{opacity:0;}47%{opacity:1;}82%{opacity:1;}89%{opacity:0;}100%{opacity:0;}}
   @media(prefers-reduced-motion:reduce){
-    .angfig .ndlmove{animation:none;transform:translateY(0);}
-    .angfig .ang{animation:none;opacity:1;}
+    .angfig .m0,.angfig .m1,.angfig .m2,.angfig .m3{animation:none;transform:translateY(0);}
+    .angfig .r0,.angfig .r1,.angfig .r2,.angfig .r3{animation:none;opacity:1;}
   }
   .legrow{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px;}
   .legcol{text-align:center;padding:6px 2px;border-radius:9px;background:#f1ede2;}
@@ -1842,24 +1848,46 @@ function ring(p,size,stroke,txt,sub,track,prog){var r=(size-stroke)/2;var c=2*Ma
 /* Homepage "5-second sell": injection-angles graphic + benefit copy */
 function injAnglesSVG(){
   var W=640,H=412, top=150;
-  function bubbles(){var b='';for(var i=0;i<24;i++){var x=44+((i*67)%548),y=top+92+((i*41)%70);b+='<circle cx="'+x+'" cy="'+y+'" r="'+(7+(i%3)*2)+'" fill="#F7E7A8" stroke="#E7CE78" stroke-width="1"/>';}return b;}
-  function fibers(){var f='';for(var i=0;i<6;i++){var y=top+180+i*12;f+='<path d="M28 '+y+' C 180 '+(y-4)+', 420 '+(y+4)+', 612 '+y+'" stroke="#A94A45" stroke-width="1.4" fill="none" opacity=".5"/>';}return f;}
-  // cx = skin entry x; rot = fixed insertion lean from vertical (deg, negative = barrel tips LEFT);
-  // tipLen = length of needle that penetrates below the skin surface at full insertion;
-  // idx = route order (0..3), used to stagger which route is on screen; ins = along-axis
-  // retract distance (negative px): the tip's start offset back up the needle's own axis.
-  // Transform nesting: translate(entry) -> rotate(angle) [both static] -> .ndlmove translateY.
-  // Because the translate happens INSIDE the rotated frame, the syringe slides straight along
-  // the direction it points for every angle (the 90deg one goes straight down, the slanted
-  // ones go down-and-along their slant). The whole route (needle + badge) is wrapped in a
-  // single .ang group whose opacity fades it in for its 2s turn and hides it the rest of
-  // the 8s loop, so exactly one syringe is visible at a time.
+  // layer boundaries (y): epidermis 150-168, dermis 168-250, fat 250-336, muscle 336-404
+  var yEpi=top, yDerm=top+18, yFat=top+100, yMus=top+186, yBot=top+254;
+  // Epidermis: thin peach cap with a subtly wavy LOWER boundary undulating around yDerm.
+  function epidermis(){
+    var base=yDerm-1, amp=5, up=true, d='M24 '+yEpi+' H616 V'+base;
+    for(var x=616; x>24; x-=74){ var nx=(x-74<24?24:x-74), mx=(x+nx)/2; d+=' Q '+mx+' '+(base+(up?-amp:amp))+' '+nx+' '+base; up=!up; }
+    d+=' Z';
+    return '<path d="'+d+'" fill="#F6D9C4" stroke="#E4B096" stroke-width="1.4"/>';
+  }
+  // Subcutaneous fat: bubbly layer of rounded fat-lobule cells (outlined, with a highlight),
+  // clipped to the fat band so it reads unmistakably as fat rather than a flat yellow bar.
+  function lobules(){
+    var out='<g clip-path="url(#iaFat)">', yr=[yFat+16,yFat+45,yFat+72];
+    for(var r=0;r<yr.length;r++){ var y=yr[r], off=(r%2)*26;
+      for(var x=26+off; x<620; x+=50){ var rad=15+((x+r)%3)*3;
+        out+='<circle cx="'+x+'" cy="'+y+'" r="'+rad+'" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/>';
+        out+='<circle cx="'+(x-rad*0.32).toFixed(1)+'" cy="'+(y-rad*0.32).toFixed(1)+'" r="'+(rad*0.28).toFixed(1)+'" fill="#FCF3CE" opacity=".75"/>';
+      }
+    }
+    return out+'</g>';
+  }
+  // Muscle: red band with horizontal striation lines (fibers), clipped to the muscle band.
+  function fibers(){
+    var f='<g clip-path="url(#iaMus)">';
+    for(var i=0;i<7;i++){ var y=yMus+9+i*9; f+='<path d="M24 '+y+' C 180 '+(y-4)+', 420 '+(y+4)+', 616 '+y+'" stroke="#A5433E" stroke-width="1.5" fill="none" opacity=".55"/>'; }
+    return f+'</g>';
+  }
+  // cx = skin entry x; rot = fixed insertion lean from vertical (deg, negative = barrel tips LEFT,
+  // tip leads DOWN-RIGHT); tipLen = needle length penetrating below the surface when fully seated;
+  // idx = route entrance order (0..3); ins = along-axis retract (negative px): the tip's start
+  // offset back up the needle's own axis. Nesting: translate(entry) -> rotate(angle) [both static]
+  // -> .ndlmove translateY. Because the translate is INSIDE the rotated frame, the syringe slides
+  // straight along the direction it points at every angle. The whole route is wrapped in a .r#
+  // opacity group (fades in at this route's entrance, then HOLDS — accumulate) while .ndlmove m#
+  // slides it from retracted to seated once and stays. See the .angfig CSS for the 10s timeline.
   function needle(cx, rot, tipLen, idx, ins){
-    var d=(idx*2-8); // negative delay: idx 0..3 -> -8,-6,-4,-2 s  => routes play in order, seamless loop
-    var g='<g class="ang" style="animation-delay:'+d+'s">';
+    var g='<g class="r'+idx+'">';
     g+='<g transform="translate('+cx+','+top+')">';
     g+='<g transform="rotate('+rot+')">';
-    g+='<g class="ndlmove" style="--ins:'+ins+'px;animation-delay:'+d+'s">';
+    g+='<g class="ndlmove m'+idx+'" style="--ins:'+ins+'px">';
     // penetrating needle (from just under the hub, through the skin, to the tip)
     g+='<line x1="0" y1="-16" x2="0" y2="'+tipLen+'" stroke="#8b969c" stroke-width="4"/>';
     g+='<line x1="0" y1="-16" x2="0" y2="'+tipLen+'" stroke="#d3dbdf" stroke-width="1.5"/>';
@@ -1878,37 +1906,57 @@ function injAnglesSVG(){
     return g;
   }
   // angle badge anchored at a skin-entry point, kept UPRIGHT in the un-rotated frame and drawn
-  // in a final pass so it reads over any barrel. Its own .ang wrapper (same delay as its needle)
-  // fades it in and out in lockstep with that route's syringe.
+  // in a final pass so it reads over any barrel. A rounded PILL sized to its text so the wide
+  // "10-15 degree" label fits and stays readable at reference size. Shares its route's .r#
+  // opacity so it fades in with its syringe and then persists through the hold.
   function badge(cx, alab, idx){
-    var d=(idx*2-8);
-    var g='<g class="ang" style="animation-delay:'+d+'s">';
-    g+='<circle cx="'+cx+'" cy="'+(top-15)+'" r="15" fill="#0B2E36"/>';
-    g+='<text x="'+cx+'" y="'+(top-10)+'" text-anchor="middle" font-family="'+"'Plus Jakarta Sans',system-ui"+'" font-size="'+(alab.length>3?10:13)+'" font-weight="800" fill="#fff">'+alab+'</text>';
+    var w=alab.length*8+18, cy=top-15;
+    var g='<g class="r'+idx+'">';
+    g+='<rect x="'+(cx-w/2)+'" y="'+(cy-13)+'" width="'+w+'" height="26" rx="13" fill="#0B2E36"/>';
+    g+='<text x="'+cx+'" y="'+(cy+5)+'" text-anchor="middle" font-family="'+"'Plus Jakarta Sans',system-ui"+'" font-size="14" font-weight="800" fill="#fff">'+alab+'</text>';
     g+='</g>';
     return g;
   }
-  // Resting tip landing points (computed from cx + tipLen*sin|rot|, top + tipLen*cos|rot|):
-  //   IM  90°  vertical  -> tip in red muscle
-  //   SubQ 45°           -> tip in yellow fat
-  //   IV  25°            -> tip at the superficial vein (vein drawn where this tip lands)
+  // right-aligned layer label, muted dark ink with a card-colored halo for legibility over tissue
+  function llabel(txt,y){ return '<text x="608" y="'+y+'" text-anchor="end" font-family="'+"'Plus Jakarta Sans',system-ui"+'" font-size="15" font-weight="700" fill="#4A3B33" paint-order="stroke" stroke="#FBFAF6" stroke-width="3.4" stroke-linejoin="round">'+txt+'</text>'; }
+  // Reference ordering, left -> right at the skin line: 90 (vertical) | 45 | 25 | 10-15 (shallowest).
+  // The leaning routes use POSITIVE rot so the barrel tips up-RIGHT and the needle leads DOWN-LEFT
+  // into the tissue; their far-reaching tips land central-left. Tip = (cx - tipLen*sin(rot),
+  // top + tipLen*cos(rot)):
+  //   IM  90°  vertical  -> tip deep in red muscle
+  //   SubQ 45°           -> tip in yellow subcutaneous fat
+  //   IV  25°            -> tip inside the blue blood-vessel tube (which sits UNDER this needle)
   //   ID  10-15° shallow -> tip just inside the dermis
-  var s='<svg viewBox="0 0 '+W+' '+H+'" class="angfig" role="img" aria-label="Injection angles by route: intramuscular 90 degrees into muscle, subcutaneous 45 degrees into fat, intravenous 25 degrees into a vein, intradermal 10 to 15 degrees into skin">';
-  s+='<rect x="24" y="'+top+'" width="592" height="16" fill="#F1C7B0"/>';
-  s+='<rect x="24" y="'+(top+16)+'" width="592" height="70" fill="#E5A49E"/>';
-  s+='<rect x="24" y="'+(top+86)+'" width="592" height="88" fill="#F3DE9A"/>';
-  s+=bubbles();
-  s+='<rect x="24" y="'+(top+174)+'" width="592" height="80" fill="#C25B54"/>';
+  var s='<svg viewBox="0 0 '+W+' '+H+'" class="angfig" role="img" aria-label="Injection angles by route on a labeled skin cross-section: intramuscular 90 degrees into muscle, subcutaneous 45 degrees into subcutaneous fat, intravenous 25 degrees into a blood vessel, intradermal 10 to 15 degrees into the dermis. Layers from top: epidermis, dermis, subcutaneous fat, muscle.">';
+  s+='<defs><clipPath id="iaFat"><rect x="24" y="'+yFat+'" width="592" height="'+(yMus-yFat)+'"/></clipPath><clipPath id="iaMus"><rect x="24" y="'+yMus+'" width="592" height="'+(yBot-yMus)+'"/></clipPath></defs>';
+  // tissue bands: dermis, fat (+lobules), muscle (+fibers), then wavy epidermis cap on top
+  s+='<rect x="24" y="'+yDerm+'" width="592" height="'+(yFat-yDerm)+'" fill="#E7A39C"/>';
+  s+='<rect x="24" y="'+yFat+'" width="592" height="'+(yMus-yFat)+'" fill="#F3DE9A"/>';
+  s+=lobules();
+  s+='<rect x="24" y="'+yMus+'" width="592" height="'+(yBot-yMus)+'" fill="#C25B54"/>';
   s+=fibers();
-  // superficial vein sitting where the 25 degree (IV) needle tip lands (~560,228)
-  s+='<ellipse cx="560" cy="'+(top+78)+'" rx="40" ry="15" fill="#3D74B0" stroke="#2b5580" stroke-width="2"/>';
-  s+='<ellipse cx="560" cy="'+(top+74)+'" rx="33" ry="9" fill="#5a92cf" opacity=".7"/>';
-  s+=needle(150,0,206,0,-18);
-  s+=needle(280,-45,150,1,-60);
-  s+=needle(392,-65,185,2,-175);
-  s+=needle(470,-77,120,3,-125);
+  // clean boundary lines between layers
+  s+='<line x1="24" y1="'+yFat+'" x2="616" y2="'+yFat+'" stroke="#D9B36B" stroke-width="1.4" opacity=".85"/>';
+  s+='<line x1="24" y1="'+yMus+'" x2="616" y2="'+yMus+'" stroke="#9E4640" stroke-width="1.4" opacity=".7"/>';
+  s+=epidermis();
+  // blood-vessel TUBE sitting UNDER the 25° needle (third from left), across the lower dermis /
+  // fat boundary; rounded, slightly wavy, dark-blue outline + blue body + lighter inner-lumen
+  // highlight + gloss => reads as a 3D vessel. Left cap (~158,235) is where the IV 25° tip
+  // (~149,232) enters; the tube extends right beneath that needle. No other needle crosses it.
+  var vpath='M158 235 C 205 226, 250 244, 292 231 S 312 235, 320 234';
+  s+='<path d="'+vpath+'" fill="none" stroke="#274E76" stroke-width="30" stroke-linecap="round"/>';
+  s+='<path d="'+vpath+'" fill="none" stroke="#3D74B0" stroke-width="26" stroke-linecap="round"/>';
+  s+='<path d="'+vpath+'" fill="none" stroke="#6098D2" stroke-width="14" stroke-linecap="round" opacity=".95"/>';
+  s+='<path d="M164 229 C 206 221, 250 238, 290 226 S 308 229, 316 228" fill="none" stroke="#AECCEC" stroke-width="4.5" stroke-linecap="round" opacity=".75"/>';
+  // needles ENTER IN ORDER and persist (left -> right): IM(0) -> SubQ(1) -> IV(2) -> ID(3)
+  s+=needle(90,0,210,0,-24);    // IM 90    (leftmost, vertical) -> muscle
+  s+=needle(215,45,156,1,-52);  // SubQ 45  -> fat
+  s+=needle(325,65,194,2,-40);  // IV 25    -> vein tube (tube under this needle)
+  s+=needle(465,77,120,3,-22);  // ID 10-15 (rightmost, shallowest) -> dermis
   // badges last, so they read over any barrel that leans across an entry point
-  s+=badge(150,'90°',0)+badge(280,'45°',1)+badge(392,'25°',2)+badge(470,'10-15°',3);
+  s+=badge(90,'90°',0)+badge(215,'45°',1)+badge(325,'25°',2)+badge(465,'10–15°',3);
+  // layer labels, right-aligned next to their bands
+  s+=llabel('Epidermis',yEpi+13)+llabel('Dermis',(yDerm+yFat)/2+5)+llabel('Subcutaneous fat',(yFat+yMus)/2+5)+llabel('Muscle',(yMus+yBot)/2+5);
   s+='</svg>';return s;
 }
 function sellBandHTML(){
