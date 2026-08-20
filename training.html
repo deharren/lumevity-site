@@ -320,6 +320,51 @@
   .calc-out b{display:block;font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:2rem;font-weight:800;color:#EAFFFF;line-height:1.1;}
   .calc-out span{display:block;font-size:.82rem;color:rgba(198,238,238,.85);margin-top:5px;}
   .calc-note{font-size:.73rem;color:rgba(198,238,238,.6);margin-top:11px;line-height:1.5;}
+  /* Drug reference (Rx) */
+  .tool-switch{display:flex;gap:8px;}
+  .tsw{flex:1;padding:11px 12px;border-radius:12px;border:1.5px solid rgba(120,235,228,.28);background:rgba(230,246,246,.04);color:rgba(234,247,247,.82);font:inherit;font-weight:700;font-size:.88rem;cursor:pointer;transition:.15s;}
+  .tsw:hover{border-color:rgba(120,235,228,.6);}
+  .tsw.on{background:linear-gradient(135deg,#22E0DA,#14C9C6);border-color:transparent;color:#06312f;box-shadow:0 8px 20px rgba(34,224,218,.3);}
+  .rx-searchbar{display:flex;align-items:center;gap:10px;background:rgba(230,246,246,.06);border:1.5px solid rgba(120,235,228,.28);border-radius:14px;padding:12px 16px;margin:4px 0 14px;}
+  .rx-searchbar span{opacity:.7;}
+  .rx-searchbar input{flex:1;background:none;border:none;outline:none;color:#EAF7F7;font:inherit;font-size:1rem;}
+  .rx-searchbar input::placeholder{color:rgba(198,238,238,.5);}
+  .rx-list{display:grid;gap:9px;}
+  .rx-row{display:flex;align-items:center;gap:13px;width:100%;text-align:left;background:linear-gradient(160deg,#134E58,#0A2C38);border:1px solid rgba(120,235,228,.2);border-radius:14px;padding:14px 16px;cursor:pointer;transition:.16s;color:inherit;font:inherit;}
+  .rx-row:hover{transform:translateY(-2px);border-color:rgba(120,235,228,.5);box-shadow:0 12px 26px rgba(3,20,26,.3);}
+  .rx-pill{flex:none;width:34px;height:34px;border-radius:9px;background:linear-gradient(160deg,#2FBFB2,#0E8A93);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;}
+  .rx-rmain{flex:1;min-width:0;}
+  .rx-rmain b{display:block;color:#fff;font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:1.02rem;font-weight:700;text-transform:capitalize;}
+  .rx-rmain small{display:block;color:rgba(198,238,238,.7);font-size:.78rem;margin-top:2px;}
+  .rx-chev{color:rgba(120,235,228,.6);font-size:1.4rem;flex:none;}
+  .rx-empty,.rx-none{color:rgba(198,238,238,.62);font-size:.9rem;padding:10px 4px;}
+  .rx-head{background:linear-gradient(155deg,#154F5A,#0A2A37);border:1px solid rgba(120,235,228,.28);border-radius:18px;padding:18px 22px;margin-bottom:14px;}
+  .rx-hname{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:1.7rem;font-weight:800;color:#fff;text-transform:capitalize;line-height:1.1;}
+  .rx-hsub{color:#7FE6F0;font-size:.86rem;margin-top:3px;}
+  .rx-brands{color:rgba(198,238,238,.7);font-size:.8rem;margin-top:6px;}
+  .rx-secs{display:grid;gap:9px;}
+  .rx-sec{background:rgba(230,246,246,.035);border:1px solid rgba(120,235,228,.2);border-radius:13px;overflow:hidden;}
+  .rx-sec.open{border-color:rgba(120,235,228,.45);}
+  .rx-sech{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:none;color:#EAF7F7;font:inherit;font-weight:700;font-size:.96rem;padding:14px 16px;cursor:pointer;}
+  .rx-sech span:first-child{flex:1;}
+  .rx-caret{color:#7FE6F0;font-size:1.3rem;font-weight:400;flex:none;width:16px;text-align:center;}
+  .rx-warnpill{font-size:.66rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#5a1e12;background:#F0A98C;padding:3px 8px;border-radius:20px;}
+  .rx-okpill{font-size:.66rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:rgba(198,238,238,.7);border:1px solid rgba(120,235,228,.3);padding:3px 8px;border-radius:20px;}
+  .rx-secb{padding:2px 16px 16px;}
+  .rx-forms{background:rgba(34,224,218,.06);border-radius:10px;padding:9px 12px;margin-bottom:12px;font-size:.82rem;color:rgba(222,244,244,.9);}
+  .rx-forms span{display:block;font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:#7FE6F0;font-weight:800;margin-bottom:3px;}
+  .rx-ind{padding:11px 0;border-top:1px solid rgba(120,235,228,.14);}
+  .rx-ind:first-of-type{border-top:none;}
+  .rx-indh{color:#fff;font-weight:700;font-size:.92rem;}
+  .rx-dose{color:#BFF0EC;font-size:.9rem;margin-top:3px;}
+  .rx-info{color:rgba(198,238,238,.62);font-size:.78rem;margin-top:2px;font-style:italic;}
+  .rx-boxed{background:rgba(240,120,90,.14);border:1px solid rgba(240,120,90,.5);border-radius:10px;padding:11px 13px;color:#FAD9CE;font-size:.86rem;line-height:1.5;}
+  .rx-p{color:rgba(222,244,244,.9);font-size:.9rem;line-height:1.55;margin:4px 0;}
+  .rx-ul{margin:2px 0;padding-left:18px;color:rgba(222,244,244,.9);font-size:.88rem;line-height:1.55;}
+  .rx-ul li{margin-bottom:6px;}
+  .rx-calcbtn{margin-top:12px;width:100%;background:linear-gradient(135deg,#22E0DA,#14C9C6);border:none;color:#06312f;font:inherit;font-weight:800;font-size:.9rem;padding:12px;border-radius:11px;cursor:pointer;}
+  .rx-outhr{border:none;border-top:1px solid rgba(34,224,218,.28);margin:10px 0;}
+  .rx-disc{font-size:.72rem;color:var(--muted);margin:14px 2px 34px;line-height:1.55;}
   .tools-grid{display:grid;grid-template-columns:1fr;gap:12px;}
   .tool-card{display:flex;align-items:center;gap:14px;background:linear-gradient(160deg,#134E58,#0A2C38);border:1px solid rgba(120,235,228,.2);border-radius:16px;padding:16px 18px;cursor:pointer;transition:.18s;}
   .tool-card:hover{border-color:rgba(34,224,218,.5);transform:translateY(-1px);}
@@ -4309,7 +4354,381 @@ function setCalc(m){S.calcMode=m;render();setTimeout(calcCompute,20);}
 function _cInp(id,ph){return '<input id="'+id+'" type="number" inputmode="decimal" step="any" oninput="calcCompute()" placeholder="'+(ph||'')+'"/>';}
 function _cField(lab,id,ph,full){return '<div class="pf-f'+(full?' full':'')+'"><label><span>'+lab+'</span></label>'+_cInp(id,ph)+'</div>';}
 function _cSel(lab,id,opts,val){return '<div class="pf-f"><label><span>'+lab+'</span></label><select id="'+id+'" onchange="calcCompute()">'+opts.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===val?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></div>';}
+/* ============================================================
+   Drug reference (Rx) — an Epocrates-style monograph + weight-based
+   dosing calculator. Educational reference content; every entry carries
+   standard adult reference dosing. NOT a substitute for current labeling,
+   an institutional formulary, or clinical judgment.
+   ============================================================ */
+var RXDB={
+ amoxicillin:{n:"amoxicillin",gen:true,brands:["Amoxil","Moxatag"],cls:"Aminopenicillin antibiotic",boxed:null,
+   forms:"CAP 250, 500 mg · TAB 500, 875 mg · CHEW 125, 250 mg · SUSP 125, 200, 250, 400 mg/5 mL",
+   conc:[[400,5],[250,5],[200,5],[125,5]],
+   adult:[{ind:"Pharyngitis/tonsillitis (Group A strep)",dose:"500 mg PO q12h or 875 mg PO daily ×10 days",info:""},
+     {ind:"Acute otitis media / sinusitis",dose:"875 mg PO q12h ×5–10 days",info:""},
+     {ind:"Community-acquired pneumonia",dose:"1 g PO q8h",info:"per guidelines"},
+     {ind:"H. pylori",dose:"1 g PO q12h ×14 days",info:"with a PPI + clarithromycin"}],
+   peds:[{ind:"Acute otitis media",dose:"80–90 mg/kg/day PO divided q12h",info:"max 4 g/day"},
+     {ind:"Most other infections",dose:"25–45 mg/kg/day PO divided q12h",info:""}],
+   contra:["Hypersensitivity to penicillins or other beta-lactams","Caution in mononucleosis (rash), renal impairment (dose-adjust)"],
+   interx:["Probenecid raises amoxicillin levels","May reduce combined oral contraceptive efficacy — counsel","Allopurinol increases rash incidence"],
+   adverse:"Common: diarrhea, nausea, rash. Serious: anaphylaxis, C. difficile colitis, rarely SJS/TEN.",
+   monitor:["Signs of allergic reaction/anaphylaxis","Renal function in impairment","C. difficile if significant diarrhea"],
+   preg:"Generally compatible in pregnancy; small amounts in breast milk, usually compatible.",
+   pharm:"Bactericidal; inhibits cell-wall synthesis by binding penicillin-binding proteins. Renally eliminated, t½ ~1 h."},
+ augmentin:{n:"amoxicillin / clavulanate",gen:false,brands:["Augmentin"],cls:"Aminopenicillin + beta-lactamase inhibitor",boxed:null,
+   forms:"TAB 250/125, 500/125, 875/125 mg · ER 1000/62.5 mg · SUSP 200/28.5, 400/57, 600/42.9 mg/5 mL",
+   conc:[[600,5],[400,5],[200,5]],
+   adult:[{ind:"Sinusitis / respiratory / skin infections",dose:"875/125 mg PO q12h",info:"dose by amoxicillin component"},
+     {ind:"Severe or ER dosing",dose:"2000/125 mg PO q12h (ER)",info:""}],
+   peds:[{ind:"Acute otitis media",dose:"90 mg/kg/day (amox) PO divided q12h",info:"use 600/42.9 suspension; max 4 g amox/day"}],
+   contra:["Penicillin hypersensitivity","History of Augmentin-associated cholestatic jaundice/hepatic dysfunction"],
+   interx:["Same as amoxicillin","Higher rate of diarrhea from clavulanate"],
+   adverse:"Diarrhea (dose-related), nausea, rash; rarely hepatotoxicity/cholestasis.",
+   monitor:["Hepatic function on prolonged therapy","GI tolerance"],
+   preg:"Compatible in pregnancy; usually compatible with breastfeeding.",
+   pharm:"Clavulanate inhibits beta-lactamase, restoring amoxicillin activity against resistant organisms."},
+ azithromycin:{n:"azithromycin",gen:true,brands:["Zithromax","Z-Pak"],cls:"Macrolide antibiotic",boxed:null,
+   forms:"TAB 250, 500, 600 mg · SUSP 100, 200 mg/5 mL · INJ 500 mg",
+   conc:[[200,5],[100,5]],
+   adult:[{ind:"Community-acquired pneumonia / pharyngitis",dose:"500 mg PO ×1, then 250 mg PO daily ×4 days",info:"Z-Pak"},
+     {ind:"Chlamydia / urethritis",dose:"1 g PO ×1",info:"single dose"},
+     {ind:"Acute bacterial sinusitis",dose:"500 mg PO daily ×3 days",info:""}],
+   peds:[{ind:"Acute otitis media",dose:"30 mg/kg PO ×1 or 10 mg/kg/day ×3 days",info:"max 500 mg/day"},
+     {ind:"CAP",dose:"10 mg/kg day 1 then 5 mg/kg/day",info:""}],
+   contra:["Macrolide hypersensitivity","History of cholestatic jaundice with prior azithromycin","Caution: QT prolongation"],
+   interx:["Additive QT prolongation (e.g., with other QT drugs)","Monitor with warfarin (↑ INR)","Antacids reduce peak (space apart)"],
+   adverse:"GI upset, diarrhea; QT prolongation; rare hepatotoxicity, hearing changes at high/prolonged doses.",
+   monitor:["QT/ECG if risk factors","Hepatic function if prolonged","Signs of C. difficile"],
+   preg:"Considered compatible in pregnancy; compatible with breastfeeding.",
+   pharm:"Bacteriostatic; binds 50S ribosomal subunit. Long tissue half-life allows short courses."},
+ ceftriaxone:{n:"ceftriaxone",gen:true,brands:["Rocephin"],cls:"Third-generation cephalosporin (IV/IM)",boxed:null,
+   forms:"INJ 250, 500 mg, 1 g, 2 g vials (IV or IM)",conc:[],
+   adult:[{ind:"Most moderate–severe infections",dose:"1–2 g IV/IM q24h",info:""},
+     {ind:"Uncomplicated gonorrhea",dose:"500 mg IM ×1 (1 g if ≥150 kg)",info:"with doxycycline if chlamydia not excluded"},
+     {ind:"Meningitis",dose:"2 g IV q12h",info:""}],
+   peds:[{ind:"Serious infection",dose:"50–100 mg/kg/day IV/IM divided q12–24h",info:"max 2–4 g/day"}],
+   contra:["Cephalosporin hypersensitivity; caution with penicillin allergy (cross-reactivity)","Neonates: avoid with calcium-containing IV fluids; hyperbilirubinemic neonates"],
+   interx:["Do not mix/co-administer with calcium-containing solutions (neonates)","May increase INR with warfarin"],
+   adverse:"Injection-site pain, diarrhea, rash; rare biliary sludging, hemolytic anemia, C. difficile.",
+   monitor:["Allergic reaction","CBC on prolonged therapy","Signs of C. difficile"],
+   preg:"Compatible in pregnancy; compatible with breastfeeding.",
+   pharm:"Bactericidal beta-lactam; long half-life allows once-daily dosing. Reconstitute IM with lidocaine 1% to reduce pain (per policy)."},
+ cephalexin:{n:"cephalexin",gen:true,brands:["Keflex"],cls:"First-generation cephalosporin",boxed:null,
+   forms:"CAP 250, 500, 750 mg · SUSP 125, 250 mg/5 mL",conc:[[250,5],[125,5]],
+   adult:[{ind:"Skin & soft-tissue infection",dose:"500 mg PO q6–12h",info:""},
+     {ind:"Uncomplicated cystitis",dose:"250–500 mg PO q6h",info:""},
+     {ind:"Strep pharyngitis",dose:"500 mg PO q12h ×10 days",info:""}],
+   peds:[{ind:"General",dose:"25–50 mg/kg/day PO divided q6–12h",info:"max 4 g/day"}],
+   contra:["Cephalosporin hypersensitivity; caution with severe penicillin allergy"],
+   interx:["Probenecid raises levels","May increase metformin exposure"],
+   adverse:"GI upset, diarrhea, rash; rare C. difficile.",
+   monitor:["Allergic reaction","Renal function in impairment"],
+   preg:"Compatible in pregnancy; compatible with breastfeeding.",
+   pharm:"Bactericidal beta-lactam active against streptococci, MSSA, and many gram-negatives."},
+ doxycycline:{n:"doxycycline",gen:true,brands:["Vibramycin","Doryx","Oracea"],cls:"Tetracycline antibiotic",boxed:null,
+   forms:"CAP 50, 75, 100, 150 mg · TAB 20, 50, 75, 100, 150 mg · SUSP 25 mg/5 mL · INJ",conc:[[25,5]],
+   adult:[{ind:"Severe/atypical bacterial infection",dose:"100 mg PO/IV q12h",info:"duration varies"},
+     {ind:"Community-acquired pneumonia",dose:"100 mg PO q12h ×5+ days",info:"per IDSA"},
+     {ind:"Malaria prophylaxis",dose:"100 mg PO daily",info:"start 1–2 days before travel"},
+     {ind:"Acne / rosacea",dose:"40–100 mg PO daily",info:""}],
+   peds:[{ind:">8 yr",dose:"2.2 mg/kg/dose PO/IV q12h",info:"max 100 mg/dose; short courses acceptable at any age"}],
+   contra:["Tetracycline hypersensitivity","Generally avoid <8 yr and in pregnancy (dental staining) except specific indications (e.g., RMSF)"],
+   interx:["Antacids, iron, calcium, dairy bind and reduce absorption — separate doses","May increase INR with warfarin","Reduces oral contraceptive efficacy — counsel"],
+   adverse:"GI upset, photosensitivity, esophagitis (take upright with water), rare intracranial hypertension.",
+   monitor:["Photosensitivity precautions","Take with full glass of water, remain upright 30 min"],
+   preg:"Generally avoided in pregnancy; short courses may be used when benefit outweighs risk (e.g., RMSF).",
+   pharm:"Bacteriostatic; binds 30S ribosomal subunit. Broad spectrum incl. atypicals, rickettsia, spirochetes."},
+ metronidazole:{n:"metronidazole",gen:true,brands:["Flagyl"],cls:"Nitroimidazole antibiotic/antiprotozoal",boxed:"Possibly carcinogenic in animal studies; avoid unnecessary use.",
+   forms:"TAB 250, 500 mg · CAP 375 mg · INJ 500 mg",conc:[],
+   adult:[{ind:"Anaerobic / intra-abdominal infection",dose:"500 mg PO/IV q8h",info:""},
+     {ind:"Bacterial vaginosis",dose:"500 mg PO q12h ×7 days",info:""},
+     {ind:"C. difficile (non-severe, alternative)",dose:"500 mg PO q8h ×10 days",info:"oral vancomycin/fidaxomicin preferred"},
+     {ind:"Trichomoniasis",dose:"2 g PO ×1 or 500 mg q12h ×7 days",info:"treat partner"}],
+   contra:["Hypersensitivity","First trimester (avoid 2 g single dose)","Concurrent/recent alcohol or disulfiram"],
+   interx:["Disulfiram-like reaction with alcohol — avoid alcohol during and 3 days after","Increases INR with warfarin","Increases lithium levels"],
+   adverse:"Metallic taste, nausea, headache; peripheral neuropathy with prolonged use; rare seizures.",
+   monitor:["Neuro symptoms on prolonged use","INR if on warfarin"],
+   preg:"Avoid in first trimester where possible; compatible later. Hold breastfeeding 12–24 h after 2 g dose.",
+   pharm:"Bactericidal; disrupts DNA in anaerobes and protozoa after reduction of its nitro group."},
+ acetaminophen:{n:"acetaminophen",gen:true,brands:["Tylenol","Ofirmev (IV)"],cls:"Analgesic / antipyretic",boxed:null,
+   forms:"TAB 325, 500 mg · ER 650 mg · SUSP 160 mg/5 mL · SUPP · IV 10 mg/mL",conc:[[160,5]],
+   adult:[{ind:"Pain / fever",dose:"325–1000 mg PO q4–6h; max 3–4 g/day",info:"≤3 g/day if hepatic risk or chronic use"},
+     {ind:"IV (Ofirmev)",dose:"1000 mg IV q6h or 650 mg q4h; max 4 g/day",info:""}],
+   peds:[{ind:"Pain / fever",dose:"10–15 mg/kg/dose PO q4–6h",info:"max 75 mg/kg/day, not to exceed adult max"}],
+   contra:["Severe hepatic impairment / active liver disease","Hypersensitivity"],
+   interx:["Chronic alcohol increases hepatotoxicity risk","May increase INR with sustained high-dose warfarin","Watch for duplicate acetaminophen in combination products"],
+   adverse:"Well tolerated at therapeutic doses; hepatotoxicity in overdose (treat with N-acetylcysteine).",
+   monitor:["Total daily dose across all products","LFTs if chronic use or hepatic risk"],
+   preg:"Preferred analgesic/antipyretic in pregnancy; compatible with breastfeeding.",
+   pharm:"Central COX inhibition; analgesic and antipyretic without meaningful anti-inflammatory or antiplatelet effect."},
+ ibuprofen:{n:"ibuprofen",gen:true,brands:["Advil","Motrin"],cls:"NSAID",boxed:"Increased risk of serious cardiovascular thrombotic events and GI bleeding/perforation.",
+   forms:"TAB 200, 400, 600, 800 mg · SUSP 100 mg/5 mL · IV",conc:[[100,5]],
+   adult:[{ind:"Pain / fever",dose:"400 mg PO q4–6h",info:"OTC max 1.2 g/day"},
+     {ind:"Inflammation (Rx)",dose:"600–800 mg PO q8h; max 3.2 g/day",info:"with food"}],
+   peds:[{ind:">6 mo, pain/fever",dose:"5–10 mg/kg/dose PO q6–8h",info:"max 40 mg/kg/day"}],
+   contra:["Peri-op CABG","Active GI bleed/ulcer","Severe heart failure","3rd trimester pregnancy","NSAID/aspirin-sensitive asthma","Advanced renal disease"],
+   interx:["Additive bleed risk with anticoagulants/antiplatelets","Reduces effect of ACE inhibitors/ARBs/diuretics; ↑ AKI risk (triple whammy)","Increases lithium and methotrexate levels"],
+   adverse:"Dyspepsia, GI bleed, hypertension, fluid retention, renal impairment.",
+   monitor:["Renal function, blood pressure","Signs of GI bleeding","Use lowest effective dose, shortest duration"],
+   preg:"Avoid in 3rd trimester (ductal closure); limit after 20 weeks. Compatible with breastfeeding.",
+   pharm:"Non-selective COX-1/COX-2 inhibition reduces prostaglandin synthesis."},
+ ketorolac:{n:"ketorolac",gen:true,brands:["Toradol"],cls:"NSAID (potent analgesic, IM/IV/PO)",boxed:"Short-term (≤5 days) use only; serious GI, bleeding, CV, and renal risks; contraindicated in many settings.",
+   forms:"INJ 15, 30 mg/mL · TAB 10 mg",conc:[],
+   adult:[{ind:"Moderate–severe acute pain",dose:"30 mg IV/IM q6h (15 mg if <50 kg or ≥65 yr); max 120 mg/day (60 mg/day if elderly/renal/<50 kg)",info:"combined IV/IM + PO ≤5 days total"},
+     {ind:"Oral (continuation only)",dose:"10 mg PO q4–6h; max 40 mg/day",info:""}],
+   contra:["Active/history of peptic ulcer or GI bleed","Renal impairment / volume depletion","Peri-op CABG","Labor & delivery, nursing (per label)","Bleeding risk / anticoagulation"],
+   interx:["Marked bleed risk with anticoagulants/antiplatelets","Nephrotoxic with ACEi/ARB + diuretic","Do not combine with other NSAIDs"],
+   adverse:"GI bleeding/ulcer, renal impairment, bleeding, injection-site pain.",
+   monitor:["Renal function, urine output","Signs of bleeding","Enforce ≤5-day total limit"],
+   preg:"Avoid, especially 3rd trimester; not recommended in labor/nursing per label.",
+   pharm:"Potent non-selective NSAID; parenteral analgesia approaching opioids for short-term acute pain."},
+ morphine:{n:"morphine",gen:true,brands:["MS Contin","Roxanol"],cls:"Opioid agonist analgesic",boxed:"Addiction, abuse, misuse; life-threatening respiratory depression; accidental exposure; neonatal opioid withdrawal; risks with benzodiazepines/CNS depressants.",
+   forms:"IR TAB 15, 30 mg · ER TAB · Oral soln 10, 20, 100 mg/5 mL · INJ",conc:[[10,5],[20,5]],
+   adult:[{ind:"Acute severe pain (IV)",dose:"2–4 mg IV q2–4h, titrate",info:"opioid-naïve; individualize"},
+     {ind:"Oral IR",dose:"15–30 mg PO q4h prn",info:"opioid-naïve start low"}],
+   peds:[{ind:"Severe pain (IV)",dose:"0.05–0.1 mg/kg IV q2–4h",info:"monitor respiration"}],
+   contra:["Significant respiratory depression","Acute/severe asthma without monitoring","GI obstruction/ileus","Hypersensitivity"],
+   interx:["Benzodiazepines/CNS depressants — profound sedation/respiratory depression","Serotonergic drugs — serotonin syndrome","MAO inhibitors"],
+   adverse:"Respiratory depression, sedation, hypotension, constipation, nausea, pruritus, dependence.",
+   monitor:["Respiratory rate, sedation, oxygen saturation","Pain score, bowel regimen","Have naloxone available"],
+   preg:"Prolonged use can cause neonatal opioid withdrawal; use only if needed. Caution while nursing.",
+   pharm:"Mu-opioid receptor agonist; active metabolite M6G contributes to effect; renally cleared."},
+ hydromorphone:{n:"hydromorphone",gen:true,brands:["Dilaudid"],cls:"Opioid agonist analgesic (high-potency)",boxed:"Addiction/abuse/misuse; respiratory depression; medication errors (high potency vs morphine); risks with CNS depressants.",
+   forms:"TAB 2, 4, 8 mg · Oral soln 1 mg/mL · INJ 1, 2, 4 mg/mL",conc:[[1,1]],
+   adult:[{ind:"Acute severe pain (IV)",dose:"0.2–0.5 mg IV q2–3h, titrate",info:"~7× morphine potency — verify"},
+     {ind:"Oral",dose:"2–4 mg PO q4–6h prn",info:"opioid-naïve start low"}],
+   contra:["Respiratory depression","GI obstruction","Hypersensitivity"],
+   interx:["CNS depressants/benzodiazepines","Serotonergic agents","MAO inhibitors"],
+   adverse:"Respiratory depression, sedation, hypotension, constipation, nausea.",
+   monitor:["Respiratory status & sedation","Confirm dose given its high potency","Naloxone available"],
+   preg:"Neonatal withdrawal with prolonged use; use only if needed.",
+   pharm:"Potent mu-opioid agonist; roughly 5–7× the potency of morphine parenterally."},
+ ondansetron:{n:"ondansetron",gen:true,brands:["Zofran"],cls:"5-HT3 antagonist antiemetic",boxed:null,
+   forms:"TAB / ODT 4, 8 mg · Oral soln 4 mg/5 mL · INJ 2 mg/mL",conc:[[4,5]],
+   adult:[{ind:"Nausea/vomiting",dose:"4 mg IV/PO q8h prn (up to 8 mg)",info:"give IV slowly"},
+     {ind:"Chemotherapy-induced (high)",dose:"8–16 mg per protocol",info:""}],
+   peds:[{ind:"Nausea/vomiting",dose:"0.15 mg/kg/dose IV q8h",info:"max 16 mg/dose"}],
+   contra:["Concurrent apomorphine (profound hypotension)","Congenital long QT","Hypersensitivity"],
+   interx:["QT prolongation with other QT drugs","Serotonergic agents — serotonin syndrome"],
+   adverse:"Headache, constipation, dose-dependent QT prolongation.",
+   monitor:["QT/ECG if risk factors or high dose","Electrolytes (K+, Mg2+)"],
+   preg:"Commonly used; discuss first-trimester data. Compatible with breastfeeding.",
+   pharm:"Blocks serotonin 5-HT3 receptors peripherally (vagal) and centrally (CTZ)."},
+ dexamethasone:{n:"dexamethasone",gen:true,brands:["Decadron"],cls:"Corticosteroid (long-acting)",boxed:null,
+   forms:"TAB 0.5–6 mg · Oral soln · INJ 4, 10 mg/mL",conc:[],
+   adult:[{ind:"Anti-inflammatory / antiemetic",dose:"4–10 mg IV/PO, varies by indication",info:""},
+     {ind:"Croup / airway edema",dose:"0.6 mg/kg ×1 (max 16 mg)",info:""},
+     {ind:"Cerebral edema",dose:"10 mg IV then 4 mg q6h",info:""}],
+   contra:["Systemic fungal infection","Hypersensitivity","Caution: uncontrolled infection, diabetes, peptic ulcer"],
+   interx:["CYP3A4 inducers/inhibitors alter levels","Additive hypokalemia with diuretics","Raises glucose — adjust antidiabetics","NSAID GI risk"],
+   adverse:"Hyperglycemia, insomnia, mood changes, fluid retention, immunosuppression; adrenal suppression with prolonged use.",
+   monitor:["Blood glucose","Signs of infection","Taper after prolonged courses"],
+   preg:"Use if benefits justify; betamethasone/dexamethasone used for fetal lung maturity.",
+   pharm:"Potent glucocorticoid, ~25× hydrocortisone, minimal mineralocorticoid effect; long duration."},
+ diphenhydramine:{n:"diphenhydramine",gen:true,brands:["Benadryl"],cls:"First-generation antihistamine",boxed:null,
+   forms:"TAB/CAP 25, 50 mg · Oral soln 12.5 mg/5 mL · INJ 50 mg/mL",conc:[[12.5,5]],
+   adult:[{ind:"Allergic reaction / urticaria",dose:"25–50 mg PO/IV/IM q4–6h",info:"max 300 mg/day"},
+     {ind:"Adjunct in anaphylaxis",dose:"25–50 mg IV",info:"never a substitute for epinephrine"}],
+   peds:[{ind:"≥2 yr",dose:"1–1.25 mg/kg/dose q6h",info:"max 300 mg/day; avoid <2 yr"}],
+   contra:["Neonates/premature infants","Avoid <2 yr","Caution: narrow-angle glaucoma, BPH, elderly (anticholinergic)"],
+   interx:["Additive sedation with CNS depressants/alcohol","Additive anticholinergic burden","MAO inhibitors"],
+   adverse:"Sedation, anticholinergic effects (dry mouth, urinary retention), paradoxical excitation in children.",
+   monitor:["Sedation/fall risk in elderly","Anticholinergic effects"],
+   preg:"Considered relatively safe; may reduce milk supply and cause infant sedation while nursing.",
+   pharm:"H1-antihistamine with anticholinergic and sedative properties; crosses blood-brain barrier."},
+ epinephrine:{n:"epinephrine",gen:true,brands:["EpiPen","Adrenalin"],cls:"Alpha/beta adrenergic agonist",boxed:null,
+   forms:"Auto-injector 0.15, 0.3 mg · Ampule 1 mg/mL (1:1000, IM) · 0.1 mg/mL (1:10,000, IV code)",conc:[],
+   adult:[{ind:"Anaphylaxis (first-line)",dose:"0.3–0.5 mg IM (1 mg/mL) into mid-outer thigh; repeat q5–15 min prn",info:"IM anterolateral thigh preferred"},
+     {ind:"Cardiac arrest",dose:"1 mg IV/IO (0.1 mg/mL) q3–5 min",info:"ACLS"}],
+   peds:[{ind:"Anaphylaxis",dose:"0.01 mg/kg IM (max 0.3–0.5 mg)",info:"auto-injector 0.15 mg if 7.5–25 kg"}],
+   contra:["No absolute contraindication in anaphylaxis or arrest (life-threatening)"],
+   interx:["Beta-blockers may blunt response (consider glucagon)","MAOIs/TCAs potentiate pressor effect","Halogenated anesthetics — arrhythmia risk"],
+   adverse:"Tachycardia, hypertension, tremor, anxiety, headache; arrhythmia at high/IV doses.",
+   monitor:["Cardiac rhythm, blood pressure","Response to anaphylaxis; prepare to repeat","Correct IM concentration and site"],
+   preg:"Use without hesitation in anaphylaxis; benefits outweigh risks.",
+   pharm:"Alpha-1 vasoconstriction, beta-1 inotropy/chronotropy, beta-2 bronchodilation and mast-cell stabilization."},
+ naloxone:{n:"naloxone",gen:true,brands:["Narcan"],cls:"Opioid antagonist",boxed:null,
+   forms:"INJ 0.4 mg/mL · Nasal spray 4 mg · Auto-injector",conc:[],
+   adult:[{ind:"Opioid overdose (IV/IM/SC)",dose:"0.4–2 mg q2–3 min prn (max ~10 mg)",info:"titrate to respiration, not full arousal"},
+     {ind:"Intranasal",dose:"4 mg in one nostril; repeat q2–3 min",info:""}],
+   peds:[{ind:"Opioid overdose",dose:"0.01 mg/kg IV/IM; may repeat",info:""}],
+   contra:["Hypersensitivity (relative — life-threatening indication)"],
+   interx:["Precipitates acute withdrawal in opioid-dependent patients","Shorter duration than many opioids — re-sedation possible"],
+   adverse:"Acute withdrawal (agitation, nausea, tachycardia, hypertension); pulmonary edema (rare).",
+   monitor:["Respiratory rate — primary endpoint","Re-dose as it wears off; observe for re-narcotization","Continue monitoring after nasal/IM dose"],
+   preg:"Use for maternal overdose; may cause fetal/neonatal withdrawal if opioid-dependent.",
+   pharm:"Competitive mu-opioid receptor antagonist; onset 1–2 min IV, duration 30–90 min."},
+ enoxaparin:{n:"enoxaparin",gen:true,brands:["Lovenox"],cls:"Low-molecular-weight heparin",boxed:"Spinal/epidural hematoma risk with neuraxial anesthesia or spinal puncture.",
+   forms:"Prefilled syringes 30, 40, 60, 80, 100, 120, 150 mg (SC)",conc:[],
+   adult:[{ind:"VTE prophylaxis",dose:"40 mg SC daily (30 mg q12h in some ortho)",info:"adjust for renal/obesity"},
+     {ind:"VTE / ACS treatment",dose:"1 mg/kg SC q12h (or 1.5 mg/kg daily)",info:"CrCl <30: 1 mg/kg daily"}],
+   contra:["Active major bleeding","Heparin/pork hypersensitivity","History of HIT","Caution: renal impairment, neuraxial procedures"],
+   interx:["Additive bleeding with antiplatelets/anticoagulants/NSAIDs","Neuraxial anesthesia timing critical"],
+   adverse:"Bleeding, injection-site bruising, thrombocytopenia (incl. HIT), rare elevated LFTs.",
+   monitor:["Signs of bleeding, hemoglobin","Platelets (HIT)","Renal function; anti-Xa in select cases (renal, obesity, pregnancy)"],
+   preg:"Preferred anticoagulant in pregnancy (does not cross placenta); compatible with breastfeeding.",
+   pharm:"Enhances antithrombin-mediated inhibition of factor Xa (> thrombin); SC, predictable, usually no routine monitoring. Do NOT expel the air bubble in the prefilled syringe."},
+ heparin:{n:"heparin",gen:true,brands:["unfractionated heparin"],cls:"Anticoagulant (unfractionated)",boxed:null,
+   forms:"INJ vials/premix; SC and IV; concentrations vary — verify",conc:[],
+   adult:[{ind:"VTE prophylaxis",dose:"5000 units SC q8–12h",info:""},
+     {ind:"VTE / ACS treatment (IV)",dose:"Weight-based bolus + infusion per protocol",info:"titrate to aPTT/anti-Xa"}],
+   contra:["Active major bleeding","History of HIT","Severe thrombocytopenia","Hypersensitivity"],
+   interx:["Additive bleeding with antiplatelets/anticoagulants/NSAIDs/thrombolytics"],
+   adverse:"Bleeding, HIT (immune, days 5–10), osteoporosis with long-term use.",
+   monitor:["aPTT or anti-Xa for IV therapy","Platelet count (HIT)","Signs of bleeding; protamine reverses"],
+   preg:"Does not cross placenta; safe option in pregnancy.",
+   pharm:"Activates antithrombin, inhibiting thrombin (IIa) and factor Xa equally; short half-life, IV titratable."},
+ lidocaine:{n:"lidocaine (local)",gen:true,brands:["Xylocaine"],cls:"Local anesthetic (amide)",boxed:null,
+   forms:"INJ 0.5%, 1%, 2% (±epinephrine); topical",conc:[],
+   adult:[{ind:"Local infiltration",dose:"Max 4.5 mg/kg (≤300 mg) plain; 7 mg/kg (≤500 mg) with epinephrine",info:"1% = 10 mg/mL"}],
+   peds:[{ind:"Local infiltration",dose:"Max 4.5 mg/kg plain",info:"weight-based ceiling"}],
+   contra:["Amide anesthetic hypersensitivity","Do not use epinephrine-containing solutions in end-arterial areas (digits, nose, ears, penis)"],
+   interx:["Additive with other local anesthetics toward toxicity ceiling","Class I/III antiarrhythmics"],
+   adverse:"Perioral numbness, tinnitus, dizziness → seizures, cardiac toxicity (LAST) if intravascular/overdose.",
+   monitor:["Stay under weight-based maximum","Aspirate before injecting; watch for LAST","Lipid emulsion available for LAST"],
+   preg:"Considered safe for local anesthesia in pregnancy.",
+   pharm:"Blocks voltage-gated sodium channels, preventing nerve depolarization. 1% solution = 10 mg/mL."}
+};
+var RX_KEYS=["acetaminophen","amoxicillin","augmentin","azithromycin","ceftriaxone","cephalexin","dexamethasone","diphenhydramine","doxycycline","enoxaparin","epinephrine","heparin","hydromorphone","ibuprofen","ketorolac","lidocaine","metronidazole","morphine","naloxone","ondansetron"];
+var RX_SECS=[
+ {k:"boxed",t:"Black Box Warning"},
+ {k:"adult",t:"Adult Indications & Dosing"},
+ {k:"peds",t:"Pediatric Indications & Dosing"},
+ {k:"contra",t:"Contraindications / Cautions"},
+ {k:"interx",t:"Drug Interactions"},
+ {k:"adverse",t:"Adverse Reactions"},
+ {k:"monitor",t:"Safety / Monitoring"},
+ {k:"preg",t:"Pregnancy / Lactation"},
+ {k:"pharm",t:"Pharmacology"}
+];
+function rxSearchList(q){
+  q=(q||"").trim().toLowerCase();
+  return RX_KEYS.filter(function(k){
+    var d=RXDB[k];if(!q)return true;
+    if(d.n.toLowerCase().indexOf(q)>=0)return true;
+    if((d.cls||"").toLowerCase().indexOf(q)>=0)return true;
+    return (d.brands||[]).some(function(b){return b.toLowerCase().indexOf(q)>=0;});
+  });
+}
+function rxListHTML(){
+  var ks=rxSearchList(S.rxQuery);
+  if(!ks.length)return '<div class="rx-empty">No match. Try a generic name, brand, or drug class.</div>';
+  return ks.map(function(k){var d=RXDB[k];
+    return '<button type="button" class="rx-row" onclick="rxOpen(\''+k+'\')">'
+      +'<span class="rx-pill">Rx</span>'
+      +'<span class="rx-rmain"><b>'+esc(d.n)+'</b><small>'+esc(d.cls)+(d.brands&&d.brands.length?' · '+esc(d.brands.slice(0,2).join(", ")):'')+'</small></span>'
+      +'<span class="rx-chev">›</span></button>';
+  }).join('');
+}
+function rxOpen(k){S.rxDrug=k;S.rxSec="adult";S.rxCalcOn=false;render();try{window.scrollTo({top:0,behavior:'smooth'});}catch(_){}}
+function rxBack(){if(S.rxCalcOn){S.rxCalcOn=false;render();return;}S.rxDrug=null;render();}
+function rxToggle(k){S.rxSec=(S.rxSec===k?null:k);render();}
+function rxDoSearch(v){S.rxQuery=v;var l=el('rxList');if(l)l.innerHTML=rxListHTML();}
+function rxSecBody(d,k){
+  if(k==="boxed")return d.boxed?'<div class="rx-boxed">⚠︎ '+esc(d.boxed)+'</div>':'<div class="rx-none">No Black Box Warning.</div>';
+  if(k==="adult"||k==="peds"){
+    var arr=d[k];if(!arr||!arr.length)return '<div class="rx-none">Not established / not typically dosed for this population.</div>';
+    var h=d.forms?'<div class="rx-forms"><span>Dosage forms</span>'+esc(d.forms)+'</div>':'';
+    h+=arr.map(function(x){
+      return '<div class="rx-ind"><div class="rx-indh">'+esc(x.ind)+'</div><div class="rx-dose">'+esc(x.dose)+'</div>'
+        +(x.info?'<div class="rx-info">'+esc(x.info)+'</div>':'')+'</div>';
+    }).join('');
+    h+='<button type="button" class="rx-calcbtn" onclick="rxCalcOpen()">🧮 Open dosing calculator</button>';
+    return h;
+  }
+  if(k==="adverse")return '<p class="rx-p">'+esc(d.adverse||"—")+'</p>';
+  if(k==="preg")return '<p class="rx-p">'+esc(d.preg||"—")+'</p>';
+  if(k==="pharm")return '<p class="rx-p">'+esc(d.pharm||"—")+'</p>';
+  var arr=d[k]||[];if(!arr.length)return '<div class="rx-none">—</div>';
+  return '<ul class="rx-ul">'+arr.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul>';
+}
+function vRxMonograph(){
+  var d=RXDB[S.rxDrug];if(!d)return vRxSearch();
+  if(S.rxCalcOn)return vRxCalc();
+  var secs=RX_SECS.map(function(s){
+    if(s.k==="peds"&&(!d.peds||!d.peds.length))return '';
+    var open=(S.rxSec===s.k);
+    var badge=(s.k==="boxed")?(d.boxed?'<span class="rx-warnpill">Warning</span>':'<span class="rx-okpill">None</span>'):'';
+    return '<div class="rx-sec'+(open?' open':'')+'">'
+      +'<button type="button" class="rx-sech" onclick="rxToggle(\''+s.k+'\')"><span>'+s.t+'</span>'+badge+'<span class="rx-caret">'+(open?'–':'+')+'</span></button>'
+      +(open?'<div class="rx-secb">'+rxSecBody(d,s.k)+'</div>':'')
+      +'</div>';
+  }).join('');
+  return '<div class="pfwrap" style="max-width:600px">'
+   +'<div style="margin-bottom:10px"><button class="btn btn-ghost" onclick="rxBack()">← Back to drug list</button></div>'
+   +'<div class="rx-head"><div class="rx-hname">'+esc(d.n)+'</div>'
+     +'<div class="rx-hsub">'+(d.gen?'generic':'brand')+' · '+esc(d.cls)+'</div>'
+     +(d.brands&&d.brands.length?'<div class="rx-brands">Brands: '+esc(d.brands.join(", "))+'</div>':'')+'</div>'
+   +'<div class="rx-secs">'+secs+'</div>'
+   +'<div class="rx-disc">Educational reference only. Verify every dose against current product labeling, your institutional formulary, and clinical judgment before administering. Interaction/allergy checking is not performed here.</div>'
+   +'</div>';
+}
+function rxCalcOpen(){S.rxCalcOn=true;render();try{window.scrollTo({top:0,behavior:'smooth'});}catch(_){}}
+function vRxCalc(){
+  var d=RXDB[S.rxDrug]||{};
+  var concOpts=[['','Select concentration (mg per mL)']].concat((d.conc||[]).map(function(c){return [c[0]+'/'+c[1], c[0]+' mg per '+c[1]+' mL'];})).concat([['custom','Custom…']]);
+  return '<div class="pfwrap" style="max-width:560px">'
+   +'<div style="margin-bottom:10px"><button class="btn btn-ghost" onclick="rxBack()">← '+esc(d.n||'drug')+'</button></div>'
+   +'<div class="pf-hero" style="padding:18px 22px;gap:16px"><div style="font-size:2rem;flex:none">🧮</div><div class="pf-heromain"><span class="eyebrow" style="color:#7FE6F0">Weight-based dosing</span><h2 style="color:#fff;margin:2px 0 3px;font-family:\'Plus Jakarta Sans\',system-ui,sans-serif;font-size:1.3rem">'+esc(d.n||'Dosing calculator')+'</h2><div class="pf-sub">Enter the ordered dose, weight, and how often it is given.</div></div></div>'
+   +'<div class="pf-sec open"><div class="pf-body">'
+   +'<div class="pf-grid">'+_cField('Dose','rc_dose','e.g. 25')+_cSel('Dose unit','rc_unit',[['mgkgday','mg/kg/day'],['mgkgdose','mg/kg/dose'],['mgday','mg/day (total)'],['mgdose','mg/dose']],'mgkgday')+'</div>'
+   +'<div class="pf-grid">'+_cField('Patient weight','rc_wt','e.g. 21.2')+_cSel('Weight unit','rc_wu',[['kg','kg'],['lb','lb']],'kg')+'</div>'
+   +_cField('Give every … hours','rc_freq','e.g. 12')
+   +_cSel('Concentration (for liquid volume)','rc_conc',concOpts,'')
+   +'<div id="rc_customwrap" style="display:none">'+'<div class="pf-grid">'+_cField('Custom: amount (mg)','rc_cmg','e.g. 400')+_cField('per volume (mL)','rc_cml','e.g. 5')+'</div></div>'
+   +'<div class="calc-out" id="rxCalcOut"><b>—</b><span>Enter dose, weight, and frequency</span></div>'
+   +'<div class="calc-note" id="rxCalcNote"></div>'
+   +'</div></div>'
+   +'<div class="rx-disc">Maximum-dose checking is not performed. Confirm the result is appropriate for available dosage forms and the ordered frequency.</div>'
+   +'</div>';
+}
+function rxCalcCompute(){
+  var out=el('rxCalcOut'),note=el('rxCalcNote');if(!out)return;
+  var cw=el('rc_customwrap'),cs=el('rc_conc');if(cw&&cs)cw.style.display=(cs.value==='custom')?'block':'none';
+  function n(id){var e=el(id);if(!e)return null;var v=parseFloat(e.value);return isNaN(v)?null:v;}
+  function r(x,d){var p=Math.pow(10,d||0);return Math.round(x*p)/p;}
+  var dose=n('rc_dose'),unit=(el('rc_unit')||{}).value,wt=n('rc_wt'),wu=(el('rc_wu')||{}).value,freq=n('rc_freq');
+  if(dose==null){out.innerHTML='<b>—</b><span>Enter dose, weight, and frequency</span>';if(note)note.textContent='';return;}
+  var wtKg=(wt==null?null:(wu==='lb'?wt*0.453592:wt));
+  var perDay=null, perDose=null, dosesPerDay=(freq&&freq>0)?(24/freq):null;
+  if(unit==='mgkgday'){if(wtKg==null){out.innerHTML='<b>—</b><span>Enter patient weight</span>';return;}perDay=dose*wtKg;if(dosesPerDay)perDose=perDay/dosesPerDay;}
+  else if(unit==='mgkgdose'){if(wtKg==null){out.innerHTML='<b>—</b><span>Enter patient weight</span>';return;}perDose=dose*wtKg;if(dosesPerDay)perDay=perDose*dosesPerDay;}
+  else if(unit==='mgday'){perDay=dose;if(dosesPerDay)perDose=perDay/dosesPerDay;}
+  else{perDose=dose;if(dosesPerDay)perDay=perDose*dosesPerDay;}
+  var cv=(el('rc_conc')||{}).value,cmg=null,cml=null;
+  if(cv==='custom'){cmg=n('rc_cmg');cml=n('rc_cml');}
+  else if(cv&&cv.indexOf('/')>=0){var p=cv.split('/');cmg=parseFloat(p[0]);cml=parseFloat(p[1]);}
+  var lines=[];
+  if(perDay!=null)lines.push('<b>'+r(perDay,1)+' mg</b><span>per day</span>');
+  if(perDose!=null)lines.push('<b>'+r(perDose,1)+' mg</b><span>per dose'+(freq?(' every '+r(freq,0)+' h'):'')+'</span>');
+  var mlLine='';
+  if(perDose!=null&&cmg&&cml&&cmg>0){var mlDose=perDose/(cmg/cml);mlLine=r(mlDose,2)+' mL per dose';}
+  if(!lines.length){out.innerHTML='<b>—</b><span>Enter dose, weight, and frequency</span>';return;}
+  out.innerHTML=lines.join('<hr class="rx-outhr">')+(mlLine?'<hr class="rx-outhr"><b>'+mlLine.split(' ')[0]+' mL</b><span>per dose (at selected concentration)</span>':'');
+  if(note)note.textContent=(dosesPerDay?'':'Enter frequency (hours) to split into per-dose amounts. ')+'Max-dose checking is not performed — verify against labeling.';
+}
+function vRxSearch(){
+  return '<div class="pfwrap" style="max-width:600px">'
+   +'<div class="pf-hero" style="padding:18px 22px;gap:16px"><div style="font-size:2rem;flex:none">💊</div><div class="pf-heromain"><span class="eyebrow" style="color:#7FE6F0">Clinical tools</span><h2 style="color:#fff;margin:2px 0 3px;font-family:\'Plus Jakarta Sans\',system-ui,sans-serif;font-size:1.4rem">Drug reference</h2><div class="pf-sub">Search a drug for indications, dosing, cautions, interactions, and a weight-based dose calculator.</div></div></div>'
+   +'<div class="rx-searchbar"><span>🔎</span><input id="rxSearchInp" type="text" autocomplete="off" placeholder="Search a drug, brand, or class…" value="'+esc(S.rxQuery||'')+'" oninput="rxDoSearch(this.value)"/></div>'
+   +'<div class="rx-list" id="rxList">'+rxListHTML()+'</div>'
+   +'<div class="rx-disc">Educational reference for training. Not a substitute for current labeling, your formulary, or clinical judgment. No allergy/interaction checking.</div>'
+   +'</div>';
+}
+function vRxTool(){ return S.rxDrug?vRxMonograph():vRxSearch(); }
+function setTool(t){S.toolTab=t;render();if(t==='iv')setTimeout(calcCompute,20);}
 function vTools(){
+  if((S.toolTab||'rx')==='rx')return vToolsShell(vRxTool());
+  return vToolsShell(vIvCalc());
+}
+function vToolsShell(inner){
+  var t=S.toolTab||'rx';
+  return '<div style="max-width:600px;margin:0 auto 14px"><div style="margin-bottom:10px"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button></div>'
+   +'<div class="tool-switch"><button class="tsw'+(t==='rx'?' on':'')+'" onclick="setTool(\'rx\')">💊 Drug reference</button><button class="tsw'+(t==='iv'?' on':'')+'" onclick="setTool(\'iv\')">🧮 IV calculator</button></div></div>'
+   +inner;
+}
+function vIvCalc(){
   var mode=S.calcMode||'drip';
   var tab=function(m,lab){return '<button class="calc-tab'+(mode===m?' on':'')+'" onclick="setCalc(\''+m+'\')">'+lab+'</button>';};
   var fields='';
@@ -4328,7 +4747,6 @@ function vTools(){
      +_cField('In bag volume (mL)','cd_vol','e.g. 250',true);
   }
   return '<div class="pfwrap" style="max-width:560px">'
-   +'<div style="margin-bottom:10px"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button></div>'
    +'<div class="pf-hero" style="padding:20px 24px;gap:18px"><div style="font-size:2.2rem;flex:none">🧮</div><div class="pf-heromain"><span class="eyebrow" style="color:#7FE6F0">Clinical tools</span><h2 style="color:#fff;margin:2px 0 3px;font-family:\'Plus Jakarta Sans\',system-ui,sans-serif;font-size:1.4rem">IV infusion calculator</h2><div class="pf-sub">Drip rate, pump rate, infusion time, and weight-based dosing.</div></div></div>'
    +'<div class="calc-tabs">'+tab('drip','Drip rate')+tab('rate','Rate (mL/hr)')+tab('time','Time')+tab('dose','Dose')+'</div>'
    +'<div class="pf-sec open"><div class="pf-body">'+fields+'<div class="calc-out" id="calcOut"><b>—</b><span>Enter the values above</span></div><div class="calc-note" id="calcNote"></div></div></div>'
@@ -4336,6 +4754,7 @@ function vTools(){
    +'</div>';
 }
 function calcCompute(){
+  if(el('rxCalcOut'))return rxCalcCompute();
   var mode=S.calcMode||'drip',out=el('calcOut'),note=el('calcNote');if(!out)return;
   function n(id){var e=el(id);if(!e)return null;var v=parseFloat(e.value);return isNaN(v)?null:v;}
   function r(x,d){var p=Math.pow(10,d||0);return Math.round(x*p)/p;}
