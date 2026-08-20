@@ -828,9 +828,8 @@
 .lc-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;}
 .lc-badge{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:#06312f;background:linear-gradient(135deg,#22E0DA,#14C9C6);padding:5px 11px;border-radius:50px;}
 .lc-prog{font-size:.72rem;color:rgba(230,246,246,.7);white-space:nowrap;}
-.lc-tabs{display:flex;gap:8px;overflow-x:auto;margin:0 0 16px;padding-bottom:2px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
-.lc-tabs::-webkit-scrollbar{display:none;}
-.lc-tab{flex:none;background:rgba(230,246,246,.06);border:1px solid rgba(120,235,228,.2);color:rgba(234,247,247,.72);font-family:inherit;font-size:.8rem;font-weight:700;padding:7px 14px;border-radius:50px;cursor:pointer;white-space:nowrap;transition:.15s;}
+.lc-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px;}
+.lc-tab{flex:0 0 auto;background:rgba(230,246,246,.06);border:1px solid rgba(120,235,228,.2);color:rgba(234,247,247,.72);font-family:inherit;font-size:.8rem;font-weight:700;padding:0 15px;min-height:40px;display:inline-flex;align-items:center;justify-content:center;border-radius:50px;cursor:pointer;white-space:nowrap;transition:.15s;}
 .lc-tab.on{background:linear-gradient(135deg,#22E0DA,#14C9C6);color:#06312f;border-color:transparent;}
 .lc-tab:not(.on):hover,.lc-tab:not(.on):active{border-color:rgba(120,235,228,.5);color:#eaf7f7;}
 .lcard .lc-top h4{margin:0;}
@@ -1998,15 +1997,7 @@ function homeMarketingHTML(){
    +'</ul>'
    +'<div class="sellcta"><button class="btn btn-gold" onclick="demoTrainingLogin()">Start learning →</button></div>'
    +'<div class="selltrust"><span><b>'+_nc+'</b> full courses</span><span><b>'+_nm+'</b> modules</span><span>Built by <b>Lacey Smith, FNP-C</b></span></div>'
-   +'</div>'
-   +'<div class="sellfig"><div class="figcard"><h3>Injection Angles — hit the right layer every time</h3>'
-   + injAnglesSVG()
-   +'<div class="legrow">'
-   +'<div class="legcol"><div class="r">IM</div><div class="a">90°</div><div class="t">Muscle</div></div>'
-   +'<div class="legcol"><div class="r">SubQ</div><div class="a">45°</div><div class="t">Fat</div></div>'
-   +'<div class="legcol"><div class="r">IV</div><div class="a">25°</div><div class="t">Vein</div></div>'
-   +'<div class="legcol"><div class="r">ID</div><div class="a">10-15°</div><div class="t">Skin</div></div>'
-   +'</div></div></div>';
+   +'</div>';
 }
 function vHome(){
   var doneCount=0;S.done.forEach(function(i){if(L[i])doneCount++;});

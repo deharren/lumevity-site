@@ -322,6 +322,35 @@
   .tsheet p{font-size:.86rem;color:#667079;flex:1;line-height:1.55;}
   .tsheet a{margin-top:14px;font-weight:800;color:#0E7C86;font-size:.88rem;}
   @media(max-width:900px){.tgrid,.tips-grid{grid-template-columns:1fr;}}
+
+  /* ===== Injection angles figure (ported from the training app) ===== */
+  .angles{background:var(--pearl);}
+  .angwrap{max-width:660px;margin:0 auto;}
+  .figcard{background:#fbfaf6;border:1px solid var(--stone);border-radius:16px;padding:18px 18px 14px;box-shadow:0 18px 44px rgba(8,30,40,.14);}
+  .angfig{width:100%;height:auto;display:block;}
+  .angfig .ndlmove{transform:translateY(0);}
+  .angfig .m0{animation:ndlIns0 10s infinite;} .angfig .m1{animation:ndlIns1 10s infinite;}
+  .angfig .m2{animation:ndlIns2 10s infinite;} .angfig .m3{animation:ndlIns3 10s infinite;}
+  .angfig .r0{animation:angF0 10s infinite;} .angfig .r1{animation:angF1 10s infinite;}
+  .angfig .r2{animation:angF2 10s infinite;} .angfig .r3{animation:angF3 10s infinite;}
+  @keyframes ndlIns0{0%{transform:translateY(var(--ins));}3%{transform:translateY(var(--ins));animation-timing-function:cubic-bezier(.16,.7,.3,1);}15%{transform:translateY(0);}100%{transform:translateY(0);}}
+  @keyframes ndlIns1{0%{transform:translateY(var(--ins));}17%{transform:translateY(var(--ins));animation-timing-function:cubic-bezier(.16,.7,.3,1);}29%{transform:translateY(0);}100%{transform:translateY(0);}}
+  @keyframes ndlIns2{0%{transform:translateY(var(--ins));}31%{transform:translateY(var(--ins));animation-timing-function:cubic-bezier(.16,.7,.3,1);}43%{transform:translateY(0);}100%{transform:translateY(0);}}
+  @keyframes ndlIns3{0%{transform:translateY(var(--ins));}45%{transform:translateY(var(--ins));animation-timing-function:cubic-bezier(.16,.7,.3,1);}57%{transform:translateY(0);}100%{transform:translateY(0);}}
+  @keyframes angF0{0%{opacity:0;}3%{opacity:0;}5%{opacity:1;}82%{opacity:1;}89%{opacity:0;}100%{opacity:0;}}
+  @keyframes angF1{0%{opacity:0;}17%{opacity:0;}19%{opacity:1;}82%{opacity:1;}89%{opacity:0;}100%{opacity:0;}}
+  @keyframes angF2{0%{opacity:0;}31%{opacity:0;}33%{opacity:1;}82%{opacity:1;}89%{opacity:0;}100%{opacity:0;}}
+  @keyframes angF3{0%{opacity:0;}45%{opacity:0;}47%{opacity:1;}82%{opacity:1;}89%{opacity:0;}100%{opacity:0;}}
+  @media(prefers-reduced-motion:reduce){
+    .angfig .m0,.angfig .m1,.angfig .m2,.angfig .m3{animation:none;transform:translateY(0);}
+    .angfig .r0,.angfig .r1,.angfig .r2,.angfig .r3{animation:none;opacity:1;}
+  }
+  .legrow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px;}
+  .legcol{text-align:center;padding:8px 2px;border-radius:9px;background:#f1ede2;}
+  .legcol .r{font-family:var(--serif);font-weight:800;color:#0B2E36;font-size:.9rem;}
+  .legcol .a{color:#0E8A93;font-weight:800;font-size:.84rem;}
+  .legcol .t{color:#6b6a63;font-size:.7rem;margin-top:2px;}
+  @media(max-width:560px){ .figcard{padding:14px 14px 10px;} }
 </style>
 </head>
 <body>
@@ -354,15 +383,38 @@
         <a href="#pricing" class="btn btn-ghost">See Pricing</a>
       </div>
       <div class="hero-stats">
-        <div class="st"><b>3</b><span>Core skill tracks</span></div>
+        <div class="st"><b>5</b><span>Core skill tracks</span></div>
         <div class="st"><b>40+</b><span>Video &amp; interactive lessons</span></div>
-        <div class="st"><b>3</b><span>Certificates of completion</span></div>
+        <div class="st"><b>5</b><span>Certificates of completion</span></div>
       </div>
     </div>
   </div>
 </section>
 
 <div class="strip">Built by a practicing Family Nurse Practitioner · For <b>nursing students, medical assistants &amp; phlebotomists</b> · Skills are taught for practice and validation under qualified clinical supervision.</div>
+
+
+<!-- INJECTION ANGLES -->
+<section class="block angles" id="angles">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow" style="color:var(--gold-deep)">Injection angles</span>
+      <h2>Hit the right layer, every time</h2>
+      <p>IM, SubQ, IV, ID — see the exact angle, depth, and target tissue for every route on one clear cross-section.</p>
+    </div>
+    <div class="angwrap">
+      <div class="figcard">
+        <svg viewBox="0 0 640 412" class="angfig" role="img" aria-label="Injection angles by route on a labeled skin cross-section: intramuscular 90 degrees into muscle, subcutaneous 45 degrees into subcutaneous fat, intravenous 25 degrees into a blood vessel, intradermal 10 to 15 degrees into the dermis. Layers from top: epidermis, dermis, subcutaneous fat, muscle."><defs><clipPath id="iaFat"><rect x="24" y="250" width="592" height="86"/></clipPath><clipPath id="iaMus"><rect x="24" y="336" width="592" height="68"/></clipPath></defs><rect x="24" y="168" width="592" height="82" fill="#E7A39C"/><rect x="24" y="250" width="592" height="86" fill="#F3DE9A"/><g clip-path="url(#iaFat)"><circle cx="26" cy="266" r="21" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="19.3" cy="259.3" r="5.9" fill="#FCF3CE" opacity=".75"/><circle cx="76" cy="266" r="18" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="70.2" cy="260.2" r="5.0" fill="#FCF3CE" opacity=".75"/><circle cx="126" cy="266" r="15" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="121.2" cy="261.2" r="4.2" fill="#FCF3CE" opacity=".75"/><circle cx="176" cy="266" r="21" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="169.3" cy="259.3" r="5.9" fill="#FCF3CE" opacity=".75"/><circle cx="226" cy="266" r="18" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="220.2" cy="260.2" r="5.0" fill="#FCF3CE" opacity=".75"/><circle cx="276" cy="266" r="15" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="271.2" cy="261.2" r="4.2" fill="#FCF3CE" opacity=".75"/><circle cx="326" cy="266" r="21" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="319.3" cy="259.3" r="5.9" fill="#FCF3CE" opacity=".75"/><circle cx="376" cy="266" r="18" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="370.2" cy="260.2" r="5.0" fill="#FCF3CE" opacity=".75"/><circle cx="426" cy="266" r="15" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="421.2" cy="261.2" r="4.2" fill="#FCF3CE" opacity=".75"/><circle cx="476" cy="266" r="21" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="469.3" cy="259.3" r="5.9" fill="#FCF3CE" opacity=".75"/><circle cx="526" cy="266" r="18" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="520.2" cy="260.2" r="5.0" fill="#FCF3CE" opacity=".75"/><circle cx="576" cy="266" r="15" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="571.2" cy="261.2" r="4.2" fill="#FCF3CE" opacity=".75"/><circle cx="52" cy="295" r="21" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="45.3" cy="288.3" r="5.9" fill="#FCF3CE" opacity=".75"/><circle cx="102" cy="295" r="18" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="96.2" cy="289.2" r="5.0" fill="#FCF3CE" opacity=".75"/><circle cx="152" cy="295" r="15" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="147.2" cy="290.2" r="4.2" fill="#FCF3CE" opacity=".75"/><circle cx="202" cy="295" r="21" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="195.3" cy="288.3" r="5.9" fill="#FCF3CE" opacity=".75"/><circle cx="252" cy="295" r="18" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="246.2" cy="289.2" r="5.0" fill="#FCF3CE" opacity=".75"/><circle cx="302" cy="295" r="15" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="297.2" cy="290.2" r="4.2" fill="#FCF3CE" opacity=".75"/><circle cx="352" cy="295" r="21" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="345.3" cy="288.3" r="5.9" fill="#FCF3CE" opacity=".75"/><circle cx="402" cy="295" r="18" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="396.2" cy="289.2" r="5.0" fill="#FCF3CE" opacity=".75"/><circle cx="452" cy="295" r="15" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="447.2" cy="290.2" r="4.2" fill="#FCF3CE" opacity=".75"/><circle cx="502" cy="295" r="21" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="495.3" cy="288.3" r="5.9" fill="#FCF3CE" opacity=".75"/><circle cx="552" cy="295" r="18" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="546.2" cy="289.2" r="5.0" fill="#FCF3CE" opacity=".75"/><circle cx="602" cy="295" r="15" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="597.2" cy="290.2" r="4.2" fill="#FCF3CE" opacity=".75"/><circle cx="26" cy="322" r="18" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="20.2" cy="316.2" r="5.0" fill="#FCF3CE" opacity=".75"/><circle cx="76" cy="322" r="15" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="71.2" cy="317.2" r="4.2" fill="#FCF3CE" opacity=".75"/><circle cx="126" cy="322" r="21" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="119.3" cy="315.3" r="5.9" fill="#FCF3CE" opacity=".75"/><circle cx="176" cy="322" r="18" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="170.2" cy="316.2" r="5.0" fill="#FCF3CE" opacity=".75"/><circle cx="226" cy="322" r="15" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="221.2" cy="317.2" r="4.2" fill="#FCF3CE" opacity=".75"/><circle cx="276" cy="322" r="21" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="269.3" cy="315.3" r="5.9" fill="#FCF3CE" opacity=".75"/><circle cx="326" cy="322" r="18" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="320.2" cy="316.2" r="5.0" fill="#FCF3CE" opacity=".75"/><circle cx="376" cy="322" r="15" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="371.2" cy="317.2" r="4.2" fill="#FCF3CE" opacity=".75"/><circle cx="426" cy="322" r="21" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="419.3" cy="315.3" r="5.9" fill="#FCF3CE" opacity=".75"/><circle cx="476" cy="322" r="18" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="470.2" cy="316.2" r="5.0" fill="#FCF3CE" opacity=".75"/><circle cx="526" cy="322" r="15" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="521.2" cy="317.2" r="4.2" fill="#FCF3CE" opacity=".75"/><circle cx="576" cy="322" r="21" fill="#F6E3A0" stroke="#DDBB60" stroke-width="1.6"/><circle cx="569.3" cy="315.3" r="5.9" fill="#FCF3CE" opacity=".75"/></g><rect x="24" y="336" width="592" height="68" fill="#C25B54"/><g clip-path="url(#iaMus)"><path d="M24 345 C 180 341, 420 349, 616 345" stroke="#A5433E" stroke-width="1.5" fill="none" opacity=".55"/><path d="M24 354 C 180 350, 420 358, 616 354" stroke="#A5433E" stroke-width="1.5" fill="none" opacity=".55"/><path d="M24 363 C 180 359, 420 367, 616 363" stroke="#A5433E" stroke-width="1.5" fill="none" opacity=".55"/><path d="M24 372 C 180 368, 420 376, 616 372" stroke="#A5433E" stroke-width="1.5" fill="none" opacity=".55"/><path d="M24 381 C 180 377, 420 385, 616 381" stroke="#A5433E" stroke-width="1.5" fill="none" opacity=".55"/><path d="M24 390 C 180 386, 420 394, 616 390" stroke="#A5433E" stroke-width="1.5" fill="none" opacity=".55"/><path d="M24 399 C 180 395, 420 403, 616 399" stroke="#A5433E" stroke-width="1.5" fill="none" opacity=".55"/></g><line x1="24" y1="250" x2="616" y2="250" stroke="#D9B36B" stroke-width="1.4" opacity=".85"/><line x1="24" y1="336" x2="616" y2="336" stroke="#9E4640" stroke-width="1.4" opacity=".7"/><path d="M24 150 H616 V167 Q 579 162 542 167 Q 505 172 468 167 Q 431 162 394 167 Q 357 172 320 167 Q 283 162 246 167 Q 209 172 172 167 Q 135 162 98 167 Q 61 172 24 167 Z" fill="#F6D9C4" stroke="#E4B096" stroke-width="1.4"/><path d="M158 235 C 205 226, 250 244, 292 231 S 312 235, 320 234" fill="none" stroke="#274E76" stroke-width="30" stroke-linecap="round"/><path d="M158 235 C 205 226, 250 244, 292 231 S 312 235, 320 234" fill="none" stroke="#3D74B0" stroke-width="26" stroke-linecap="round"/><path d="M158 235 C 205 226, 250 244, 292 231 S 312 235, 320 234" fill="none" stroke="#6098D2" stroke-width="14" stroke-linecap="round" opacity=".95"/><path d="M164 229 C 206 221, 250 238, 290 226 S 308 229, 316 228" fill="none" stroke="#AECCEC" stroke-width="4.5" stroke-linecap="round" opacity=".75"/><g class="r0"><g transform="translate(90,150)"><g transform="rotate(0)"><g class="ndlmove m0" style="--ins:-24px"><line x1="0" y1="-16" x2="0" y2="210" stroke="#8b969c" stroke-width="4"/><line x1="0" y1="-16" x2="0" y2="210" stroke="#d3dbdf" stroke-width="1.5"/><rect x="-6" y="-24" width="12" height="10" rx="2" fill="#2FA6B0"/><rect x="-12" y="-104" width="24" height="80" rx="6" fill="#e4f4f5" stroke="#2FA6B0" stroke-width="2.2"/><rect x="-8.5" y="-70" width="17" height="46" rx="3" fill="#8ad4da"/><rect x="-17" y="-106" width="34" height="6" rx="3" fill="#2FA6B0"/><rect x="-4" y="-120" width="8" height="16" fill="#2FA6B0"/><rect x="-17" y="-124" width="34" height="7" rx="3.5" fill="#2FA6B0"/></g></g></g></g><g class="r1"><g transform="translate(215,150)"><g transform="rotate(45)"><g class="ndlmove m1" style="--ins:-52px"><line x1="0" y1="-16" x2="0" y2="156" stroke="#8b969c" stroke-width="4"/><line x1="0" y1="-16" x2="0" y2="156" stroke="#d3dbdf" stroke-width="1.5"/><rect x="-6" y="-24" width="12" height="10" rx="2" fill="#2FA6B0"/><rect x="-12" y="-104" width="24" height="80" rx="6" fill="#e4f4f5" stroke="#2FA6B0" stroke-width="2.2"/><rect x="-8.5" y="-70" width="17" height="46" rx="3" fill="#8ad4da"/><rect x="-17" y="-106" width="34" height="6" rx="3" fill="#2FA6B0"/><rect x="-4" y="-120" width="8" height="16" fill="#2FA6B0"/><rect x="-17" y="-124" width="34" height="7" rx="3.5" fill="#2FA6B0"/></g></g></g></g><g class="r2"><g transform="translate(325,150)"><g transform="rotate(65)"><g class="ndlmove m2" style="--ins:-40px"><line x1="0" y1="-16" x2="0" y2="194" stroke="#8b969c" stroke-width="4"/><line x1="0" y1="-16" x2="0" y2="194" stroke="#d3dbdf" stroke-width="1.5"/><rect x="-6" y="-24" width="12" height="10" rx="2" fill="#2FA6B0"/><rect x="-12" y="-104" width="24" height="80" rx="6" fill="#e4f4f5" stroke="#2FA6B0" stroke-width="2.2"/><rect x="-8.5" y="-70" width="17" height="46" rx="3" fill="#8ad4da"/><rect x="-17" y="-106" width="34" height="6" rx="3" fill="#2FA6B0"/><rect x="-4" y="-120" width="8" height="16" fill="#2FA6B0"/><rect x="-17" y="-124" width="34" height="7" rx="3.5" fill="#2FA6B0"/></g></g></g></g><g class="r3"><g transform="translate(465,150)"><g transform="rotate(77)"><g class="ndlmove m3" style="--ins:-22px"><line x1="0" y1="-16" x2="0" y2="120" stroke="#8b969c" stroke-width="4"/><line x1="0" y1="-16" x2="0" y2="120" stroke="#d3dbdf" stroke-width="1.5"/><rect x="-6" y="-24" width="12" height="10" rx="2" fill="#2FA6B0"/><rect x="-12" y="-104" width="24" height="80" rx="6" fill="#e4f4f5" stroke="#2FA6B0" stroke-width="2.2"/><rect x="-8.5" y="-70" width="17" height="46" rx="3" fill="#8ad4da"/><rect x="-17" y="-106" width="34" height="6" rx="3" fill="#2FA6B0"/><rect x="-4" y="-120" width="8" height="16" fill="#2FA6B0"/><rect x="-17" y="-124" width="34" height="7" rx="3.5" fill="#2FA6B0"/></g></g></g></g><g class="r0"><rect x="69" y="122" width="42" height="26" rx="13" fill="#0B2E36"/><text x="90" y="140" text-anchor="middle" font-family="'Plus Jakarta Sans',system-ui" font-size="14" font-weight="800" fill="#fff">90°</text></g><g class="r1"><rect x="194" y="122" width="42" height="26" rx="13" fill="#0B2E36"/><text x="215" y="140" text-anchor="middle" font-family="'Plus Jakarta Sans',system-ui" font-size="14" font-weight="800" fill="#fff">45°</text></g><g class="r2"><rect x="304" y="122" width="42" height="26" rx="13" fill="#0B2E36"/><text x="325" y="140" text-anchor="middle" font-family="'Plus Jakarta Sans',system-ui" font-size="14" font-weight="800" fill="#fff">25°</text></g><g class="r3"><rect x="432" y="122" width="66" height="26" rx="13" fill="#0B2E36"/><text x="465" y="140" text-anchor="middle" font-family="'Plus Jakarta Sans',system-ui" font-size="14" font-weight="800" fill="#fff">10–15°</text></g><text x="608" y="163" text-anchor="end" font-family="'Plus Jakarta Sans',system-ui" font-size="15" font-weight="700" fill="#4A3B33" paint-order="stroke" stroke="#FBFAF6" stroke-width="3.4" stroke-linejoin="round">Epidermis</text><text x="608" y="214" text-anchor="end" font-family="'Plus Jakarta Sans',system-ui" font-size="15" font-weight="700" fill="#4A3B33" paint-order="stroke" stroke="#FBFAF6" stroke-width="3.4" stroke-linejoin="round">Dermis</text><text x="608" y="298" text-anchor="end" font-family="'Plus Jakarta Sans',system-ui" font-size="15" font-weight="700" fill="#4A3B33" paint-order="stroke" stroke="#FBFAF6" stroke-width="3.4" stroke-linejoin="round">Subcutaneous fat</text><text x="608" y="375" text-anchor="end" font-family="'Plus Jakarta Sans',system-ui" font-size="15" font-weight="700" fill="#4A3B33" paint-order="stroke" stroke="#FBFAF6" stroke-width="3.4" stroke-linejoin="round">Muscle</text></svg>
+        <div class="legrow">
+          <div class="legcol"><div class="r">IM</div><div class="a">90&deg;</div><div class="t">Muscle</div></div>
+          <div class="legcol"><div class="r">SubQ</div><div class="a">45&deg;</div><div class="t">Fat</div></div>
+          <div class="legcol"><div class="r">IV</div><div class="a">25&deg;</div><div class="t">Vein</div></div>
+          <div class="legcol"><div class="r">ID</div><div class="a">10-15&deg;</div><div class="t">Skin</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- FEATURES -->
 <section class="block features" id="features">
@@ -430,7 +482,7 @@
     <div class="section-head">
       <span class="eyebrow">Pricing</span>
       <h2>Start free. Go all-access when you're ready.</h2>
-      <p>In-person IV &amp; injection training courses run <b>$1,500–$5,000 for a single day</b>. IV Rejuve gives you all three procedures, ongoing lessons, and a certificate of completion — for <b>$499 a year</b>. Your first lesson is free.</p>
+      <p>In-person IV &amp; injection training courses run <b>$1,500–$5,000 for a single day</b>. IV Rejuve gives you all five procedures, ongoing lessons, and a certificate of completion — for <b>$499 a year</b>. Your first lesson is free.</p>
     </div>
     <div class="price-grid">
 
@@ -454,7 +506,7 @@
         <div class="price">$499<small> /yr</small></div>
         <div class="pbill">that's ~$42/mo billed annually — <b>save 30%</b> · or $59 month-to-month</div>
         <ul>
-          <li>All courses: IV, IM &amp; subcutaneous injection</li>
+          <li>All 5 courses: IV, IM, SubQ, blood draws &amp; intradermal</li>
           <li>Full HD demonstration video library</li>
           <li>Competency checklists &amp; progress tracking</li>
           <li>Verifiable certificates of completion</li>
@@ -523,6 +575,8 @@
           <a href="training.html">IV Insertion</a>
           <a href="training.html">Intramuscular Injection</a>
           <a href="training.html">Subcutaneous Injection</a>
+          <a href="training.html">Blood Draws</a>
+          <a href="training.html">Intradermal Injection</a>
         </div>
         <div class="foot-col">
           <h5>Platform</h5>
