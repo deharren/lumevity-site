@@ -284,6 +284,19 @@
   .pf-tgl{flex:1;min-width:150px;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:13px;border:1.5px solid rgba(120,235,228,.28);background:rgba(230,246,246,.04);color:rgba(234,247,247,.85);font:inherit;font-weight:700;font-size:.92rem;cursor:pointer;transition:.16s;}
   .pf-tgl:hover{border-color:rgba(120,235,228,.6);background:rgba(230,246,246,.07);}
   .pf-tgl.on{background:linear-gradient(135deg,#22E0DA,#14C9C6);border-color:transparent;color:#06312f;box-shadow:0 10px 26px rgba(34,224,218,.32);}
+  /* ===== Tools: IV calculator ===== */
+  .calc-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+  .calc-tab{flex:1;min-width:88px;padding:9px 12px;border-radius:11px;border:1.5px solid rgba(120,235,228,.28);background:rgba(230,246,246,.04);color:rgba(234,247,247,.82);font:inherit;font-weight:700;font-size:.82rem;cursor:pointer;transition:.15s;}
+  .calc-tab:hover{border-color:rgba(120,235,228,.6);}
+  .calc-tab.on{background:linear-gradient(135deg,#22E0DA,#14C9C6);border-color:transparent;color:#06312f;box-shadow:0 8px 20px rgba(34,224,218,.3);}
+  .calc-out{margin-top:18px;background:rgba(34,224,218,.09);border:1px solid rgba(34,224,218,.38);border-radius:14px;padding:16px 18px;text-align:center;}
+  .calc-out b{display:block;font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:2rem;font-weight:800;color:#EAFFFF;line-height:1.1;}
+  .calc-out span{display:block;font-size:.82rem;color:rgba(198,238,238,.85);margin-top:5px;}
+  .calc-note{font-size:.73rem;color:rgba(198,238,238,.6);margin-top:11px;line-height:1.5;}
+  .tools-grid{display:grid;grid-template-columns:1fr;gap:12px;}
+  .tool-card{display:flex;align-items:center;gap:14px;background:linear-gradient(160deg,#134E58,#0A2C38);border:1px solid rgba(120,235,228,.2);border-radius:16px;padding:16px 18px;cursor:pointer;transition:.18s;}
+  .tool-card:hover{border-color:rgba(34,224,218,.5);transform:translateY(-1px);}
+  .tool-ico{width:44px;height:44px;border-radius:12px;background:rgba(120,235,228,.14);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex:none;}
   .confetti{position:fixed;inset:0;pointer-events:none;z-index:199;overflow:hidden;} .confetti i{position:absolute;top:-12px;width:9px;height:14px;border-radius:2px;animation:fall linear forwards;}
 
   /* Mascot */
@@ -827,6 +840,7 @@
   </div>
   <div class="ovwrap">
     <div class="ov"><span class="pc" id="ovPct">0%</span><div class="bar"><i id="ovBar"></i></div></div>
+    <button class="tbtn prof" onclick="go('tools')">Tools</button>
     <button class="tbtn prof" onclick="go('profile')">Profile</button>
     <button class="tbtn pro" onclick="go('pricing')">⚡ Go Pro</button>
     <button class="tbtn reset" onclick="resetAll()">Reset</button>
@@ -1648,13 +1662,14 @@ function lessonCourseOf(id){for(var i=0;i<COURSE_IDS.length;i++){if(courseLesson
 
 function render(){
   touchStreak();
-  var v={home:vHome,lesson:vLesson,exam:vExam,cert:vCert,pricing:vPricing,rehearse:vRehearse,evaluation:vEval,myce:vMyCE,verify:vVerify,profile:vProfile}[S.view]||vHome;
+  var v={home:vHome,lesson:vLesson,exam:vExam,cert:vCert,pricing:vPricing,rehearse:vRehearse,evaluation:vEval,myce:vMyCE,verify:vVerify,profile:vProfile,tools:vTools}[S.view]||vHome;
   el("view").innerHTML=v();
   syncBar();
   if(S.view==="lesson")wireLesson();
   if(S.view==="exam")wireExam();
   if(S.view==="rehearse")wireRehearse();
   if(S.view==="evaluation")ceRepaintEval();
+  if(S.view==="tools")setTimeout(calcCompute,0);
   if(S.view==="home")requestAnimationFrame(initMapSwipe);
   mascotContext();
 }
@@ -2058,25 +2073,20 @@ function vCert(){
   if(!ex||!ex.passed){return '<div style="text-align:center;padding:40px 0"><h2 style="color:var(--head)">Certificate locked</h2><p style="color:var(--muted);margin:10px 0 16px">Pass the '+COURSES[c].name+' final exam (80%) to unlock your certificate.</p><button class="btn btn-gold" onclick="go(\'exam\',\''+c+'\')">Go to final exam</button></div>';}
   if(!ceEvalDone(c)){return '<div style="text-align:center;padding:40px 0"><h2 style="color:var(--head)">One step left</h2><p style="color:var(--muted);margin:10px 0 16px;max-width:440px;margin-left:auto;margin-right:auto">A short post-activity evaluation is required before your certificate can be issued. It takes about a minute.</p><button class="btn btn-gold" onclick="go(\'evaluation\',\''+c+'\')">Start the evaluation</button></div>';}
   if(!S.name){
-    var _dl='display:block;font-size:.8rem;font-weight:700;color:var(--head);margin:10px 0 4px',
-        _di='width:100%;border:1px solid var(--stone);border-radius:10px;padding:10px 12px;font:inherit;background:#fff;box-sizing:border-box',
-        _lt=(S.license&&S.license.type)||"";
-    return '<div style="max-width:460px;margin:0 auto;padding:26px 0">'
-      +'<h2 style="color:var(--head);text-align:center">Your certificate details</h2>'
-      +'<p style="color:var(--muted);text-align:center;margin:8px 0 18px;font-size:.9rem">The name appears on your certificate. Your license is recorded on your completion record for provider audit — optional, but recommended for nurses.</p>'
-      +'<label style="'+_dl+'">Full name <span style="color:var(--bad)">*</span></label>'
-      +'<input id="nameIn" placeholder="e.g., Jane Smith" style="'+_di+'" value="'+esc(S.name||"")+'"/>'
-      +'<div style="display:flex;gap:10px">'
-        +'<div style="flex:1"><label style="'+_dl+'">License type</label>'
-          +'<select id="licType" style="'+_di+'">'+["","RN","LPN","APRN","Other"].map(function(o){return '<option value="'+o+'"'+(o===_lt?' selected':'')+'>'+(o||"Select…")+'</option>';}).join('')+'</select></div>'
-        +'<div style="width:110px"><label style="'+_dl+'">State</label>'
-          +'<input id="licState" style="'+_di+'" value="'+esc((S.license&&S.license.state)||"OH")+'"/></div>'
+    var _lt=(S.license&&S.license.type)||"";
+    var _sel=function(id,opts,val){return '<select id="'+id+'">'+opts.map(function(o){return '<option value="'+esc(o)+'"'+(o===val?' selected':'')+'>'+(o?esc(o):'Select…')+'</option>';}).join('')+'</select>';};
+    return '<div class="pfwrap" style="max-width:480px">'
+      +'<div style="margin-bottom:10px"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button></div>'
+      +'<div class="pf-sec open"><div class="pf-chead"><div class="pf-cico">🎓</div><div class="pf-chmeta"><div class="pf-ctitle">Your certificate details</div><div class="pf-csum" style="white-space:normal">The name appears on your certificate; license is recorded on your completion record — optional, recommended for nurses.</div></div></div>'
+      +'<div class="pf-body"><div class="pf-grid">'
+        +'<div class="pf-f full"><label><span>Full name <span class="req">*</span></span><span class="pf-ok">✓</span></label><input id="nameIn" placeholder="e.g., Jane Smith" value="'+esc(S.name||"")+'"/></div>'
+        +'<div class="pf-f"><label><span>License type</span></label>'+_sel("licType",["","RN","LPN","APRN","Other"],_lt)+'</div>'
+        +'<div class="pf-f"><label><span>State</span></label><input id="licState" value="'+esc((S.license&&S.license.state)||"OH")+'"/></div>'
+        +'<div class="pf-f full"><label><span>License number</span></label><input id="licNum" placeholder="Optional" value="'+esc((S.license&&S.license.num)||"")+'"/></div>'
       +'</div>'
-      +'<label style="'+_dl+'">License number</label>'
-      +'<input id="licNum" placeholder="Optional" style="'+_di+'" value="'+esc((S.license&&S.license.num)||"")+'"/>'
-      +'<div id="nameErr" style="color:var(--bad);font-size:.84rem;font-weight:600;margin-top:8px;min-height:1.1em"></div>'
+      +'<div id="nameErr" style="color:#FF9C9C;font-size:.84rem;font-weight:600;margin-top:10px;min-height:1.1em"></div>'
       +'<button class="btn btn-gold" style="margin-top:14px;width:100%" onclick="setCertDetails()">Generate certificate</button>'
-      +'</div>';
+      +'</div></div></div>';
   }
   var id=credId(c);var mods=COURSES[c].modules.length;var _rec=ceIssueRecord(c);
   var a=CE.acts[c]||{};var hrs=ceHours(c);var accr=ceIsAccredited(c);var lic=S.license||{};
@@ -4228,6 +4238,69 @@ function pfSet(k,v){
   if(profileComplete()){if(!_pfCele){_pfCele=true;celebrate("🎉","Profile complete",pfCompleteSub());}}else{_pfCele=false;}
 }
 function pfDone(){profileSave();if(profileComplete())celebrate("✅","Saved",ceEligible()?"Your CE profile is ready":"Your profile is ready");go("home");}
+
+/* ============ TOOLS: IV infusion calculator (separate from lessons/quizzes) ============ */
+function setCalc(m){S.calcMode=m;render();setTimeout(calcCompute,20);}
+function _cInp(id,ph){return '<input id="'+id+'" type="number" inputmode="decimal" step="any" oninput="calcCompute()" placeholder="'+(ph||'')+'"/>';}
+function _cField(lab,id,ph,full){return '<div class="pf-f'+(full?' full':'')+'"><label><span>'+lab+'</span></label>'+_cInp(id,ph)+'</div>';}
+function _cSel(lab,id,opts,val){return '<div class="pf-f"><label><span>'+lab+'</span></label><select id="'+id+'" onchange="calcCompute()">'+opts.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===val?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></div>';}
+function vTools(){
+  var mode=S.calcMode||'drip';
+  var tab=function(m,lab){return '<button class="calc-tab'+(mode===m?' on':'')+'" onclick="setCalc(\''+m+'\')">'+lab+'</button>';};
+  var fields='';
+  if(mode==='drip'){
+    fields=_cField('Volume to infuse (mL)','ci_vol','e.g. 1000',true)
+     +'<div class="pf-grid">'+_cField('Over (time)','ci_time','e.g. 8')+_cSel('Time unit','ci_tu',[['hr','hours'],['min','minutes']],'hr')+'</div>'
+     +_cSel('Drop factor (IV tubing)','ci_df',[['10','10 gtt/mL (macrodrip)'],['15','15 gtt/mL (macrodrip)'],['20','20 gtt/mL (macrodrip)'],['60','60 gtt/mL (microdrip)']],'15');
+  }else if(mode==='rate'){
+    fields=_cField('Volume to infuse (mL)','cr_vol','e.g. 1000',true)
+     +'<div class="pf-grid">'+_cField('Over (time)','cr_time','e.g. 8')+_cSel('Time unit','cr_tu',[['hr','hours'],['min','minutes']],'hr')+'</div>';
+  }else if(mode==='time'){
+    fields=_cField('Volume to infuse (mL)','ct_vol','e.g. 1000',true)+_cField('Pump rate (mL/hr)','ct_rate','e.g. 125',true);
+  }else{
+    fields='<div class="pf-grid">'+_cField('Ordered dose','cd_dose','e.g. 5')+_cSel('Dose unit','cd_du',[['mcgkgmin','mcg/kg/min'],['mcgmin','mcg/min'],['mgkghr','mg/kg/hr']],'mcgkgmin')+'</div>'
+     +'<div class="pf-grid">'+_cField('Patient weight (kg)','cd_wt','e.g. 80')+_cField('Drug amount (mg)','cd_amt','e.g. 400')+'</div>'
+     +_cField('In bag volume (mL)','cd_vol','e.g. 250',true);
+  }
+  return '<div class="pfwrap" style="max-width:560px">'
+   +'<div style="margin-bottom:10px"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button></div>'
+   +'<div class="pf-hero" style="padding:20px 24px;gap:18px"><div style="font-size:2.2rem;flex:none">🧮</div><div class="pf-heromain"><span class="eyebrow" style="color:#7FE6F0">Clinical tools</span><h2 style="color:#fff;margin:2px 0 3px;font-family:\'Plus Jakarta Sans\',system-ui,sans-serif;font-size:1.4rem">IV infusion calculator</h2><div class="pf-sub">Drip rate, pump rate, infusion time, and weight-based dosing.</div></div></div>'
+   +'<div class="calc-tabs">'+tab('drip','Drip rate')+tab('rate','Rate (mL/hr)')+tab('time','Time')+tab('dose','Dose')+'</div>'
+   +'<div class="pf-sec open"><div class="pf-body">'+fields+'<div class="calc-out" id="calcOut"><b>—</b><span>Enter the values above</span></div><div class="calc-note" id="calcNote"></div></div></div>'
+   +'<div style="font-size:.72rem;color:var(--muted);margin:12px 2px 34px;line-height:1.55">Double-check every calculation against the order and your pump. Educational aid only — not a substitute for clinical judgment or an independent double-check.</div>'
+   +'</div>';
+}
+function calcCompute(){
+  var mode=S.calcMode||'drip',out=el('calcOut'),note=el('calcNote');if(!out)return;
+  function n(id){var e=el(id);if(!e)return null;var v=parseFloat(e.value);return isNaN(v)?null:v;}
+  function r(x,d){var p=Math.pow(10,d||0);return Math.round(x*p)/p;}
+  function show(big,sub,nt){out.innerHTML='<b>'+big+'</b>'+(sub?'<span>'+sub+'</span>':'');if(note)note.textContent=nt||'';}
+  if(mode==='drip'){
+    var vol=n('ci_vol'),t=n('ci_time'),tu=(el('ci_tu')||{}).value,df=parseFloat((el('ci_df')||{}).value);
+    if(vol==null||t==null||!(t>0)||!(vol>0)){show('—','Enter volume and time');return;}
+    var tmin=tu==='hr'?t*60:t,mlhr=vol/(tmin/60),gtt=Math.round(vol*df/tmin);
+    show(gtt+' gtt/min','≈ '+r(mlhr,1)+' mL/hr · '+df+' gtt/mL tubing','Drops/min = (volume × drop factor) ÷ time(min) = ('+r(vol,0)+' × '+df+') ÷ '+r(tmin,0)+' = '+gtt+' gtt/min. Count drops over 15 s and ×4 to verify.');
+  }else if(mode==='rate'){
+    var v=n('cr_vol'),tt=n('cr_time'),u=(el('cr_tu')||{}).value;
+    if(v==null||tt==null||!(tt>0)||!(v>0)){show('—','Enter volume and time');return;}
+    var hr=u==='hr'?tt:tt/60,rate=v/hr;
+    show(r(rate,1)+' mL/hr','Set the pump to this rate','mL/hr = volume ÷ time(hr) = '+r(v,0)+' ÷ '+r(hr,2)+' = '+r(rate,1)+' mL/hr.');
+  }else if(mode==='time'){
+    var vo=n('ct_vol'),ra=n('ct_rate');
+    if(vo==null||ra==null||!(ra>0)||!(vo>0)){show('—','Enter volume and rate');return;}
+    var hrs=vo/ra,H=Math.floor(hrs),M=Math.round((hrs-H)*60);if(M===60){H++;M=0;}
+    show(H+' h '+M+' min',r(vo,0)+' mL at '+r(ra,0)+' mL/hr','Time = volume ÷ rate = '+r(vo,0)+' ÷ '+r(ra,0)+' = '+r(hrs,2)+' h.');
+  }else{
+    var dose=n('cd_dose'),du=(el('cd_du')||{}).value,wt=n('cd_wt'),amt=n('cd_amt'),bag=n('cd_vol');
+    if(dose==null||amt==null||bag==null||!(bag>0)||!(amt>0)){show('—','Enter dose, drug amount, and bag volume');return;}
+    var conc=(amt*1000)/bag,mcgMin;
+    if(du==='mcgkgmin'){if(wt==null||!(wt>0)){show('—','Enter patient weight');return;}mcgMin=dose*wt;}
+    else if(du==='mcgmin'){mcgMin=dose;}
+    else{if(wt==null||!(wt>0)){show('—','Enter patient weight');return;}mcgMin=dose*wt/60*1000;}
+    var mlhr=mcgMin*60/conc;
+    show(r(mlhr,2)+' mL/hr','concentration '+r(conc,0)+' mcg/mL','Pump rate = (dose × weight × 60) ÷ concentration. Concentration = '+r(amt,0)+' mg ÷ '+r(bag,0)+' mL = '+r(conc,0)+' mcg/mL.');
+  }
+}
 var PF_DUMMY={isNurse:"yes",firstName:"Jordan",lastName:"Rivers",credentials:"RN",licenseNum:"RN-448215",licenseState:"OH",licenseExp:"2027-08",email:"jordan.rivers@example.com",phone:"(513) 555-0142",addr1:"124 Vine Street",city:"Cincinnati",state:"OH",zip:"45202",employer:"Tri-State Medical Center"};
 function pfSeedDummy(force){
   var p=P();if(!force){var any=Object.keys(p).some(function(k){return (p[k]||"").toString().trim();});if(any)return;}
