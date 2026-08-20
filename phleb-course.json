@@ -1,1 +1,1803 @@
-{"slug": "phleb", "title": "Blood Draws", "tag": "Venipuncture and specimen collection — patient to labeled tube.", "hrs": "3.0", "mini": "arm", "modules": [{"title": "Foundations", "lessons": [{"id": "ph_role", "title": "The phlebotomist's role & safety", "stage": "Phlebotomy · Module 1", "illo": "arm", "mini": "arm", "lead": "Before you ever pick up a needle, you take on two jobs at once: get the right specimen from the right patient, and protect that patient — and yourself — from harm. Everything else in phlebotomy sits on top of these two duties.", "objectives": ["Define the phlebotomist's scope of practice and its limits", "Apply standard precautions and correct PPE for every patient encounter", "Explain the chain of infection and how technique breaks it", "Perform two-identifier patient identification as the top safety duty"], "sections": [{"h": "What your role is — and is not", "p": ["Your job is to <b>collect and label specimens correctly</b> and get them to the lab in good condition. You work within a defined <b>scope of practice</b>: you draw, label, and transport — you do <b>not diagnose, interpret results, or advise on treatment</b>, and you work under supervision and within your role.", "That boundary protects patients. When a patient asks what a result means, redirect them to the ordering provider. Knowing the edge of your role is itself a clinical skill."], "list": ["In scope: verify orders, identify the patient, select the site, collect, label at the bedside, transport.", "Out of scope: interpreting values, changing orders, giving a diagnosis or prognosis.", "Escalate: unexpected reactions, failed draws, or anything outside your training goes to a supervisor or nurse."], "note": {"k": "safe", "t": "If a task is outside your training or your facility's protocol, stop and ask — practicing beyond your role is a patient-safety risk, not initiative."}}, {"h": "Standard precautions and PPE", "p": ["<b>Standard precautions</b> mean you treat <b>every patient's blood and body fluids as if they are infectious</b>, regardless of diagnosis. You never know a patient's full status, so you protect the same way every time.", "<b>Gloves are required</b> for every draw and are <b>changed between every patient</b> — never reused. Gloves do not replace hand hygiene: perform <b>hand hygiene before and after</b> each patient, before gloving and after removing gloves. Dispose of sharps immediately in a puncture-resistant container at the point of use."], "list": ["Hand hygiene before patient contact and before gloving.", "Fresh gloves for every patient — one patient, one pair.", "Hand hygiene again after glove removal, even if gloves looked intact.", "Activate the safety device and drop the sharp in the container without recapping."], "note": {"k": "safe", "t": "Recapping needles is a leading cause of needlestick injury — engage the safety mechanism and discard immediately instead."}}, {"h": "The chain of infection and professionalism", "p": ["Infection spreads through a <b>chain</b>: a pathogen, a reservoir, a portal of exit, a mode of transmission, a portal of entry, and a susceptible host. Your technique is designed to <b>break a link</b> — hand hygiene and gloves interrupt transmission, aseptic site prep closes the portal of entry, and safe sharps handling removes the vehicle.", "The human side matters just as much. Calm, respectful <b>rapport reduces patient anxiety</b>, which lowers the chance of a vasovagal reaction and makes veins easier to access. Professionalism — introducing yourself, explaining the steps, honesty about a stick — earns the trust that makes the draw go well."], "note": {"k": "evidence", "t": "You cannot remove every link, but breaking any one link stops transmission — which is why simple hand hygiene is the single highest-impact infection-control step."}}], "inter": {"type": "choice", "h": "Your single most important safety duty", "case": "You arrive at the bedside with a printed label and an order for a CBC.", "q": "Of everything you do at the bedside, which action most directly prevents a serious patient-harm event?", "opts": [{"id": "a", "lab": "Interpret the result for the patient so they feel informed", "fb": "Out of scope — you do not interpret results, and this does nothing to prevent harm at collection."}, {"id": "b", "lab": "Confirm patient identity using two identifiers before drawing", "ok": true, "fb": "Correct — accurate patient identification is the phlebotomist's single most important safety duty; a mislabeled specimen can send the wrong result to the wrong patient."}, {"id": "c", "lab": "Choose the largest vein you can see", "fb": "Site selection matters, but it does not protect against the most catastrophic error: drawing or labeling for the wrong patient."}]}, "tips": ["Introduce yourself and explain what you are about to do — a prepared patient is a calmer, easier draw.", "Ask the patient to state their full name and date of birth; do not read it to them and wait for a nod.", "Keep your sharps container within arm's reach before you start, so you never carry an exposed needle."], "mistakes": ["Reusing one pair of gloves across two patients.", "Skipping hand hygiene because gloves 'looked clean.'", "Recapping a used needle by hand.", "Confirming identity by reading the name aloud and accepting a yes."], "takeaways": ["You collect and label; you do not diagnose or interpret.", "Treat all blood as infectious — gloves every patient, hand hygiene before and after.", "Good technique breaks a link in the chain of infection.", "Two-identifier patient ID is your most important safety duty."], "quiz": [{"q": "Which statement best describes standard precautions?", "opts": ["Wear extra PPE only for known-positive patients", "Treat every patient's blood and body fluids as potentially infectious", "Precautions apply only in isolation rooms"], "a": 1, "why": "Standard precautions assume all blood and body fluids may be infectious, because status is never fully known."}, {"q": "How should gloves be managed between patients?", "opts": ["Reused if they still look intact", "Changed between every patient, with hand hygiene before and after", "Optional for a quick draw"], "a": 1, "why": "Fresh gloves for each patient plus hand hygiene before and after prevents cross-contamination."}, {"q": "What is the phlebotomist's single most important safety duty?", "opts": ["Selecting the largest vein", "Accurate patient identification with two identifiers", "Interpreting the result for the patient"], "a": 1, "why": "Correct identification prevents the most catastrophic errors — wrong patient, wrong result."}], "refs": "CLSI GP41 (2017); CDC Standard Precautions; ASCP/NAACLS phlebotomy competencies."}, {"id": "ph_anatomy", "title": "Venous anatomy for venipuncture", "stage": "Phlebotomy · Module 1", "illo": "arm", "mini": "arm", "lead": "The vein you choose sets up everything that follows. A confident draw starts with a mental map of the antecubital fossa and a feel for the artery and nerve that share the neighborhood.", "objectives": ["Map the median cubital, cephalic, and basilic veins and rank them by preference", "Explain why the basilic vein is the last choice", "Distinguish the H-pattern from the M-pattern of superficial veins", "Differentiate a vein from an artery and a nerve by feel and response"], "sections": [{"h": "The three antecubital veins, ranked", "p": ["Routine venipuncture targets the <b>antecubital fossa</b> — the crease at the front of the elbow — because the veins there are large, superficial, and relatively fixed. Three veins matter, and they are not interchangeable.", "You rank them by a simple logic: how central and well-anchored the vein is, and what dangerous structures lie beneath it."], "list": ["<b>Median cubital vein</b> — <b>first choice</b>. Central, large, and well-anchored, so it barely moves; it also sits away from the artery and nerve.", "<b>Cephalic vein</b> — <b>second choice</b>. Lateral, on the thumb side; accessible but tends to <b>roll</b>, so anchor it firmly.", "<b>Basilic vein</b> — <b>last choice</b>. Medial, on the little-finger side; used last because the <b>brachial artery and median nerve lie close beneath it</b>."], "note": {"k": "safe", "t": "Reach for the basilic vein only after the median cubital and cephalic have been ruled out — an errant stick there can hit the brachial artery or median nerve."}}, {"h": "H-pattern versus M-pattern", "p": ["Superficial antecubital veins are not laid out identically in every arm. Two common distributions are named for the shapes they trace on the skin.", "In the <b>H-pattern</b>, the median cubital connects the cephalic and basilic like the crossbar of an H — the most common layout and the reason the median cubital is usually your best target. In the <b>M-pattern</b>, the median antebrachial vein branches into a median cephalic and median basilic, forming an M; here you follow the branch that leads away from the artery and nerve. Reading which pattern you are looking at tells you where to aim."], "note": {"k": "tip", "t": "Do not assume every arm is an H — palpate the actual course of the vein in front of you before you commit to an angle."}}, {"h": "Vein, artery, or nerve?", "p": ["Three structures can sit under your fingertip, and only one is your target. A <b>vein</b> is soft, springy, <b>non-pulsatile</b>, and refills when you press and release. An <b>artery pulsates</b>, sits deeper, and refills briskly — if a vessel pulses, do not stick it. A <b>nerve</b> gives no pulse at all, but contact produces a <b>sharp, electric, shooting pain</b>; if the patient reports that, withdraw immediately.", "This is why superficial forearm and antecubital veins are the preferred targets: they sit close to the surface, away from major arteries and nerves, so the risk of hitting the wrong structure is lowest."], "note": {"k": "evidence", "t": "Palpate with a fingertip, not your thumb — your thumb has its own pulse and will make a vein feel like an artery."}}], "inter": {"type": "choice", "h": "Read the structure", "case": "As you advance the needle, the patient yelps with a sudden shooting, electric pain radiating down the forearm.", "q": "What has most likely happened, and what do you do?", "opts": [{"id": "a", "lab": "You nicked an artery — apply a warm pack and continue", "fb": "No — arterial contact gives pulsatile bright-red flash, not electric radiating pain, and you would never continue into it."}, {"id": "b", "lab": "You contacted a nerve — withdraw the needle immediately", "ok": true, "fb": "Correct — sharp, electric, radiating pain signals nerve contact; withdraw at once to avoid lasting injury."}, {"id": "c", "lab": "Normal for a deep vein — push a little further", "fb": "Dangerous — a vein does not cause shooting electric pain; advancing risks permanent nerve damage."}]}, "tips": ["Anchor and feel before you decide — a vein you can palpate beats one you can only see.", "Warmth and lowering the arm bring superficial veins up without slapping.", "Trace the vein's course with a fingertip so you know if you are looking at an H or an M before you angle in."], "mistakes": ["Going straight for the basilic vein because it looks big.", "Sticking a pulsatile vessel — that is an artery.", "Ignoring a patient's report of sharp electric pain.", "Choosing a vein you can see but cannot feel."], "takeaways": ["Median cubital first, cephalic second, basilic last.", "Basilic is last because the brachial artery and median nerve lie beneath it.", "Pulsatile = artery; electric shooting pain = nerve; both mean stop.", "Superficial antecubital and forearm veins are targeted because they are shallow and away from artery and nerve."], "quiz": [{"q": "Which antecubital vein is the preferred first choice?", "opts": ["Basilic", "Median cubital", "Cephalic"], "a": 1, "why": "It is central, large, well-anchored, and sits away from the brachial artery and median nerve."}, {"q": "Why is the basilic vein used last?", "opts": ["It is always too small", "The brachial artery and median nerve lie close beneath it", "It cannot be palpated"], "a": 1, "why": "Its proximity to the artery and median nerve makes it the highest-risk of the three."}, {"q": "A vessel under your finger pulses steadily. What is it?", "opts": ["A well-filled vein", "An artery — choose another site", "A nerve"], "a": 1, "why": "Pulsatility signals an artery; cannulating it risks arterial injury."}], "refs": "CLSI GP41 (2017); ASCP/NAACLS phlebotomy competencies."}]}, {"title": "Equipment & Order of Draw", "lessons": [{"id": "ph_equipment", "title": "Tubes, additives & collection systems", "stage": "Phlebotomy · Module 2", "illo": "gauge", "mini": "arm", "lead": "The tube you choose is a chemistry decision, not just a container. Match the needle to the vein and the additive to the test, and half the errors in phlebotomy disappear before you even puncture the skin.", "objectives": ["Identify the components of the evacuated tube system", "Select the correct needle gauge for the vein and situation", "Match tube-stopper colors to their additives and intended tests", "Explain why additive tubes must be inverted immediately after filling"], "sections": [{"h": "The evacuated tube system", "p": ["The <b>evacuated tube system (ETS)</b> is the standard collection method. It has three parts: a <b>multi-sample needle</b>, a <b>tube holder (adapter)</b>, and a <b>vacuum tube</b>. The tube's premeasured vacuum pulls the exact volume of blood it is calibrated for, so the blood-to-additive ratio stays correct.", "The multi-sample needle is double-ended: the front bevel enters the vein while a rubber-sleeved back end lets you change tubes without leaking. For fragile or difficult veins, the <b>syringe method</b> gives you manual control over draw speed — you pull gently, then transfer the blood into tubes using a transfer device rather than pushing through the needle."], "list": ["<b>21G</b> — the <b>standard multisample needle</b> for routine adult venipuncture.", "<b>22G</b> — for smaller or more delicate veins.", "<b>23G winged (butterfly) set</b> — for hand, fragile, or pediatric veins; the tubing gives you control and a gentler approach."], "note": {"k": "tip", "t": "Too small a gauge (higher number) can hemolyze the sample by forcing cells through a narrow bore; too large stresses a fragile vein — match the gauge to the vein you actually feel."}}, {"h": "Additives and stopper colors", "p": ["Each stopper color signals an <b>additive</b> chosen for a specific test. Knowing the color-to-chemistry map is what lets you draw the right tube the first time.", "Anticoagulants work by different mechanisms: some bind (chelate) calcium so blood cannot clot, others inhibit the clotting cascade. Serum tubes do the opposite — they help blood clot fully so you can spin off clear serum."], "list": ["<b>Lavender — EDTA</b>: chelates calcium; used for hematology / CBC.", "<b>Light blue — sodium citrate</b>: for coagulation studies; the <b>9:1 blood-to-additive fill ratio is critical</b> — a short draw invalidates the result.", "<b>Green — heparin</b>: inhibits thrombin; used for plasma chemistry.", "<b>Red (plain)</b> and <b>gold / tiger SST</b>: SST adds a <b>clot activator plus a gel separator</b>; both give serum for chemistry.", "<b>Gray — sodium fluoride + potassium oxalate</b>: fluoride inhibits glycolysis to preserve glucose and lactate."], "note": {"k": "safe", "t": "A light-blue citrate tube must fill completely — the fixed 9:1 ratio means an underfilled tube has too much anticoagulant and will falsely prolong clotting times."}}, {"h": "Why you invert — and invert gently", "p": ["The moment an additive tube fills, the additive is only coating the wall; it has to mix with the blood to work. You <b>invert the tube gently several times</b> right after filling — a full end-over-end turn per inversion — so the anticoagulant or clot activator distributes evenly.", "Skip it and an anticoagulated tube forms microclots, ruining a CBC or coagulation study. Do it too hard and you shear red cells, causing <b>hemolysis</b> that wrecks potassium and other chemistries. Gentle and complete is the target — never shake."], "note": {"k": "evidence", "t": "Inversions are counted per tube type (for example, several for EDTA and citrate) because too few leaves clots and too vigorous a mix causes hemolysis — both reject the sample."}}], "inter": {"type": "choice", "h": "Pick the tube for the test", "case": "You have an order for a CBC on an adult with good antecubital veins.", "q": "Which tube collects the specimen for a CBC?", "opts": [{"id": "a", "lab": "Light-blue sodium citrate tube", "fb": "That is for coagulation studies with a strict 9:1 fill ratio — not hematology."}, {"id": "b", "lab": "Lavender EDTA tube", "ok": true, "fb": "Correct — EDTA chelates calcium and preserves cell morphology, making it the tube for CBC and hematology."}, {"id": "c", "lab": "Gray sodium fluoride tube", "fb": "Fluoride preserves glucose by inhibiting glycolysis; it is not used for a CBC."}]}, "tips": ["Reach for a 23G butterfly on hand veins and fragile or pediatric patients — the tubing lets you approach at a shallow angle with control.", "Let each tube fill until the vacuum stops on its own; do not pull it early or the ratio is wrong.", "Invert additive tubes immediately, before you set them down, so the additive never gets a chance to sit unmixed."], "mistakes": ["Underfilling a light-blue citrate tube and breaking the 9:1 ratio.", "Shaking tubes instead of gently inverting them, causing hemolysis.", "Grabbing a gel SST when the assay requires plain serum or plasma.", "Using a high-gauge needle on a good vein and hemolyzing the sample."], "takeaways": ["ETS = multi-sample needle + tube holder + vacuum tube.", "21G is standard; 22G for small veins; 23G butterfly for fragile/hand/pediatric.", "Color codes the additive: lavender EDTA, blue citrate, green heparin, red/gold serum, gray fluoride.", "Invert additive tubes gently and completely right after filling — never shake."], "quiz": [{"q": "Which needle is the standard for routine adult multisample venipuncture?", "opts": ["18G", "21G", "25G"], "a": 1, "why": "21G balances flow and vein safety and is the standard multisample needle."}, {"q": "Why must a light-blue sodium citrate tube be filled completely?", "opts": ["To save reagent", "To preserve the 9:1 blood-to-additive ratio for accurate coagulation results", "To prevent hemolysis"], "a": 1, "why": "Coagulation testing depends on a fixed 9:1 ratio; underfilling over-anticoagulates the sample."}, {"q": "What does the sodium fluoride in a gray-top tube do?", "opts": ["Chelates calcium", "Inhibits glycolysis to preserve glucose", "Activates clotting"], "a": 1, "why": "Fluoride stops cells from consuming glucose, keeping glucose and lactate results accurate."}], "refs": "CLSI GP41 (2017); manufacturer tube guides; ASCP/NAACLS phlebotomy competencies."}, {"id": "ph_orderofdraw", "title": "Order of draw", "stage": "Phlebotomy · Module 2", "illo": "gauge", "mini": "arm", "lead": "Fill tubes in the wrong sequence and one tube's additive can contaminate the next — turning a normal patient's results into a false emergency. The CLSI order of draw exists to stop that carryover.", "objectives": ["State the CLSI order of draw from first tube to last", "Explain how the sequence prevents additive carryover", "Predict the errors caused by drawing tubes out of order", "Apply the discard-tube rule when using a butterfly for coagulation"], "sections": [{"h": "Why sequence matters", "p": ["As blood passes through the needle, a trace of additive from one tube can cling to the needle and be carried into the next tube. This <b>additive carryover</b> can change results even when the patient is perfectly normal.", "The classic example: <b>EDTA carryover falsely raises potassium and lowers calcium</b>, because EDTA is potassium-based and binds calcium. Similarly, any additive dragged onto the needle before a coagulation tube can contaminate and invalidate clotting results. The order of draw sequences tubes so that carryover cannot corrupt the tests most sensitive to it."], "note": {"k": "evidence", "t": "A single out-of-order EDTA draw can produce a critically high potassium on a healthy patient — a false 'panic value' that triggers needless workup."}}, {"h": "The CLSI order of draw", "p": ["Draw in this fixed sequence. Sterile and additive-free tubes come first so nothing contaminates them; the strongest, most contaminating additives (EDTA, then fluoride) come last."], "list": ["1. <b>Blood culture / sterile tubes</b> — first, to protect sterility.", "2. <b>Light-blue sodium citrate</b> — coagulation.", "3. <b>Serum tubes</b> — <b>red (no additive)</b>, then <b>gold / SST</b>.", "4. <b>Green heparin</b> — plasma (PST).", "5. <b>Lavender / EDTA</b> — hematology.", "6. <b>Gray sodium fluoride</b> — glucose / lactate."], "note": {"k": "safe", "t": "EDTA is drawn near the end and gray last on purpose — their additives are the most damaging if carried into other tubes."}}, {"h": "The butterfly discard-tube rule", "p": ["A winged (butterfly) set has a length of tubing that holds air — a <b>dead space</b>. On a <b>coagulation-only draw</b> where the light-blue tube is first, that air would be pulled into the citrate tube and short-fill it, breaking the critical 9:1 ratio.", "The fix: draw a <b>discard tube first</b> to prime the tubing and remove the dead space. The discard tube can be a plain non-additive or another citrate tube; it is not sent for testing — it just fills the line so your citrate tube draws to its full, correct volume."], "note": {"k": "tip", "t": "You only need the discard tube to displace the tubing's air — it does not have to fill completely."}}], "inter": {"type": "order", "h": "Build the order of draw", "q": "Tap the tubes into the correct CLSI order of draw, first to last.", "items": [{"id": "1", "txt": "Blood culture bottle"}, {"id": "2", "txt": "Light blue — citrate (coag)"}, {"id": "3", "txt": "Red / gold SST — serum"}, {"id": "4", "txt": "Green — heparin"}, {"id": "5", "txt": "Lavender — EDTA"}, {"id": "6", "txt": "Gray — fluoride"}], "fbOk": "Correct — sterile first, then citrate, serum, heparin, EDTA, and fluoride last, so no additive is carried into a tube it would corrupt.", "correct": ["1", "2", "3", "4", "5", "6"]}, "tips": ["Memorize the order by its logic: sterile first, most-contaminating additives last.", "When a butterfly is used for a coagulation-only draw, draw a discard tube first to prime the tubing.", "Lay your tubes out in order before you stick, so you are not fumbling with a needle in the vein."], "mistakes": ["Drawing EDTA before the coagulation or chemistry tubes.", "Skipping the discard tube on a butterfly coag-only draw and short-filling the citrate.", "Drawing the gray fluoride tube before EDTA.", "Filling a blood culture after additive tubes and contaminating it."], "takeaways": ["Order: culture, blue citrate, red/gold serum, green heparin, lavender EDTA, gray fluoride.", "The sequence prevents additive carryover between tubes.", "EDTA carryover falsely raises potassium and lowers calcium.", "Butterfly coag-only draw: pull a discard tube first to fill the dead space."], "quiz": [{"q": "Which tube is drawn first in the CLSI order of draw?", "opts": ["Lavender EDTA", "Blood culture / sterile tube", "Gray fluoride"], "a": 1, "why": "Sterile tubes go first so no additive or skin flora contaminates the culture."}, {"q": "What error does EDTA carryover into a chemistry tube cause?", "opts": ["Falsely low potassium", "Falsely high potassium and falsely low calcium", "No effect"], "a": 1, "why": "EDTA is potassium-based and binds calcium, so carryover raises potassium and lowers calcium."}, {"q": "During a butterfly coagulation-only draw, why draw a discard tube first?", "opts": ["To warm the needle", "To fill the tubing's air dead space so the citrate tube fills to the correct 9:1 volume", "To test the vacuum"], "a": 1, "why": "The tubing holds air that would short-fill the first citrate tube and break the 9:1 ratio."}], "refs": "CLSI GP41 (2017) order of draw; ASCP/NAACLS phlebotomy competencies."}]}, {"title": "The Draw", "lessons": [{"id": "ph_id_prep", "title": "Patient identification & preparation", "stage": "Phlebotomy · Module 3", "illo": "arm", "mini": "arm", "lead": "The single most dangerous error in phlebotomy is drawing the wrong patient. Everything downstream — the label, the result, the treatment — rides on getting identity right before the needle is anywhere near the arm.", "objectives": ["Identify a patient actively using two independent identifiers matched against the requisition and wristband or ID", "Confirm required pre-draw preparation such as fasting or timed collection", "Position the patient safely and screen for fainting and relevant allergies", "Perform hand hygiene, glove, and explain the procedure to reduce anxiety"], "sections": [{"h": "Two independent identifiers, every time", "p": ["Identify the patient <b>actively</b>: have them state their <b>full name and date of birth</b> in their own words. Never ask a leading question like \"Are you Mr. Smith?\" — a drowsy, anxious, or hard-of-hearing patient will nod to anything.", "Match those two independent identifiers against the <b>requisition</b> and against a second source: the <b>wristband</b> for an inpatient, or a <b>photo ID</b> (or having the patient state it) for an outpatient. All sources must agree before you proceed."], "list": ["Identifier 1: full legal name.", "Identifier 2: date of birth.", "Match against the requisition AND the wristband (inpatient) or photo ID / patient statement (outpatient)."], "note": {"k": "safe", "t": "If any identifier does not match — a nickname, a wrong birth year, a missing wristband — stop and resolve the discrepancy before drawing. Do not label from memory."}}, {"h": "Verify the required preparation", "p": ["Some tests are only valid under specific conditions. Confirm the patient met them before you draw, and note any deviation so the lab can interpret the result.", "<b>Fasting</b> is required for tests such as fasting glucose and a lipid panel (typically 8–12 hours, water permitted). <b>Timing</b> matters for drug levels and other timed collections — a therapeutic drug level drawn at the wrong time is worse than useless."], "list": ["Fasting glucose and lipid panel — confirm the fasting window was kept.", "Therapeutic drug monitoring — confirm peak vs. trough timing.", "Any timed test — record the actual collection time."], "note": {"k": "tip", "t": "Ask \"When did you last eat or drink anything besides water?\" rather than \"Are you fasting?\" — you get a truthful answer instead of a guess."}}, {"h": "Position, screen, and prepare", "p": ["Seat the patient with the <b>arm supported and extended slightly downward</b>, or place them <b>supine</b>. Never draw a patient perched on a stool, standing, or in a chair they could fall out of.", "Ask about <b>prior fainting</b> during blood draws; a patient at risk of <b>syncope</b> should be reclined or supine, never drawn standing. Check for <b>latex and adhesive allergies</b> before choosing gloves and bandage. Perform <b>hand hygiene, then glove</b>, and briefly explain what you are about to do — a calm explanation lowers anxiety and the vasovagal risk that comes with it."], "note": {"k": "safe", "t": "A history of fainting is a red flag: recline the patient first. A syncopal episode with a needle in the arm can cause serious injury."}}], "inter": {"type": "choice", "h": "Confirming identity", "case": "You approach an inpatient with a requisition for a metabolic panel. The patient looks sleepy.", "q": "What is the correct way to confirm you have the right patient?", "opts": [{"id": "a", "lab": "Ask \"You're Mrs. Johnson, right?\" and proceed when she nods", "fb": "No — a leading question invites a false yes. A drowsy patient may agree to any name."}, {"id": "b", "lab": "Have her state her full name and date of birth, and match both to the requisition and wristband", "ok": true, "fb": "Correct — two independent identifiers, stated actively and matched against the requisition and the wristband."}, {"id": "c", "lab": "Check the wristband alone since it is the official record", "fb": "Not enough — the band must be matched against what the patient states and the requisition; bands can be mixed up."}]}, "tips": ["Have the patient spell an unusual name; it catches label errors before they happen.", "Ask about the fasting window in plain language — \"when did you last eat?\" — not yes/no.", "Recline any patient who reports a history of fainting before you touch the arm."], "mistakes": ["Asking a leading question like \"Are you Mr. Smith?\" instead of having the patient state their name.", "Using only one identifier, or trusting the wristband without matching the requisition.", "Drawing a patient standing or on a high stool despite a fainting history.", "Skipping the fasting or timing check and invalidating the result."], "takeaways": ["Two independent identifiers — full name and date of birth — stated actively and matched to requisition plus wristband or ID.", "Confirm fasting and timing before you draw.", "Screen for fainting and allergies; position and recline for safety.", "Hand hygiene, then gloves, then a calm explanation."], "quiz": [{"q": "Which is an acceptable pair of independent identifiers?", "opts": ["Room number and bed number", "Full name and date of birth", "Diagnosis and physician name"], "a": 1, "why": "Full name and date of birth are two independent, patient-specific identifiers required for active identification."}, {"q": "How should you confirm a patient's identity?", "opts": ["Ask them to confirm the name you read aloud", "Have them state their name and date of birth in their own words", "Rely on the wristband alone"], "a": 1, "why": "Active identification means the patient states their identifiers; you never lead with the name."}, {"q": "A patient reports fainting at their last blood draw. What do you do?", "opts": ["Draw quickly while they are seated upright", "Recline or lay the patient supine before drawing", "Refuse to draw the patient"], "a": 1, "why": "A syncope history calls for a reclined or supine position to prevent injury from fainting."}], "refs": "CLSI GP41 (2017); ASCP/NAACLS competencies; The Joint Commission NPSG.01.01.01."}, {"id": "ph_site", "title": "Site selection & the tourniquet", "stage": "Phlebotomy · Module 3", "illo": "arm", "mini": "arm", "lead": "The tourniquet and the alcohol prep are where good technique is won or lost. A tourniquet left on too long or an arm chosen without checking history can turn a clean draw into a bad result — or harm.", "objectives": ["Apply and time the tourniquet correctly to avoid hemoconcentration", "Palpate to select a springy, non-pulsatile vein", "Cleanse the site with 70% isopropyl alcohol and let it air-dry", "Recognize arms and sites that must be avoided"], "sections": [{"h": "The tourniquet: placement and the one-minute rule", "p": ["Apply the tourniquet <b>3–4 inches (7.5–10 cm) above</b> the intended puncture site — snug enough to distend the veins but not so tight it obstructs arterial flow. It should be easy to release with one pull.", "Leave it on <b>no more than 1 minute</b>. Prolonged application causes <b>hemoconcentration</b> — plasma leaves the vessel and cell-bound and protein-bound analytes falsely rise. If you need more time to find a vein, <b>release and reapply</b> after a short pause."], "note": {"k": "evidence", "t": "Beyond a minute, hemostasis under the tourniquet concentrates the sample and falsely elevates results such as potassium, total protein, and calcium."}}, {"h": "Palpate, then cleanse and let it dry", "p": ["Palpate with a fingertip to locate the vein and confirm it is <b>springy and non-pulsatile</b> — a pulsating vessel is an artery; do not stick it. Note its depth and direction.", "Cleanse with <b>70% isopropyl alcohol</b> in a <b>circular, outward</b> motion from the center, and then <b>let it air-dry</b>. Wet alcohol stings on entry and <b>hemolyzes</b> the sample. Do not re-palpate the cleaned site; if you must touch it again, re-cleanse first."], "list": ["Palpate to confirm a springy, non-pulsatile vein.", "Cleanse with 70% isopropyl alcohol, circular and outward.", "Let the site air-dry completely before puncture.", "Do not re-palpate the cleaned site (or re-cleanse if you do)."], "note": {"k": "tip", "t": "Give the alcohol 30 seconds to dry. If you are tempted to fan or blow on it, don't — that recontaminates the site."}}, {"h": "Arms and sites to avoid", "p": ["Some sites raise the risk of a false result or real harm. Choose a different arm or site — or get provider permission — when any of the following apply."], "list": ["Same side as a <b>mastectomy</b> (lymphedema and infection risk).", "An arm with an <b>active IV or infusion</b> — use the other arm, or draw well below the IV if there is no alternative.", "A <b>hematoma</b>, or scarred, burned, or heavily <b>tattooed</b> skin.", "<b>Edematous</b> (swollen) tissue — the fluid dilutes the sample.", "An <b>AV fistula or graft</b> — never apply a tourniquet or draw there.", "<b>Foot or ankle</b> veins require provider permission."], "note": {"k": "safe", "t": "Drawing above an IV pulls infusing fluid into your sample and drawing from a fistula can damage a dialysis patient's access — both are avoidable errors."}}], "inter": {"type": "choice", "h": "Tourniquet timing", "case": "You have been searching for a good vein and the tourniquet has been on for about 90 seconds.", "q": "What should you do before drawing?", "opts": [{"id": "a", "lab": "Draw now — the vein is finally standing up", "fb": "No — beyond one minute the sample is hemoconcentrated and several analytes will read falsely high."}, {"id": "b", "lab": "Release the tourniquet, wait a couple of minutes, then reapply and draw", "ok": true, "fb": "Correct — releasing and reapplying resets the one-minute window and prevents hemoconcentration."}, {"id": "c", "lab": "Loosen it slightly but keep it in place to save time", "fb": "Not enough — the blood is already concentrated; you must fully release and pause before reapplying."}]}, "tips": ["Anchor the tourniquet with a quick-release tuck so one pull frees it.", "If a vein won't come up, warm the site or lower the arm instead of leaving the tourniquet on.", "Cleanse in one direction, center outward, and let the alcohol dry on its own."], "mistakes": ["Leaving the tourniquet on longer than a minute and hemoconcentrating the sample.", "Puncturing before the alcohol dries, causing stinging and hemolysis.", "Re-palpating the cleaned site with a bare finger.", "Drawing from an arm with an IV, a fistula, or on the mastectomy side."], "takeaways": ["Tourniquet 3–4 inches above the site, on for no more than one minute.", "Palpate for a springy, non-pulsatile vein.", "70% isopropyl alcohol, circular and outward, then air-dry.", "Avoid the mastectomy side, IV arm, hematoma, scarred/tattooed skin, edema, and AV access."], "quiz": [{"q": "How far above the site should the tourniquet go?", "opts": ["1 inch", "3–4 inches (7.5–10 cm)", "6–8 inches"], "a": 1, "why": "Placing it 3–4 inches above distends the veins without occluding arterial flow."}, {"q": "Why must the alcohol air-dry before puncture?", "opts": ["To sterilize the deeper tissue", "Wet alcohol stings and hemolyzes the sample", "To make the vein easier to see"], "a": 1, "why": "Entering through wet alcohol causes patient stinging and hemolysis of the specimen."}, {"q": "Which arm should you avoid drawing from?", "opts": ["The non-dominant arm", "The arm on the same side as a mastectomy", "An arm the patient prefers"], "a": 1, "why": "The post-mastectomy side carries lymphedema and infection risk and should be avoided."}], "refs": "CLSI GP41 (2017); ASCP/NAACLS competencies."}, {"id": "ph_technique", "title": "Venipuncture technique", "stage": "Phlebotomy · Module 3", "illo": "gauge", "mini": "arm", "lead": "Once identity, site, and prep are set, the puncture itself is a short, ordered sequence. Do the steps in the right order and the draw is smooth, safe, and clean; skip or reorder one and you risk a blown vein, a hemolyzed sample, or a needlestick.", "objectives": ["Insert the needle bevel-up at a controlled angle after anchoring the vein", "Fill and change tubes correctly, respecting the order of draw and additive mixing", "Release the tourniquet before withdrawing the needle", "Withdraw safely, activate the safety device, and secure hemostasis"], "sections": [{"h": "Anchor and enter", "p": ["Position the needle <b>bevel up</b>. Anchor the skin <b>taut with your thumb 1–2 inches below</b> the site to stop the vein rolling, and keep your thumb below and away from the needle path.", "Insert in <b>one smooth motion</b> at a <b>15–30° angle</b> to the skin. A shallow, deliberate entry finds the lumen cleanly; a steep or hesitant jab pushes through the back wall."], "note": {"k": "tip", "t": "A small flash of blood in the hub confirms you are in the vein. Hold the needle still once you see it."}}, {"h": "Fill, change, and mix tubes", "p": ["Seat the tube onto the needle in the holder and let the <b>vacuum fill it fully</b> — don't pull the tube off early. <b>Fill citrate (light-blue) tubes completely</b> to preserve the <b>9:1</b> blood-to-additive ratio; an underfilled coagulation tube gives falsely prolonged times.", "Change tubes following the <b>order of draw</b>, and <b>invert additive tubes</b> gently the required number of times immediately after filling. Do not shake — vigorous mixing hemolyzes the sample."], "note": {"k": "evidence", "t": "The 9:1 ratio in a citrate tube is calibrated for a full draw; short-filling changes the ratio and skews PT/INR and aPTT."}}, {"h": "Release, withdraw, and secure", "p": ["<b>Release the tourniquet before you withdraw the needle</b> — and before it has been on a full minute. Withdrawing against a tight tourniquet forces blood out of the site.", "Place <b>gauze</b> over the site without pressing, withdraw the needle <b>smoothly</b>, and <b>immediately activate the needle safety device</b>. Then apply <b>firm pressure with the arm held straight</b> — not bent, which reopens the puncture and bruises — until bleeding stops, and bandage."], "note": {"k": "safe", "t": "Activate the safety device the instant the needle clears the skin. The window between withdrawal and activation is when most needlesticks happen."}}], "inter": {"type": "order", "h": "Order the venipuncture steps", "q": "Tap the steps into the correct order for a routine venipuncture.", "items": [{"id": "1", "txt": "Anchor the vein"}, {"id": "2", "txt": "Insert bevel-up at 15–30°"}, {"id": "3", "txt": "Fill tubes in order of draw"}, {"id": "4", "txt": "Release the tourniquet"}, {"id": "5", "txt": "Withdraw the needle over gauze"}, {"id": "6", "txt": "Activate the safety device"}, {"id": "7", "txt": "Apply pressure & bandage"}], "fbOk": "Exactly right — anchor, enter, fill, release the tourniquet, withdraw over gauze, activate the safety, then pressure and bandage.", "correct": ["1", "2", "3", "4", "5", "6", "7"]}, "tips": ["Keep the needle still while tubes change; movement in the vein is what bruises.", "Invert additive tubes as you go rather than saving them all for the end.", "Have the gauze ready in your free hand before you withdraw."], "mistakes": ["Inserting bevel-down or at too steep an angle and hitting the back wall.", "Underfilling a citrate tube and ruining the 9:1 ratio.", "Withdrawing the needle before releasing the tourniquet.", "Failing to activate the safety device immediately, risking a needlestick."], "takeaways": ["Bevel up, anchor taut, insert at 15–30° in one motion.", "Fill tubes fully in order of draw and invert additive tubes gently.", "Release the tourniquet before withdrawing the needle.", "Withdraw over gauze, activate the safety, then firm pressure on a straight arm."], "quiz": [{"q": "At what angle should the needle enter the skin?", "opts": ["45–60°", "15–30°", "Flat, nearly parallel"], "a": 1, "why": "A 15–30° angle enters the lumen cleanly without punching through the far wall."}, {"q": "When should the tourniquet be released?", "opts": ["After the needle is withdrawn", "Before the needle is withdrawn", "It is left on until bandaging"], "a": 1, "why": "Releasing before withdrawal prevents blood being forced out of the puncture and limits hemoconcentration."}, {"q": "What must you do immediately after the needle clears the skin?", "opts": ["Label the tubes", "Activate the needle safety device", "Remove your gloves"], "a": 1, "why": "Immediate safety activation closes the window when most accidental needlesticks occur."}], "refs": "CLSI GP41 (2017); OSHA Bloodborne Pathogens Standard; ASCP."}]}, {"title": "Complications & Special Collections", "lessons": [{"id": "ph_complications", "title": "Complications & how to respond", "stage": "Phlebotomy · Module 4", "illo": "cx_hematoma", "mini": "arm", "lead": "Most draws are uneventful, but the ones that aren't demand a fast, correct response. Knowing the difference between a bruise and a nerve injury — and what to do in the next few seconds — is what separates a competent phlebotomist from a dangerous one.", "objectives": ["Recognize and respond to hematoma, hemolysis, and nerve injury", "Manage vasovagal syncope and protect a fainting patient", "Apply the two-attempt rule and know when to escalate", "Identify an arterial puncture and respond correctly"], "sections": [{"h": "Hematoma, hemolysis, and petechiae", "p": ["A <b>hematoma</b> — swelling and blood leaking under the skin — means the vessel is compromised. <b>Release the tourniquet, remove the needle, and apply firm pressure</b> until it stops. Do not keep advancing.", "<b>Hemolysis</b> ruptures red cells and spills their contents into the plasma, <b>falsely elevating potassium, LDH,</b> and other intracellular analytes. Its common causes are avoidable: a too-small needle with syringe force, vigorous shaking or mixing, drawing through a hematoma, puncturing through wet alcohol, and underfilling an additive tube. <b>Petechiae</b> — tiny red spots — can appear from tourniquet pressure or a clotting problem and warn that bleeding may be prolonged."], "list": ["Hematoma: release tourniquet, remove needle, firm pressure.", "Hemolysis causes: small needle + syringe force, shaking, drawing through a hematoma, wet alcohol, underfilled additive tube.", "Hemolysis effect: falsely elevated potassium, LDH, and similar analytes."], "note": {"k": "evidence", "t": "A hemolyzed potassium can read dangerously high and trigger unnecessary treatment — a preventable error that starts at the needle."}}, {"h": "Nerve injury and vasovagal syncope", "p": ["If the patient feels <b>sudden sharp, shooting, or electric pain, or numbness</b> radiating down the arm, you may have contacted a nerve — <b>remove the needle immediately</b> and select a new site. Do not reposition and dig.", "<b>Vasovagal syncope</b> (fainting) can come on fast: pallor, sweating, lightheadedness. <b>Stop the draw, lower the patient's head,</b> apply a <b>cold compress</b>, and <b>stay with them — never leave a fainting patient alone.</b> Protect them from falling and keep the airway clear."], "note": {"k": "safe", "t": "Shooting or electric pain is a nerve warning, not a normal stick. The needle comes out at once — pushing on risks lasting nerve damage."}}, {"h": "Over-drawing, the two-attempt rule, and arterial puncture", "p": ["Repeated or high-volume draws cause <b>iatrogenic anemia</b>, especially in small or frequently tested patients — take only what is needed. Follow the <b>two-attempt rule</b>: no more than two attempts, then <b>escalate</b> to a colleague or the phlebotomy/vascular access team rather than sticking again.", "<b>Arterial puncture</b> shows <b>bright-red, pulsating</b> blood that fills the tube rapidly. <b>Remove the needle and hold firm pressure for at least 5 minutes,</b> then notify the appropriate staff and document. Confirm bleeding has fully stopped before the patient leaves."], "note": {"k": "safe", "t": "Two attempts is the ceiling, not a target. Escalating is a sign of good judgment, not failure."}}], "inter": {"type": "choice", "h": "Sudden shooting pain", "case": "As you advance the needle, the patient cries out with sharp electric pain shooting toward the hand.", "q": "What is your immediate action?", "opts": [{"id": "a", "lab": "Reposition the needle slightly and continue the draw", "fb": "No — probing near a nerve risks lasting injury. The needle must come out."}, {"id": "b", "lab": "Remove the needle immediately and choose a new site", "ok": true, "fb": "Correct — sharp, shooting, electric pain signals nerve contact; withdraw at once."}, {"id": "c", "lab": "Ask the patient to tolerate it since the tube is nearly full", "fb": "No — nerve pain is never something to push through; withdraw immediately."}]}, "tips": ["Watch the patient's face, not just the tube — pallor and sweat precede a faint.", "Keep a cold compress within reach for the first sign of syncope.", "If the first two sticks fail, hand off; a fresh set of eyes finds the vein.", "Bright-red pulsating blood means artery — pressure for at least five minutes."], "mistakes": ["Advancing or repositioning the needle after the patient reports shooting pain.", "Shaking additive tubes or drawing through a hematoma, causing hemolysis.", "Leaving a fainting patient alone to get help.", "Making a third, fourth, or fifth attempt instead of escalating."], "takeaways": ["Hematoma: release tourniquet, remove needle, firm pressure.", "Shooting/electric pain: remove the needle immediately.", "Fainting: stop, lower the head, cold compress, and never leave the patient.", "Two attempts maximum; arterial puncture means at least 5 minutes of pressure and notify."], "quiz": [{"q": "A patient reports sudden electric, shooting pain down the arm during insertion. What do you do?", "opts": ["Continue slowly", "Remove the needle immediately", "Loosen the tourniquet and wait"], "a": 1, "why": "Shooting or electric pain signals nerve contact and requires immediate needle removal."}, {"q": "Which finding indicates an arterial puncture?", "opts": ["Dark, slow-filling blood", "Bright-red, pulsating, rapidly filling blood", "No blood return"], "a": 1, "why": "Arterial blood is bright red and pulsates, filling the tube rapidly; hold pressure at least 5 minutes."}, {"q": "After two unsuccessful attempts, what is the correct action?", "opts": ["Try a third time on the other arm", "Escalate to a colleague or the vascular access team", "Send the patient home"], "a": 1, "why": "The two-attempt rule caps attempts at two; beyond that you escalate rather than repeat."}], "refs": "CLSI GP41 (2017); ASCP/NAACLS competencies; OSHA."}, {"id": "ph_capillary", "title": "Capillary (dermal) puncture", "stage": "Phlebotomy · Module 4", "illo": "layers", "mini": "arm", "lead": "When a full venous draw isn't needed or isn't possible — a fingerstick glucose, a tiny infant, or veins you simply can't reach — a capillary puncture is the answer. But the site, the depth, and even the order of collection are different, and getting them wrong can injure a patient or ruin the sample.", "objectives": ["Identify when a capillary puncture is indicated", "Select the correct site for adults and for infants", "Perform the puncture with correct depth and technique", "Collect in the capillary order and avoid tissue-fluid contamination"], "sections": [{"h": "When to use it, and where", "p": ["Capillary (dermal) puncture suits <b>point-of-care glucose</b>, <b>small-volume</b> tests, <b>infants and young children</b>, and patients with <b>difficult venous access</b>. It yields a mix of capillary, venous, and arterial blood plus tissue fluid.", "For an <b>adult or older child</b>, use the <b>palmar surface of the distal (last) segment of the middle or ring finger, off to the side of center</b> — not the very tip and not the side of the finger. For an <b>infant under 1 year</b>, use the <b>medial or lateral plantar surface of the heel only.</b>"], "list": ["Indications: POC glucose, small volume, infants/children, difficult venous access.", "Adult/older child: side of center of the last segment of the middle or ring finger.", "Infant (<1 yr): medial or lateral plantar heel surface only."], "note": {"k": "safe", "t": "Never puncture the center or arch of an infant's heel, the back of the heel, or a previous site — the bone is close beneath and you risk osteomyelitis and nerve injury."}}, {"h": "Depth, warming, and the first drop", "p": ["Keep the puncture <b>depth under 2.0 mm</b> in an infant to stay clear of bone. <b>Warm the site</b> (a warm cloth for a few minutes) to increase blood flow and make collection easier.", "After the puncture, <b>wipe away the first drop</b> — it is contaminated with tissue fluid and skews results. Do <b>not strongly milk or squeeze</b> the finger or heel; excessive pressure causes <b>hemolysis and tissue-fluid contamination</b>. Gentle, intermittent pressure with the site held downward gives the best drops."], "note": {"k": "tip", "t": "Warming can roughly double capillary flow — a minute with a warm compress often saves you from squeezing."}}, {"h": "The capillary order of collection is reversed", "p": ["Because a dermal puncture starts to clot quickly, the collection order is <b>different from — essentially the reverse of — the venous order of draw.</b> Collect the tests most sensitive to clotting and platelet clumping first.", "Collect <b>EDTA (hematology) tubes first,</b> then other <b>additive</b> tubes, then <b>serum</b> tubes last. This captures platelets and cell counts before clotting begins and distorts them."], "list": ["1. EDTA (hematology) first.", "2. Other additive tubes.", "3. Serum tubes last."], "note": {"k": "evidence", "t": "Capillary blood clots fast, so EDTA goes first — the opposite of venous order — to protect the platelet count and CBC from clumping."}}], "inter": {"type": "choice", "h": "Choosing the infant site", "case": "You need a small blood sample from a 3-month-old for a bilirubin level.", "q": "Which site do you use?", "opts": [{"id": "a", "lab": "The center (arch) of the heel", "fb": "No — the center and arch sit over bone; puncturing there risks nerve and bone injury."}, {"id": "b", "lab": "The medial or lateral plantar surface of the heel", "ok": true, "fb": "Correct — the side portions of the plantar heel are the only safe sites in an infant under one year."}, {"id": "c", "lab": "The tip of the big toe", "fb": "No — the toe is not a recommended capillary site; use the medial or lateral plantar heel."}]}, "tips": ["Warm the site before you puncture; it beats squeezing every time.", "Always wipe away the first drop before you start filling.", "Hold the finger or heel downward and use gentle, intermittent pressure."], "mistakes": ["Puncturing the center or arch of an infant's heel, or a previous site.", "Squeezing hard, which hemolyzes the sample and adds tissue fluid.", "Including the first drop instead of wiping it away.", "Collecting in venous order instead of EDTA-first for capillary."], "takeaways": ["Capillary puncture for POC glucose, small volumes, infants, and difficult access.", "Adult: side of center of the last segment of the middle or ring finger. Infant: medial/lateral plantar heel, depth < 2.0 mm.", "Warm the site, wipe the first drop, do not milk hard.", "Capillary order is reversed — EDTA first, additives next, serum last."], "quiz": [{"q": "Where do you perform a capillary puncture on an adult?", "opts": ["The very tip of the index finger", "The side of center of the last segment of the middle or ring finger", "The pad of the thumb"], "a": 1, "why": "The distal segment of the middle or ring finger, off to the side of center, is the standard adult dermal site."}, {"q": "Why is the first drop of blood wiped away?", "opts": ["To reduce pain", "It is contaminated with tissue fluid", "To speed up clotting"], "a": 1, "why": "The first drop contains tissue fluid that would skew the results."}, {"q": "What is collected first in a capillary draw?", "opts": ["Serum tubes", "EDTA (hematology) tubes", "Coagulation tubes"], "a": 1, "why": "Capillary blood clots quickly, so EDTA is collected first to protect the cell counts — the reverse of venous order."}], "refs": "CLSI GP42 (2020); ASCP/NAACLS competencies."}, {"id": "ph_special", "title": "Special & difficult draws", "stage": "Phlebotomy · Module 4", "illo": "special_pops", "mini": "arm", "lead": "The routine draw you have practiced changes at the extremes of age and in patients whose veins fight you. Adjusting your equipment, angle, and approach — and knowing when to escalate — is what keeps these draws safe and successful.", "objectives": ["Adapt technique for pediatric and geriatric patients", "Manage obese, edematous, and dehydrated patients", "Collect blood cultures with strict aseptic technique", "Handle fasting, timed, and therapeutic drug monitoring draws and escalate difficult access"], "sections": [{"h": "The extremes of age", "p": ["For <b>pediatric</b> patients, use a <b>winged (butterfly) set</b> and <b>smaller-volume tubes</b>, employ <b>comfort holds and distraction</b>, follow the <b>same order of draw</b>, and <b>watch the total volume drawn</b> against the child's size to avoid iatrogenic anemia.", "<b>Geriatric</b> patients have <b>fragile, rolling veins and thin skin.</b> <b>Anchor the vein well,</b> use a <b>lower insertion angle and less tourniquet tension,</b> and consider a <b>butterfly</b> for better control. Excess tourniquet pressure can rupture a fragile vein before you even enter it."], "note": {"k": "tip", "t": "A butterfly set with lighter tourniquet tension gives you the control that fragile pediatric and geriatric veins demand."}}, {"h": "Hard-to-find veins", "p": ["In <b>obese</b> patients veins are deep and hard to palpate — rely on feel over sight and take time to map the vein. In <b>edematous</b> tissue, avoid the swollen area entirely; the fluid dilutes the sample and the vein is displaced.", "<b>Dehydrated</b> patients have collapsed, poorly filling veins. Warming, hydration where appropriate, and gravity (lowering the arm) help, but do not chase a vein with repeated blind sticks."], "list": ["Obese: palpate carefully; veins are deep, not always visible.", "Edematous: avoid the swollen tissue — it dilutes the sample.", "Dehydrated: expect collapsed veins; warm, position, and don't stick blindly."], "note": {"k": "safe", "t": "Never draw through edematous tissue — the interstitial fluid contaminates the specimen and the underlying vein is displaced and easily missed."}}, {"h": "Blood cultures and timed draws", "p": ["<b>Blood cultures</b> demand <b>strict aseptic preparation</b>: cleanse thoroughly, let it dry, and <b>do not re-touch the site.</b> Collect the <b>correct volume into the aerobic and anaerobic bottles</b> and typically draw from <b>two sites</b> to distinguish true infection from contamination.", "<b>Fasting, timed, and therapeutic drug monitoring (TDM)</b> draws hinge on timing. TDM distinguishes a <b>peak</b> (drawn after a dose reaches maximum concentration) from a <b>trough</b> (drawn just before the next dose). Draw at the ordered time and record it. When access is <b>genuinely difficult, escalate</b> rather than repeat blind attempts."], "note": {"k": "evidence", "t": "Re-touching a prepped blood-culture site is the classic source of a contaminated culture — a false positive that can mean days of unnecessary antibiotics."}}], "inter": {"type": "choice", "h": "The fragile geriatric vein", "case": "An elderly patient has thin skin and veins that roll under your finger.", "q": "How do you adjust your technique?", "opts": [{"id": "a", "lab": "Apply a tighter tourniquet and use a steeper angle to catch the vein fast", "fb": "No — high tension and a steep angle can rupture a fragile vein and blow the stick."}, {"id": "b", "lab": "Anchor well, lower the angle, reduce tourniquet tension, and consider a butterfly", "ok": true, "fb": "Correct — anchoring, a shallow angle, and gentle tension protect fragile rolling veins; a butterfly adds control."}, {"id": "c", "lab": "Skip the tourniquet entirely and rely on gravity alone", "fb": "Not quite — some light tension still helps; the key is less tension, better anchoring, and a lower angle."}]}, "tips": ["Reach for a butterfly and smaller tubes when veins are fragile or small.", "Distraction and a comfortable hold make pediatric draws faster and calmer.", "For blood cultures, prep, let dry, and never re-palpate the site.", "Confirm whether a drug level is a peak or a trough before you draw."], "mistakes": ["Using full tourniquet tension and a steep angle on a fragile geriatric vein.", "Drawing through edematous tissue and diluting the sample.", "Re-touching a prepped blood-culture site and contaminating it.", "Repeating blind sticks on difficult access instead of escalating."], "takeaways": ["Pediatric: butterfly, small tubes, comfort holds, watch total volume.", "Geriatric: anchor well, lower angle, less tourniquet tension, consider a butterfly.", "Avoid edematous tissue; palpate carefully in obese and dehydrated patients.", "Blood cultures: strict asepsis, no re-touch, two sites; know peak vs. trough; escalate difficult access."], "quiz": [{"q": "What is the best approach for a fragile, rolling geriatric vein?", "opts": ["Tighter tourniquet and steeper angle", "Anchor well, lower angle, less tourniquet tension", "No anchoring, quick jab"], "a": 1, "why": "Good anchoring, a shallow angle, and gentle tension protect fragile veins and reduce rupture."}, {"q": "Why must you not re-touch a prepped blood-culture site?", "opts": ["It wastes time", "It contaminates the culture and causes false positives", "It hurts the patient"], "a": 1, "why": "Re-palpating a disinfected site reintroduces skin flora and is a leading cause of contaminated cultures."}, {"q": "A trough drug level is drawn when?", "opts": ["Right after the dose is given", "Just before the next dose", "At any convenient time"], "a": 1, "why": "A trough is the lowest concentration, drawn immediately before the next dose."}], "refs": "CLSI GP41 (2017); CLSI GP42 (2020); ASCP/NAACLS competencies."}]}, {"title": "After the Draw", "lessons": [{"id": "ph_handling", "title": "Labeling, handling & transport", "stage": "Phlebotomy · Module 5", "illo": "arm", "mini": "arm", "lead": "A perfect stick is wasted if the tube is mislabeled, shaken, or left to sit. What you do in the 60 seconds after the needle comes out decides whether the lab can trust the result.", "objectives": ["Label every tube at the bedside, in the patient's presence, immediately after collection", "State the required label elements and mix additive tubes correctly", "Apply handling rules for light, temperature, and clotting", "Recognize the specimen rejection criteria that force a redraw"], "sections": [{"h": "Label at the bedside — every time", "p": ["Label the tubes <b>at the bedside, immediately, in the patient's presence</b> — before you leave the room and before you do anything else. <b>Never pre-label</b> empty tubes and <b>never label away from the patient</b>. Pre-labeling and hallway labeling are the two habits behind most wrong-patient errors.", "Confirm identity against the label using two identifiers, and let the patient confirm their name and date of birth if able. The label ties this blood to this person; get it wrong and every downstream result is dangerous."], "list": ["Patient <b>full name</b>", "<b>ID / MRN</b> (medical record number)", "<b>Date of birth</b>", "<b>Date and time</b> of collection", "The <b>collector's initials</b>"], "note": {"k": "safe", "t": "If you cannot label at the bedside in the patient's presence, do not collect. An unlabeled tube leaving the room is a wrong-patient event waiting to happen."}}, {"h": "Mix, protect, and time", "p": ["Additive tubes must be mixed right after filling: <b>gently invert 8–10 times</b>, a smooth end-over-end motion. <b>Never shake</b> — shaking hemolyzes the sample and ruptures cells, wrecking chemistry and hematology results.", "Some specimens need protection. Shield <b>light-sensitive</b> analytes such as <b>bilirubin</b> from light. Honor <b>temperature requirements</b> — a few specimens go <b>on ice</b> while others must be kept <b>warm</b> — and let <b>serum tubes clot fully (about 30 minutes)</b> before you centrifuge them."], "list": ["Invert additive tubes <b>8–10 times</b>, gently — no shaking.", "Protect light-sensitive specimens (e.g. bilirubin) from light.", "Follow temperature rules: some on ice, some kept warm.", "Let serum tubes clot ~30 min before centrifuging."], "note": {"k": "evidence", "t": "Vigorous shaking and incomplete clotting are leading causes of hemolysis and fibrin strands — both trigger a redraw."}}, {"h": "Why specimens get rejected", "p": ["The lab will reject a specimen it cannot trust, and a rejection means a redraw and a delayed result. Knowing the criteria lets you prevent them at the chair instead of hearing about them an hour later."], "list": ["<b>Unlabeled or mislabeled</b> tube — the number-one cause.", "<b>Hemolyzed</b> specimen (from shaking, a small needle, or vigorous draw).", "<b>Clotted</b> EDTA / hematology tube (poor mixing).", "<b>Wrong tube or wrong additive</b> for the test ordered.", "<b>Quantity not sufficient (QNS)</b> — underfilled tube.", "An <b>expired tube</b> (past its expiration date)."], "note": {"k": "tip", "t": "Check the tube expiration date before you fill it — an expired tube's additive and vacuum can no longer be trusted."}}], "inter": {"type": "choice", "h": "Handle the tube right", "case": "You have just filled a lavender-top EDTA tube for a CBC at the bedside.", "q": "What do you do next, before leaving the room?", "opts": [{"id": "a", "lab": "Shake the tube hard to mix the additive, then label it in the hallway", "fb": "Two errors: shaking hemolyzes the sample, and hallway labeling risks a wrong-patient mix-up."}, {"id": "b", "lab": "Gently invert it 8–10 times and label it at the bedside in the patient's presence", "ok": true, "fb": "Correct — gentle inversion mixes the anticoagulant without hemolysis, and bedside labeling ties the tube to the patient."}, {"id": "c", "lab": "Set it in the rack unmixed and label all your tubes together at the nurses' station", "fb": "An EDTA tube left unmixed clots and is rejected, and station labeling breaks the chain of identity."}]}, "tips": ["Say the patient's name and DOB aloud as you write the label — it catches mismatches.", "Invert immediately after each additive tube fills, while you are still gowned up.", "Wrap bilirubin and other light-sensitive tubes in foil or use an amber transport sleeve."], "mistakes": ["Pre-labeling empty tubes before the draw.", "Shaking additive tubes instead of gently inverting.", "Centrifuging a serum tube before it has clotted ~30 minutes.", "Sending an underfilled (QNS) coagulation tube."], "takeaways": ["Label at the bedside, in the patient's presence, immediately — never pre-label.", "Gentle inversion 8–10 times; never shake.", "Protect light-sensitive and temperature-sensitive specimens; clot serum ~30 min.", "Unlabeled, hemolyzed, clotted, wrong-tube, QNS, or expired = rejected."], "quiz": [{"q": "When and where should blood tubes be labeled?", "opts": ["Pre-labeled before the draw for speed", "At the bedside, immediately, in the patient's presence", "At the lab drop-off window"], "a": 1, "why": "Bedside labeling in the patient's presence is the safeguard against wrong-patient errors."}, {"q": "How should an additive tube be mixed after filling?", "opts": ["Shake it briskly 5–6 times", "Gently invert it 8–10 times", "Leave it still so cells settle"], "a": 1, "why": "Gentle inversion 8–10 times mixes the additive without causing hemolysis."}, {"q": "Which of these is a standard specimen rejection criterion?", "opts": ["A tube filled to the correct volume", "A clotted EDTA hematology tube", "A properly inverted serum tube"], "a": 1, "why": "A clotted EDTA tube cannot yield an accurate CBC and is rejected for a redraw."}], "refs": "CLSI GP41 (2017); CLSI H18 (specimen handling); ASCP phlebotomy competencies."}, {"id": "ph_safety", "title": "Safety, exposure & quality", "stage": "Phlebotomy · Module 5", "illo": "gauge", "mini": "arm", "lead": "The riskiest moment of a draw is often after the blood is in the tube — when a bare needle is still in your hand. Safe device handling and a clear exposure plan protect you as much as the specimen protects the patient.", "objectives": ["Activate the safety device and dispose of sharps without recapping", "Name the major bloodborne pathogens and apply standard precautions", "Follow the needlestick / exposure protocol step by step", "Connect QA/QC and technique to prevention of pre-analytical errors"], "sections": [{"h": "Sharps: activate, never recap", "p": ["The instant the needle leaves the vein, <b>activate the needle safety device</b> — the shield or blunting mechanism — and <b>never recap a needle</b>. Recapping is when most accidental sticks happen, and it is prohibited by standard precautions.", "Dispose of the sharp <b>immediately</b> into a <b>puncture-resistant sharps container</b>. Do not walk around with a used needle, do not set it down, and do not overfill the container — replace it when it reaches the fill line."], "note": {"k": "safe", "t": "Recapping a needle is a leading cause of needlestick injury. Engage the safety device before the needle ever moves toward a cap."}}, {"h": "Bloodborne pathogens and standard precautions", "p": ["Blood can transmit <b>bloodborne pathogens</b> — most importantly <b>hepatitis B (HBV)</b>, <b>hepatitis C (HCV)</b>, and <b>HIV</b>. Under <b>standard precautions</b>, you treat every patient's blood and body fluids as potentially infectious, regardless of their known status.", "That means gloves for every draw, hand hygiene before and after, and personal protective equipment appropriate to the risk. Standard precautions protect you, the patient, and everyone downstream."], "list": ["Perform hand hygiene and wear gloves for every patient.", "Treat all blood and body fluids as infectious.", "Use engineered safety devices and dispose of sharps at once.", "Know that HBV vaccination is recommended for anyone handling blood."], "note": {"k": "evidence", "t": "HBV survives on surfaces and is far more transmissible per exposure than HIV — which is exactly why no shortcut on precautions is acceptable."}}, {"h": "If you are exposed", "p": ["A needlestick or blood splash is an emergency you can manage if you act fast. <b>Wash the area immediately</b> — flush a puncture wound with soap and water, flush mucous membranes with water or saline — then <b>report it right away</b> to your supervisor and employee health.", "<b>Follow the post-exposure evaluation</b>: the source patient and the exposed worker are assessed, and post-exposure prophylaxis is started quickly when indicated. Reporting late narrows the window in which prophylaxis works."], "list": ["<b>Wash</b> the wound with soap and water (flush mucous membranes with water/saline).", "<b>Report immediately</b> to your supervisor and employee/occupational health.", "<b>Follow the post-exposure evaluation</b> and prophylaxis protocol.", "Document the exposure and the source, per facility policy."], "note": {"k": "safe", "t": "Post-exposure prophylaxis is time-sensitive. Never hide or delay an exposure — reporting fast is what protects you."}}, {"h": "Quality, accountability, and pre-analytical errors", "p": ["<b>Quality assurance (QA)</b> is the whole system that keeps results trustworthy; <b>quality control (QC)</b> is the day-to-day checks — expiration dates, equipment function, and technique — that keep the system honest. Most lab errors are <b>pre-analytical</b>: they happen before the specimen is ever tested, in identification, collection, and handling.", "Correct technique and specimen integrity are how you prevent those errors. So is <b>professional documentation and accountability</b> — recording what you did, owning a mistake, and reporting it so it can be fixed rather than repeated."], "note": {"k": "tip", "t": "When something goes wrong, document it and speak up. Most pre-analytical errors are preventable, and honest reporting is how a lab stops them recurring."}}], "inter": {"type": "choice", "h": "The stick after the stick", "case": "You have finished a draw. The needle is out of the arm and still uncapped in your hand.", "q": "What is the correct next action?", "opts": [{"id": "a", "lab": "Carefully recap the needle so it is safe to carry to the sharps bin", "fb": "Recapping is prohibited — it is exactly the moment most needlesticks occur."}, {"id": "b", "lab": "Activate the safety device and drop it straight into the sharps container", "ok": true, "fb": "Correct — engage the safety shield immediately and dispose of the sharp at once, without recapping."}, {"id": "c", "lab": "Set the needle on the tray while you label the tubes, then bin it", "fb": "Never set down an unguarded sharp — activate the safety device and dispose of it immediately."}]}, "tips": ["Position the sharps container within arm's reach before you start the draw.", "Engage the safety device with one motion, away from your other hand.", "Know where your facility's exposure report and employee-health line are before you ever need them."], "mistakes": ["Recapping a used needle.", "Carrying an unguarded sharp across the room.", "Delaying or not reporting a needlestick.", "Skipping gloves or hand hygiene because the patient 'looks healthy'."], "takeaways": ["Activate the safety device and never recap; bin sharps immediately.", "HBV, HCV, HIV — apply standard precautions to everyone.", "Exposure: wash, report immediately, follow post-exposure evaluation.", "Most lab errors are pre-analytical; technique, QC, and honest documentation prevent them."], "quiz": [{"q": "What should you never do with a used needle?", "opts": ["Activate its safety device", "Recap it", "Drop it in a sharps container"], "a": 1, "why": "Recapping is a leading cause of needlestick injury and is prohibited under standard precautions."}, {"q": "Which set of pathogens is the main bloodborne concern in phlebotomy?", "opts": ["Influenza, RSV, rhinovirus", "HBV, HCV, HIV", "E. coli, Salmonella, Norovirus"], "a": 1, "why": "Hepatitis B, hepatitis C, and HIV are the primary bloodborne pathogens transmitted by blood exposure."}, {"q": "What is the first thing to do after a needlestick injury?", "opts": ["Finish your shift, then mention it later", "Wash the area and report the exposure immediately", "Recap the needle and reuse a fresh one"], "a": 1, "why": "Washing the wound and reporting at once preserves the time-sensitive window for post-exposure prophylaxis."}], "refs": "OSHA Bloodborne Pathogens Standard 29 CFR 1910.1030; CDC post-exposure guidance; CLSI GP41 (2017); ASCP."}]}, {"title": "Case Application", "lessons": [{"id": "ph_cases", "title": "Putting it together", "stage": "Phlebotomy · Module 6", "illo": "arm", "mini": "arm", "lead": "Real draws rarely test one skill at a time. Here you'll work three short cases that fold identification, order of draw, complications, and special populations into single decisions — the way a real chair-side shift does.", "objectives": ["Integrate order of draw and fill requirements in a multi-tube collection", "Respond correctly to a complication that develops mid-draw", "Apply site-selection rules for patients with restricted arms", "Reason through combined identification, technique, and special-population decisions"], "sections": [{"h": "Case A — Fasting glucose and a coag panel", "p": ["A fasting adult is ordered a <b>glucose</b> (gray-top, sodium fluoride/potassium oxalate) and a <b>coagulation panel</b> (light-blue, sodium citrate). You will draw both from one clean venipuncture. The question is sequence and fill.", "By the <b>order of draw</b>, the light-blue coagulation tube comes <b>before</b> the gray tube: blood cultures, then light-blue (citrate), then serum, then green, then lavender, then gray last. The <b>light-blue tube must fill completely</b> to keep the exact 9:1 blood-to-citrate ratio — an underfilled coag tube is rejected."], "note": {"k": "safe", "t": "Draw the light-blue citrate tube before the gray tube, and fill it to the line — the coagulation result depends on the 9:1 ratio."}}, {"h": "Case B — The patient goes pale mid-draw", "p": ["Halfway through the draw your patient goes quiet, pale, and sweaty and says she feels lightheaded. This is a <b>vasovagal (syncope) reaction</b> starting. Act before she loses consciousness.", "<b>Remove the tourniquet and needle immediately</b>, apply pressure to the site, and protect her from falling — lower the head or lay her down, and never leave her alone. Cool compress, reassurance, and keeping her seated or reclined until fully recovered come next. Only resume or reschedule once she is stable."], "note": {"k": "safe", "t": "At the first sign of fainting, the draw stops. Discontinue, protect the airway and prevent a fall — a completed tube is never worth a head injury."}}, {"h": "Case C — The post-mastectomy patient with an IV arm", "p": ["Your patient had a <b>left mastectomy</b> with lymph node removal, and her <b>right arm has a running IV</b>. Both arms carry a restriction, so site selection is the whole test here.", "<b>Avoid the arm on the side of a mastectomy</b> with lymph node dissection — the lymphedema risk makes it off-limits without provider clearance. <b>Avoid drawing above or at an IV</b>; if you must use that arm, draw <b>below the IV site</b> after it has been paused per protocol. Better options: a hand or lower-arm vein on an acceptable site, or escalate to the nurse or provider for guidance."], "note": {"k": "tip", "t": "Two restricted arms is a stop-and-think, not a guess. When both sides are compromised, get provider guidance rather than forcing a marginal site."}}], "inter": {"type": "choice", "h": "One vein, two tubes, a twist", "case": "A fasting patient needs a light-blue coagulation tube and a gray glucose tube. You get a single clean flash in the median cubital, but the vein is small and flow is slow — the light-blue tube is filling sluggishly and stops just short of the line.", "q": "What is the best action?", "opts": [{"id": "a", "lab": "Send the short-filled light-blue tube anyway and note it was a hard stick", "fb": "No — an underfilled citrate tube breaks the 9:1 ratio and will be rejected, delaying the coag result."}, {"id": "b", "lab": "Top it off from the gray tube so the volume looks right", "fb": "Never transfer between tubes — it cross-contaminates additives and invalidates both results."}, {"id": "c", "lab": "Discontinue and redraw the coag tube with a fresh stick, filling it to the line first in the order of draw", "ok": true, "fb": "Correct — a coagulation tube must fill completely for a valid ratio; redraw and fill the light-blue tube to the line, before the gray, within the two-attempt limit."}, {"id": "d", "lab": "Squeeze and milk the arm hard to force the tube to fill", "fb": "Vigorous milking hemolyzes the sample and activates clotting factors, ruining a coagulation specimen."}]}, "tips": ["Line up tubes in draw order before you stick so sequence is automatic under pressure.", "Watch the patient's face, not just the flash — pallor and sweating warn you before a faint.", "When both arms are restricted, escalate early rather than forcing a poor site."], "mistakes": ["Drawing the gray tube before the light-blue coagulation tube.", "Sending an underfilled citrate tube instead of redrawing.", "Continuing a draw after a patient reports feeling faint.", "Using the arm on a mastectomy side or drawing above an IV."], "takeaways": ["Order of draw and full fill protect the coagulation ratio.", "First sign of syncope: discontinue, protect from a fall, never leave the patient.", "Avoid a mastectomy-side arm and don't draw above an IV.", "When variables stack up, stop and reason — or escalate."], "quiz": [{"q": "Drawing a light-blue coag tube and a gray glucose tube from one stick, which fills first and why?", "opts": ["Gray first, because glucose degrades fastest", "Light-blue first, to protect the citrate ratio and avoid additive carryover", "Either order — sequence doesn't affect these two"], "a": 1, "why": "The citrate (light-blue) tube precedes the gray in the order of draw and must fill fully to keep the 9:1 ratio."}, {"q": "A patient becomes pale, sweaty, and lightheaded mid-draw. What is your first action?", "opts": ["Speed up to finish before she faints", "Remove the tourniquet and needle, apply pressure, and protect her from falling", "Leave to get help, telling her to hold the site"], "a": 1, "why": "You discontinue immediately and prevent a fall — and you never leave a fainting patient unattended."}, {"q": "A patient had a left mastectomy with node removal and has an IV in the right arm. Where do you draw?", "opts": ["The left arm, since the IV blocks the right", "Below the IV on the right after pausing it, or escalate for a cleared site", "Above the IV on the right for cleaner flow"], "a": 1, "why": "The mastectomy side is avoided for lymphedema risk; on the IV arm you draw below a paused IV or get provider guidance."}], "refs": "CLSI GP41 (2017) order of draw and complications; ASCP/NAACLS competencies; standard special-population precautions."}]}]}
+{
+  "slug": "phleb",
+  "title": "Blood Draws",
+  "tag": "Venipuncture and specimen collection — patient to labeled tube.",
+  "hrs": "3.0",
+  "mini": "arm",
+  "modules": [
+    {
+      "title": "Foundations",
+      "lessons": [
+        {
+          "id": "ph_role",
+          "title": "The phlebotomist's role & safety",
+          "stage": "Phlebotomy · Module 1",
+          "illo": "arm",
+          "mini": "arm",
+          "lead": "Before you ever pick up a needle, you take on two jobs at once: get the right specimen from the right patient, and protect that patient — and yourself — from harm. Everything else in phlebotomy sits on top of these two duties.",
+          "objectives": [
+            "Define the phlebotomist's scope of practice and its limits",
+            "Apply standard precautions and correct PPE for every patient encounter",
+            "Explain the chain of infection and how technique breaks it",
+            "Perform two-identifier patient identification as the top safety duty"
+          ],
+          "sections": [
+            {
+              "h": "What your role is — and is not",
+              "p": [
+                "Your job is to <b>collect and label specimens correctly</b> and get them to the lab in good condition. You work within a defined <b>scope of practice</b>: you draw, label, and transport — you do <b>not diagnose, interpret results, or advise on treatment</b>, and you work under supervision and within your role.",
+                "That boundary protects patients. When a patient asks what a result means, redirect them to the ordering provider. Knowing the edge of your role is itself a clinical skill."
+              ],
+              "list": [
+                "In scope: verify orders, identify the patient, select the site, collect, label at the bedside, transport.",
+                "Out of scope: interpreting values, changing orders, giving a diagnosis or prognosis.",
+                "Escalate: unexpected reactions, failed draws, or anything outside your training goes to a supervisor or nurse."
+              ],
+              "note": {
+                "k": "safe",
+                "t": "If a task is outside your training or your facility's protocol, stop and ask — practicing beyond your role is a patient-safety risk, not initiative."
+              }
+            },
+            {
+              "h": "Standard precautions and PPE",
+              "p": [
+                "<b>Standard precautions</b> mean you treat <b>every patient's blood and body fluids as if they are infectious</b>, regardless of diagnosis. You never know a patient's full status, so you protect the same way every time.",
+                "<b>Gloves are required</b> for every draw and are <b>changed between every patient</b> — never reused. Gloves do not replace hand hygiene: perform <b>hand hygiene before and after</b> each patient, before gloving and after removing gloves. Dispose of sharps immediately in a puncture-resistant container at the point of use."
+              ],
+              "list": [
+                "Hand hygiene before patient contact and before gloving.",
+                "Fresh gloves for every patient — one patient, one pair.",
+                "Hand hygiene again after glove removal, even if gloves looked intact.",
+                "Activate the safety device and drop the sharp in the container without recapping."
+              ],
+              "note": {
+                "k": "safe",
+                "t": "Recapping needles is a leading cause of needlestick injury — engage the safety mechanism and discard immediately instead."
+              }
+            },
+            {
+              "h": "The chain of infection and professionalism",
+              "p": [
+                "Infection spreads through a <b>chain</b>: a pathogen, a reservoir, a portal of exit, a mode of transmission, a portal of entry, and a susceptible host. Your technique is designed to <b>break a link</b> — hand hygiene and gloves interrupt transmission, aseptic site prep closes the portal of entry, and safe sharps handling removes the vehicle.",
+                "The human side matters just as much. Calm, respectful <b>rapport reduces patient anxiety</b>, which lowers the chance of a vasovagal reaction and makes veins easier to access. Professionalism — introducing yourself, explaining the steps, honesty about a stick — earns the trust that makes the draw go well."
+              ],
+              "note": {
+                "k": "evidence",
+                "t": "You cannot remove every link, but breaking any one link stops transmission — which is why simple hand hygiene is the single highest-impact infection-control step."
+              }
+            }
+          ],
+          "inter": {
+            "type": "choice",
+            "h": "Your single most important safety duty",
+            "case": "You arrive at the bedside with a printed label and an order for a CBC.",
+            "q": "Of everything you do at the bedside, which action most directly prevents a serious patient-harm event?",
+            "opts": [
+              {
+                "id": "a",
+                "lab": "Interpret the result for the patient so they feel informed",
+                "fb": "Out of scope — you do not interpret results, and this does nothing to prevent harm at collection."
+              },
+              {
+                "id": "b",
+                "lab": "Confirm patient identity using two identifiers before drawing",
+                "ok": true,
+                "fb": "Correct — accurate patient identification is the phlebotomist's single most important safety duty; a mislabeled specimen can send the wrong result to the wrong patient."
+              },
+              {
+                "id": "c",
+                "lab": "Choose the largest vein you can see",
+                "fb": "Site selection matters, but it does not protect against the most catastrophic error: drawing or labeling for the wrong patient."
+              }
+            ]
+          },
+          "tips": [
+            "Introduce yourself and explain what you are about to do — a prepared patient is a calmer, easier draw.",
+            "Ask the patient to state their full name and date of birth; do not read it to them and wait for a nod.",
+            "Keep your sharps container within arm's reach before you start, so you never carry an exposed needle."
+          ],
+          "mistakes": [
+            "Reusing one pair of gloves across two patients.",
+            "Skipping hand hygiene because gloves 'looked clean.'",
+            "Recapping a used needle by hand.",
+            "Confirming identity by reading the name aloud and accepting a yes."
+          ],
+          "takeaways": [
+            "You collect and label; you do not diagnose or interpret.",
+            "Treat all blood as infectious — gloves every patient, hand hygiene before and after.",
+            "Good technique breaks a link in the chain of infection.",
+            "Two-identifier patient ID is your most important safety duty."
+          ],
+          "quiz": [
+            {
+              "q": "Which statement best describes standard precautions?",
+              "opts": [
+                "Wear extra PPE only for known-positive patients",
+                "Treat every patient's blood and body fluids as potentially infectious",
+                "Precautions apply only in isolation rooms"
+              ],
+              "a": 1,
+              "why": "Standard precautions assume all blood and body fluids may be infectious, because status is never fully known."
+            },
+            {
+              "q": "How should gloves be managed between patients?",
+              "opts": [
+                "Reused if they still look intact",
+                "Changed between every patient, with hand hygiene before and after",
+                "Optional for a quick draw"
+              ],
+              "a": 1,
+              "why": "Fresh gloves for each patient plus hand hygiene before and after prevents cross-contamination."
+            },
+            {
+              "q": "What is the phlebotomist's single most important safety duty?",
+              "opts": [
+                "Selecting the largest vein",
+                "Accurate patient identification with two identifiers",
+                "Interpreting the result for the patient"
+              ],
+              "a": 1,
+              "why": "Correct identification prevents the most catastrophic errors — wrong patient, wrong result."
+            }
+          ],
+          "refs": "CLSI GP41 (2017); CDC Standard Precautions; ASCP/NAACLS phlebotomy competencies."
+        },
+        {
+          "id": "ph_anatomy",
+          "title": "Venous anatomy for venipuncture",
+          "stage": "Phlebotomy · Module 1",
+          "illo": "arm",
+          "mini": "arm",
+          "lead": "The vein you choose sets up everything that follows. A confident draw starts with a mental map of the antecubital fossa and a feel for the artery and nerve that share the neighborhood.",
+          "objectives": [
+            "Map the median cubital, cephalic, and basilic veins and rank them by preference",
+            "Explain why the basilic vein is the last choice",
+            "Distinguish the H-pattern from the M-pattern of superficial veins",
+            "Differentiate a vein from an artery and a nerve by feel and response"
+          ],
+          "sections": [
+            {
+              "h": "The three antecubital veins, ranked",
+              "p": [
+                "Routine venipuncture targets the <b>antecubital fossa</b> — the crease at the front of the elbow — because the veins there are large, superficial, and relatively fixed. Three veins matter, and they are not interchangeable.",
+                "You rank them by a simple logic: how central and well-anchored the vein is, and what dangerous structures lie beneath it."
+              ],
+              "list": [
+                "<b>Median cubital vein</b> — <b>first choice</b>. Central, large, and well-anchored, so it barely moves; it also sits away from the artery and nerve.",
+                "<b>Cephalic vein</b> — <b>second choice</b>. Lateral, on the thumb side; accessible but tends to <b>roll</b>, so anchor it firmly.",
+                "<b>Basilic vein</b> — <b>last choice</b>. Medial, on the little-finger side; used last because the <b>brachial artery and median nerve lie close beneath it</b>."
+              ],
+              "note": {
+                "k": "safe",
+                "t": "Reach for the basilic vein only after the median cubital and cephalic have been ruled out — an errant stick there can hit the brachial artery or median nerve."
+              }
+            },
+            {
+              "h": "H-pattern versus M-pattern",
+              "p": [
+                "Superficial antecubital veins are not laid out identically in every arm. Two common distributions are named for the shapes they trace on the skin.",
+                "In the <b>H-pattern</b>, the median cubital connects the cephalic and basilic like the crossbar of an H — the most common layout and the reason the median cubital is usually your best target. In the <b>M-pattern</b>, the median antebrachial vein branches into a median cephalic and median basilic, forming an M; here you follow the branch that leads away from the artery and nerve. Reading which pattern you are looking at tells you where to aim."
+              ],
+              "note": {
+                "k": "tip",
+                "t": "Do not assume every arm is an H — palpate the actual course of the vein in front of you before you commit to an angle."
+              }
+            },
+            {
+              "h": "Vein, artery, or nerve?",
+              "p": [
+                "Three structures can sit under your fingertip, and only one is your target. A <b>vein</b> is soft, springy, <b>non-pulsatile</b>, and refills when you press and release. An <b>artery pulsates</b>, sits deeper, and refills briskly — if a vessel pulses, do not stick it. A <b>nerve</b> gives no pulse at all, but contact produces a <b>sharp, electric, shooting pain</b>; if the patient reports that, withdraw immediately.",
+                "This is why superficial forearm and antecubital veins are the preferred targets: they sit close to the surface, away from major arteries and nerves, so the risk of hitting the wrong structure is lowest."
+              ],
+              "note": {
+                "k": "evidence",
+                "t": "Palpate with a fingertip, not your thumb — your thumb has its own pulse and will make a vein feel like an artery."
+              }
+            }
+          ],
+          "inter": {
+            "type": "choice",
+            "h": "Read the structure",
+            "case": "As you advance the needle, the patient yelps with a sudden shooting, electric pain radiating down the forearm.",
+            "q": "What has most likely happened, and what do you do?",
+            "opts": [
+              {
+                "id": "a",
+                "lab": "You nicked an artery — apply a warm pack and continue",
+                "fb": "No — arterial contact gives pulsatile bright-red flash, not electric radiating pain, and you would never continue into it."
+              },
+              {
+                "id": "b",
+                "lab": "You contacted a nerve — withdraw the needle immediately",
+                "ok": true,
+                "fb": "Correct — sharp, electric, radiating pain signals nerve contact; withdraw at once to avoid lasting injury."
+              },
+              {
+                "id": "c",
+                "lab": "Normal for a deep vein — push a little further",
+                "fb": "Dangerous — a vein does not cause shooting electric pain; advancing risks permanent nerve damage."
+              }
+            ]
+          },
+          "tips": [
+            "Anchor and feel before you decide — a vein you can palpate beats one you can only see.",
+            "Warmth and lowering the arm bring superficial veins up without slapping.",
+            "Trace the vein's course with a fingertip so you know if you are looking at an H or an M before you angle in."
+          ],
+          "mistakes": [
+            "Going straight for the basilic vein because it looks big.",
+            "Sticking a pulsatile vessel — that is an artery.",
+            "Ignoring a patient's report of sharp electric pain.",
+            "Choosing a vein you can see but cannot feel."
+          ],
+          "takeaways": [
+            "Median cubital first, cephalic second, basilic last.",
+            "Basilic is last because the brachial artery and median nerve lie beneath it.",
+            "Pulsatile = artery; electric shooting pain = nerve; both mean stop.",
+            "Superficial antecubital and forearm veins are targeted because they are shallow and away from artery and nerve."
+          ],
+          "quiz": [
+            {
+              "q": "Which antecubital vein is the preferred first choice?",
+              "opts": [
+                "Basilic",
+                "Median cubital",
+                "Cephalic"
+              ],
+              "a": 1,
+              "why": "It is central, large, well-anchored, and sits away from the brachial artery and median nerve."
+            },
+            {
+              "q": "Why is the basilic vein used last?",
+              "opts": [
+                "It is always too small",
+                "The brachial artery and median nerve lie close beneath it",
+                "It cannot be palpated"
+              ],
+              "a": 1,
+              "why": "Its proximity to the artery and median nerve makes it the highest-risk of the three."
+            },
+            {
+              "q": "A vessel under your finger pulses steadily. What is it?",
+              "opts": [
+                "A well-filled vein",
+                "An artery — choose another site",
+                "A nerve"
+              ],
+              "a": 1,
+              "why": "Pulsatility signals an artery; cannulating it risks arterial injury."
+            }
+          ],
+          "refs": "CLSI GP41 (2017); ASCP/NAACLS phlebotomy competencies."
+        }
+      ]
+    },
+    {
+      "title": "Equipment & Order of Draw",
+      "lessons": [
+        {
+          "id": "ph_equipment",
+          "title": "Tubes, additives & collection systems",
+          "stage": "Phlebotomy · Module 2",
+          "illo": "gauge",
+          "mini": "arm",
+          "lead": "The tube you choose is a chemistry decision, not just a container. Match the needle to the vein and the additive to the test, and half the errors in phlebotomy disappear before you even puncture the skin.",
+          "objectives": [
+            "Identify the components of the evacuated tube system",
+            "Select the correct needle gauge for the vein and situation",
+            "Match tube-stopper colors to their additives and intended tests",
+            "Explain why additive tubes must be inverted immediately after filling"
+          ],
+          "sections": [
+            {
+              "h": "The evacuated tube system",
+              "p": [
+                "The <b>evacuated tube system (ETS)</b> is the standard collection method. It has three parts: a <b>multi-sample needle</b>, a <b>tube holder (adapter)</b>, and a <b>vacuum tube</b>. The tube's premeasured vacuum pulls the exact volume of blood it is calibrated for, so the blood-to-additive ratio stays correct.",
+                "The multi-sample needle is double-ended: the front bevel enters the vein while a rubber-sleeved back end lets you change tubes without leaking. For fragile or difficult veins, the <b>syringe method</b> gives you manual control over draw speed — you pull gently, then transfer the blood into tubes using a transfer device rather than pushing through the needle."
+              ],
+              "list": [
+                "<b>21G</b> — the <b>standard multisample needle</b> for routine adult venipuncture.",
+                "<b>22G</b> — for smaller or more delicate veins.",
+                "<b>23G winged (butterfly) set</b> — for hand, fragile, or pediatric veins; the tubing gives you control and a gentler approach."
+              ],
+              "note": {
+                "k": "tip",
+                "t": "Too small a gauge (higher number) can hemolyze the sample by forcing cells through a narrow bore; too large stresses a fragile vein — match the gauge to the vein you actually feel."
+              }
+            },
+            {
+              "h": "Additives and stopper colors",
+              "p": [
+                "Each stopper color signals an <b>additive</b> chosen for a specific test. Knowing the color-to-chemistry map is what lets you draw the right tube the first time.",
+                "Anticoagulants work by different mechanisms: some bind (chelate) calcium so blood cannot clot, others inhibit the clotting cascade. Serum tubes do the opposite — they help blood clot fully so you can spin off clear serum."
+              ],
+              "list": [
+                "<b>Lavender — EDTA</b>: chelates calcium; used for hematology / CBC.",
+                "<b>Light blue — sodium citrate</b>: for coagulation studies; the <b>9:1 blood-to-additive fill ratio is critical</b> — a short draw invalidates the result.",
+                "<b>Green — heparin</b>: inhibits thrombin; used for plasma chemistry.",
+                "<b>Red (plain)</b> and <b>gold / tiger SST</b>: SST adds a <b>clot activator plus a gel separator</b>; both give serum for chemistry.",
+                "<b>Gray — sodium fluoride + potassium oxalate</b>: fluoride inhibits glycolysis to preserve glucose and lactate."
+              ],
+              "note": {
+                "k": "safe",
+                "t": "A light-blue citrate tube must fill completely — the fixed 9:1 ratio means an underfilled tube has too much anticoagulant and will falsely prolong clotting times."
+              }
+            },
+            {
+              "h": "Why you invert — and invert gently",
+              "p": [
+                "The moment an additive tube fills, the additive is only coating the wall; it has to mix with the blood to work. You <b>invert the tube gently several times</b> right after filling — a full end-over-end turn per inversion — so the anticoagulant or clot activator distributes evenly.",
+                "Skip it and an anticoagulated tube forms microclots, ruining a CBC or coagulation study. Do it too hard and you shear red cells, causing <b>hemolysis</b> that wrecks potassium and other chemistries. Gentle and complete is the target — never shake."
+              ],
+              "note": {
+                "k": "evidence",
+                "t": "Inversions are counted per tube type (for example, several for EDTA and citrate) because too few leaves clots and too vigorous a mix causes hemolysis — both reject the sample."
+              }
+            }
+          ],
+          "inter": {
+            "type": "choice",
+            "h": "Pick the tube for the test",
+            "case": "You have an order for a CBC on an adult with good antecubital veins.",
+            "q": "Which tube collects the specimen for a CBC?",
+            "opts": [
+              {
+                "id": "a",
+                "lab": "Light-blue sodium citrate tube",
+                "fb": "That is for coagulation studies with a strict 9:1 fill ratio — not hematology."
+              },
+              {
+                "id": "b",
+                "lab": "Lavender EDTA tube",
+                "ok": true,
+                "fb": "Correct — EDTA chelates calcium and preserves cell morphology, making it the tube for CBC and hematology."
+              },
+              {
+                "id": "c",
+                "lab": "Gray sodium fluoride tube",
+                "fb": "Fluoride preserves glucose by inhibiting glycolysis; it is not used for a CBC."
+              }
+            ]
+          },
+          "tips": [
+            "Reach for a 23G butterfly on hand veins and fragile or pediatric patients — the tubing lets you approach at a shallow angle with control.",
+            "Let each tube fill until the vacuum stops on its own; do not pull it early or the ratio is wrong.",
+            "Invert additive tubes immediately, before you set them down, so the additive never gets a chance to sit unmixed."
+          ],
+          "mistakes": [
+            "Underfilling a light-blue citrate tube and breaking the 9:1 ratio.",
+            "Shaking tubes instead of gently inverting them, causing hemolysis.",
+            "Grabbing a gel SST when the assay requires plain serum or plasma.",
+            "Using a high-gauge needle on a good vein and hemolyzing the sample."
+          ],
+          "takeaways": [
+            "ETS = multi-sample needle + tube holder + vacuum tube.",
+            "21G is standard; 22G for small veins; 23G butterfly for fragile/hand/pediatric.",
+            "Color codes the additive: lavender EDTA, blue citrate, green heparin, red/gold serum, gray fluoride.",
+            "Invert additive tubes gently and completely right after filling — never shake."
+          ],
+          "quiz": [
+            {
+              "q": "Which needle is the standard for routine adult multisample venipuncture?",
+              "opts": [
+                "18G",
+                "21G",
+                "25G"
+              ],
+              "a": 1,
+              "why": "21G balances flow and vein safety and is the standard multisample needle."
+            },
+            {
+              "q": "Why must a light-blue sodium citrate tube be filled completely?",
+              "opts": [
+                "To save reagent",
+                "To preserve the 9:1 blood-to-additive ratio for accurate coagulation results",
+                "To prevent hemolysis"
+              ],
+              "a": 1,
+              "why": "Coagulation testing depends on a fixed 9:1 ratio; underfilling over-anticoagulates the sample."
+            },
+            {
+              "q": "What does the sodium fluoride in a gray-top tube do?",
+              "opts": [
+                "Chelates calcium",
+                "Inhibits glycolysis to preserve glucose",
+                "Activates clotting"
+              ],
+              "a": 1,
+              "why": "Fluoride stops cells from consuming glucose, keeping glucose and lactate results accurate."
+            }
+          ],
+          "refs": "CLSI GP41 (2017); manufacturer tube guides; ASCP/NAACLS phlebotomy competencies."
+        },
+        {
+          "id": "ph_orderofdraw",
+          "title": "Order of draw",
+          "stage": "Phlebotomy · Module 2",
+          "illo": "gauge",
+          "mini": "arm",
+          "lead": "Fill tubes in the wrong sequence and one tube's additive can contaminate the next — turning a normal patient's results into a false emergency. The CLSI order of draw exists to stop that carryover.",
+          "objectives": [
+            "State the CLSI order of draw from first tube to last",
+            "Explain how the sequence prevents additive carryover",
+            "Predict the errors caused by drawing tubes out of order",
+            "Apply the discard-tube rule when using a butterfly for coagulation"
+          ],
+          "sections": [
+            {
+              "h": "Why sequence matters",
+              "p": [
+                "As blood passes through the needle, a trace of additive from one tube can cling to the needle and be carried into the next tube. This <b>additive carryover</b> can change results even when the patient is perfectly normal.",
+                "The classic example: <b>EDTA carryover falsely raises potassium and lowers calcium</b>, because EDTA is potassium-based and binds calcium. Similarly, any additive dragged onto the needle before a coagulation tube can contaminate and invalidate clotting results. The order of draw sequences tubes so that carryover cannot corrupt the tests most sensitive to it."
+              ],
+              "note": {
+                "k": "evidence",
+                "t": "A single out-of-order EDTA draw can produce a critically high potassium on a healthy patient — a false 'panic value' that triggers needless workup."
+              }
+            },
+            {
+              "h": "The CLSI order of draw",
+              "p": [
+                "Draw in this fixed sequence. Sterile and additive-free tubes come first so nothing contaminates them; the strongest, most contaminating additives (EDTA, then fluoride) come last."
+              ],
+              "list": [
+                "1. <b>Blood culture / sterile tubes</b> — first, to protect sterility.",
+                "2. <b>Light-blue sodium citrate</b> — coagulation.",
+                "3. <b>Serum tubes</b> — <b>red (no additive)</b>, then <b>gold / SST</b>.",
+                "4. <b>Green heparin</b> — plasma (PST).",
+                "5. <b>Lavender / EDTA</b> — hematology.",
+                "6. <b>Gray sodium fluoride</b> — glucose / lactate."
+              ],
+              "note": {
+                "k": "safe",
+                "t": "EDTA is drawn near the end and gray last on purpose — their additives are the most damaging if carried into other tubes."
+              }
+            },
+            {
+              "h": "The butterfly discard-tube rule",
+              "p": [
+                "A winged (butterfly) set has a length of tubing that holds air — a <b>dead space</b>. On a <b>coagulation-only draw</b> where the light-blue tube is first, that air would be pulled into the citrate tube and short-fill it, breaking the critical 9:1 ratio.",
+                "The fix: draw a <b>discard tube first</b> to prime the tubing and remove the dead space. The discard tube can be a plain non-additive or another citrate tube; it is not sent for testing — it just fills the line so your citrate tube draws to its full, correct volume."
+              ],
+              "note": {
+                "k": "tip",
+                "t": "You only need the discard tube to displace the tubing's air — it does not have to fill completely."
+              }
+            }
+          ],
+          "inter": {
+            "type": "order",
+            "h": "Build the order of draw",
+            "q": "Tap the tubes into the correct CLSI order of draw, first to last.",
+            "items": [
+              {
+                "id": "1",
+                "txt": "Blood culture bottle"
+              },
+              {
+                "id": "2",
+                "txt": "Light blue — citrate (coag)"
+              },
+              {
+                "id": "3",
+                "txt": "Red / gold SST — serum"
+              },
+              {
+                "id": "4",
+                "txt": "Green — heparin"
+              },
+              {
+                "id": "5",
+                "txt": "Lavender — EDTA"
+              },
+              {
+                "id": "6",
+                "txt": "Gray — fluoride"
+              }
+            ],
+            "fbOk": "Correct — sterile first, then citrate, serum, heparin, EDTA, and fluoride last, so no additive is carried into a tube it would corrupt.",
+            "correct": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6"
+            ]
+          },
+          "tips": [
+            "Memorize the order by its logic: sterile first, most-contaminating additives last.",
+            "When a butterfly is used for a coagulation-only draw, draw a discard tube first to prime the tubing.",
+            "Lay your tubes out in order before you stick, so you are not fumbling with a needle in the vein."
+          ],
+          "mistakes": [
+            "Drawing EDTA before the coagulation or chemistry tubes.",
+            "Skipping the discard tube on a butterfly coag-only draw and short-filling the citrate.",
+            "Drawing the gray fluoride tube before EDTA.",
+            "Filling a blood culture after additive tubes and contaminating it."
+          ],
+          "takeaways": [
+            "Order: culture, blue citrate, red/gold serum, green heparin, lavender EDTA, gray fluoride.",
+            "The sequence prevents additive carryover between tubes.",
+            "EDTA carryover falsely raises potassium and lowers calcium.",
+            "Butterfly coag-only draw: pull a discard tube first to fill the dead space."
+          ],
+          "quiz": [
+            {
+              "q": "Which tube is drawn first in the CLSI order of draw?",
+              "opts": [
+                "Lavender EDTA",
+                "Blood culture / sterile tube",
+                "Gray fluoride"
+              ],
+              "a": 1,
+              "why": "Sterile tubes go first so no additive or skin flora contaminates the culture."
+            },
+            {
+              "q": "What error does EDTA carryover into a chemistry tube cause?",
+              "opts": [
+                "Falsely low potassium",
+                "Falsely high potassium and falsely low calcium",
+                "No effect"
+              ],
+              "a": 1,
+              "why": "EDTA is potassium-based and binds calcium, so carryover raises potassium and lowers calcium."
+            },
+            {
+              "q": "During a butterfly coagulation-only draw, why draw a discard tube first?",
+              "opts": [
+                "To warm the needle",
+                "To fill the tubing's air dead space so the citrate tube fills to the correct 9:1 volume",
+                "To test the vacuum"
+              ],
+              "a": 1,
+              "why": "The tubing holds air that would short-fill the first citrate tube and break the 9:1 ratio."
+            }
+          ],
+          "refs": "CLSI GP41 (2017) order of draw; ASCP/NAACLS phlebotomy competencies."
+        }
+      ]
+    },
+    {
+      "title": "The Draw",
+      "lessons": [
+        {
+          "id": "ph_id_prep",
+          "title": "Patient identification & preparation",
+          "stage": "Phlebotomy · Module 3",
+          "illo": "arm",
+          "mini": "arm",
+          "lead": "The single most dangerous error in phlebotomy is drawing the wrong patient. Everything downstream — the label, the result, the treatment — rides on getting identity right before the needle is anywhere near the arm.",
+          "objectives": [
+            "Identify a patient actively using two independent identifiers matched against the requisition and wristband or ID",
+            "Confirm required pre-draw preparation such as fasting or timed collection",
+            "Position the patient safely and screen for fainting and relevant allergies",
+            "Perform hand hygiene, glove, and explain the procedure to reduce anxiety"
+          ],
+          "sections": [
+            {
+              "h": "Two independent identifiers, every time",
+              "p": [
+                "Identify the patient <b>actively</b>: have them state their <b>full name and date of birth</b> in their own words. Never ask a leading question like \"Are you Mr. Smith?\" — a drowsy, anxious, or hard-of-hearing patient will nod to anything.",
+                "Match those two independent identifiers against the <b>requisition</b> and against a second source: the <b>wristband</b> for an inpatient, or a <b>photo ID</b> (or having the patient state it) for an outpatient. All sources must agree before you proceed."
+              ],
+              "list": [
+                "Identifier 1: full legal name.",
+                "Identifier 2: date of birth.",
+                "Match against the requisition AND the wristband (inpatient) or photo ID / patient statement (outpatient)."
+              ],
+              "note": {
+                "k": "safe",
+                "t": "If any identifier does not match — a nickname, a wrong birth year, a missing wristband — stop and resolve the discrepancy before drawing. Do not label from memory."
+              }
+            },
+            {
+              "h": "Verify the required preparation",
+              "p": [
+                "Some tests are only valid under specific conditions. Confirm the patient met them before you draw, and note any deviation so the lab can interpret the result.",
+                "<b>Fasting</b> is required for tests such as fasting glucose and a lipid panel (typically 8–12 hours, water permitted). <b>Timing</b> matters for drug levels and other timed collections — a therapeutic drug level drawn at the wrong time is worse than useless."
+              ],
+              "list": [
+                "Fasting glucose and lipid panel — confirm the fasting window was kept.",
+                "Therapeutic drug monitoring — confirm peak vs. trough timing.",
+                "Any timed test — record the actual collection time."
+              ],
+              "note": {
+                "k": "tip",
+                "t": "Ask \"When did you last eat or drink anything besides water?\" rather than \"Are you fasting?\" — you get a truthful answer instead of a guess."
+              }
+            },
+            {
+              "h": "Position, screen, and prepare",
+              "p": [
+                "Seat the patient with the <b>arm supported and extended slightly downward</b>, or place them <b>supine</b>. Never draw a patient perched on a stool, standing, or in a chair they could fall out of.",
+                "Ask about <b>prior fainting</b> during blood draws; a patient at risk of <b>syncope</b> should be reclined or supine, never drawn standing. Check for <b>latex and adhesive allergies</b> before choosing gloves and bandage. Perform <b>hand hygiene, then glove</b>, and briefly explain what you are about to do — a calm explanation lowers anxiety and the vasovagal risk that comes with it."
+              ],
+              "note": {
+                "k": "safe",
+                "t": "A history of fainting is a red flag: recline the patient first. A syncopal episode with a needle in the arm can cause serious injury."
+              }
+            }
+          ],
+          "inter": {
+            "type": "choice",
+            "h": "Confirming identity",
+            "case": "You approach an inpatient with a requisition for a metabolic panel. The patient looks sleepy.",
+            "q": "What is the correct way to confirm you have the right patient?",
+            "opts": [
+              {
+                "id": "a",
+                "lab": "Ask \"You're Mrs. Johnson, right?\" and proceed when she nods",
+                "fb": "No — a leading question invites a false yes. A drowsy patient may agree to any name."
+              },
+              {
+                "id": "b",
+                "lab": "Have her state her full name and date of birth, and match both to the requisition and wristband",
+                "ok": true,
+                "fb": "Correct — two independent identifiers, stated actively and matched against the requisition and the wristband."
+              },
+              {
+                "id": "c",
+                "lab": "Check the wristband alone since it is the official record",
+                "fb": "Not enough — the band must be matched against what the patient states and the requisition; bands can be mixed up."
+              }
+            ]
+          },
+          "tips": [
+            "Have the patient spell an unusual name; it catches label errors before they happen.",
+            "Ask about the fasting window in plain language — \"when did you last eat?\" — not yes/no.",
+            "Recline any patient who reports a history of fainting before you touch the arm."
+          ],
+          "mistakes": [
+            "Asking a leading question like \"Are you Mr. Smith?\" instead of having the patient state their name.",
+            "Using only one identifier, or trusting the wristband without matching the requisition.",
+            "Drawing a patient standing or on a high stool despite a fainting history.",
+            "Skipping the fasting or timing check and invalidating the result."
+          ],
+          "takeaways": [
+            "Two independent identifiers — full name and date of birth — stated actively and matched to requisition plus wristband or ID.",
+            "Confirm fasting and timing before you draw.",
+            "Screen for fainting and allergies; position and recline for safety.",
+            "Hand hygiene, then gloves, then a calm explanation."
+          ],
+          "quiz": [
+            {
+              "q": "Which is an acceptable pair of independent identifiers?",
+              "opts": [
+                "Room number and bed number",
+                "Full name and date of birth",
+                "Diagnosis and physician name"
+              ],
+              "a": 1,
+              "why": "Full name and date of birth are two independent, patient-specific identifiers required for active identification."
+            },
+            {
+              "q": "How should you confirm a patient's identity?",
+              "opts": [
+                "Ask them to confirm the name you read aloud",
+                "Have them state their name and date of birth in their own words",
+                "Rely on the wristband alone"
+              ],
+              "a": 1,
+              "why": "Active identification means the patient states their identifiers; you never lead with the name."
+            },
+            {
+              "q": "A patient reports fainting at their last blood draw. What do you do?",
+              "opts": [
+                "Draw quickly while they are seated upright",
+                "Recline or lay the patient supine before drawing",
+                "Refuse to draw the patient"
+              ],
+              "a": 1,
+              "why": "A syncope history calls for a reclined or supine position to prevent injury from fainting."
+            }
+          ],
+          "refs": "CLSI GP41 (2017); ASCP/NAACLS competencies; The Joint Commission NPSG.01.01.01."
+        },
+        {
+          "id": "ph_site",
+          "title": "Site selection & the tourniquet",
+          "stage": "Phlebotomy · Module 3",
+          "illo": "arm",
+          "mini": "arm",
+          "lead": "The tourniquet and the alcohol prep are where good technique is won or lost. A tourniquet left on too long or an arm chosen without checking history can turn a clean draw into a bad result — or harm.",
+          "objectives": [
+            "Apply and time the tourniquet correctly to avoid hemoconcentration",
+            "Palpate to select a springy, non-pulsatile vein",
+            "Cleanse the site with 70% isopropyl alcohol and let it air-dry",
+            "Recognize arms and sites that must be avoided"
+          ],
+          "sections": [
+            {
+              "h": "The tourniquet: placement and the one-minute rule",
+              "p": [
+                "Apply the tourniquet <b>3–4 inches (7.5–10 cm) above</b> the intended puncture site — snug enough to distend the veins but not so tight it obstructs arterial flow. It should be easy to release with one pull.",
+                "Leave it on <b>no more than 1 minute</b>. Prolonged application causes <b>hemoconcentration</b> — plasma leaves the vessel and cell-bound and protein-bound analytes falsely rise. If you need more time to find a vein, <b>release and reapply</b> after a short pause."
+              ],
+              "note": {
+                "k": "evidence",
+                "t": "Beyond a minute, hemostasis under the tourniquet concentrates the sample and falsely elevates results such as potassium, total protein, and calcium."
+              }
+            },
+            {
+              "h": "Palpate, then cleanse and let it dry",
+              "p": [
+                "Palpate with a fingertip to locate the vein and confirm it is <b>springy and non-pulsatile</b> — a pulsating vessel is an artery; do not stick it. Note its depth and direction.",
+                "Cleanse with <b>70% isopropyl alcohol</b> in a <b>circular, outward</b> motion from the center, and then <b>let it air-dry</b>. Wet alcohol stings on entry and <b>hemolyzes</b> the sample. Do not re-palpate the cleaned site; if you must touch it again, re-cleanse first."
+              ],
+              "list": [
+                "Palpate to confirm a springy, non-pulsatile vein.",
+                "Cleanse with 70% isopropyl alcohol, circular and outward.",
+                "Let the site air-dry completely before puncture.",
+                "Do not re-palpate the cleaned site (or re-cleanse if you do)."
+              ],
+              "note": {
+                "k": "tip",
+                "t": "Give the alcohol 30 seconds to dry. If you are tempted to fan or blow on it, don't — that recontaminates the site."
+              }
+            },
+            {
+              "h": "Arms and sites to avoid",
+              "p": [
+                "Some sites raise the risk of a false result or real harm. Choose a different arm or site — or get provider permission — when any of the following apply."
+              ],
+              "list": [
+                "Same side as a <b>mastectomy</b> (lymphedema and infection risk).",
+                "An arm with an <b>active IV or infusion</b> — use the other arm, or draw well below the IV if there is no alternative.",
+                "A <b>hematoma</b>, or scarred, burned, or heavily <b>tattooed</b> skin.",
+                "<b>Edematous</b> (swollen) tissue — the fluid dilutes the sample.",
+                "An <b>AV fistula or graft</b> — never apply a tourniquet or draw there.",
+                "<b>Foot or ankle</b> veins require provider permission."
+              ],
+              "note": {
+                "k": "safe",
+                "t": "Drawing above an IV pulls infusing fluid into your sample and drawing from a fistula can damage a dialysis patient's access — both are avoidable errors."
+              }
+            }
+          ],
+          "inter": {
+            "type": "choice",
+            "h": "Tourniquet timing",
+            "case": "You have been searching for a good vein and the tourniquet has been on for about 90 seconds.",
+            "q": "What should you do before drawing?",
+            "opts": [
+              {
+                "id": "a",
+                "lab": "Draw now — the vein is finally standing up",
+                "fb": "No — beyond one minute the sample is hemoconcentrated and several analytes will read falsely high."
+              },
+              {
+                "id": "b",
+                "lab": "Release the tourniquet, wait a couple of minutes, then reapply and draw",
+                "ok": true,
+                "fb": "Correct — releasing and reapplying resets the one-minute window and prevents hemoconcentration."
+              },
+              {
+                "id": "c",
+                "lab": "Loosen it slightly but keep it in place to save time",
+                "fb": "Not enough — the blood is already concentrated; you must fully release and pause before reapplying."
+              }
+            ]
+          },
+          "tips": [
+            "Anchor the tourniquet with a quick-release tuck so one pull frees it.",
+            "If a vein won't come up, warm the site or lower the arm instead of leaving the tourniquet on.",
+            "Cleanse in one direction, center outward, and let the alcohol dry on its own."
+          ],
+          "mistakes": [
+            "Leaving the tourniquet on longer than a minute and hemoconcentrating the sample.",
+            "Puncturing before the alcohol dries, causing stinging and hemolysis.",
+            "Re-palpating the cleaned site with a bare finger.",
+            "Drawing from an arm with an IV, a fistula, or on the mastectomy side."
+          ],
+          "takeaways": [
+            "Tourniquet 3–4 inches above the site, on for no more than one minute.",
+            "Palpate for a springy, non-pulsatile vein.",
+            "70% isopropyl alcohol, circular and outward, then air-dry.",
+            "Avoid the mastectomy side, IV arm, hematoma, scarred/tattooed skin, edema, and AV access."
+          ],
+          "quiz": [
+            {
+              "q": "How far above the site should the tourniquet go?",
+              "opts": [
+                "1 inch",
+                "3–4 inches (7.5–10 cm)",
+                "6–8 inches"
+              ],
+              "a": 1,
+              "why": "Placing it 3–4 inches above distends the veins without occluding arterial flow."
+            },
+            {
+              "q": "Why must the alcohol air-dry before puncture?",
+              "opts": [
+                "To sterilize the deeper tissue",
+                "Wet alcohol stings and hemolyzes the sample",
+                "To make the vein easier to see"
+              ],
+              "a": 1,
+              "why": "Entering through wet alcohol causes patient stinging and hemolysis of the specimen."
+            },
+            {
+              "q": "Which arm should you avoid drawing from?",
+              "opts": [
+                "The non-dominant arm",
+                "The arm on the same side as a mastectomy",
+                "An arm the patient prefers"
+              ],
+              "a": 1,
+              "why": "The post-mastectomy side carries lymphedema and infection risk and should be avoided."
+            }
+          ],
+          "refs": "CLSI GP41 (2017); ASCP/NAACLS competencies."
+        },
+        {
+          "id": "ph_technique",
+          "title": "Venipuncture technique",
+          "stage": "Phlebotomy · Module 3",
+          "illo": "venipuncture",
+          "mini": "arm",
+          "lead": "Once identity, site, and prep are set, the puncture itself is a short, ordered sequence. Do the steps in the right order and the draw is smooth, safe, and clean; skip or reorder one and you risk a blown vein, a hemolyzed sample, or a needlestick.",
+          "objectives": [
+            "Insert the needle bevel-up at a controlled angle after anchoring the vein",
+            "Fill and change tubes correctly, respecting the order of draw and additive mixing",
+            "Release the tourniquet before withdrawing the needle",
+            "Withdraw safely, activate the safety device, and secure hemostasis"
+          ],
+          "sections": [
+            {
+              "h": "Anchor and enter",
+              "p": [
+                "Position the needle <b>bevel up</b>. Anchor the skin <b>taut with your thumb 1–2 inches below</b> the site to stop the vein rolling, and keep your thumb below and away from the needle path.",
+                "Insert in <b>one smooth motion</b> at a <b>15–30° angle</b> to the skin. A shallow, deliberate entry finds the lumen cleanly; a steep or hesitant jab pushes through the back wall."
+              ],
+              "note": {
+                "k": "tip",
+                "t": "A small flash of blood in the hub confirms you are in the vein. Hold the needle still once you see it."
+              }
+            },
+            {
+              "h": "Fill, change, and mix tubes",
+              "p": [
+                "Seat the tube onto the needle in the holder and let the <b>vacuum fill it fully</b> — don't pull the tube off early. <b>Fill citrate (light-blue) tubes completely</b> to preserve the <b>9:1</b> blood-to-additive ratio; an underfilled coagulation tube gives falsely prolonged times.",
+                "Change tubes following the <b>order of draw</b>, and <b>invert additive tubes</b> gently the required number of times immediately after filling. Do not shake — vigorous mixing hemolyzes the sample."
+              ],
+              "note": {
+                "k": "evidence",
+                "t": "The 9:1 ratio in a citrate tube is calibrated for a full draw; short-filling changes the ratio and skews PT/INR and aPTT."
+              }
+            },
+            {
+              "h": "Release, withdraw, and secure",
+              "p": [
+                "<b>Release the tourniquet before you withdraw the needle</b> — and before it has been on a full minute. Withdrawing against a tight tourniquet forces blood out of the site.",
+                "Place <b>gauze</b> over the site without pressing, withdraw the needle <b>smoothly</b>, and <b>immediately activate the needle safety device</b>. Then apply <b>firm pressure with the arm held straight</b> — not bent, which reopens the puncture and bruises — until bleeding stops, and bandage."
+              ],
+              "note": {
+                "k": "safe",
+                "t": "Activate the safety device the instant the needle clears the skin. The window between withdrawal and activation is when most needlesticks happen."
+              }
+            }
+          ],
+          "inter": {
+            "type": "order",
+            "h": "Order the venipuncture steps",
+            "q": "Tap the steps into the correct order for a routine venipuncture.",
+            "items": [
+              {
+                "id": "1",
+                "txt": "Anchor the vein"
+              },
+              {
+                "id": "2",
+                "txt": "Insert bevel-up at 15–30°"
+              },
+              {
+                "id": "3",
+                "txt": "Fill tubes in order of draw"
+              },
+              {
+                "id": "4",
+                "txt": "Release the tourniquet"
+              },
+              {
+                "id": "5",
+                "txt": "Withdraw the needle over gauze"
+              },
+              {
+                "id": "6",
+                "txt": "Activate the safety device"
+              },
+              {
+                "id": "7",
+                "txt": "Apply pressure & bandage"
+              }
+            ],
+            "fbOk": "Exactly right — anchor, enter, fill, release the tourniquet, withdraw over gauze, activate the safety, then pressure and bandage.",
+            "correct": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7"
+            ]
+          },
+          "tips": [
+            "Keep the needle still while tubes change; movement in the vein is what bruises.",
+            "Invert additive tubes as you go rather than saving them all for the end.",
+            "Have the gauze ready in your free hand before you withdraw."
+          ],
+          "mistakes": [
+            "Inserting bevel-down or at too steep an angle and hitting the back wall.",
+            "Underfilling a citrate tube and ruining the 9:1 ratio.",
+            "Withdrawing the needle before releasing the tourniquet.",
+            "Failing to activate the safety device immediately, risking a needlestick."
+          ],
+          "takeaways": [
+            "Bevel up, anchor taut, insert at 15–30° in one motion.",
+            "Fill tubes fully in order of draw and invert additive tubes gently.",
+            "Release the tourniquet before withdrawing the needle.",
+            "Withdraw over gauze, activate the safety, then firm pressure on a straight arm."
+          ],
+          "quiz": [
+            {
+              "q": "At what angle should the needle enter the skin?",
+              "opts": [
+                "45–60°",
+                "15–30°",
+                "Flat, nearly parallel"
+              ],
+              "a": 1,
+              "why": "A 15–30° angle enters the lumen cleanly without punching through the far wall."
+            },
+            {
+              "q": "When should the tourniquet be released?",
+              "opts": [
+                "After the needle is withdrawn",
+                "Before the needle is withdrawn",
+                "It is left on until bandaging"
+              ],
+              "a": 1,
+              "why": "Releasing before withdrawal prevents blood being forced out of the puncture and limits hemoconcentration."
+            },
+            {
+              "q": "What must you do immediately after the needle clears the skin?",
+              "opts": [
+                "Label the tubes",
+                "Activate the needle safety device",
+                "Remove your gloves"
+              ],
+              "a": 1,
+              "why": "Immediate safety activation closes the window when most accidental needlesticks occur."
+            }
+          ],
+          "refs": "CLSI GP41 (2017); OSHA Bloodborne Pathogens Standard; ASCP."
+        }
+      ]
+    },
+    {
+      "title": "Complications & Special Collections",
+      "lessons": [
+        {
+          "id": "ph_complications",
+          "title": "Complications & how to respond",
+          "stage": "Phlebotomy · Module 4",
+          "illo": "cx_hematoma",
+          "mini": "arm",
+          "lead": "Most draws are uneventful, but the ones that aren't demand a fast, correct response. Knowing the difference between a bruise and a nerve injury — and what to do in the next few seconds — is what separates a competent phlebotomist from a dangerous one.",
+          "objectives": [
+            "Recognize and respond to hematoma, hemolysis, and nerve injury",
+            "Manage vasovagal syncope and protect a fainting patient",
+            "Apply the two-attempt rule and know when to escalate",
+            "Identify an arterial puncture and respond correctly"
+          ],
+          "sections": [
+            {
+              "h": "Hematoma, hemolysis, and petechiae",
+              "p": [
+                "A <b>hematoma</b> — swelling and blood leaking under the skin — means the vessel is compromised. <b>Release the tourniquet, remove the needle, and apply firm pressure</b> until it stops. Do not keep advancing.",
+                "<b>Hemolysis</b> ruptures red cells and spills their contents into the plasma, <b>falsely elevating potassium, LDH,</b> and other intracellular analytes. Its common causes are avoidable: a too-small needle with syringe force, vigorous shaking or mixing, drawing through a hematoma, puncturing through wet alcohol, and underfilling an additive tube. <b>Petechiae</b> — tiny red spots — can appear from tourniquet pressure or a clotting problem and warn that bleeding may be prolonged."
+              ],
+              "list": [
+                "Hematoma: release tourniquet, remove needle, firm pressure.",
+                "Hemolysis causes: small needle + syringe force, shaking, drawing through a hematoma, wet alcohol, underfilled additive tube.",
+                "Hemolysis effect: falsely elevated potassium, LDH, and similar analytes."
+              ],
+              "note": {
+                "k": "evidence",
+                "t": "A hemolyzed potassium can read dangerously high and trigger unnecessary treatment — a preventable error that starts at the needle."
+              }
+            },
+            {
+              "h": "Nerve injury and vasovagal syncope",
+              "p": [
+                "If the patient feels <b>sudden sharp, shooting, or electric pain, or numbness</b> radiating down the arm, you may have contacted a nerve — <b>remove the needle immediately</b> and select a new site. Do not reposition and dig.",
+                "<b>Vasovagal syncope</b> (fainting) can come on fast: pallor, sweating, lightheadedness. <b>Stop the draw, lower the patient's head,</b> apply a <b>cold compress</b>, and <b>stay with them — never leave a fainting patient alone.</b> Protect them from falling and keep the airway clear."
+              ],
+              "note": {
+                "k": "safe",
+                "t": "Shooting or electric pain is a nerve warning, not a normal stick. The needle comes out at once — pushing on risks lasting nerve damage."
+              }
+            },
+            {
+              "h": "Over-drawing, the two-attempt rule, and arterial puncture",
+              "p": [
+                "Repeated or high-volume draws cause <b>iatrogenic anemia</b>, especially in small or frequently tested patients — take only what is needed. Follow the <b>two-attempt rule</b>: no more than two attempts, then <b>escalate</b> to a colleague or the phlebotomy/vascular access team rather than sticking again.",
+                "<b>Arterial puncture</b> shows <b>bright-red, pulsating</b> blood that fills the tube rapidly. <b>Remove the needle and hold firm pressure for at least 5 minutes,</b> then notify the appropriate staff and document. Confirm bleeding has fully stopped before the patient leaves."
+              ],
+              "note": {
+                "k": "safe",
+                "t": "Two attempts is the ceiling, not a target. Escalating is a sign of good judgment, not failure."
+              }
+            }
+          ],
+          "inter": {
+            "type": "choice",
+            "h": "Sudden shooting pain",
+            "case": "As you advance the needle, the patient cries out with sharp electric pain shooting toward the hand.",
+            "q": "What is your immediate action?",
+            "opts": [
+              {
+                "id": "a",
+                "lab": "Reposition the needle slightly and continue the draw",
+                "fb": "No — probing near a nerve risks lasting injury. The needle must come out."
+              },
+              {
+                "id": "b",
+                "lab": "Remove the needle immediately and choose a new site",
+                "ok": true,
+                "fb": "Correct — sharp, shooting, electric pain signals nerve contact; withdraw at once."
+              },
+              {
+                "id": "c",
+                "lab": "Ask the patient to tolerate it since the tube is nearly full",
+                "fb": "No — nerve pain is never something to push through; withdraw immediately."
+              }
+            ]
+          },
+          "tips": [
+            "Watch the patient's face, not just the tube — pallor and sweat precede a faint.",
+            "Keep a cold compress within reach for the first sign of syncope.",
+            "If the first two sticks fail, hand off; a fresh set of eyes finds the vein.",
+            "Bright-red pulsating blood means artery — pressure for at least five minutes."
+          ],
+          "mistakes": [
+            "Advancing or repositioning the needle after the patient reports shooting pain.",
+            "Shaking additive tubes or drawing through a hematoma, causing hemolysis.",
+            "Leaving a fainting patient alone to get help.",
+            "Making a third, fourth, or fifth attempt instead of escalating."
+          ],
+          "takeaways": [
+            "Hematoma: release tourniquet, remove needle, firm pressure.",
+            "Shooting/electric pain: remove the needle immediately.",
+            "Fainting: stop, lower the head, cold compress, and never leave the patient.",
+            "Two attempts maximum; arterial puncture means at least 5 minutes of pressure and notify."
+          ],
+          "quiz": [
+            {
+              "q": "A patient reports sudden electric, shooting pain down the arm during insertion. What do you do?",
+              "opts": [
+                "Continue slowly",
+                "Remove the needle immediately",
+                "Loosen the tourniquet and wait"
+              ],
+              "a": 1,
+              "why": "Shooting or electric pain signals nerve contact and requires immediate needle removal."
+            },
+            {
+              "q": "Which finding indicates an arterial puncture?",
+              "opts": [
+                "Dark, slow-filling blood",
+                "Bright-red, pulsating, rapidly filling blood",
+                "No blood return"
+              ],
+              "a": 1,
+              "why": "Arterial blood is bright red and pulsates, filling the tube rapidly; hold pressure at least 5 minutes."
+            },
+            {
+              "q": "After two unsuccessful attempts, what is the correct action?",
+              "opts": [
+                "Try a third time on the other arm",
+                "Escalate to a colleague or the vascular access team",
+                "Send the patient home"
+              ],
+              "a": 1,
+              "why": "The two-attempt rule caps attempts at two; beyond that you escalate rather than repeat."
+            }
+          ],
+          "refs": "CLSI GP41 (2017); ASCP/NAACLS competencies; OSHA."
+        },
+        {
+          "id": "ph_capillary",
+          "title": "Capillary (dermal) puncture",
+          "stage": "Phlebotomy · Module 4",
+          "illo": "layers",
+          "mini": "arm",
+          "lead": "When a full venous draw isn't needed or isn't possible — a fingerstick glucose, a tiny infant, or veins you simply can't reach — a capillary puncture is the answer. But the site, the depth, and even the order of collection are different, and getting them wrong can injure a patient or ruin the sample.",
+          "objectives": [
+            "Identify when a capillary puncture is indicated",
+            "Select the correct site for adults and for infants",
+            "Perform the puncture with correct depth and technique",
+            "Collect in the capillary order and avoid tissue-fluid contamination"
+          ],
+          "sections": [
+            {
+              "h": "When to use it, and where",
+              "p": [
+                "Capillary (dermal) puncture suits <b>point-of-care glucose</b>, <b>small-volume</b> tests, <b>infants and young children</b>, and patients with <b>difficult venous access</b>. It yields a mix of capillary, venous, and arterial blood plus tissue fluid.",
+                "For an <b>adult or older child</b>, use the <b>palmar surface of the distal (last) segment of the middle or ring finger, off to the side of center</b> — not the very tip and not the side of the finger. For an <b>infant under 1 year</b>, use the <b>medial or lateral plantar surface of the heel only.</b>"
+              ],
+              "list": [
+                "Indications: POC glucose, small volume, infants/children, difficult venous access.",
+                "Adult/older child: side of center of the last segment of the middle or ring finger.",
+                "Infant (<1 yr): medial or lateral plantar heel surface only."
+              ],
+              "note": {
+                "k": "safe",
+                "t": "Never puncture the center or arch of an infant's heel, the back of the heel, or a previous site — the bone is close beneath and you risk osteomyelitis and nerve injury."
+              }
+            },
+            {
+              "h": "Depth, warming, and the first drop",
+              "p": [
+                "Keep the puncture <b>depth under 2.0 mm</b> in an infant to stay clear of bone. <b>Warm the site</b> (a warm cloth for a few minutes) to increase blood flow and make collection easier.",
+                "After the puncture, <b>wipe away the first drop</b> — it is contaminated with tissue fluid and skews results. Do <b>not strongly milk or squeeze</b> the finger or heel; excessive pressure causes <b>hemolysis and tissue-fluid contamination</b>. Gentle, intermittent pressure with the site held downward gives the best drops."
+              ],
+              "note": {
+                "k": "tip",
+                "t": "Warming can roughly double capillary flow — a minute with a warm compress often saves you from squeezing."
+              }
+            },
+            {
+              "h": "The capillary order of collection is reversed",
+              "p": [
+                "Because a dermal puncture starts to clot quickly, the collection order is <b>different from — essentially the reverse of — the venous order of draw.</b> Collect the tests most sensitive to clotting and platelet clumping first.",
+                "Collect <b>EDTA (hematology) tubes first,</b> then other <b>additive</b> tubes, then <b>serum</b> tubes last. This captures platelets and cell counts before clotting begins and distorts them."
+              ],
+              "list": [
+                "1. EDTA (hematology) first.",
+                "2. Other additive tubes.",
+                "3. Serum tubes last."
+              ],
+              "note": {
+                "k": "evidence",
+                "t": "Capillary blood clots fast, so EDTA goes first — the opposite of venous order — to protect the platelet count and CBC from clumping."
+              }
+            }
+          ],
+          "inter": {
+            "type": "choice",
+            "h": "Choosing the infant site",
+            "case": "You need a small blood sample from a 3-month-old for a bilirubin level.",
+            "q": "Which site do you use?",
+            "opts": [
+              {
+                "id": "a",
+                "lab": "The center (arch) of the heel",
+                "fb": "No — the center and arch sit over bone; puncturing there risks nerve and bone injury."
+              },
+              {
+                "id": "b",
+                "lab": "The medial or lateral plantar surface of the heel",
+                "ok": true,
+                "fb": "Correct — the side portions of the plantar heel are the only safe sites in an infant under one year."
+              },
+              {
+                "id": "c",
+                "lab": "The tip of the big toe",
+                "fb": "No — the toe is not a recommended capillary site; use the medial or lateral plantar heel."
+              }
+            ]
+          },
+          "tips": [
+            "Warm the site before you puncture; it beats squeezing every time.",
+            "Always wipe away the first drop before you start filling.",
+            "Hold the finger or heel downward and use gentle, intermittent pressure."
+          ],
+          "mistakes": [
+            "Puncturing the center or arch of an infant's heel, or a previous site.",
+            "Squeezing hard, which hemolyzes the sample and adds tissue fluid.",
+            "Including the first drop instead of wiping it away.",
+            "Collecting in venous order instead of EDTA-first for capillary."
+          ],
+          "takeaways": [
+            "Capillary puncture for POC glucose, small volumes, infants, and difficult access.",
+            "Adult: side of center of the last segment of the middle or ring finger. Infant: medial/lateral plantar heel, depth < 2.0 mm.",
+            "Warm the site, wipe the first drop, do not milk hard.",
+            "Capillary order is reversed — EDTA first, additives next, serum last."
+          ],
+          "quiz": [
+            {
+              "q": "Where do you perform a capillary puncture on an adult?",
+              "opts": [
+                "The very tip of the index finger",
+                "The side of center of the last segment of the middle or ring finger",
+                "The pad of the thumb"
+              ],
+              "a": 1,
+              "why": "The distal segment of the middle or ring finger, off to the side of center, is the standard adult dermal site."
+            },
+            {
+              "q": "Why is the first drop of blood wiped away?",
+              "opts": [
+                "To reduce pain",
+                "It is contaminated with tissue fluid",
+                "To speed up clotting"
+              ],
+              "a": 1,
+              "why": "The first drop contains tissue fluid that would skew the results."
+            },
+            {
+              "q": "What is collected first in a capillary draw?",
+              "opts": [
+                "Serum tubes",
+                "EDTA (hematology) tubes",
+                "Coagulation tubes"
+              ],
+              "a": 1,
+              "why": "Capillary blood clots quickly, so EDTA is collected first to protect the cell counts — the reverse of venous order."
+            }
+          ],
+          "refs": "CLSI GP42 (2020); ASCP/NAACLS competencies."
+        },
+        {
+          "id": "ph_special",
+          "title": "Special & difficult draws",
+          "stage": "Phlebotomy · Module 4",
+          "illo": "special_pops",
+          "mini": "arm",
+          "lead": "The routine draw you have practiced changes at the extremes of age and in patients whose veins fight you. Adjusting your equipment, angle, and approach — and knowing when to escalate — is what keeps these draws safe and successful.",
+          "objectives": [
+            "Adapt technique for pediatric and geriatric patients",
+            "Manage obese, edematous, and dehydrated patients",
+            "Collect blood cultures with strict aseptic technique",
+            "Handle fasting, timed, and therapeutic drug monitoring draws and escalate difficult access"
+          ],
+          "sections": [
+            {
+              "h": "The extremes of age",
+              "p": [
+                "For <b>pediatric</b> patients, use a <b>winged (butterfly) set</b> and <b>smaller-volume tubes</b>, employ <b>comfort holds and distraction</b>, follow the <b>same order of draw</b>, and <b>watch the total volume drawn</b> against the child's size to avoid iatrogenic anemia.",
+                "<b>Geriatric</b> patients have <b>fragile, rolling veins and thin skin.</b> <b>Anchor the vein well,</b> use a <b>lower insertion angle and less tourniquet tension,</b> and consider a <b>butterfly</b> for better control. Excess tourniquet pressure can rupture a fragile vein before you even enter it."
+              ],
+              "note": {
+                "k": "tip",
+                "t": "A butterfly set with lighter tourniquet tension gives you the control that fragile pediatric and geriatric veins demand."
+              }
+            },
+            {
+              "h": "Hard-to-find veins",
+              "p": [
+                "In <b>obese</b> patients veins are deep and hard to palpate — rely on feel over sight and take time to map the vein. In <b>edematous</b> tissue, avoid the swollen area entirely; the fluid dilutes the sample and the vein is displaced.",
+                "<b>Dehydrated</b> patients have collapsed, poorly filling veins. Warming, hydration where appropriate, and gravity (lowering the arm) help, but do not chase a vein with repeated blind sticks."
+              ],
+              "list": [
+                "Obese: palpate carefully; veins are deep, not always visible.",
+                "Edematous: avoid the swollen tissue — it dilutes the sample.",
+                "Dehydrated: expect collapsed veins; warm, position, and don't stick blindly."
+              ],
+              "note": {
+                "k": "safe",
+                "t": "Never draw through edematous tissue — the interstitial fluid contaminates the specimen and the underlying vein is displaced and easily missed."
+              }
+            },
+            {
+              "h": "Blood cultures and timed draws",
+              "p": [
+                "<b>Blood cultures</b> demand <b>strict aseptic preparation</b>: cleanse thoroughly, let it dry, and <b>do not re-touch the site.</b> Collect the <b>correct volume into the aerobic and anaerobic bottles</b> and typically draw from <b>two sites</b> to distinguish true infection from contamination.",
+                "<b>Fasting, timed, and therapeutic drug monitoring (TDM)</b> draws hinge on timing. TDM distinguishes a <b>peak</b> (drawn after a dose reaches maximum concentration) from a <b>trough</b> (drawn just before the next dose). Draw at the ordered time and record it. When access is <b>genuinely difficult, escalate</b> rather than repeat blind attempts."
+              ],
+              "note": {
+                "k": "evidence",
+                "t": "Re-touching a prepped blood-culture site is the classic source of a contaminated culture — a false positive that can mean days of unnecessary antibiotics."
+              }
+            }
+          ],
+          "inter": {
+            "type": "choice",
+            "h": "The fragile geriatric vein",
+            "case": "An elderly patient has thin skin and veins that roll under your finger.",
+            "q": "How do you adjust your technique?",
+            "opts": [
+              {
+                "id": "a",
+                "lab": "Apply a tighter tourniquet and use a steeper angle to catch the vein fast",
+                "fb": "No — high tension and a steep angle can rupture a fragile vein and blow the stick."
+              },
+              {
+                "id": "b",
+                "lab": "Anchor well, lower the angle, reduce tourniquet tension, and consider a butterfly",
+                "ok": true,
+                "fb": "Correct — anchoring, a shallow angle, and gentle tension protect fragile rolling veins; a butterfly adds control."
+              },
+              {
+                "id": "c",
+                "lab": "Skip the tourniquet entirely and rely on gravity alone",
+                "fb": "Not quite — some light tension still helps; the key is less tension, better anchoring, and a lower angle."
+              }
+            ]
+          },
+          "tips": [
+            "Reach for a butterfly and smaller tubes when veins are fragile or small.",
+            "Distraction and a comfortable hold make pediatric draws faster and calmer.",
+            "For blood cultures, prep, let dry, and never re-palpate the site.",
+            "Confirm whether a drug level is a peak or a trough before you draw."
+          ],
+          "mistakes": [
+            "Using full tourniquet tension and a steep angle on a fragile geriatric vein.",
+            "Drawing through edematous tissue and diluting the sample.",
+            "Re-touching a prepped blood-culture site and contaminating it.",
+            "Repeating blind sticks on difficult access instead of escalating."
+          ],
+          "takeaways": [
+            "Pediatric: butterfly, small tubes, comfort holds, watch total volume.",
+            "Geriatric: anchor well, lower angle, less tourniquet tension, consider a butterfly.",
+            "Avoid edematous tissue; palpate carefully in obese and dehydrated patients.",
+            "Blood cultures: strict asepsis, no re-touch, two sites; know peak vs. trough; escalate difficult access."
+          ],
+          "quiz": [
+            {
+              "q": "What is the best approach for a fragile, rolling geriatric vein?",
+              "opts": [
+                "Tighter tourniquet and steeper angle",
+                "Anchor well, lower angle, less tourniquet tension",
+                "No anchoring, quick jab"
+              ],
+              "a": 1,
+              "why": "Good anchoring, a shallow angle, and gentle tension protect fragile veins and reduce rupture."
+            },
+            {
+              "q": "Why must you not re-touch a prepped blood-culture site?",
+              "opts": [
+                "It wastes time",
+                "It contaminates the culture and causes false positives",
+                "It hurts the patient"
+              ],
+              "a": 1,
+              "why": "Re-palpating a disinfected site reintroduces skin flora and is a leading cause of contaminated cultures."
+            },
+            {
+              "q": "A trough drug level is drawn when?",
+              "opts": [
+                "Right after the dose is given",
+                "Just before the next dose",
+                "At any convenient time"
+              ],
+              "a": 1,
+              "why": "A trough is the lowest concentration, drawn immediately before the next dose."
+            }
+          ],
+          "refs": "CLSI GP41 (2017); CLSI GP42 (2020); ASCP/NAACLS competencies."
+        }
+      ]
+    },
+    {
+      "title": "After the Draw",
+      "lessons": [
+        {
+          "id": "ph_handling",
+          "title": "Labeling, handling & transport",
+          "stage": "Phlebotomy · Module 5",
+          "illo": "arm",
+          "mini": "arm",
+          "lead": "A perfect stick is wasted if the tube is mislabeled, shaken, or left to sit. What you do in the 60 seconds after the needle comes out decides whether the lab can trust the result.",
+          "objectives": [
+            "Label every tube at the bedside, in the patient's presence, immediately after collection",
+            "State the required label elements and mix additive tubes correctly",
+            "Apply handling rules for light, temperature, and clotting",
+            "Recognize the specimen rejection criteria that force a redraw"
+          ],
+          "sections": [
+            {
+              "h": "Label at the bedside — every time",
+              "p": [
+                "Label the tubes <b>at the bedside, immediately, in the patient's presence</b> — before you leave the room and before you do anything else. <b>Never pre-label</b> empty tubes and <b>never label away from the patient</b>. Pre-labeling and hallway labeling are the two habits behind most wrong-patient errors.",
+                "Confirm identity against the label using two identifiers, and let the patient confirm their name and date of birth if able. The label ties this blood to this person; get it wrong and every downstream result is dangerous."
+              ],
+              "list": [
+                "Patient <b>full name</b>",
+                "<b>ID / MRN</b> (medical record number)",
+                "<b>Date of birth</b>",
+                "<b>Date and time</b> of collection",
+                "The <b>collector's initials</b>"
+              ],
+              "note": {
+                "k": "safe",
+                "t": "If you cannot label at the bedside in the patient's presence, do not collect. An unlabeled tube leaving the room is a wrong-patient event waiting to happen."
+              }
+            },
+            {
+              "h": "Mix, protect, and time",
+              "p": [
+                "Additive tubes must be mixed right after filling: <b>gently invert 8–10 times</b>, a smooth end-over-end motion. <b>Never shake</b> — shaking hemolyzes the sample and ruptures cells, wrecking chemistry and hematology results.",
+                "Some specimens need protection. Shield <b>light-sensitive</b> analytes such as <b>bilirubin</b> from light. Honor <b>temperature requirements</b> — a few specimens go <b>on ice</b> while others must be kept <b>warm</b> — and let <b>serum tubes clot fully (about 30 minutes)</b> before you centrifuge them."
+              ],
+              "list": [
+                "Invert additive tubes <b>8–10 times</b>, gently — no shaking.",
+                "Protect light-sensitive specimens (e.g. bilirubin) from light.",
+                "Follow temperature rules: some on ice, some kept warm.",
+                "Let serum tubes clot ~30 min before centrifuging."
+              ],
+              "note": {
+                "k": "evidence",
+                "t": "Vigorous shaking and incomplete clotting are leading causes of hemolysis and fibrin strands — both trigger a redraw."
+              }
+            },
+            {
+              "h": "Why specimens get rejected",
+              "p": [
+                "The lab will reject a specimen it cannot trust, and a rejection means a redraw and a delayed result. Knowing the criteria lets you prevent them at the chair instead of hearing about them an hour later."
+              ],
+              "list": [
+                "<b>Unlabeled or mislabeled</b> tube — the number-one cause.",
+                "<b>Hemolyzed</b> specimen (from shaking, a small needle, or vigorous draw).",
+                "<b>Clotted</b> EDTA / hematology tube (poor mixing).",
+                "<b>Wrong tube or wrong additive</b> for the test ordered.",
+                "<b>Quantity not sufficient (QNS)</b> — underfilled tube.",
+                "An <b>expired tube</b> (past its expiration date)."
+              ],
+              "note": {
+                "k": "tip",
+                "t": "Check the tube expiration date before you fill it — an expired tube's additive and vacuum can no longer be trusted."
+              }
+            }
+          ],
+          "inter": {
+            "type": "choice",
+            "h": "Handle the tube right",
+            "case": "You have just filled a lavender-top EDTA tube for a CBC at the bedside.",
+            "q": "What do you do next, before leaving the room?",
+            "opts": [
+              {
+                "id": "a",
+                "lab": "Shake the tube hard to mix the additive, then label it in the hallway",
+                "fb": "Two errors: shaking hemolyzes the sample, and hallway labeling risks a wrong-patient mix-up."
+              },
+              {
+                "id": "b",
+                "lab": "Gently invert it 8–10 times and label it at the bedside in the patient's presence",
+                "ok": true,
+                "fb": "Correct — gentle inversion mixes the anticoagulant without hemolysis, and bedside labeling ties the tube to the patient."
+              },
+              {
+                "id": "c",
+                "lab": "Set it in the rack unmixed and label all your tubes together at the nurses' station",
+                "fb": "An EDTA tube left unmixed clots and is rejected, and station labeling breaks the chain of identity."
+              }
+            ]
+          },
+          "tips": [
+            "Say the patient's name and DOB aloud as you write the label — it catches mismatches.",
+            "Invert immediately after each additive tube fills, while you are still gowned up.",
+            "Wrap bilirubin and other light-sensitive tubes in foil or use an amber transport sleeve."
+          ],
+          "mistakes": [
+            "Pre-labeling empty tubes before the draw.",
+            "Shaking additive tubes instead of gently inverting.",
+            "Centrifuging a serum tube before it has clotted ~30 minutes.",
+            "Sending an underfilled (QNS) coagulation tube."
+          ],
+          "takeaways": [
+            "Label at the bedside, in the patient's presence, immediately — never pre-label.",
+            "Gentle inversion 8–10 times; never shake.",
+            "Protect light-sensitive and temperature-sensitive specimens; clot serum ~30 min.",
+            "Unlabeled, hemolyzed, clotted, wrong-tube, QNS, or expired = rejected."
+          ],
+          "quiz": [
+            {
+              "q": "When and where should blood tubes be labeled?",
+              "opts": [
+                "Pre-labeled before the draw for speed",
+                "At the bedside, immediately, in the patient's presence",
+                "At the lab drop-off window"
+              ],
+              "a": 1,
+              "why": "Bedside labeling in the patient's presence is the safeguard against wrong-patient errors."
+            },
+            {
+              "q": "How should an additive tube be mixed after filling?",
+              "opts": [
+                "Shake it briskly 5–6 times",
+                "Gently invert it 8–10 times",
+                "Leave it still so cells settle"
+              ],
+              "a": 1,
+              "why": "Gentle inversion 8–10 times mixes the additive without causing hemolysis."
+            },
+            {
+              "q": "Which of these is a standard specimen rejection criterion?",
+              "opts": [
+                "A tube filled to the correct volume",
+                "A clotted EDTA hematology tube",
+                "A properly inverted serum tube"
+              ],
+              "a": 1,
+              "why": "A clotted EDTA tube cannot yield an accurate CBC and is rejected for a redraw."
+            }
+          ],
+          "refs": "CLSI GP41 (2017); CLSI H18 (specimen handling); ASCP phlebotomy competencies."
+        },
+        {
+          "id": "ph_safety",
+          "title": "Safety, exposure & quality",
+          "stage": "Phlebotomy · Module 5",
+          "illo": "gauge",
+          "mini": "arm",
+          "lead": "The riskiest moment of a draw is often after the blood is in the tube — when a bare needle is still in your hand. Safe device handling and a clear exposure plan protect you as much as the specimen protects the patient.",
+          "objectives": [
+            "Activate the safety device and dispose of sharps without recapping",
+            "Name the major bloodborne pathogens and apply standard precautions",
+            "Follow the needlestick / exposure protocol step by step",
+            "Connect QA/QC and technique to prevention of pre-analytical errors"
+          ],
+          "sections": [
+            {
+              "h": "Sharps: activate, never recap",
+              "p": [
+                "The instant the needle leaves the vein, <b>activate the needle safety device</b> — the shield or blunting mechanism — and <b>never recap a needle</b>. Recapping is when most accidental sticks happen, and it is prohibited by standard precautions.",
+                "Dispose of the sharp <b>immediately</b> into a <b>puncture-resistant sharps container</b>. Do not walk around with a used needle, do not set it down, and do not overfill the container — replace it when it reaches the fill line."
+              ],
+              "note": {
+                "k": "safe",
+                "t": "Recapping a needle is a leading cause of needlestick injury. Engage the safety device before the needle ever moves toward a cap."
+              }
+            },
+            {
+              "h": "Bloodborne pathogens and standard precautions",
+              "p": [
+                "Blood can transmit <b>bloodborne pathogens</b> — most importantly <b>hepatitis B (HBV)</b>, <b>hepatitis C (HCV)</b>, and <b>HIV</b>. Under <b>standard precautions</b>, you treat every patient's blood and body fluids as potentially infectious, regardless of their known status.",
+                "That means gloves for every draw, hand hygiene before and after, and personal protective equipment appropriate to the risk. Standard precautions protect you, the patient, and everyone downstream."
+              ],
+              "list": [
+                "Perform hand hygiene and wear gloves for every patient.",
+                "Treat all blood and body fluids as infectious.",
+                "Use engineered safety devices and dispose of sharps at once.",
+                "Know that HBV vaccination is recommended for anyone handling blood."
+              ],
+              "note": {
+                "k": "evidence",
+                "t": "HBV survives on surfaces and is far more transmissible per exposure than HIV — which is exactly why no shortcut on precautions is acceptable."
+              }
+            },
+            {
+              "h": "If you are exposed",
+              "p": [
+                "A needlestick or blood splash is an emergency you can manage if you act fast. <b>Wash the area immediately</b> — flush a puncture wound with soap and water, flush mucous membranes with water or saline — then <b>report it right away</b> to your supervisor and employee health.",
+                "<b>Follow the post-exposure evaluation</b>: the source patient and the exposed worker are assessed, and post-exposure prophylaxis is started quickly when indicated. Reporting late narrows the window in which prophylaxis works."
+              ],
+              "list": [
+                "<b>Wash</b> the wound with soap and water (flush mucous membranes with water/saline).",
+                "<b>Report immediately</b> to your supervisor and employee/occupational health.",
+                "<b>Follow the post-exposure evaluation</b> and prophylaxis protocol.",
+                "Document the exposure and the source, per facility policy."
+              ],
+              "note": {
+                "k": "safe",
+                "t": "Post-exposure prophylaxis is time-sensitive. Never hide or delay an exposure — reporting fast is what protects you."
+              }
+            },
+            {
+              "h": "Quality, accountability, and pre-analytical errors",
+              "p": [
+                "<b>Quality assurance (QA)</b> is the whole system that keeps results trustworthy; <b>quality control (QC)</b> is the day-to-day checks — expiration dates, equipment function, and technique — that keep the system honest. Most lab errors are <b>pre-analytical</b>: they happen before the specimen is ever tested, in identification, collection, and handling.",
+                "Correct technique and specimen integrity are how you prevent those errors. So is <b>professional documentation and accountability</b> — recording what you did, owning a mistake, and reporting it so it can be fixed rather than repeated."
+              ],
+              "note": {
+                "k": "tip",
+                "t": "When something goes wrong, document it and speak up. Most pre-analytical errors are preventable, and honest reporting is how a lab stops them recurring."
+              }
+            }
+          ],
+          "inter": {
+            "type": "choice",
+            "h": "The stick after the stick",
+            "case": "You have finished a draw. The needle is out of the arm and still uncapped in your hand.",
+            "q": "What is the correct next action?",
+            "opts": [
+              {
+                "id": "a",
+                "lab": "Carefully recap the needle so it is safe to carry to the sharps bin",
+                "fb": "Recapping is prohibited — it is exactly the moment most needlesticks occur."
+              },
+              {
+                "id": "b",
+                "lab": "Activate the safety device and drop it straight into the sharps container",
+                "ok": true,
+                "fb": "Correct — engage the safety shield immediately and dispose of the sharp at once, without recapping."
+              },
+              {
+                "id": "c",
+                "lab": "Set the needle on the tray while you label the tubes, then bin it",
+                "fb": "Never set down an unguarded sharp — activate the safety device and dispose of it immediately."
+              }
+            ]
+          },
+          "tips": [
+            "Position the sharps container within arm's reach before you start the draw.",
+            "Engage the safety device with one motion, away from your other hand.",
+            "Know where your facility's exposure report and employee-health line are before you ever need them."
+          ],
+          "mistakes": [
+            "Recapping a used needle.",
+            "Carrying an unguarded sharp across the room.",
+            "Delaying or not reporting a needlestick.",
+            "Skipping gloves or hand hygiene because the patient 'looks healthy'."
+          ],
+          "takeaways": [
+            "Activate the safety device and never recap; bin sharps immediately.",
+            "HBV, HCV, HIV — apply standard precautions to everyone.",
+            "Exposure: wash, report immediately, follow post-exposure evaluation.",
+            "Most lab errors are pre-analytical; technique, QC, and honest documentation prevent them."
+          ],
+          "quiz": [
+            {
+              "q": "What should you never do with a used needle?",
+              "opts": [
+                "Activate its safety device",
+                "Recap it",
+                "Drop it in a sharps container"
+              ],
+              "a": 1,
+              "why": "Recapping is a leading cause of needlestick injury and is prohibited under standard precautions."
+            },
+            {
+              "q": "Which set of pathogens is the main bloodborne concern in phlebotomy?",
+              "opts": [
+                "Influenza, RSV, rhinovirus",
+                "HBV, HCV, HIV",
+                "E. coli, Salmonella, Norovirus"
+              ],
+              "a": 1,
+              "why": "Hepatitis B, hepatitis C, and HIV are the primary bloodborne pathogens transmitted by blood exposure."
+            },
+            {
+              "q": "What is the first thing to do after a needlestick injury?",
+              "opts": [
+                "Finish your shift, then mention it later",
+                "Wash the area and report the exposure immediately",
+                "Recap the needle and reuse a fresh one"
+              ],
+              "a": 1,
+              "why": "Washing the wound and reporting at once preserves the time-sensitive window for post-exposure prophylaxis."
+            }
+          ],
+          "refs": "OSHA Bloodborne Pathogens Standard 29 CFR 1910.1030; CDC post-exposure guidance; CLSI GP41 (2017); ASCP."
+        }
+      ]
+    },
+    {
+      "title": "Case Application",
+      "lessons": [
+        {
+          "id": "ph_cases",
+          "title": "Putting it together",
+          "stage": "Phlebotomy · Module 6",
+          "illo": "arm",
+          "mini": "arm",
+          "lead": "Real draws rarely test one skill at a time. Here you'll work three short cases that fold identification, order of draw, complications, and special populations into single decisions — the way a real chair-side shift does.",
+          "objectives": [
+            "Integrate order of draw and fill requirements in a multi-tube collection",
+            "Respond correctly to a complication that develops mid-draw",
+            "Apply site-selection rules for patients with restricted arms",
+            "Reason through combined identification, technique, and special-population decisions"
+          ],
+          "sections": [
+            {
+              "h": "Case A — Fasting glucose and a coag panel",
+              "p": [
+                "A fasting adult is ordered a <b>glucose</b> (gray-top, sodium fluoride/potassium oxalate) and a <b>coagulation panel</b> (light-blue, sodium citrate). You will draw both from one clean venipuncture. The question is sequence and fill.",
+                "By the <b>order of draw</b>, the light-blue coagulation tube comes <b>before</b> the gray tube: blood cultures, then light-blue (citrate), then serum, then green, then lavender, then gray last. The <b>light-blue tube must fill completely</b> to keep the exact 9:1 blood-to-citrate ratio — an underfilled coag tube is rejected."
+              ],
+              "note": {
+                "k": "safe",
+                "t": "Draw the light-blue citrate tube before the gray tube, and fill it to the line — the coagulation result depends on the 9:1 ratio."
+              }
+            },
+            {
+              "h": "Case B — The patient goes pale mid-draw",
+              "p": [
+                "Halfway through the draw your patient goes quiet, pale, and sweaty and says she feels lightheaded. This is a <b>vasovagal (syncope) reaction</b> starting. Act before she loses consciousness.",
+                "<b>Remove the tourniquet and needle immediately</b>, apply pressure to the site, and protect her from falling — lower the head or lay her down, and never leave her alone. Cool compress, reassurance, and keeping her seated or reclined until fully recovered come next. Only resume or reschedule once she is stable."
+              ],
+              "note": {
+                "k": "safe",
+                "t": "At the first sign of fainting, the draw stops. Discontinue, protect the airway and prevent a fall — a completed tube is never worth a head injury."
+              }
+            },
+            {
+              "h": "Case C — The post-mastectomy patient with an IV arm",
+              "p": [
+                "Your patient had a <b>left mastectomy</b> with lymph node removal, and her <b>right arm has a running IV</b>. Both arms carry a restriction, so site selection is the whole test here.",
+                "<b>Avoid the arm on the side of a mastectomy</b> with lymph node dissection — the lymphedema risk makes it off-limits without provider clearance. <b>Avoid drawing above or at an IV</b>; if you must use that arm, draw <b>below the IV site</b> after it has been paused per protocol. Better options: a hand or lower-arm vein on an acceptable site, or escalate to the nurse or provider for guidance."
+              ],
+              "note": {
+                "k": "tip",
+                "t": "Two restricted arms is a stop-and-think, not a guess. When both sides are compromised, get provider guidance rather than forcing a marginal site."
+              }
+            }
+          ],
+          "inter": {
+            "type": "choice",
+            "h": "One vein, two tubes, a twist",
+            "case": "A fasting patient needs a light-blue coagulation tube and a gray glucose tube. You get a single clean flash in the median cubital, but the vein is small and flow is slow — the light-blue tube is filling sluggishly and stops just short of the line.",
+            "q": "What is the best action?",
+            "opts": [
+              {
+                "id": "a",
+                "lab": "Send the short-filled light-blue tube anyway and note it was a hard stick",
+                "fb": "No — an underfilled citrate tube breaks the 9:1 ratio and will be rejected, delaying the coag result."
+              },
+              {
+                "id": "b",
+                "lab": "Top it off from the gray tube so the volume looks right",
+                "fb": "Never transfer between tubes — it cross-contaminates additives and invalidates both results."
+              },
+              {
+                "id": "c",
+                "lab": "Discontinue and redraw the coag tube with a fresh stick, filling it to the line first in the order of draw",
+                "ok": true,
+                "fb": "Correct — a coagulation tube must fill completely for a valid ratio; redraw and fill the light-blue tube to the line, before the gray, within the two-attempt limit."
+              },
+              {
+                "id": "d",
+                "lab": "Squeeze and milk the arm hard to force the tube to fill",
+                "fb": "Vigorous milking hemolyzes the sample and activates clotting factors, ruining a coagulation specimen."
+              }
+            ]
+          },
+          "tips": [
+            "Line up tubes in draw order before you stick so sequence is automatic under pressure.",
+            "Watch the patient's face, not just the flash — pallor and sweating warn you before a faint.",
+            "When both arms are restricted, escalate early rather than forcing a poor site."
+          ],
+          "mistakes": [
+            "Drawing the gray tube before the light-blue coagulation tube.",
+            "Sending an underfilled citrate tube instead of redrawing.",
+            "Continuing a draw after a patient reports feeling faint.",
+            "Using the arm on a mastectomy side or drawing above an IV."
+          ],
+          "takeaways": [
+            "Order of draw and full fill protect the coagulation ratio.",
+            "First sign of syncope: discontinue, protect from a fall, never leave the patient.",
+            "Avoid a mastectomy-side arm and don't draw above an IV.",
+            "When variables stack up, stop and reason — or escalate."
+          ],
+          "quiz": [
+            {
+              "q": "Drawing a light-blue coag tube and a gray glucose tube from one stick, which fills first and why?",
+              "opts": [
+                "Gray first, because glucose degrades fastest",
+                "Light-blue first, to protect the citrate ratio and avoid additive carryover",
+                "Either order — sequence doesn't affect these two"
+              ],
+              "a": 1,
+              "why": "The citrate (light-blue) tube precedes the gray in the order of draw and must fill fully to keep the 9:1 ratio."
+            },
+            {
+              "q": "A patient becomes pale, sweaty, and lightheaded mid-draw. What is your first action?",
+              "opts": [
+                "Speed up to finish before she faints",
+                "Remove the tourniquet and needle, apply pressure, and protect her from falling",
+                "Leave to get help, telling her to hold the site"
+              ],
+              "a": 1,
+              "why": "You discontinue immediately and prevent a fall — and you never leave a fainting patient unattended."
+            },
+            {
+              "q": "A patient had a left mastectomy with node removal and has an IV in the right arm. Where do you draw?",
+              "opts": [
+                "The left arm, since the IV blocks the right",
+                "Below the IV on the right after pausing it, or escalate for a cleared site",
+                "Above the IV on the right for cleaner flow"
+              ],
+              "a": 1,
+              "why": "The mastectomy side is avoided for lymphedema risk; on the IV arm you draw below a paused IV or get provider guidance."
+            }
+          ],
+          "refs": "CLSI GP41 (2017) order of draw and complications; ASCP/NAACLS competencies; standard special-population precautions."
+        }
+      ]
+    }
+  ]
+}

@@ -766,8 +766,26 @@
 <body>
 <!-- ===== DEMO learner login preview (set DEMO_LOGIN=false in script to disable) ===== -->
 <style>
-#demoLogin{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(1000px 560px at 82% -8%,rgba(34,195,214,.22),transparent 60%),radial-gradient(820px 520px at 6% 110%,rgba(30,159,192,.22),transparent 60%),linear-gradient(155deg,#0A2E38 0%,#0A2E3E 55%,#0B2A48 100%);transition:opacity .5s ease;font-family:'Inter',system-ui,sans-serif;}
+#demoLogin{position:fixed;inset:0;z-index:9999;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:32px 24px;background:radial-gradient(1000px 560px at 82% -8%,rgba(34,195,214,.22),transparent 60%),radial-gradient(820px 520px at 6% 110%,rgba(30,159,192,.22),transparent 60%),linear-gradient(155deg,#0A2E38 0%,#0A2E3E 55%,#0B2A48 100%);transition:opacity .5s ease;font-family:'Inter',system-ui,sans-serif;}
 #demoLogin.hide{opacity:0;pointer-events:none;}
+/* Two-panel homepage: marketing pitch + sign-in card, vertically centered, scrollable when tall. */
+#demoLogin .dl-shell{display:flex;align-items:center;justify-content:center;gap:46px;max-width:1100px;margin:0 auto;min-height:calc(100vh - 64px);}
+#demoLogin .dl-market{flex:1 1 auto;min-width:0;max-width:600px;display:flex;flex-direction:column;gap:16px;}
+#demoLogin .dl-market .sellcopy .sellcta{margin-top:2px;}
+@media(min-width:900px){#demoLogin .dl-card{flex:0 0 400px;}}
+@media(max-width:899px){
+  #demoLogin{padding:26px 18px 40px;}
+  #demoLogin .dl-shell{flex-direction:column;gap:24px;min-height:0;}
+  #demoLogin .dl-market{order:1;width:100%;max-width:440px;gap:14px;}
+  #demoLogin .dl-card{order:2;}
+  #demoLogin .dl-market .sellcopy h2{font-size:1.55rem;}
+  #demoLogin .dl-market .selltrust{font-size:.78rem;gap:10px;}
+}
+/* Only on the very smallest screens drop the (heaviest) angles figure so the
+   sign-in card stays within easy reach; phones ≥361px keep it and just scroll. */
+@media(max-width:360px){
+  #demoLogin .dl-market .sellfig{display:none;}
+}
 #demoLogin .dl-card{position:relative;background:linear-gradient(180deg,#fff,#f7fbfc);border-radius:22px;padding:40px 34px 28px;max-width:400px;width:100%;text-align:center;box-shadow:0 46px 100px rgba(3,20,26,.5);}
 #demoLogin .dl-card::before{content:"";position:absolute;top:0;left:26px;right:26px;height:3px;border-radius:0 0 4px 4px;background:linear-gradient(90deg,#22C3D6,#1E9FC0,#8A97A3);}
 #demoLogin .dl-logo{width:50px;height:60px;margin:0 auto 12px;filter:drop-shadow(0 8px 18px rgba(30,159,192,.5));}
@@ -895,13 +913,16 @@
 .slide .reviewban b{color:#FFD9D6!important;}
 </style>
 <div id="demoLogin">
-  <div class="dl-card">
-    <div class="dl-logo"><svg viewBox="0 0 64 78" fill="none"><defs><linearGradient id="dlDrop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3AD8D2"/><stop offset=".5" stop-color="#12A0AE"/><stop offset="1" stop-color="#0B6472"/></linearGradient></defs><path d="M32 5C32 5 51 30 51 47A19 19 0 0 1 13 47C13 30 32 5 32 5Z" fill="url(#dlDrop)"/><path d="M40 22C45 30 46 40 42 48" stroke="#C9F5F3" stroke-width="2.4" stroke-linecap="round" opacity=".7"/><path d="M24 33C20.5 39.5 21 47 26 52C22.5 46 24.5 38.5 29 34.5C27.5 33.4 25.5 33 24 33Z" fill="#fff" opacity=".5"/></svg></div>
-    <div class="dl-brand">IV <b>Rejuve</b></div>
-    <h1>Welcome back</h1>
-    <p>Sign in to start learning and save your progress, XP, and certificates.</p>
-    <button class="dl-gbtn" id="dlBtn" onclick="demoTrainingLogin()"><svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>Continue with Google</button>
-    <div class="dl-note">Demo preview · no real account needed</div>
+  <div class="dl-shell">
+    <div class="dl-market" id="dlMarket"><!-- marketing panel injected at boot (needs JS for the angles animation) --></div>
+    <div class="dl-card">
+      <div class="dl-logo"><svg viewBox="0 0 64 78" fill="none"><defs><linearGradient id="dlDrop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3AD8D2"/><stop offset=".5" stop-color="#12A0AE"/><stop offset="1" stop-color="#0B6472"/></linearGradient></defs><path d="M32 5C32 5 51 30 51 47A19 19 0 0 1 13 47C13 30 32 5 32 5Z" fill="url(#dlDrop)"/><path d="M40 22C45 30 46 40 42 48" stroke="#C9F5F3" stroke-width="2.4" stroke-linecap="round" opacity=".7"/><path d="M24 33C20.5 39.5 21 47 26 52C22.5 46 24.5 38.5 29 34.5C27.5 33.4 25.5 33 24 33Z" fill="#fff" opacity=".5"/></svg></div>
+      <div class="dl-brand">IV <b>Rejuve</b></div>
+      <h1>Start learning</h1>
+      <p>Sign in to begin training and save your progress, XP, and certificates.</p>
+      <button class="dl-gbtn" id="dlBtn" onclick="demoTrainingLogin()"><svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>Continue with Google</button>
+      <div class="dl-note">Demo preview · no real account needed</div>
+    </div>
   </div>
 </div>
 <div class="ribbon">Educational training · Practice hands-on skills <b>only under qualified supervision</b> within your scope of practice.</div>
@@ -1883,6 +1904,32 @@ function sellBandHTML(){
    +'<div class="legcol"><div class="r">ID</div><div class="a">10-15°</div><div class="t">Skin</div></div>'
    +'</div></div></div></div>';
 }
+/* Logged-out homepage marketing panel (lives inside #demoLogin). Mirrors the
+   sell-band pitch, but every CTA is login-appropriate — the app isn't booted yet,
+   so buttons trigger the sign-in flow (demoTrainingLogin) rather than go()/continueLearning(). */
+function homeMarketingHTML(){
+  var _nc=COURSE_IDS.length,_nm=COURSE_IDS.reduce(function(a,c){return a+((COURSES[c]&&COURSES[c].modules)?COURSES[c].modules.length:0);},0);
+  return '<div class="sellcopy">'
+   +'<span class="sbeye">Built for nursing students, medical assistants &amp; phlebotomists</span>'
+   +'<h2>Hit the right layer. <span class="g">Every single time.</span></h2>'
+   +'<p class="sblede">IM, SubQ, IV, ID — master the exact angle, depth, and site for every route until it’s muscle memory. Walk into any shift knowing you’ll get it right the first time.</p>'
+   +'<ul class="selllist">'
+   +'<li><span class="ck">✓</span><span>Every route &amp; angle, drilled with real clinical scenarios</span></li>'
+   +'<li><span class="ck">✓</span><span>Feedback that explains the <b>why</b> — not just right or wrong</span></li>'
+   +'<li><span class="ck">✓</span><span>Verifiable certificates &amp; CE contact hours</span></li>'
+   +'</ul>'
+   +'<div class="sellcta"><button class="btn btn-gold" onclick="demoTrainingLogin()">Start learning →</button></div>'
+   +'<div class="selltrust"><span><b>'+_nc+'</b> full courses</span><span><b>'+_nm+'</b> modules</span><span>Built by <b>Lacey Smith, FNP-C</b></span></div>'
+   +'</div>'
+   +'<div class="sellfig"><div class="figcard"><h3>Injection Angles — hit the right layer every time</h3>'
+   + injAnglesSVG()
+   +'<div class="legrow">'
+   +'<div class="legcol"><div class="r">IM</div><div class="a">90°</div><div class="t">Muscle</div></div>'
+   +'<div class="legcol"><div class="r">SubQ</div><div class="a">45°</div><div class="t">Fat</div></div>'
+   +'<div class="legcol"><div class="r">IV</div><div class="a">25°</div><div class="t">Vein</div></div>'
+   +'<div class="legcol"><div class="r">ID</div><div class="a">10-15°</div><div class="t">Skin</div></div>'
+   +'</div></div></div>';
+}
 function vHome(){
   var doneCount=0;S.done.forEach(function(i){if(L[i])doneCount++;});
   var ri=rankIndex(S.xp),rank=RANKS[ri],nxt=RANKS[ri+1];
@@ -1897,9 +1944,8 @@ function vHome(){
     +'<div class="cta"><button class="btn btn-gold" onclick="continueLearning()">'+(doneCount?'Continue learning':'Start learning')+' →</button><button class="btn btn-ghost" onclick="go(\'pricing\')">View plans</button></div>'
     +'<div class="badges"><div><b>'+doneCount+'/'+TOTAL_LESSONS+'</b><span>Lessons done</span></div><div><b>'+COURSE_IDS.reduce(function(a,c){return a+((COURSES[c]&&COURSES[c].modules)?COURSES[c].modules.length:0);},0)+'</b><span>Modules</span></div><div><b>'+ov+'%</b><span>Complete</span></div></div>'
     +'</div><div><svg class="shield" viewBox="0 0 64 78" fill="none"><defs><linearGradient id="drpB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3AD8D2"/><stop offset=".5" stop-color="#12A0AE"/><stop offset="1" stop-color="#0B6472"/></linearGradient></defs><path d="M32 5C32 5 51 30 51 47A19 19 0 0 1 13 47C13 30 32 5 32 5Z" fill="url(#drpB)"/><path d="M40 22C45 30 46 40 42 48" stroke="#C9F5F3" stroke-width="2.4" stroke-linecap="round" opacity=".7"/><path d="M24 33C20.5 39.5 21 47 26 52C22.5 46 24.5 38.5 29 34.5C27.5 33.4 25.5 33 24 33Z" fill="#ffffff" opacity=".5"/><ellipse cx="32" cy="67" rx="16" ry="3" fill="#12A0AE" opacity=".22"/></svg></div></div>';
-  // homepage 5-second sell band — shown only to logged-out / brand-new visitors,
-  // not on a returning learner's dashboard (no auth session AND no progress yet).
-  if(!ceSession() && doneCount===0 && (S.xp||0)===0) h+=sellBandHTML();
+  // (The marketing sell-band now lives on the logged-out homepage — the #demoLogin
+  // welcome screen — and no longer appears on the post-login dashboard.)
   // gauges
   h+='<div class="cluster">'
     +'<div class="gauge">'+levelRing+'<div><div class="lbl">Clinical rank</div><div class="big">'+rank.n+'</div><div class="sub">'+(nxt?((nxt.x-S.xp)+' XP to '+nxt.n):'Top rank')+'</div></div></div>'
@@ -5104,13 +5150,28 @@ function demoTrainingLogin(){
     if(o){ o.classList.add('hide'); setTimeout(function(){ o.style.display='none'; },560); }
   },1000);
 }
+/* Paint the logged-out homepage marketing panel into #demoLogin. The angles figure
+   is JS-generated, so it can't live in the static HTML — populate it here. Safe to call
+   repeatedly (idempotent): called immediately at boot (fallback COURSES) and again after
+   the real curriculum loads so the course/module counts are accurate. */
+function paintDemoMarket(){
+  try{
+    var m=document.getElementById('dlMarket');
+    if(!m||!DEMO_LOGIN)return;
+    m.innerHTML=homeMarketingHTML();
+  }catch(e){}
+}
 function bootRender(){ ceLoad();
+  paintDemoMarket();
   try{ if(CE_PREVIEW)pfSeedDummy(false); }catch(e){}  // demo/preview: seed dummy CE profile data for testing (only if empty)
   // Public credential verification bypasses the learner login gate (employers/boards have no account)
   if((location.hash||"").indexOf("#verify")===0){ S.view="verify"; var g=document.getElementById('demoLogin'); if(g)g.style.display='none'; }
   render(); setTimeout(function(){var l=document.querySelector('.brand .logo');if(l)l.classList.add('glow');},900); if(!DEMO_LOGIN){var o=document.getElementById('demoLogin');if(o)o.style.display='none';} }
 (function boot(){
   var done=false; function finish(){ if(done)return; done=true; bootRender(); }
+  // Paint the homepage marketing panel right away (fallback COURSES) so the login
+  // screen never shows an empty column while the curriculum fetch is in flight.
+  paintDemoMarket();
   try{
     fetch(SB_URL+"/rest/v1/published_courses?org_slug=eq."+ORG_SLUG+"&select=slug,title,published,sort&order=sort",
           {headers:{apikey:SB_ANON,Authorization:"Bearer "+SB_ANON}})
