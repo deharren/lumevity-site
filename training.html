@@ -498,7 +498,7 @@
   .ix .ixfig{background:rgba(255,255,255,.9);border-radius:14px;padding:10px;margin:0 0 16px;}
   .ix .ixfig svg{width:100%;height:auto;display:block;}
   .ix .ixfig .hot{cursor:pointer;transition:.15s;}
-  .ix .ixfig .hot:hover{opacity:1;r:15;}
+  .ix .ixfig .hot:hover{opacity:1;}
   .ix .ixfig .hot.pick{stroke:#0E8A93;stroke-width:3.5;}
   .ix .ixfig .hot.ok{fill:#12A0AE;stroke:#0B6E76;stroke-width:3.5;}
   .ix .ixfig .hot.no{fill:#D8474B;stroke:#8f2f32;stroke-width:3;}
@@ -926,14 +926,14 @@ svgSubQ=function(i){return i?figHotspots('subq-sites-v1.png','SubQ sites — tap
 svgAngle=function(){return figImg('skin-angles-v1.png','Skin layers with injection needle angles (90 IM, 45 SubQ)');};
 svgLayers=function(){return figImg('skin-angles-v1.png','Skin layers');};
 svgVeinX=function(){return figImg('vein-xsection-v1.png','Vein wall cross-section');};
-illoSVG=function(k){var m={arm:'forearm-veins-v1.png',im:'https://lumevity-site.vercel.app/im-sites-v6.jpg',subq:'subq-sites-v1.png',angle:'skin-angles-v1.png',layers:'skin-angles-v1.png',veinx:'vein-xsection-v1.png',gauge:'gauge-flashback-v1.png',flashback:'gauge-flashback-v1.png',complications:'iv-complications-v1.png',documentation:'iv-doc-ehr-a-v1.png',cx_hematoma:'iv-cx-hematoma-v1.png',cx_infiltration:'iv-cx-infiltration-v1.png',cx_phlebitis:'iv-cx-phlebitis-v1.png',cx_extravasation:'iv-cx-extravasation-v1.png',cx_airembolism:'iv-cx-airembolism-v1.png',cx_vasovagal:'iv-cx-vasovagal-v1.png'};var alt={complications:'Infiltration, phlebitis, and hematoma compared on the forearm',documentation:'Electronic health record screen documenting a peripheral IV insertion, site details, and follow-up monitoring',cx_hematoma:'Hematoma at an IV site — bruising from blood under the skin',cx_infiltration:'Infiltration — pale, swollen, taut tissue around an IV site',cx_phlebitis:'Phlebitis — red, inflamed vein with a streak along its path',cx_extravasation:'Extravasation — severe swelling and tissue injury at an IV site',cx_airembolism:'Air embolism — air bubbles traveling in a blood vessel',cx_vasovagal:'Vasovagal reaction — pallor and faintness during the procedure'};return m[k]?figImg(m[k],alt[k]||k):'';};
+illoSVG=function(k){var m={arm:'forearm-veins-v1.png',im:'https://lumevity-site.vercel.app/im-sites-v6.jpg',subq:'subq-sites-v1.png',angle:'skin-angles-v1.png',layers:'skin-angles-v1.png',veinx:'vein-xsection-v1.png',gauge:'gauge-flashback-v1.png',flashback:'gauge-flashback-v1.png',complications:'iv-complications-v1.png',documentation:'iv-doc-ehr-a-v1.png',cx_hematoma:'iv-cx-hematoma-v1.png',cx_infiltration:'iv-cx-infiltration-v1.png',cx_phlebitis:'iv-cx-phlebitis-v1.png',cx_extravasation:'iv-cx-extravasation-v1.png',cx_airembolism:'iv-cx-airembolism-v1.png',cx_vasovagal:'iv-cx-vasovagal-v1.png',special_pops:'https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787237386906.png',ztrack:'https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787240279980.png'};var alt={ztrack:'Z-track intramuscular technique — pull the skin aside, inject at 90 degrees, then release so the tissue seals over the medication',complications:'Infiltration, phlebitis, and hematoma compared on the forearm',documentation:'Electronic health record screen documenting a peripheral IV insertion, site details, and follow-up monitoring',cx_hematoma:'Hematoma at an IV site — bruising from blood under the skin',cx_infiltration:'Infiltration — pale, swollen, taut tissue around an IV site',cx_phlebitis:'Phlebitis — red, inflamed vein with a streak along its path',cx_extravasation:'Extravasation — severe swelling and tissue injury at an IV site',cx_airembolism:'Air embolism — air bubbles traveling in a blood vessel',cx_vasovagal:'Vasovagal reaction — pallor and faintness during the procedure',special_pops:'Adapting IV technique across ages — infant, child, adult, and older adult'};return m[k]?figImg(m[k],alt[k]||k):'';};
 /* Per-lesson hero-image overrides. The live curriculum comes from Supabase and its
    lesson `illo` values can lag behind these updated figures, so force the right image
    by lesson id at render time (survives the DB curriculum swap). */
-var ILLO_OVERRIDE={iv_documentation:'documentation',iv_complications:'complications'};
+var ILLO_OVERRIDE={iv_documentation:'documentation',iv_complications:'complications',iv_special:'special_pops',im_procedure:'ztrack'};
 /* Lessons whose overview (top) hero image should be hidden — e.g. iv_equipment already
    shows the gauge/flashback figure inline on the gauge-chart step, so drop the duplicate hero. */
-var ILLO_HIDE={iv_equipment:1};
+var ILLO_HIDE={iv_equipment:1,im_assessment:1,im_asepsis:1};
 /* Glossary term figures -> hosted images (highlight-per-term is dropped in favor of atlas-quality art) */
 var gArm=function(){return figImg('forearm-veins-v1.png','Superficial veins of the forearm');};
 var gIM=function(){return figImg('https://lumevity-site.vercel.app/im-sites-v6.jpg','Intramuscular injection sites');};
@@ -2534,6 +2534,7 @@ function gSkin(hi){
 }
 function glossFigSVG(f){
   if(!f)return "";
+  if(/^https?:/.test(f))return figImg(f,"");   // hosted raster figure (full URL)
   var p=f.split(":");
   if(p.length===2){
     if(p[0]==="arm")return gArm(p[1]);
@@ -2592,16 +2593,16 @@ var GLOSSARY={
     why:"Contact causes immediate sharp, electric, radiating pain or pins-and-needles. That is a stop signal: withdraw at once, as persisting risks lasting nerve injury."},
 
   /* --- muscle anatomy (IM) --- */
-  deltoid:{t:"Deltoid",fig:"im:deltoid",alt:["deltoid muscle","deltoid"],see:["acromion","ventrogluteal"],
+  deltoid:{t:"Deltoid",fig:"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787237386899.png",alt:["deltoid muscle","deltoid"],see:["acromion","ventrogluteal"],
     d:"The thick shoulder muscle. The injection site is the dense central triangle, roughly 2.5–5&nbsp;cm (1–2 inches) below the acromion process.",
     why:"Convenient and the standard adult vaccine site, but it is a small muscle — generally limited to about 1&nbsp;mL. Going too high risks the shoulder joint and the axillary nerve."},
-  ventrogluteal:{t:"Ventrogluteal site",pron:"ven-tro-GLOO-tee-al",fig:"im:ventrogluteal",alt:["ventrogluteal site","ventrogluteal"],see:["greater_trochanter","dorsogluteal"],
+  ventrogluteal:{t:"Ventrogluteal site",pron:"ven-tro-GLOO-tee-al",fig:"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787237386915.png",alt:["ventrogluteal site","ventrogluteal"],see:["greater_trochanter","dorsogluteal"],
     d:"The gluteus medius/minimus site on the side of the hip, landmarked with the palm on the greater trochanter, index finger to the anterior superior iliac spine and middle finger spread along the iliac crest — you inject into the V.",
     why:"The preferred adult IM site: thick muscle, predictable depth, and no major nerves or vessels in the target. Tolerates larger volumes (commonly up to about 3&nbsp;mL)."},
-  vastus_lateralis:{t:"Vastus lateralis",fig:"im:vastus_lateralis",alt:["vastus lateralis"],see:["ventrogluteal","deltoid"],
+  vastus_lateralis:{t:"Vastus lateralis",fig:"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787237386913.png",alt:["vastus lateralis"],see:["ventrogluteal","deltoid"],
     d:"The large muscle of the outer thigh; the site is the middle third of the muscle.",
     why:"The site of choice for infants and young children, and a good self-injection site in adults, because it is bulky, easy to find and has no significant nerves or vessels nearby."},
-  dorsogluteal:{t:"Dorsogluteal site",fig:"im:dorsogluteal",alt:["dorsogluteal site","dorsogluteal"],see:["sciatic","ventrogluteal"],
+  dorsogluteal:{t:"Dorsogluteal site",fig:"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787237386894.png",alt:["dorsogluteal site","dorsogluteal"],see:["sciatic","ventrogluteal"],
     d:"The upper-outer buttock site, historically used for IM injection.",
     why:"<b>No longer recommended.</b> The sciatic nerve and superior gluteal artery lie beneath it, and the fat layer there is often thicker than the needle is long, so the drug lands in fat rather than muscle. Use the ventrogluteal site instead."},
   acromion:{t:"Acromion process",alt:["acromion process","acromion"],see:["deltoid"],
@@ -2653,7 +2654,7 @@ var GLOSSARY={
   asis:{t:"Anterior superior iliac spine (ASIS)",alt:["anterior superior iliac spine","ASIS"],see:["iliac_crest","ventrogluteal"],fig:"im:ventrogluteal",
     d:"The bony prominence at the front of the hip bone — the \"hip point\" you can feel through the skin.",
     why:"Your index finger rests on it for ventrogluteal landmarking, forming the front edge of the V."},
-  gluteus_medius:{t:"Gluteus medius",alt:["gluteus medius","gluteus minimus"],see:["ventrogluteal"],fig:"im:ventrogluteal",
+  gluteus_medius:{t:"Gluteus medius",alt:["gluteus medius","gluteus minimus"],see:["ventrogluteal"],fig:"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787237386915.png",
     d:"The muscle on the side of the hip, lying beneath and in front of the gluteus maximus.",
     why:"It is the ventrogluteal target: thick, predictable in depth, and with no major nerve or vessel crossing it."},
   axillary_nerve:{t:"Axillary nerve",alt:["axillary nerve"],see:["deltoid","acromion"],fig:"im:deltoid",
@@ -2890,40 +2891,18 @@ function ixArmHot(){
     _gfLabel(180,190,"Tap a site")+'</svg>';
 }
 function ixIMHot(){
-  var body='<svg viewBox="0 0 320 330" role="img" aria-label="Intramuscular injection sites on the body">'+
-    /* standing figure, posterior view, turned slightly so the side of the hip shows */
-    '<circle cx="150" cy="30" r="20" fill="'+_AF_SKIN+'" stroke="'+_AF_SKIN_E+'" stroke-width="1.6"/>'+
-    '<path d="M140 50 h20 v10 h-20 z" fill="'+_AF_SKIN+'" stroke="'+_AF_SKIN_E+'" stroke-width="1.2"/>'+
-    /* torso */
-    '<path d="M112 66 C126 58,174 58,196 66 C206 92,208 126,202 152 '+
-      'C196 166,116 166,110 152 C104 126,104 92,112 66 Z" fill="'+_AF_SKIN+'" stroke="'+_AF_SKIN_E+'" stroke-width="1.6"/>'+
-    /* arms */
-    '<path d="M112 68 C100 78,94 110,92 146 C91 162,98 168,104 166 C110 140,112 100,116 78 Z" fill="'+_AF_SKIN+'" stroke="'+_AF_SKIN_E+'" stroke-width="1.4"/>'+
-    '<path d="M196 68 C210 78,216 110,218 146 C219 162,212 168,206 166 C200 140,198 100,194 78 Z" fill="'+_AF_SKIN+'" stroke="'+_AF_SKIN_E+'" stroke-width="1.4"/>'+
-    /* pelvis + buttocks */
-    '<path d="M110 152 C120 148,192 148,202 152 C212 172,214 196,206 212 '+
-      'C190 224,122 224,106 212 C98 196,100 172,110 152 Z" fill="'+_AF_SKIN+'" stroke="'+_AF_SKIN_E+'" stroke-width="1.6"/>'+
-    '<path d="M156 154 L156 218" stroke="'+_AF_SKIN_E+'" stroke-width="1.2" opacity=".7"/>'+
-    /* legs */
-    '<path d="M110 214 C112 250,116 290,120 322 L146 322 C148 288,150 250,150 216 Z" fill="'+_AF_SKIN+'" stroke="'+_AF_SKIN_E+'" stroke-width="1.5"/>'+
-    '<path d="M162 216 C162 250,164 288,166 322 L192 322 C196 290,200 250,202 214 Z" fill="'+_AF_SKIN+'" stroke="'+_AF_SKIN_E+'" stroke-width="1.5"/>'+
-    /* muscle tints under each site */
-    '<path d="M192 70 C204 78,210 100,208 120 C200 128,192 122,190 108 C188 92,188 78,192 70 Z" fill="'+_AF_MUS+'" opacity=".45"/>'+
-    '<path d="M160 156 C186 152,204 162,208 180 C210 198,198 210,180 212 C166 206,158 182,160 156 Z" fill="'+_AF_MUS+'" opacity=".4"/>'+
-    '<path d="M186 226 C198 232,202 258,198 286 C190 294,180 288,180 268 C180 248,182 234,186 226 Z" fill="'+_AF_MUS+'" opacity=".4"/>'+
-    /* sciatic nerve, so the dorsogluteal risk is visible */
-    '<path d="M176 190 C182 224,184 264,184 310" stroke="'+_AF_NERVE+'" stroke-width="3.4" fill="none" stroke-linecap="round" opacity=".85"/>'+
-    _hot("deltoid",200,96,13)+
-    _hot("dorso",176,172,13)+
-    _hot("ventro",206,190,13)+
-    _hot("vastus",190,256,13)+
-    /* leader labels, kept in the right gutter */
-    '<path d="M214 96 L246 96" stroke="#8b9aa2" stroke-width="1"/>'+_afLab(250,100,"shoulder",'start',_AF_DIM,10)+
-    '<path d="M190 172 L246 160" stroke="#8b9aa2" stroke-width="1"/>'+_afLab(250,160,"buttock",'start',_AF_DIM,10)+
-    '<path d="M220 190 L246 196" stroke="#8b9aa2" stroke-width="1"/>'+_afLab(250,200,"side of hip",'start',_AF_DIM,10)+
-    '<path d="M204 256 L246 256" stroke="#8b9aa2" stroke-width="1"/>'+_afLab(250,260,"outer thigh",'start',_AF_DIM,10)+
+  /* photorealistic teaching illustration (back view) with tap targets calibrated
+     to the figure: deltoid, dorsogluteal, ventrogluteal (side of hip), vastus lateralis */
+  var IMG='https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787239418827.png';
+  function h(id,cx,cy){return '<circle class="hot" data-id="'+id+'" cx="'+cx+'" cy="'+cy+
+    '" r="26" fill="#C9A24B" fill-opacity=".9" stroke="#fff" stroke-width="3"/>';}
+  return '<svg viewBox="480 0 560 1024" role="img" aria-label="Standing figure, back view — tap an intramuscular injection site">'+
+    '<image href="'+IMG+'" x="0" y="0" width="1536" height="1024"/>'+
+    h("deltoid",679,261)+
+    h("dorso",705,492)+
+    h("ventro",850,500)+
+    h("vastus",679,710)+
     '</svg>';
-  return body;
 }
 function ixSkinHot(){
   var rows=[["#E9D3BE",34,16,"Epidermis"],["#DDB7A0",50,34,"Dermis"],
@@ -4502,6 +4481,8 @@ function ceSyncRecord(c,rec){
    tap. Figures are keyed by lesson id and attached to a section by matching its
    heading, so they survive the Supabase curriculum swap and minor edits. */
 var LESSON_FIGS={
+  iv_complications:[
+    {h:"ins scales",fig:"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787236752669.png",cap:"Phlebitis grading scale (INS)",sub:"Grade 2 or higher — remove the catheter and re-site"}],
   iv_anatomy:[
     {h:"venous map",fig:"arm:cephalic",cap:"Superficial veins of the arm",sub:"Cephalic laterally, basilic medially, median cubital across the elbow"},
     {h:"inside the vessel",fig:"veinx",cap:"The vein wall in cross-section",sub:"Intima, media and adventitia — the intima is what your catheter scrapes"}],
@@ -4510,10 +4491,10 @@ var LESSON_FIGS={
   iv_sites:[
     {h:"what makes a good target",fig:"arm:cephalic",cap:"Work distal to proximal",sub:"A straight, well-supported forearm segment away from joints"}],
   im_anatomy:[
-    {h:"four muscles",fig:"im:ventrogluteal",cap:"Ventrogluteal — preferred in adults",sub:"Palm on the greater trochanter, index to the ASIS, middle finger along the crest"},
-    {h:"four muscles",fig:"im:deltoid",cap:"Deltoid — the standard adult vaccine site",sub:"2.5–5 cm below the acromion, roughly 1 mL maximum"},
-    {h:"four muscles",fig:"im:vastus_lateralis",cap:"Vastus lateralis — the infant site",sub:"Middle third of the outer thigh"},
-    {h:"dorsogluteal",fig:"im:dorsogluteal",cap:"Dorsogluteal — no longer recommended",sub:"The sciatic nerve runs beneath it"}],
+    {h:"four muscles",fig:"im:ventrogluteal",cap:"The main IM sites at a glance",sub:"Deltoid, ventrogluteal (V-hand landmark), and vastus lateralis — tap any muscle name above for its own detailed view"}],
+  im_equipment:[
+    {h:"needle length",fig:"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787239043999.png",cap:"Needle length and gauge vary by patient and site",sub:"Longer needles reach muscle through more subcutaneous fat; a larger gauge number is a thinner needle"},
+    {h:"drawing up safely",fig:"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787239311413.png",cap:"Filter needle and glass ampule",sub:"Draw from a glass ampule through a filter needle, then swap to a fresh needle before injecting"}],
   im_sites:[
     {h:"landmark",fig:"im:ventrogluteal",cap:"Landmarking the ventrogluteal site",sub:"You inject into the V between index and middle finger"},
     {h:"acromion",fig:"im:deltoid",cap:"Measuring down from the acromion",sub:"Measure rather than estimate — too high risks the joint"}],
