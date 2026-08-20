@@ -1922,10 +1922,10 @@ function injAnglesSVG(){
   // The leaning routes use POSITIVE rot so the barrel tips up-RIGHT and the needle leads DOWN-LEFT
   // into the tissue; their far-reaching tips land central-left. Tip = (cx - tipLen*sin(rot),
   // top + tipLen*cos(rot)):
-  //   IM  90°  vertical  -> tip deep in red muscle
-  //   SubQ 45°           -> tip in yellow subcutaneous fat
-  //   IV  25°            -> tip inside the blue blood-vessel tube (which sits UNDER this needle)
-  //   ID  10-15° shallow -> tip just inside the dermis
+  //   IM  90°  vertical  -> tip deep in red muscle (left of, and clear of, the vessel)
+  //   SubQ 45°           -> tip inside the blue blood-vessel tube
+  //   IV  25°            -> tip inside the blue blood-vessel tube
+  //   ID  10-15° shallow -> long reach; tip inside the blue blood-vessel tube
   var s='<svg viewBox="0 0 '+W+' '+H+'" class="angfig" role="img" aria-label="Injection angles by route on a labeled skin cross-section: intramuscular 90 degrees into muscle, subcutaneous 45 degrees into subcutaneous fat, intravenous 25 degrees into a blood vessel, intradermal 10 to 15 degrees into the dermis. Layers from top: epidermis, dermis, subcutaneous fat, muscle.">';
   s+='<defs><clipPath id="iaFat"><rect x="24" y="'+yFat+'" width="592" height="'+(yMus-yFat)+'"/></clipPath><clipPath id="iaMus"><rect x="24" y="'+yMus+'" width="592" height="'+(yBot-yMus)+'"/></clipPath></defs>';
   // tissue bands: dermis, fat (+lobules), muscle (+fibers), then wavy epidermis cap on top
@@ -1938,20 +1938,24 @@ function injAnglesSVG(){
   s+='<line x1="24" y1="'+yFat+'" x2="616" y2="'+yFat+'" stroke="#D9B36B" stroke-width="1.4" opacity=".85"/>';
   s+='<line x1="24" y1="'+yMus+'" x2="616" y2="'+yMus+'" stroke="#9E4640" stroke-width="1.4" opacity=".7"/>';
   s+=epidermis();
-  // blood-vessel TUBE sitting UNDER the 25° needle (third from left), across the lower dermis /
-  // fat boundary; rounded, slightly wavy, dark-blue outline + blue body + lighter inner-lumen
-  // highlight + gloss => reads as a 3D vessel. Left cap (~158,235) is where the IV 25° tip
-  // (~149,232) enters; the tube extends right beneath that needle. No other needle crosses it.
-  var vpath='M158 235 C 205 226, 250 244, 292 231 S 312 235, 320 234';
+  // blood-vessel TUBE running the FULL WIDTH: from just right of the vertical 90° needle
+  // (x~115) to near the right edge (x~620), at a single consistent depth in the lower dermis
+  // (centerline y~230). Rounded, gently wavy, dark-blue outline + blue body + lighter inner-
+  // lumen highlight + gloss => reads as a 3D vessel. All THREE angled needles (45/25/10-15)
+  // drive their tips into it at different x along its length; the vertical 90° needle stays to
+  // its LEFT (entry x=90) and passes straight down PAST it into the muscle without touching it.
+  var vpath='M115 230 C 190 224, 265 236, 340 229 C 415 223, 490 237, 565 230 C 592 227, 608 232, 620 230';
   s+='<path d="'+vpath+'" fill="none" stroke="#274E76" stroke-width="30" stroke-linecap="round"/>';
   s+='<path d="'+vpath+'" fill="none" stroke="#3D74B0" stroke-width="26" stroke-linecap="round"/>';
   s+='<path d="'+vpath+'" fill="none" stroke="#6098D2" stroke-width="14" stroke-linecap="round" opacity=".95"/>';
-  s+='<path d="M164 229 C 206 221, 250 238, 290 226 S 308 229, 316 228" fill="none" stroke="#AECCEC" stroke-width="4.5" stroke-linecap="round" opacity=".75"/>';
-  // needles ENTER IN ORDER and persist (left -> right): IM(0) -> SubQ(1) -> IV(2) -> ID(3)
-  s+=needle(90,0,210,0,-24);    // IM 90    (leftmost, vertical) -> muscle
-  s+=needle(215,45,156,1,-52);  // SubQ 45  -> fat
-  s+=needle(325,65,194,2,-40);  // IV 25    -> vein tube (tube under this needle)
-  s+=needle(465,77,120,3,-22);  // ID 10-15 (rightmost, shallowest) -> dermis
+  s+='<path d="M126 225 C 195 219, 265 231, 340 224 C 415 218, 490 232, 560 225 C 588 222, 602 227, 612 225" fill="none" stroke="#AECCEC" stroke-width="4.5" stroke-linecap="round" opacity=".75"/>';
+  // needles ENTER IN ORDER and persist (left -> right): IM(0) -> SubQ(1) -> IV(2) -> ID(3).
+  // The three angled tips all land on the vessel centerline (y~230); because a shallower angle
+  // needs a longer reach to hit the same depth, their tips cluster in the vessel's left portion.
+  s+=needle(90,0,210,0,-24);    // IM 90    (leftmost, vertical) -> muscle, LEFT of the vessel
+  s+=needle(215,45,116,1,-52);  // SubQ 45  -> tip in the vessel (~133,232)
+  s+=needle(325,65,189,2,-40);  // IV 25    -> tip in the vessel (~154,230)
+  s+=needle(465,77,356,3,-22);  // ID 10-15 (shallow, long reach) -> tip in the vessel (~118,230)
   // badges last, so they read over any barrel that leans across an entry point
   s+=badge(90,'90°',0)+badge(215,'45°',1)+badge(325,'25°',2)+badge(465,'10–15°',3);
   // layer labels, right-aligned next to their bands
