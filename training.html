@@ -92,6 +92,9 @@
   .figcard{background:#fbfaf6;border-radius:16px;padding:14px 14px 10px;box-shadow:0 16px 40px rgba(0,0,0,.28);}
   .figcard h3{font-family:var(--fdisp);font-weight:800;color:#0B2E36;font-size:1rem;margin:2px 2px 8px;text-align:center;}
   .angfig{width:100%;height:auto;display:block;}
+  .angfig .ndl{animation:ndlDomino 5s ease-in-out infinite;}
+  @keyframes ndlDomino{0%{transform:rotate(0deg);}9%{transform:rotate(0deg);}24%{transform:rotate(var(--rot));}100%{transform:rotate(var(--rot));}}
+  @media(prefers-reduced-motion:reduce){.angfig .ndl{animation:none;transform:rotate(var(--rot));}}
   .legrow{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px;}
   .legcol{text-align:center;padding:6px 2px;border-radius:9px;background:#f1ede2;}
   .legcol .r{font-family:var(--fdisp);font-weight:800;color:#0B2E36;font-size:.86rem;}
@@ -1759,8 +1762,9 @@ function injAnglesSVG(){
   var W=640,H=412, top=150;
   function bubbles(){var b='';for(var i=0;i<24;i++){var x=44+((i*67)%548),y=top+92+((i*41)%70);b+='<circle cx="'+x+'" cy="'+y+'" r="'+(7+(i%3)*2)+'" fill="#F7E7A8" stroke="#E7CE78" stroke-width="1"/>';}return b;}
   function fibers(){var f='';for(var i=0;i<6;i++){var y=top+180+i*12;f+='<path d="M28 '+y+' C 180 '+(y-4)+', 420 '+(y+4)+', 612 '+y+'" stroke="#A94A45" stroke-width="1.4" fill="none" opacity=".5"/>';}return f;}
-  function needle(cx, rot, depth, alab, ax){
-    var g='<g transform="translate('+cx+','+top+') rotate('+rot+')">';
+  function needle(cx, rot, depth, alab, ax, idx){
+    var g='<g transform="translate('+cx+','+top+')">';
+    g+='<g class="ndl" style="--rot:'+rot+'deg;animation-delay:'+(idx*0.18)+'s">';
     g+='<line x1="0" y1="-2" x2="0" y2="'+depth+'" stroke="#8b969c" stroke-width="4.5"/>';
     g+='<line x1="0" y1="-2" x2="0" y2="'+depth+'" stroke="#d3dbdf" stroke-width="1.6"/>';
     g+='<rect x="-7" y="-18" width="14" height="18" rx="2" fill="#2FA6B0"/>';
@@ -1782,10 +1786,10 @@ function injAnglesSVG(){
   s+=fibers();
   s+='<ellipse cx="533" cy="'+(top+100)+'" rx="46" ry="18" fill="#3D74B0" stroke="#2b5580" stroke-width="2"/>';
   s+='<ellipse cx="533" cy="'+(top+95)+'" rx="39" ry="11" fill="#5a92cf" opacity=".7"/>';
-  s+=needle(120,0,222,'90°',120);
-  s+=needle(250,-40,150,'45°',250);
-  s+=needle(360,-60,200,'25°',360);
-  s+=needle(470,-74,95,'10-15°',470);
+  s+=needle(120,0,222,'90°',120,0);
+  s+=needle(250,-40,150,'45°',250,1);
+  s+=needle(360,-60,200,'25°',360,2);
+  s+=needle(470,-74,95,'10-15°',470,3);
   s+='</svg>';return s;
 }
 function sellBandHTML(){
@@ -1794,9 +1798,9 @@ function sellBandHTML(){
    +'<h2>Hit the right layer. <span class="g">Every single time.</span></h2>'
    +'<p class="sblede">IM, SubQ, IV, ID — master the exact angle, depth, and site for every route until it’s muscle memory. Walk into any shift knowing you’ll get it right the first time.</p>'
    +'<ul class="selllist">'
-   +'<li><span class="ck">✓</span>Every route &amp; angle, drilled with real clinical scenarios</li>'
-   +'<li><span class="ck">✓</span>Instant feedback that tells you <b>why</b>, not just right or wrong</li>'
-   +'<li><span class="ck">✓</span>Verifiable certificates &amp; CE contact hours</li>'
+   +'<li><span class="ck">✓</span><span>Every route &amp; angle, drilled with real clinical scenarios</span></li>'
+   +'<li><span class="ck">✓</span><span>Feedback that explains the <b>why</b> — not just right or wrong</span></li>'
+   +'<li><span class="ck">✓</span><span>Verifiable certificates &amp; CE contact hours</span></li>'
    +'</ul>'
    +'<div class="sellcta"><button class="btn btn-gold" onclick="continueLearning()">Start learning →</button><button class="btn btn-ghost" onclick="go(\'pricing\')">See what’s inside</button></div>'
    +'<div class="selltrust"><span><b>3</b> full courses</span><span><b>16</b> modules</span><span>Built by <b>Lacey Smith, FNP-C</b></span></div>'
