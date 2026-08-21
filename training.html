@@ -226,6 +226,9 @@
   .block.mist{background:rgba(224,84,87,.13);border:1px solid rgba(224,84,87,.32);} .block.mist .bl{color:#F2B7B4;} .block.mist li::before{content:"\00d7";color:var(--bad);}
   .block.take{background:linear-gradient(160deg,#0E4E58,#0A2C3A);color:#fff;border:1px solid rgba(120,235,228,.22);} .block.take .bl{color:var(--gold2);} .block.take li{color:rgba(251,250,246,.9);} .block.take li::before{content:"\25c6";color:var(--gold2);font-size:.7rem;top:3px;}
   .illo{background:linear-gradient(160deg,#0E4E58,#0A2C3A);border:1px solid rgba(120,235,228,.2);border-radius:14px;padding:16px;margin-bottom:14px;display:flex;justify-content:center;} .illo svg{width:100%;max-width:420px;height:auto;max-height:30vh;} .illo img.figimg{width:100%;max-width:520px;height:auto;border-radius:12px;display:block;}
+  /* iOS/WebKit: force the rounded-corner clip to composite on the FIRST paint (previously only rounded after a scroll repaint) */
+  svg.figimg,img.figimg,.illo svg{border-radius:12px;overflow:hidden;-webkit-transform:translateZ(0);transform:translateZ(0);}
+  .illo,.figcard,.gsheet .gfig,.ix .ixfig{-webkit-transform:translateZ(0);transform:translateZ(0);}
   .lnav{display:flex;justify-content:space-between;gap:12px;padding:14px 30px 4px;}
   .lnav .sp{flex:1;}
   /* quiz */
@@ -1796,7 +1799,7 @@ function clearResume(id){try{var m=_resumeMap();if(m[id]){delete m[id];Store.set
 function exitLesson(){saveResume();go('home');}
 window.addEventListener('pagehide',saveResume);
 document.addEventListener('visibilitychange',function(){if(document.hidden)saveResume();});
-function openLesson(id){var c=lessonCourseOf(id);if(!lessonUnlocked(c,id)){flash();return;}if(ceNeedsDisclosure(c)){ceShowDisclosure(c,function(){openLesson(id);});return;}setCourse(c);S.lesson=id;S.step=resumeStepFor(id);S.view="lesson";window.scrollTo(0,0);render();}
+function openLesson(id){var c=lessonCourseOf(id);if(!lessonUnlocked(c,id)){flash();return;}if(ceNeedsDisclosure(c)){ceShowDisclosure(c,function(){openLesson(id);});return;}setCourse(c);S.lesson=id;S.step=resumeStepFor(id);S.view="lesson";render();try{window.scrollTo(0,0);}catch(_){}requestAnimationFrame(function(){window.scrollTo(0,0);});setTimeout(function(){window.scrollTo(0,0);},80);}
 function lessonCourseOf(id){for(var i=0;i<COURSE_IDS.length;i++){if(courseLessons(COURSE_IDS[i]).indexOf(id)>=0)return COURSE_IDS[i];}return "iv";}
 
 function render(){
