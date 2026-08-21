@@ -344,7 +344,7 @@
   .calc-note{font-size:.73rem;color:rgba(198,238,238,.6);margin-top:11px;line-height:1.5;}
   /* Drug reference (Rx) */
   .tool-switch{display:flex;gap:8px;}
-  .tsw{flex:1;padding:11px 12px;border-radius:12px;border:1.5px solid rgba(120,235,228,.28);background:rgba(230,246,246,.04);color:rgba(234,247,247,.82);font:inherit;font-weight:700;font-size:.88rem;cursor:pointer;transition:.15s;}
+  .tsw{flex:1;min-height:48px;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(120,235,228,.28);background:linear-gradient(160deg,#134E58,#0A2C38);color:#EAF7F7;font:inherit;font-weight:700;font-size:.95rem;cursor:pointer;transition:.15s;}
   .tsw:hover{border-color:rgba(120,235,228,.6);}
   .tsw.on{background:linear-gradient(135deg,#22E0DA,#14C9C6);border-color:transparent;color:#06312f;box-shadow:0 8px 20px rgba(34,224,218,.3);}
   .rx-searchbar{display:flex;align-items:center;gap:10px;background:linear-gradient(160deg,#134E58,#0A2C38);border:1.5px solid rgba(120,235,228,.28);border-radius:14px;padding:12px 16px;margin:4px 0 14px;}
@@ -4868,7 +4868,7 @@ function vTools(){
 function vToolsShell(inner){
   var t=S.toolTab||'rx';
   return '<div style="max-width:600px;margin:0 auto 14px"><div style="margin-bottom:10px"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button></div>'
-   +'<div class="tool-switch"><button class="tsw'+(t==='rx'?' on':'')+'" onclick="setTool(\'rx\')">💊 Drug reference</button><button class="tsw'+(t==='iv'?' on':'')+'" onclick="setTool(\'iv\')">🧮 Calculators</button></div></div>'
+   +'<div class="tool-switch"><button class="tsw'+(t==='rx'?' on':'')+'" onclick="setTool(\'rx\')">Drug reference</button><button class="tsw'+(t==='iv'?' on':'')+'" onclick="setTool(\'iv\')">Calculators</button></div></div>'
    +inner;
 }
 function vCalc(){
