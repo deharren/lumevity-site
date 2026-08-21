@@ -282,6 +282,14 @@
   .tbtn.prof{background:transparent;color:var(--muted);border:1px solid var(--stone);}
   @media(max-width:720px){.tbtn.prof{padding:8px 12px;}}
   .pfwrap{max-width:660px;margin:0 auto;}
+  /* Tools/calculator: fixed centered width on desktop, edge-to-edge on mobile */
+  .calcscreen{max-width:600px;margin:0 auto;}
+  .calctop{margin:0 0 14px;}
+  .calcscreen .pfwrap{max-width:100%!important;margin:0;}
+  @media(max-width:640px){
+    .calcscreen{max-width:none;margin-left:-22px;margin-right:-22px;}
+    .calcscreen .pfwrap,.calctop{padding-left:12px;padding-right:12px;}
+  }
   .pf-hero{position:relative;display:flex;gap:22px;align-items:center;background:linear-gradient(155deg,#154F5A,#0A2A37);border:1px solid rgba(120,235,228,.28);border-radius:22px;padding:22px 26px;margin-bottom:18px;box-shadow:0 24px 60px rgba(3,20,26,.32);overflow:hidden;animation:cevrise .5s ease;}
   .pf-hero::after{content:"";position:absolute;inset:0;background:radial-gradient(420px 200px at 92% -30%,rgba(34,224,218,.15),transparent 60%);pointer-events:none;}
   .pf-ring{position:relative;width:104px;height:104px;flex:none;}
@@ -321,6 +329,18 @@
   .pf-f input::placeholder{color:#9fb0b3;}
   .pf-f input:focus,.pf-f select:focus{outline:none;border-color:#22E0DA;box-shadow:0 0 0 3px rgba(34,224,218,.25);}
   .pf-f.ok input,.pf-f.ok select{border-color:rgba(34,224,218,.5);}
+  /* combined number + unit field */
+  .pf-combo{display:flex;align-items:stretch;height:46px;border:1.5px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(255,255,255,.97);overflow:hidden;transition:border-color .18s,box-shadow .18s;}
+  .pf-combo:focus-within{border-color:#22E0DA;box-shadow:0 0 0 3px rgba(34,224,218,.25);}
+  .pf-f .pf-combo input{height:100%;flex:1;min-width:0;width:auto;border:none;border-radius:0;background:transparent;padding:0 14px;box-shadow:none;}
+  .pf-f .pf-combo input:focus{box-shadow:none;border:none;}
+  .pf-f .pf-combo select{height:100%;width:auto;border:none;border-radius:0;background:rgba(18,51,59,.05);border-left:1.5px solid rgba(18,51,59,.12);padding:0 12px;font-weight:700;font-size:.9rem;min-width:84px;color:#12333B;box-shadow:none;}
+  .pf-f .pf-combo select:focus{box-shadow:none;border-left:1.5px solid rgba(18,51,59,.12);}
+  /* weight toggle switch */
+  .dv-switch{width:48px;height:27px;border-radius:20px;border:none;background:rgba(255,255,255,.22);position:relative;cursor:pointer;transition:.18s;flex:none;padding:0;}
+  .dv-switch.on{background:linear-gradient(135deg,#22E0DA,#14C9C6);}
+  .dv-knob{position:absolute;top:3px;left:3px;width:21px;height:21px;border-radius:50%;background:#fff;transition:.18s;box-shadow:0 1px 3px rgba(0,0,0,.25);}
+  .dv-switch.on .dv-knob{left:24px;}
   .pf-secfoot{display:flex;justify-content:flex-end;align-items:center;gap:12px;margin-top:16px;}
   @media(max-width:560px){.pf-hero{flex-direction:column;text-align:center;}.pf-heromain{width:100%;}.pf-track{justify-content:center;}.pf-save{justify-content:center;}.pf-grid{grid-template-columns:1fr;}}
   /* guided onboarding tour (spotlight uses the accordion; keep the coach banner) */
@@ -4497,6 +4517,18 @@ function setCalcRoute(r){S.calcRoute=r;render();setTimeout(calcCompute,20);}
 function _cInp(id,ph){return '<input id="'+id+'" type="number" inputmode="decimal" step="any" oninput="calcCompute()" placeholder="'+(ph||'')+'"/>';}
 function _cField(lab,id,ph,full){return '<div class="pf-f'+(full?' full':'')+'"><label><span>'+lab+'</span></label>'+_cInp(id,ph)+'</div>';}
 function _cSel(lab,id,opts,val){return '<div class="pf-f"><label><span>'+lab+'</span></label><select id="'+id+'" onchange="calcCompute()">'+opts.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===val?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></div>';}
+/* combined number + unit field (compact) */
+function _cCombo(lab,inpId,ph,selId,opts,val){
+  return '<div class="pf-f full"><label><span>'+lab+'</span></label>'
+   +'<div class="pf-combo"><input id="'+inpId+'" type="number" inputmode="decimal" step="any" oninput="calcCompute()" placeholder="'+(ph||'')+'"/>'
+   +'<select id="'+selId+'" onchange="calcCompute()">'+opts.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===val?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></div></div>';
+}
+function dvToggleWeight(){
+  S.dvWeightOn=!S.dvWeightOn;
+  var w=el('dvWeightWrap');if(w)w.style.display=S.dvWeightOn?'':'none';
+  var sw=el('dvSwitch');if(sw){sw.classList.toggle('on',S.dvWeightOn);sw.setAttribute('aria-checked',S.dvWeightOn?'true':'false');}
+  calcCompute();
+}
 /* ============================================================
    Drug reference (Rx) — an Epocrates-style monograph + weight-based
    dosing calculator. Educational reference content; every entry carries
@@ -4862,12 +4894,12 @@ function vRxSearch(){
 function vRxTool(){ return S.rxDrug?vRxMonograph():vRxSearch(); }
 function setTool(t){S.toolTab=t;render();if(t==='iv')setTimeout(calcCompute,20);}
 function vTools(){
-  if((S.toolTab||'rx')==='rx')return vToolsShell(vRxTool());
-  return vToolsShell(vCalc());
+  var inner=(S.toolTab||'rx')==='rx'?vToolsShell(vRxTool()):vToolsShell(vCalc());
+  return '<div class="calcscreen">'+inner+'</div>';
 }
 function vToolsShell(inner){
   var t=S.toolTab||'rx';
-  return '<div style="max-width:600px;margin:0 auto 14px"><div style="margin-bottom:10px"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button></div>'
+  return '<div class="calctop"><div style="margin-bottom:10px"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button></div>'
    +'<div class="tool-switch"><button class="tsw'+(t==='rx'?' on':'')+'" onclick="setTool(\'rx\')">Drug reference</button><button class="tsw'+(t==='iv'?' on':'')+'" onclick="setTool(\'iv\')">Calculators</button></div></div>'
    +inner;
 }
@@ -4908,11 +4940,13 @@ function vCalc(){
     subq:{ico:'💉',title:'Subcutaneous injection calculator',sub:'Volume to draw for a subcutaneous dose.'},
     id:{ico:'💉',title:'Intradermal calculator',sub:'Volume to draw for an intradermal dose.'}
   }[route];
-  var fields=
-     '<div class="pf-grid">'+_cField('Ordered dose','dv_dose','e.g. 500')+_cSel('Dose unit','dv_du',[['mg','mg'],['mcg','mcg'],['g','g'],['units','units']],'mg')+'</div>'
-     +_cSel('Dose type','dv_perkg',[['flat','Flat dose'],['perkg','Per kg (× weight)']],'flat')
-     +_cField('Patient weight (kg)','dv_wt','e.g. 20',true)
-     +'<div class="pf-grid">'+_cField('Vial concentration (amount per mL)','dv_conc','e.g. 250')+_cSel('Concentration unit','dv_cu',[['mg/mL','mg/mL'],['mcg/mL','mcg/mL'],['g/mL','g/mL'],['units/mL','units/mL']],'mg/mL')+'</div>';
+  var wOn=!!S.dvWeightOn;
+  var fields='<div class="pf-grid">'
+     +_cCombo('Ordered dose','dv_dose','e.g. 500','dv_du',[['mg','mg'],['mcg','mcg'],['g','g'],['units','units']],'mg')
+     +_cCombo('Vial concentration (per mL)','dv_conc','e.g. 250','dv_cu',[['mg/mL','mg/mL'],['mcg/mL','mcg/mL'],['g/mL','g/mL'],['units/mL','units/mL']],'mg/mL')
+     +'<div class="pf-f full"><label><span>Weight-based dose (per kg)</span><button type="button" id="dvSwitch" class="dv-switch'+(wOn?' on':'')+'" onclick="dvToggleWeight()" role="switch" aria-checked="'+(wOn?'true':'false')+'"><span class="dv-knob"></span></button></label></div>'
+     +'<div id="dvWeightWrap" style="grid-column:1/-1;'+(wOn?'':'display:none;')+'">'+_cField('Patient weight (kg)','dv_wt','e.g. 20',true)+'</div>'
+     +'</div>';
   return '<div class="pfwrap" style="max-width:560px">'
    +chooser
    +'<div class="pf-hero" style="padding:20px 24px;gap:18px"><div style="font-size:2.2rem;flex:none">'+meta.ico+'</div><div class="pf-heromain"><span class="eyebrow" style="color:#7FE6F0">Clinical tools</span><h2 style="color:#fff;margin:2px 0 3px;font-family:\'Plus Jakarta Sans\',system-ui,sans-serif;font-size:1.4rem">'+meta.title+'</h2><div class="pf-sub">'+meta.sub+'</div></div></div>'
@@ -4946,12 +4980,20 @@ function calcDrawUp(o){
 function dvSyringe(ml,ref){
   var frac=(ml!=null&&ml>0)?Math.min(ml/ref,1):0;
   var over=(ml!=null&&ml>ref);
-  var W=320,H=64,bx=44,by=16,bw=214,bh=32; // barrel
+  var W=320,H=84,bx=44,by=16,bw=214,bh=32; // barrel
   var fw=bw*frac;
   var fill='<defs><linearGradient id="dvfill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#28E8E2"/><stop offset="1" stop-color="#14B7B4"/></linearGradient></defs>';
-  var ticks='';
-  for(var i=1;i<4;i++){var tx=bx+bw*i/4;ticks+='<line x1="'+tx+'" y1="'+by+'" x2="'+tx+'" y2="'+(by+bh)+'" stroke="rgba(120,235,228,.28)" stroke-width="1"/>';}
-  var svg='<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="max-width:340px;display:block" role="img" aria-label="syringe fill">'
+  // graduation marks + mL numbers, scaled to the reference syringe size
+  var step=ref>=3?1:(ref>=1?0.2:ref/5);
+  var fmt=function(x){x=Math.round(x*100)/100;return (x%1===0)?x.toString():x.toString();};
+  var ticks='',labels='';
+  for(var v=0;v<=ref+1e-9;v+=step){
+    var vr=Math.round(v*100)/100,tx=bx+bw*(vr/ref),isEnd=(vr===0||Math.abs(vr-ref)<1e-9);
+    ticks+='<line x1="'+tx+'" y1="'+by+'" x2="'+tx+'" y2="'+(by+bh)+'" stroke="rgba(120,235,228,'+(isEnd?'.55':'.32')+')" stroke-width="1"/>';
+    labels+='<text x="'+tx+'" y="'+(by+bh+16)+'" text-anchor="middle" font-family="Inter,system-ui" font-size="10.5" fill="rgba(198,238,238,.82)">'+fmt(vr)+'</text>';
+  }
+  labels+='<text x="'+(bx+bw+16)+'" y="'+(by+bh+16)+'" text-anchor="start" font-family="Inter,system-ui" font-size="9.5" fill="rgba(198,238,238,.6)">mL</text>';
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="max-width:340px;display:block" role="img" aria-label="syringe fill with millilitre graduations">'
     +fill
     // plunger rod (left)
     +'<rect x="6" y="'+(by+bh/2-4)+'" width="30" height="8" rx="2" fill="rgba(198,238,238,.45)"/>'
@@ -4963,6 +5005,7 @@ function dvSyringe(ml,ref){
     // needle hub + needle (right)
     +'<rect x="'+(bx+bw)+'" y="'+(by+bh/2-6)+'" width="14" height="12" rx="2" fill="rgba(198,238,238,.55)"/>'
     +'<line x1="'+(bx+bw+14)+'" y1="'+(by+bh/2)+'" x2="'+(W-2)+'" y2="'+(by+bh/2)+'" stroke="rgba(198,238,238,.7)" stroke-width="2"/>'
+    +labels
     +'</svg>';
   var cap=over
     ? '<div style="font-size:.76rem;color:#FAD9CE;margin-top:6px">Exceeds one '+ref+' mL syringe — draw across more than one, or reassess.</div>'
@@ -4995,7 +5038,7 @@ function calcCompute(){
     function nv(id){var e=el(id);if(!e)return null;var v=parseFloat(e.value);return isNaN(v)?null:v;}
     function rnd(ml){return ml<0.1?Math.round(ml*1000)/1000:Math.round(ml*100)/100;}
     var ref={im:3,subq:1,id:1}[route];
-    var perkg=(el('dv_perkg')||{}).value||'flat';
+    var perkg=S.dvWeightOn?'perkg':'flat';
     var res=calcDrawUp({dose:nv('dv_dose'),doseUnit:(el('dv_du')||{}).value,perkg:perkg,weight:nv('dv_wt'),conc:nv('dv_conc'),concUnit:(el('dv_cu')||{}).value});
     var vis=el('dvVisual'),guide=el('dvGuide');
     if(res.err){
