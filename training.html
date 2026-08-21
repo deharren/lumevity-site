@@ -59,6 +59,7 @@
   .tbtn.pro{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#3a2e0e;}
   .tbtn.reset{background:transparent;color:var(--muted);border:1px solid var(--stone);}
   @media(max-width:720px){ .brand .nm{font-size:1.1rem;} .ov{min-width:96px;} .tbtn.reset{display:none;} .brand .nm small{display:none;} }
+  @media(max-width:480px){ .ovwrap .ov{display:none;} }
 
   .view{padding:26px 0 90px;} .ribbon{background:var(--emerald);color:rgba(251,250,246,.85);font-size:.72rem;text-align:center;padding:7px 20px;}
   .ribbon b{color:var(--gold2);font-weight:700;}
@@ -126,6 +127,7 @@
 
   /* ===== Gauge cluster ===== */
   .cluster{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:8px 0 6px;}
+  @media(max-width:720px){.cluster{grid-template-columns:1fr;}}
   .gauge{background:var(--white);border:1px solid var(--stone);border-radius:18px;padding:18px;display:flex;gap:14px;align-items:center;box-shadow:0 12px 30px rgba(6,26,30,.32);}
   .gauge .lbl{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--gold-deep);}
   .gauge .big{font-family:var(--fdisp);font-size:1.5rem;color:var(--head);line-height:1;margin:3px 0;}
@@ -301,7 +303,7 @@
   .pf-track{display:flex;gap:6px;margin-top:13px;}
   .pf-seg{height:6px;border-radius:4px;flex:1;background:rgba(255,255,255,.1);transition:background .35s,box-shadow .35s;}
   .pf-seg.on{background:linear-gradient(90deg,#14C9C6,#22E0DA);box-shadow:0 0 10px rgba(34,224,218,.55);}
-  .pf-save{margin-top:11px;font-size:.7rem;color:rgba(198,238,238,.58);display:flex;align-items:center;gap:6px;}
+  .pf-save{margin-top:11px;font-size:.7rem;color:rgba(207,234,234,.86);display:flex;align-items:center;gap:6px;}
   /* accordion sections — one open at a time, others collapse to a tidy summary */
   .pf-sec{background:linear-gradient(160deg,#123F49,#0A2833);border:1px solid rgba(120,235,228,.16);border-radius:16px;margin-bottom:11px;overflow:hidden;transition:border-color .25s,box-shadow .25s,background .25s;}
   .pf-sec.open{background:linear-gradient(160deg,#154E59,#0A2C38);border-color:rgba(34,224,218,.45);box-shadow:0 14px 40px rgba(3,20,26,.3);}
@@ -312,7 +314,7 @@
   .pf-sec.done:not(.open) .pf-cico{background:linear-gradient(135deg,#22E0DA,#14C9C6);color:#06312f;font-weight:800;}
   .pf-chmeta{min-width:0;flex:1;}
   .pf-ctitle{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;color:#fff;font-size:1rem;line-height:1.2;}
-  .pf-csum{font-size:.78rem;color:rgba(198,238,238,.6);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .pf-csum{font-size:.78rem;color:rgba(207,234,234,.86);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .pf-cright{display:flex;align-items:center;gap:10px;flex:none;color:rgba(198,238,238,.5);font-size:.74rem;font-weight:700;}
   .pf-cedit{color:#7FE6F0;}
   .pf-chev{font-size:.66rem;opacity:.55;}
@@ -343,6 +345,7 @@
   .dv-switch.on .dv-knob{left:24px;}
   /* generated tool icons (replace emojis) */
   .tool-ico{width:58px;height:58px;border-radius:15px;object-fit:cover;flex:none;display:block;box-shadow:0 6px 18px rgba(0,0,0,.4);}
+  .calc-tab:focus-visible,.tsw:focus-visible,.pf-tgl:focus-visible,.tbtn:focus-visible{outline:2px solid #22E0DA;outline-offset:2px;}
   .pf-secfoot{display:flex;justify-content:flex-end;align-items:center;gap:12px;margin-top:16px;}
   @media(max-width:560px){.pf-hero{flex-direction:column;text-align:center;}.pf-heromain{width:100%;}.pf-track{justify-content:center;}.pf-save{justify-content:center;}.pf-grid{grid-template-columns:1fr;}}
   /* guided onboarding tour (spotlight uses the accordion; keep the coach banner) */
@@ -363,7 +366,7 @@
   .calc-out{margin-top:18px;background:rgba(34,224,218,.09);border:1px solid rgba(34,224,218,.38);border-radius:14px;padding:16px 18px;text-align:center;}
   .calc-out b{display:block;font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:2rem;font-weight:800;color:#EAFFFF;line-height:1.1;}
   .calc-out span{display:block;font-size:.82rem;color:rgba(198,238,238,.85);margin-top:5px;}
-  .calc-note{font-size:.73rem;color:rgba(198,238,238,.6);margin-top:11px;line-height:1.5;}
+  .calc-note{font-size:.73rem;color:rgba(207,234,234,.86);margin-top:11px;line-height:1.5;}
   /* Drug reference (Rx) */
   .tool-switch{display:flex;gap:8px;}
   .tsw{flex:1;min-height:48px;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(120,235,228,.28);background:linear-gradient(160deg,#134E58,#0A2C38);color:#EAF7F7;font:inherit;font-weight:700;font-size:.95rem;cursor:pointer;transition:.15s;}
@@ -381,7 +384,7 @@
   .rx-rmain b{display:block;color:#fff;font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:1.02rem;font-weight:700;text-transform:capitalize;}
   .rx-rmain small{display:block;color:rgba(198,238,238,.7);font-size:.78rem;margin-top:2px;}
   .rx-chev{color:rgba(120,235,228,.6);font-size:1.4rem;flex:none;}
-  .rx-empty,.rx-none{color:rgba(198,238,238,.62);font-size:.9rem;padding:10px 4px;}
+  .rx-empty,.rx-none{color:rgba(207,234,234,.86);font-size:.9rem;padding:10px 4px;}
   .rx-head{background:linear-gradient(155deg,#154F5A,#0A2A37);border:1px solid rgba(120,235,228,.28);border-radius:18px;padding:18px 22px;margin-bottom:14px;}
   .rx-hname{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:1.7rem;font-weight:800;color:#fff;text-transform:capitalize;line-height:1.1;}
   .rx-hsub{color:#7FE6F0;font-size:.86rem;margin-top:3px;}
@@ -401,7 +404,7 @@
   .rx-ind:first-of-type{border-top:none;}
   .rx-indh{color:#fff;font-weight:700;font-size:.92rem;}
   .rx-dose{color:#BFF0EC;font-size:.9rem;margin-top:3px;}
-  .rx-info{color:rgba(198,238,238,.62);font-size:.78rem;margin-top:2px;font-style:italic;}
+  .rx-info{color:rgba(207,234,234,.86);font-size:.78rem;margin-top:2px;font-style:italic;}
   .rx-boxed{background:rgba(240,120,90,.14);border:1px solid rgba(240,120,90,.5);border-radius:10px;padding:11px 13px;color:#FAD9CE;font-size:.86rem;line-height:1.5;}
   .rx-p{color:rgba(222,244,244,.9);font-size:.9rem;line-height:1.55;margin:4px 0;}
   .rx-ul{margin:2px 0;padding-left:18px;color:rgba(222,244,244,.9);font-size:.88rem;line-height:1.55;}
@@ -412,12 +415,11 @@
   .tools-grid{display:grid;grid-template-columns:1fr;gap:12px;}
   .tool-card{display:flex;align-items:center;gap:14px;background:linear-gradient(160deg,#134E58,#0A2C38);border:1px solid rgba(120,235,228,.2);border-radius:16px;padding:16px 18px;cursor:pointer;transition:.18s;}
   .tool-card:hover{border-color:rgba(34,224,218,.5);transform:translateY(-1px);}
-  .tool-ico{width:44px;height:44px;border-radius:12px;background:rgba(120,235,228,.14);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex:none;}
   .confetti{position:fixed;inset:0;pointer-events:none;z-index:199;overflow:hidden;} .confetti i{position:absolute;top:-12px;width:9px;height:14px;border-radius:2px;animation:fall linear forwards;}
 
   /* Mascot */
   #mascot{position:fixed;right:18px;bottom:18px;z-index:130;display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
-  .mbtn{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#16A9B8,#0E8A93);border:2px solid #fff;box-shadow:0 12px 28px rgba(14,138,147,.42);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s;}
+  .mbtn{width:60px;height:60px;padding:0;border-radius:50%;background:linear-gradient(135deg,#16A9B8,#0E8A93);border:2px solid #fff;box-shadow:0 12px 28px rgba(14,138,147,.42);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s;}
   .mbtn:hover{transform:scale(1.06);} .mbtn svg{width:32px;height:32px;stroke:#fff;}
   .bubble{width:346px;max-width:88vw;background:#fff;border:1px solid var(--stone);border-radius:18px;box-shadow:0 24px 56px rgba(10,40,50,.28);overflow:hidden;display:none;}
   .bubble.show{display:block;animation:pop .25s ease;}
@@ -425,7 +427,7 @@
   .bubble .bh .av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#22C3D6,#0E8A93);display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 0 0 2px rgba(255,255,255,.25);}
   .bubble .bh .av svg{width:20px;height:20px;stroke:#fff;}
   .bubble .bh .nm{font-weight:800;font-size:.95rem;} .bubble .bh .nm s{display:block;font-size:.56rem;text-decoration:none;color:#BFE9EF;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-top:1px;}
-  .bubble .bh .x{margin-left:auto;cursor:pointer;opacity:.85;font-size:1.1rem;}
+  .bubble .bh .x{margin-left:auto;cursor:pointer;opacity:.85;font-size:1.1rem;background:none;border:none;padding:0;color:inherit;line-height:1;}
   .bubble .bd{padding:14px 15px;max-height:344px;overflow-y:auto;background:#f6fafb;}
   .msg{font-size:.88rem;line-height:1.5;margin-bottom:10px;background:#fff;border:1px solid var(--stone);border-radius:13px;padding:10px 13px;color:var(--ink);box-shadow:0 2px 8px rgba(10,40,50,.05);max-width:92%;}
   .msg.me{background:linear-gradient(135deg,#14A3B4,#0E8A93);color:#fff;border:none;margin-left:auto;}
@@ -986,13 +988,13 @@
 <footer><div class="wrap"><div class="disc"><b>Educational Disclaimer:</b> IV Rejuve provides educational instruction only. Course completion is not a license, certification to practice, or authorization to perform any procedure. Hands-on skills must be practiced and validated under qualified supervision, and all learners must work within their scope of practice and applicable regulations. &nbsp;© 2026 IV Rejuve.</div></div></footer>
 
 <div id="mascot">
-  <div class="bubble" id="bubble"><div class="bh"><div class="av"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="1.8"><path d="M12 3a7 7 0 00-4 12.7V19l3-1.5a7 7 0 001-14z"/><path d="M9 10h6M9 13h4"/></svg></div><div class="nm">Vera<s>Clinical Assistant</s></div><div class="x" onclick="toggleMascot(false)">✕</div></div><div class="bd" id="mbd"></div><div class="mask"><input id="mInput" placeholder="Ask about this lesson…" onkeydown="if(event.key==='Enter')askVera()"/><button onclick="askVera()">Ask</button></div></div>
-  <div class="mbtn" onclick="toggleMascot()"><svg viewBox="0 0 24 24" fill="none" stroke="#E3CE9A" stroke-width="1.7"><path d="M12 3a7 7 0 00-4 12.7V19l3-1.5a7 7 0 001-14z"/><path d="M9 10h6M9 13h4"/></svg></div>
+  <div class="bubble" id="bubble"><div class="bh"><div class="av"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="1.8"><path d="M12 3a7 7 0 00-4 12.7V19l3-1.5a7 7 0 001-14z"/><path d="M9 10h6M9 13h4"/></svg></div><div class="nm">Vera<s>Clinical Assistant</s></div><button type="button" class="x" aria-label="Close" onclick="toggleMascot(false)">✕</button></div><div class="bd" id="mbd"></div><div class="mask"><input id="mInput" aria-label="Message the training assistant" placeholder="Ask about this lesson…" onkeydown="if(event.key==='Enter')askVera()"/><button type="button" aria-label="Send message" onclick="askVera()">Ask</button></div></div>
+  <button type="button" class="mbtn" aria-label="Open training assistant" onclick="toggleMascot()"><svg viewBox="0 0 24 24" fill="none" stroke="#E3CE9A" stroke-width="1.7"><path d="M12 3a7 7 0 00-4 12.7V19l3-1.5a7 7 0 001-14z"/><path d="M9 10h6M9 13h4"/></svg></button>
 </div>
 <div id="xpLayer"></div>
 <div class="confetti" id="confetti"></div>
 <div class="cele" id="cele"><div class="pop"><div class="ci" id="celeIcon">🎉</div><div class="ct" id="celeTitle">Unlocked</div><div class="cs" id="celeSub"></div></div></div>
-<div class="modal" id="modal"><div class="box" id="modalBox"></div></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true"><div class="box" id="modalBox"></div></div>
 <div class="gsheet" id="gsheet"><div class="gback" onclick="closeTerm()"></div><div class="gcard" id="gcard"></div></div>
 <div class="mlb" id="mlb"><div class="mlbback" onclick="closeMedia()"></div><div class="mlbbox" id="mlbBox"></div></div>
 
@@ -2100,7 +2102,7 @@ function lessonCard(c){
   return '<div class="lcardwrap"><div class="lc-eyebrow" style="margin-bottom:12px">Continue your training</div><div class="lcard">'
     +'<div class="lc-tabs">'+tabs+'</div>'
     +'<div class="lc-top"><h4>'+esc(C.name)+'</h4><span class="lc-prog">'+cd.p+'% complete</span></div>'
-    +'<div class="lc-sub">'+C.modules.length+' modules · '+subLabel+'</div>'
+    +'<div class="lc-sub">'+courseLessons(c).length+' lessons · '+subLabel+'</div>'
     +'<div class="lc-bar"><i style="width:'+cd.p+'%"></i></div>'
     +'<div class="lc-list">'+rows+'</div>'
     +'</div></div>';
@@ -2376,7 +2378,7 @@ function vCert(){
       +'<div class="pf-body"><div class="pf-grid">'
         +'<div class="pf-f full"><label><span>Full name <span class="req">*</span></span><span class="pf-ok">✓</span></label><input id="nameIn" placeholder="e.g., Jane Smith" value="'+esc(S.name||"")+'"/></div>'
         +'<div class="pf-f"><label><span>License type</span></label>'+_sel("licType",["","RN","LPN","APRN","Other"],_lt)+'</div>'
-        +'<div class="pf-f"><label><span>State</span></label><input id="licState" value="'+esc((S.license&&S.license.state)||"OH")+'"/></div>'
+        +'<div class="pf-f"><label><span>State</span></label><input id="licState" placeholder="Select…" value="'+esc((S.license&&S.license.state)||(P()&&P().licenseState)||"")+'"/></div>'
         +'<div class="pf-f full"><label><span>License number</span></label><input id="licNum" placeholder="Optional" value="'+esc((S.license&&S.license.num)||"")+'"/></div>'
       +'</div>'
       +'<div id="nameErr" style="color:#FF9C9C;font-size:.84rem;font-weight:600;margin-top:10px;min-height:1.1em"></div>'
@@ -2406,7 +2408,7 @@ function setCertDetails(){
   if(!v){var e=el("nameErr");if(e)e.textContent="Please enter the name for your certificate.";if(i)i.focus();return;}
   S.name=v;
   var lt=(el("licType")&&el("licType").value)||"";
-  S.license={type:lt,num:(el("licNum")&&el("licNum").value||"").trim(),state:((el("licState")&&el("licState").value||"OH").trim()||"OH")};
+  S.license={type:lt,num:(el("licNum")&&el("licNum").value||"").trim(),state:((el("licState")&&el("licState").value||"").trim())};
   persist();render();
 }
 function setName(){setCertDetails();}
@@ -2479,15 +2481,18 @@ setTimeout(function(){try{ceHashRoute();}catch(e){}},600);   // honor a #verify 
 function vPricing(){
   var annual=S.billing==="annual";
   var elig=ceEligible();  // only advertise CE to Ohio nurses
+  var _cnames=COURSE_IDS.map(function(c){return (COURSES[c]&&COURSES[c].name)||c;});
+  var _ccount=COURSE_IDS.length;
+  var _clist=_cnames.length>1?(_cnames.slice(0,-1).join(', ')+' & '+_cnames[_cnames.length-1]):(_cnames[0]||'');
   var proPrice=annual?'$499<s>/yr</s>':'$59<s>/mo</s>';
   var proNote=annual?'~$42/mo billed annually · save 30%':'month-to-month';
   var stuPrice=annual?'$299<s>/yr</s>':'$34<s>/mo</s>';
   var stuNote=annual?'~$25/mo · student verification':'month-to-month · student verification';
-  var h='<div style="text-align:center"><span class="eyebrow">Membership</span><h2 style="font-size:1.8rem;color:var(--head);margin:6px 0">Start free. Certify when you\'re ready.</h2><p style="color:var(--muted);max-width:560px;margin:0 auto">In-person IV &amp; injection training courses run <b>$1,500–$5,000 for a single day</b>. IV Rejuve gives you all three procedures, ongoing lessons, and a certificate of completion for <b>$499 a year</b>.</p>';
+  var h='<div style="text-align:center"><span class="eyebrow">Membership</span><h2 style="font-size:1.8rem;color:var(--head);margin:6px 0">Start free. Certify when you\'re ready.</h2><p style="color:var(--muted);max-width:560px;margin:0 auto">In-person IV &amp; injection training courses run <b>$1,500–$5,000 for a single day</b>. IV Rejuve gives you all '+_ccount+' courses, ongoing lessons, and a certificate of completion for <b>$499 a year</b>.</p>';
   h+='<div class="toggle"><button class="'+(annual?'on':'')+'" onclick="setBilling(\'annual\')">Annual · save 30%</button><button class="'+(!annual?'on':'')+'" onclick="setBilling(\'monthly\')">Monthly</button></div></div>';
   h+='<div class="pgrid">';
   h+='<div class="tier"><h3>Free Taster</h3><div class="price">$0</div><div class="pnote">No card required</div><ul><li>First IV Insertion lesson</li><li>One sample demo video</li><li>Knowledge checks for that lesson</li></ul><button class="btn btn-ghost" onclick="go(\'home\')">Start free</button></div>';
-  h+='<div class="tier pop"><div class="tag">Most popular</div><h3>All-Access Pro</h3><div class="price">'+proPrice+'</div><div class="pnote">'+proNote+' · 7-day free trial</div><ul><li>All courses: IV, IM &amp; subcutaneous</li><li>Full HD demo video library</li><li>Competency checklists &amp; progress</li><li>Verifiable <b>certificates of completion</b></li>'+(elig?'<li>Nursing <b>CE contact hours</b> — Ohio</li>':'')+'<li>Live clinical AI assistant</li><li>New courses at no extra cost</li></ul><button class="btn btn-gold" onclick="checkout(\'All-Access Pro\')">Start 7-day trial</button></div>';
+  h+='<div class="tier pop"><div class="tag">Most popular</div><h3>All-Access Pro</h3><div class="price">'+proPrice+'</div><div class="pnote">'+proNote+' · 7-day free trial</div><ul><li>All courses: '+esc(_clist)+'</li><li>Full HD demo video library</li><li>Competency checklists &amp; progress</li><li>Verifiable <b>certificates of completion</b></li>'+(elig?'<li>Nursing <b>CE contact hours</b> — Ohio</li>':'')+'<li>Live clinical AI assistant</li><li>New courses at no extra cost</li></ul><button class="btn btn-gold" onclick="checkout(\'All-Access Pro\')">Start 7-day trial</button></div>';
   h+='<div class="tier"><h3>Student</h3><div class="price">'+stuPrice+'</div><div class="pnote">'+stuNote+'</div><ul><li>Everything in Pro</li><li>Student-verified discount</li><li>Built for skills labs &amp; clinicals</li></ul><button class="btn btn-ghost" onclick="checkout(\'Student\')">Verify &amp; save</button></div>';
   h+='<div class="tier"><h3>Single Course</h3><div class="price">$249<s> once</s></div><div class="pnote">Lifetime access to one course</div><ul><li>One full course + certificate</li><li>Knowledge checks &amp; checklists</li><li>Yours to keep</li></ul><button class="btn btn-ghost" onclick="checkout(\'Single Course\')">Buy a course</button></div>';
   h+='</div>';
@@ -2512,6 +2517,7 @@ window.addEventListener("resize",sizeModal);
 window.addEventListener("orientationchange",function(){setTimeout(sizeModal,250);});
 function openModal(html,cls){var b=el("modalBox");b.className="box"+(cls?" "+cls:"");b.innerHTML=html;el("modal").classList.add("show");sizeModal();setTimeout(sizeModal,60);}
 function closeModal(){el("modal").classList.remove("show");}
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){var m=el("modal");if(m&&m.classList.contains("show"))closeModal();}});
 el("modal").addEventListener("click",function(e){if(e.target===el("modal"))closeModal();});
 
 /* ============ Mascot (Vera, clinical assistant) ============ */
@@ -4262,7 +4268,7 @@ function ceHours(c){
 var CE_PREVIEW=true;
 /* CE activates only for an RN or LPN/LVN with an Ohio address. Everyone else
    keeps the identical progress-fill screen with neutral "hours" wording. */
-function ceEligible(){try{var p=P();var c=(p.credentials||"");return (c==="RN"||c==="LPN")&&((p.state||"")==="OH");}catch(e){return false;}}
+function ceEligible(){try{var p=P();var c=(p.credentials||"");return pfIsNurse() && (c==="RN"||c==="LPN") && ((p.state||"")==="OH");}catch(e){return false;}}
 function ceIsAccredited(c){if(!ceEligible())return false;if(CE_PREVIEW)return true;var a=CE.acts[c];return !!(a&&a.accredited);}
 function ceRealAccredited(){for(var i=0;i<COURSE_IDS.length;i++){var a=CE.acts[COURSE_IDS[i]];if(a&&a.accredited)return true;}return false;}
 function ceAnyActive(){return CE_PREVIEW||ceRealAccredited();}
@@ -4412,11 +4418,11 @@ function pfFieldHTML(p,f){
   var val=(p[f.k]||"").toString(),inp;
   var lab='<label><span>'+esc(f.label)+(f.req?' <span class="req">*</span>':'')+'</span><span class="pf-ok">✓</span></label>';
   if(f.type==="toggle"){
-    inp='<div class="pf-toggle">'+f.opts.map(function(o){return '<button type="button" class="pf-tgl'+(val===o[0]?' on':'')+'" onclick="pfSetNurse(\''+o[0]+'\')">'+esc(o[1])+'</button>';}).join('')+'</div>';
+    inp='<div class="pf-toggle">'+f.opts.map(function(o){return '<button type="button" class="pf-tgl'+(val===o[0]?' on':'')+'" aria-pressed="'+(val===o[0]?'true':'false')+'" onclick="pfSetNurse(\''+o[0]+'\')">'+esc(o[1])+'</button>';}).join('')+'</div>';
   }else if(f.type==="select"){
-    inp='<select id="pff-'+f.k+'" onchange="pfSet(\''+f.k+'\',this.value)">'+f.opts.map(function(o){return '<option value="'+esc(o)+'"'+(o===val?' selected':'')+'>'+(o?esc(o):'Select…')+'</option>';}).join('')+'</select>';
+    inp='<select id="pff-'+f.k+'" aria-label="'+esc(f.label)+'" onchange="pfSet(\''+f.k+'\',this.value)">'+f.opts.map(function(o){return '<option value="'+esc(o)+'"'+(o===val?' selected':'')+'>'+(o?esc(o):'Select…')+'</option>';}).join('')+'</select>';
   }else{
-    inp='<input id="pff-'+f.k+'" type="'+(f.type||"text")+'" value="'+esc(val)+'" oninput="pfSet(\''+f.k+'\',this.value)" placeholder="'+esc(f.label)+'"/>';
+    inp='<input id="pff-'+f.k+'" type="'+(f.type||"text")+'" aria-label="'+esc(f.label)+'" value="'+esc(val)+'" oninput="pfSet(\''+f.k+'\',this.value)" placeholder="'+esc(f.label)+'"/>';
   }
   return '<div class="pf-f'+(f.full?' full':'')+(pfFilled(f)?' ok':'')+'" id="pfw-'+f.k+'">'+lab+inp+'</div>';
 }
@@ -4485,7 +4491,7 @@ function pfOpenNext(){
 var _pfBackup=null;
 function pfTourStart(){try{_pfBackup=JSON.parse(JSON.stringify(P()));}catch(e){_pfBackup=null;}S.profile={};_pfCele=false;S.pfTour={step:0};window.scrollTo(0,0);render();}
 function pfTourScroll(){setTimeout(function(){if(!S.pfTour)return;var secs=pfApplicableSections(),s=secs[S.pfTour.step];if(!s)return;var c=el("pfc-"+s.key);if(c){var y=c.getBoundingClientRect().top+window.pageYOffset-180;window.scrollTo({top:Math.max(0,y),behavior:"smooth"});}},80);}
-function pfTourNext(){if(!S.pfTour)return;if(S.pfTour.step<pfApplicableSections().length-1){S.pfTour.step++;render();pfTourScroll();}else{S.pfTour=null;profileSave();render();if(profileComplete())celebrate("🎉","Profile complete",pfCompleteSub());}}
+function pfTourNext(){if(!S.pfTour)return;if(S.pfTour.step<pfApplicableSections().length-1){S.pfTour.step++;render();pfTourScroll();}else{S.profile=Object.assign({},_pfBackup||{},S.profile);_pfBackup=null;S.pfTour=null;profileSave();render();if(profileComplete())celebrate("🎉","Profile complete",pfCompleteSub());}}
 function pfTourExit(){if(_pfBackup)S.profile=_pfBackup;_pfBackup=null;S.pfTour=null;profileSave();render();}
 function pfFlash(elx){if(!elx)return;elx.style.transition="box-shadow .3s";elx.style.boxShadow="0 0 0 3px rgba(34,224,218,.5)";setTimeout(function(){elx.style.boxShadow="";},480);}
 function pfTypeInto(f,v){
@@ -4516,14 +4522,15 @@ function pfDone(){profileSave();if(profileComplete())celebrate("✅","Saved",ceE
 /* ============ TOOLS: IV infusion calculator (separate from lessons/quizzes) ============ */
 function setCalc(m){S.calcMode=m;render();setTimeout(calcCompute,20);}
 function setCalcRoute(r){S.calcRoute=r;render();setTimeout(calcCompute,20);}
-function _cInp(id,ph){return '<input id="'+id+'" type="number" inputmode="decimal" step="any" oninput="calcCompute()" placeholder="'+(ph||'')+'"/>';}
-function _cField(lab,id,ph,full){return '<div class="pf-f'+(full?' full':'')+'"><label><span>'+lab+'</span></label>'+_cInp(id,ph)+'</div>';}
-function _cSel(lab,id,opts,val){return '<div class="pf-f"><label><span>'+lab+'</span></label><select id="'+id+'" onchange="calcCompute()">'+opts.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===val?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></div>';}
+function _cInp(id,ph,lab){return '<input id="'+id+'" type="number" inputmode="decimal" step="any"'+(lab?' aria-label="'+esc(lab)+'"':'')+' oninput="calcCompute()" placeholder="'+(ph||'')+'"/>';}
+function _cField(lab,id,ph,full){return '<div class="pf-f'+(full?' full':'')+'"><label><span>'+lab+'</span></label>'+_cInp(id,ph,lab)+'</div>';}
+function _cSel(lab,id,opts,val){return '<div class="pf-f"><label><span>'+lab+'</span></label><select id="'+id+'" aria-label="'+esc(lab)+'" onchange="calcCompute()">'+opts.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===val?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></div>';}
 /* combined number + unit field (compact) */
 function _cCombo(lab,inpId,ph,selId,opts,val){
+  var ulab=(selId==='dv_du')?'Dose unit':(selId==='dv_cu')?'Concentration unit':(lab+' unit');
   return '<div class="pf-f full"><label><span>'+lab+'</span></label>'
-   +'<div class="pf-combo"><input id="'+inpId+'" type="number" inputmode="decimal" step="any" oninput="calcCompute()" placeholder="'+(ph||'')+'"/>'
-   +'<select id="'+selId+'" onchange="calcCompute()">'+opts.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===val?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></div></div>';
+   +'<div class="pf-combo"><input id="'+inpId+'" type="number" inputmode="decimal" step="any" aria-label="'+esc(lab)+'" oninput="calcCompute()" placeholder="'+(ph||'')+'"/>'
+   +'<select id="'+selId+'" aria-label="'+esc(ulab)+'" onchange="calcCompute()">'+opts.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===val?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></div></div>';
 }
 function dvToggleWeight(){
   S.dvWeightOn=!S.dvWeightOn;
@@ -4866,11 +4873,11 @@ function rxCalcCompute(){
   function n(id){var e=el(id);if(!e)return null;var v=parseFloat(e.value);return isNaN(v)?null:v;}
   function r(x,d){var p=Math.pow(10,d||0);return Math.round(x*p)/p;}
   var dose=n('rc_dose'),unit=(el('rc_unit')||{}).value,wt=n('rc_wt'),wu=(el('rc_wu')||{}).value,freq=n('rc_freq');
-  if(dose==null){out.innerHTML='<b>—</b><span>Enter dose, weight, and frequency</span>';if(note)note.textContent='';return;}
+  if(dose==null||!(dose>0)){out.innerHTML='<b>—</b><span>Enter valid dose, weight, and frequency</span>';if(note)note.textContent='';return;}
   var wtKg=(wt==null?null:(wu==='lb'?wt*0.453592:wt));
   var perDay=null, perDose=null, dosesPerDay=(freq&&freq>0)?(24/freq):null;
-  if(unit==='mgkgday'){if(wtKg==null){out.innerHTML='<b>—</b><span>Enter patient weight</span>';return;}perDay=dose*wtKg;if(dosesPerDay)perDose=perDay/dosesPerDay;}
-  else if(unit==='mgkgdose'){if(wtKg==null){out.innerHTML='<b>—</b><span>Enter patient weight</span>';return;}perDose=dose*wtKg;if(dosesPerDay)perDay=perDose*dosesPerDay;}
+  if(unit==='mgkgday'){if(wtKg==null||!(wtKg>0)){out.innerHTML='<b>—</b><span>Enter valid patient weight</span>';return;}perDay=dose*wtKg;if(dosesPerDay)perDose=perDay/dosesPerDay;}
+  else if(unit==='mgkgdose'){if(wtKg==null||!(wtKg>0)){out.innerHTML='<b>—</b><span>Enter valid patient weight</span>';return;}perDose=dose*wtKg;if(dosesPerDay)perDay=perDose*dosesPerDay;}
   else if(unit==='mgday'){perDay=dose;if(dosesPerDay)perDose=perDay/dosesPerDay;}
   else{perDose=dose;if(dosesPerDay)perDay=perDose*dosesPerDay;}
   var cv=(el('rc_conc')||{}).value,cmg=null,cml=null;
@@ -4880,7 +4887,7 @@ function rxCalcCompute(){
   if(perDay!=null)lines.push('<b>'+r(perDay,1)+' mg</b><span>per day</span>');
   if(perDose!=null)lines.push('<b>'+r(perDose,1)+' mg</b><span>per dose'+(freq?(' every '+r(freq,0)+' h'):'')+'</span>');
   var mlLine='';
-  if(perDose!=null&&cmg&&cml&&cmg>0){var mlDose=perDose/(cmg/cml);mlLine=r(mlDose,2)+' mL per dose';}
+  if(perDose!=null&&cmg&&cml&&cmg>0&&cml>0){var mlDose=perDose/(cmg/cml);mlLine=r(mlDose,2)+' mL per dose';}
   if(!lines.length){out.innerHTML='<b>—</b><span>Enter dose, weight, and frequency</span>';return;}
   out.innerHTML=lines.join('<hr class="rx-outhr">')+(mlLine?'<hr class="rx-outhr"><b>'+mlLine.split(' ')[0]+' mL</b><span>per dose (at selected concentration)</span>':'');
   if(note)note.textContent=(dosesPerDay?'':'Enter frequency (hours) to split into per-dose amounts. ')+'Max-dose checking is not performed — verify against labeling.';
@@ -4888,7 +4895,7 @@ function rxCalcCompute(){
 function vRxSearch(){
   return '<div class="pfwrap" style="max-width:600px">'
    +'<div class="pf-hero" style="padding:18px 22px;gap:16px">'+toolIco('rx')+'<div class="pf-heromain"><span class="eyebrow" style="color:#7FE6F0">Clinical tools</span><h2 style="color:#fff;margin:2px 0 3px;font-family:\'Plus Jakarta Sans\',system-ui,sans-serif;font-size:1.4rem">Drug reference</h2><div class="pf-sub">Search a drug for indications, dosing, cautions, interactions, and a weight-based dose calculator.</div></div></div>'
-   +'<div class="rx-searchbar"><span>🔎</span><input id="rxSearchInp" type="text" autocomplete="off" placeholder="Search a drug, brand, or class…" value="'+esc(S.rxQuery||'')+'" oninput="rxDoSearch(this.value)"/></div>'
+   +'<div class="rx-searchbar"><span>🔎</span><input id="rxSearchInp" type="text" aria-label="Search drugs" autocomplete="off" placeholder="Search a drug, brand, or class…" value="'+esc(S.rxQuery||'')+'" oninput="rxDoSearch(this.value)"/></div>'
    +'<div class="rx-list" id="rxList">'+rxListHTML()+'</div>'
    +'<div class="rx-disc">Educational reference for training. Not a substitute for current labeling, your formulary, or clinical judgment. No allergy/interaction checking.</div>'
    +'</div>';
@@ -4902,7 +4909,7 @@ var TOOL_ICONS={
   id:'https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787296257351.png',
   rx:'https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787295018513.png'
 };
-function toolIco(k){return '<img class="tool-ico" src="'+TOOL_ICONS[k]+'" alt=""/>';}
+function toolIco(k){var alts={iv:'IV infusion',im:'IM injection',subq:'Subcutaneous injection',id:'Intradermal',rx:'Drug reference'};return '<img class="tool-ico" src="'+TOOL_ICONS[k]+'" alt="'+(alts[k]||'')+'"/>';}
 function vTools(){
   var inner=(S.toolTab||'rx')==='rx'?vToolsShell(vRxTool()):vToolsShell(vCalc());
   return '<div class="calcscreen">'+inner+'</div>';
@@ -4910,17 +4917,17 @@ function vTools(){
 function vToolsShell(inner){
   var t=S.toolTab||'rx';
   return '<div class="calctop"><div style="margin-bottom:10px"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button></div>'
-   +'<div class="tool-switch"><button class="tsw'+(t==='rx'?' on':'')+'" onclick="setTool(\'rx\')">Drug reference</button><button class="tsw'+(t==='iv'?' on':'')+'" onclick="setTool(\'iv\')">Calculators</button></div></div>'
+   +'<div class="tool-switch"><button class="tsw'+(t==='rx'?' on':'')+'" aria-pressed="'+(t==='rx'?'true':'false')+'" onclick="setTool(\'rx\')">Drug reference</button><button class="tsw'+(t==='iv'?' on':'')+'" aria-pressed="'+(t==='iv'?'true':'false')+'" onclick="setTool(\'iv\')">Calculators</button></div></div>'
    +inner;
 }
 function vCalc(){
   var route=S.calcRoute||'iv';
-  var rtab=function(r,lab){return '<button class="calc-tab'+(route===r?' on':'')+'" onclick="setCalcRoute(\''+r+'\')">'+lab+'</button>';};
+  var rtab=function(r,lab){return '<button class="calc-tab'+(route===r?' on':'')+'" aria-pressed="'+(route===r?'true':'false')+'" onclick="setCalcRoute(\''+r+'\')">'+lab+'</button>';};
   var chooser='<div class="calc-tabs">'+rtab('iv','IV Infusion')+rtab('im','IM')+rtab('subq','SubQ')+rtab('id','Intradermal')+'</div>';
   var disclaimer='<div style="font-size:.72rem;color:var(--muted);margin:12px 2px 34px;line-height:1.55">Double-check every calculation against the order. Educational aid only — not a substitute for clinical judgment or an independent double-check.</div>';
   if(route==='iv'){
     var mode=S.calcMode||'drip';
-    var tab=function(m,lab){return '<button class="calc-tab'+(mode===m?' on':'')+'" onclick="setCalc(\''+m+'\')">'+lab+'</button>';};
+    var tab=function(m,lab){return '<button class="calc-tab'+(mode===m?' on':'')+'" aria-pressed="'+(mode===m?'true':'false')+'" onclick="setCalc(\''+m+'\')">'+lab+'</button>';};
     var fields='';
     if(mode==='drip'){
       fields=_cField('Volume to infuse (mL)','ci_vol','e.g. 1000',true)

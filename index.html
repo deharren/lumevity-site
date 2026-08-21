@@ -263,6 +263,7 @@
     .founder-inner{grid-template-columns:1fr;gap:38px;}
     nav.links{display:none;}
     .menu-toggle{display:block;}
+    .price-grid{grid-template-columns:1fr 1fr;}
   }
   @media(max-width:560px){
     .wrap{padding:0 20px;}
@@ -305,7 +306,9 @@
   /* ===== Testimonials (npreviews-style social proof) ===== */
   .testi{background:#F4F6F8;}
   .testi .rating{display:flex;flex-direction:column;align-items:center;gap:4px;margin:6px 0 10px;}
-  .testi .stars{color:#14C9C6;font-size:1.4rem;letter-spacing:4px;}
+  .testi .stars{color:#0B6E76;font-size:1.4rem;letter-spacing:4px;}
+  /* On-light accent contrast (H9/M8): eyebrows read AA on light surfaces */
+  .eyebrow{color:#0B6E76;}
   .testi .rsub{font-size:.82rem;color:#667079;}
   .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
   .tcard{background:#FFFFFF;border:1px solid #DBDFE4;border-radius:16px;padding:24px 22px;box-shadow:0 10px 26px rgba(18,58,62,.06);display:flex;flex-direction:column;}
@@ -344,6 +347,7 @@
   @media(prefers-reduced-motion:reduce){
     .angfig .m0,.angfig .m1,.angfig .m2,.angfig .m3{animation:none;transform:translateY(0);}
     .angfig .r0,.angfig .r1,.angfig .r2,.angfig .r3{animation:none;opacity:1;}
+    *{animation:none!important;transition:none!important;}
   }
   .legrow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px;}
   .legcol{text-align:center;padding:8px 2px;border-radius:9px;background:#f1ede2;}
@@ -375,7 +379,7 @@
 <section class="hero" id="top">
   <div class="wrap hero-inner">
     <div class="hero-copy">
-      <span class="eyebrow" style="color:var(--champagne)">Clinical Skills Training for Nursing Students, Medical Assistants &amp; Phlebotomists</span>
+      <span class="eyebrow" style="color:#0B6E76">Clinical Skills Training for Nursing Students, Medical Assistants &amp; Phlebotomists</span>
       <h1>Confidence in <span class="glow">Every Procedure</span></h1>
       <p class="lead">Master IV therapy, intramuscular, and subcutaneous injection through short video lessons, knowledge checks, and a shareable certificate. Built for nursing students, medical assistants, and phlebotomists.</p>
       <div class="hero-cta">
@@ -398,7 +402,7 @@
 <section class="block angles" id="angles">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow" style="color:var(--gold-deep)">Injection angles</span>
+      <span class="eyebrow" style="color:#0B6E76">Injection angles</span>
       <h2>Hit the right layer, every time</h2>
       <p>IM, SubQ, IV, ID — see the exact angle, depth, and target tissue for every route on one clear cross-section.</p>
     </div>
@@ -420,7 +424,7 @@
 <section class="block features" id="features">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow" style="color:var(--champagne)">Why IV Rejuve</span>
+      <span class="eyebrow" style="color:#0B6E76">Why IV Rejuve</span>
       <h2>Everything you need to learn the skill well</h2>
       <p>Clear, evidence-informed instruction designed for how clinicians actually learn procedural skills.</p>
     </div>
@@ -550,7 +554,7 @@
 <!-- ENROLL CTA -->
 <section class="block enroll" id="enroll">
   <div class="wrap">
-    <span class="eyebrow" style="color:var(--champagne)">Start Learning</span>
+    <span class="eyebrow" style="color:#0B6E76">Start Learning</span>
     <h2>Build <span class="glow">procedural confidence</span> today</h2>
     <p>Join nursing students, medical assistants, and phlebotomists learning IV therapy, intramuscular, and subcutaneous injection skills the clear, confident way.</p>
     <div class="enroll-cta">
