@@ -335,7 +335,7 @@
   .pf-tgl.on{background:linear-gradient(135deg,#22E0DA,#14C9C6);border-color:transparent;color:#06312f;box-shadow:0 10px 26px rgba(34,224,218,.32);}
   /* ===== Tools: IV calculator ===== */
   .calc-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
-  .calc-tab{flex:1;min-width:88px;padding:9px 12px;border-radius:11px;border:1.5px solid rgba(120,235,228,.28);background:rgba(230,246,246,.04);color:rgba(234,247,247,.82);font:inherit;font-weight:700;font-size:.82rem;cursor:pointer;transition:.15s;}
+  .calc-tab{flex:1;min-width:88px;padding:9px 12px;border-radius:11px;border:1.5px solid rgba(120,235,228,.28);background:linear-gradient(160deg,#134E58,#0A2C38);color:rgba(234,247,247,.82);font:inherit;font-weight:700;font-size:.82rem;cursor:pointer;transition:.15s;}
   .calc-tab:hover{border-color:rgba(120,235,228,.6);}
   .calc-tab.on{background:linear-gradient(135deg,#22E0DA,#14C9C6);border-color:transparent;color:#06312f;box-shadow:0 8px 20px rgba(34,224,218,.3);}
   .calc-out{margin-top:18px;background:rgba(34,224,218,.09);border:1px solid rgba(34,224,218,.38);border-radius:14px;padding:16px 18px;text-align:center;}
@@ -1718,6 +1718,7 @@ const S={view:"home",course:Store.get("lmv_course","iv"),lesson:null,step:0,
   exams:Store.get("lmv_exams",{})||{},
   name:Store.get("lmv_name",""),
   certs:Store.get("lmv_certs",{})||{},
+  calcRoute:"iv",
   billing:"annual"};
 function persist(){Store.set("lmv_done",[...S.done]);Store.set("lmv_xp",S.xp);Store.set("lmv_qxp",[...S.qxp]);Store.set("lmv_streak",S.streak);Store.set("lmv_best",S.best);Store.set("lmv_last",S.last);Store.set("lmv_exams",S.exams);Store.set("lmv_name",S.name);Store.set("lmv_certs",S.certs);Store.set("lmv_course",S.course);}
 function setCourse(c){S.course=c;Store.set("lmv_course",c);}
@@ -4492,6 +4493,7 @@ function pfDone(){profileSave();if(profileComplete())celebrate("✅","Saved",ceE
 
 /* ============ TOOLS: IV infusion calculator (separate from lessons/quizzes) ============ */
 function setCalc(m){S.calcMode=m;render();setTimeout(calcCompute,20);}
+function setCalcRoute(r){S.calcRoute=r;render();setTimeout(calcCompute,20);}
 function _cInp(id,ph){return '<input id="'+id+'" type="number" inputmode="decimal" step="any" oninput="calcCompute()" placeholder="'+(ph||'')+'"/>';}
 function _cField(lab,id,ph,full){return '<div class="pf-f'+(full?' full':'')+'"><label><span>'+lab+'</span></label>'+_cInp(id,ph)+'</div>';}
 function _cSel(lab,id,opts,val){return '<div class="pf-f"><label><span>'+lab+'</span></label><select id="'+id+'" onchange="calcCompute()">'+opts.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===val?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></div>';}
@@ -4861,41 +4863,168 @@ function vRxTool(){ return S.rxDrug?vRxMonograph():vRxSearch(); }
 function setTool(t){S.toolTab=t;render();if(t==='iv')setTimeout(calcCompute,20);}
 function vTools(){
   if((S.toolTab||'rx')==='rx')return vToolsShell(vRxTool());
-  return vToolsShell(vIvCalc());
+  return vToolsShell(vCalc());
 }
 function vToolsShell(inner){
   var t=S.toolTab||'rx';
   return '<div style="max-width:600px;margin:0 auto 14px"><div style="margin-bottom:10px"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button></div>'
-   +'<div class="tool-switch"><button class="tsw'+(t==='rx'?' on':'')+'" onclick="setTool(\'rx\')">💊 Drug reference</button><button class="tsw'+(t==='iv'?' on':'')+'" onclick="setTool(\'iv\')">🧮 IV calculator</button></div></div>'
+   +'<div class="tool-switch"><button class="tsw'+(t==='rx'?' on':'')+'" onclick="setTool(\'rx\')">💊 Drug reference</button><button class="tsw'+(t==='iv'?' on':'')+'" onclick="setTool(\'iv\')">🧮 Calculators</button></div></div>'
    +inner;
 }
-function vIvCalc(){
-  var mode=S.calcMode||'drip';
-  var tab=function(m,lab){return '<button class="calc-tab'+(mode===m?' on':'')+'" onclick="setCalc(\''+m+'\')">'+lab+'</button>';};
-  var fields='';
-  if(mode==='drip'){
-    fields=_cField('Volume to infuse (mL)','ci_vol','e.g. 1000',true)
-     +'<div class="pf-grid">'+_cField('Over (time)','ci_time','e.g. 8')+_cSel('Time unit','ci_tu',[['hr','hours'],['min','minutes']],'hr')+'</div>'
-     +_cSel('Drop factor (IV tubing)','ci_df',[['10','10 gtt/mL (macrodrip)'],['15','15 gtt/mL (macrodrip)'],['20','20 gtt/mL (macrodrip)'],['60','60 gtt/mL (microdrip)']],'15');
-  }else if(mode==='rate'){
-    fields=_cField('Volume to infuse (mL)','cr_vol','e.g. 1000',true)
-     +'<div class="pf-grid">'+_cField('Over (time)','cr_time','e.g. 8')+_cSel('Time unit','cr_tu',[['hr','hours'],['min','minutes']],'hr')+'</div>';
-  }else if(mode==='time'){
-    fields=_cField('Volume to infuse (mL)','ct_vol','e.g. 1000',true)+_cField('Pump rate (mL/hr)','ct_rate','e.g. 125',true);
-  }else{
-    fields='<div class="pf-grid">'+_cField('Ordered dose','cd_dose','e.g. 5')+_cSel('Dose unit','cd_du',[['mcgkgmin','mcg/kg/min'],['mcgmin','mcg/min'],['mgkghr','mg/kg/hr']],'mcgkgmin')+'</div>'
-     +'<div class="pf-grid">'+_cField('Patient weight (kg)','cd_wt','e.g. 80')+_cField('Drug amount (mg)','cd_amt','e.g. 400')+'</div>'
-     +_cField('In bag volume (mL)','cd_vol','e.g. 250',true);
+function vCalc(){
+  var route=S.calcRoute||'iv';
+  var rtab=function(r,lab){return '<button class="calc-tab'+(route===r?' on':'')+'" onclick="setCalcRoute(\''+r+'\')">'+lab+'</button>';};
+  var chooser='<div class="calc-tabs">'+rtab('iv','IV Infusion')+rtab('im','IM')+rtab('subq','SubQ')+rtab('id','Intradermal')+'</div>';
+  var disclaimer='<div style="font-size:.72rem;color:var(--muted);margin:12px 2px 34px;line-height:1.55">Double-check every calculation against the order. Educational aid only — not a substitute for clinical judgment or an independent double-check.</div>';
+  if(route==='iv'){
+    var mode=S.calcMode||'drip';
+    var tab=function(m,lab){return '<button class="calc-tab'+(mode===m?' on':'')+'" onclick="setCalc(\''+m+'\')">'+lab+'</button>';};
+    var fields='';
+    if(mode==='drip'){
+      fields=_cField('Volume to infuse (mL)','ci_vol','e.g. 1000',true)
+       +'<div class="pf-grid">'+_cField('Over (time)','ci_time','e.g. 8')+_cSel('Time unit','ci_tu',[['hr','hours'],['min','minutes']],'hr')+'</div>'
+       +_cSel('Drop factor (IV tubing)','ci_df',[['10','10 gtt/mL (macrodrip)'],['15','15 gtt/mL (macrodrip)'],['20','20 gtt/mL (macrodrip)'],['60','60 gtt/mL (microdrip)']],'15');
+    }else if(mode==='rate'){
+      fields=_cField('Volume to infuse (mL)','cr_vol','e.g. 1000',true)
+       +'<div class="pf-grid">'+_cField('Over (time)','cr_time','e.g. 8')+_cSel('Time unit','cr_tu',[['hr','hours'],['min','minutes']],'hr')+'</div>';
+    }else if(mode==='time'){
+      fields=_cField('Volume to infuse (mL)','ct_vol','e.g. 1000',true)+_cField('Pump rate (mL/hr)','ct_rate','e.g. 125',true);
+    }else{
+      fields='<div class="pf-grid">'+_cField('Ordered dose','cd_dose','e.g. 5')+_cSel('Dose unit','cd_du',[['mcgkgmin','mcg/kg/min'],['mcgmin','mcg/min'],['mgkghr','mg/kg/hr']],'mcgkgmin')+'</div>'
+       +'<div class="pf-grid">'+_cField('Patient weight (kg)','cd_wt','e.g. 80')+_cField('Drug amount (mg)','cd_amt','e.g. 400')+'</div>'
+       +_cField('In bag volume (mL)','cd_vol','e.g. 250',true);
+    }
+    return '<div class="pfwrap" style="max-width:560px">'
+     +chooser
+     +'<div class="pf-hero" style="padding:20px 24px;gap:18px"><div style="font-size:2.2rem;flex:none">🧮</div><div class="pf-heromain"><span class="eyebrow" style="color:#7FE6F0">Clinical tools</span><h2 style="color:#fff;margin:2px 0 3px;font-family:\'Plus Jakarta Sans\',system-ui,sans-serif;font-size:1.4rem">IV infusion calculator</h2><div class="pf-sub">Drip rate, pump rate, infusion time, and weight-based dosing.</div></div></div>'
+     +'<div class="calc-tabs">'+tab('drip','Drip rate')+tab('rate','Rate (mL/hr)')+tab('time','Time')+tab('dose','Dose')+'</div>'
+     +'<div class="pf-sec open"><div class="pf-body">'+fields+'<div class="calc-out" id="calcOut"><b>—</b><span>Enter the values above</span></div><div class="calc-note" id="calcNote"></div></div></div>'
+     +disclaimer
+     +'</div>';
   }
+  // draw-up calculators: im / subq / id
+  var meta={
+    im:{ico:'💉',title:'IM injection calculator',sub:'Volume to draw for an intramuscular dose.'},
+    subq:{ico:'💉',title:'Subcutaneous injection calculator',sub:'Volume to draw for a subcutaneous dose.'},
+    id:{ico:'💉',title:'Intradermal calculator',sub:'Volume to draw for an intradermal dose.'}
+  }[route];
+  var fields=
+     '<div class="pf-grid">'+_cField('Ordered dose','dv_dose','e.g. 500')+_cSel('Dose unit','dv_du',[['mg','mg'],['mcg','mcg'],['g','g'],['units','units']],'mg')+'</div>'
+     +_cSel('Dose type','dv_perkg',[['flat','Flat dose'],['perkg','Per kg (× weight)']],'flat')
+     +_cField('Patient weight (kg)','dv_wt','e.g. 20',true)
+     +'<div class="pf-grid">'+_cField('Vial concentration (amount per mL)','dv_conc','e.g. 250')+_cSel('Concentration unit','dv_cu',[['mg/mL','mg/mL'],['mcg/mL','mcg/mL'],['g/mL','g/mL'],['units/mL','units/mL']],'mg/mL')+'</div>';
   return '<div class="pfwrap" style="max-width:560px">'
-   +'<div class="pf-hero" style="padding:20px 24px;gap:18px"><div style="font-size:2.2rem;flex:none">🧮</div><div class="pf-heromain"><span class="eyebrow" style="color:#7FE6F0">Clinical tools</span><h2 style="color:#fff;margin:2px 0 3px;font-family:\'Plus Jakarta Sans\',system-ui,sans-serif;font-size:1.4rem">IV infusion calculator</h2><div class="pf-sub">Drip rate, pump rate, infusion time, and weight-based dosing.</div></div></div>'
-   +'<div class="calc-tabs">'+tab('drip','Drip rate')+tab('rate','Rate (mL/hr)')+tab('time','Time')+tab('dose','Dose')+'</div>'
-   +'<div class="pf-sec open"><div class="pf-body">'+fields+'<div class="calc-out" id="calcOut"><b>—</b><span>Enter the values above</span></div><div class="calc-note" id="calcNote"></div></div></div>'
-   +'<div style="font-size:.72rem;color:var(--muted);margin:12px 2px 34px;line-height:1.55">Double-check every calculation against the order and your pump. Educational aid only — not a substitute for clinical judgment or an independent double-check.</div>'
+   +chooser
+   +'<div class="pf-hero" style="padding:20px 24px;gap:18px"><div style="font-size:2.2rem;flex:none">'+meta.ico+'</div><div class="pf-heromain"><span class="eyebrow" style="color:#7FE6F0">Clinical tools</span><h2 style="color:#fff;margin:2px 0 3px;font-family:\'Plus Jakarta Sans\',system-ui,sans-serif;font-size:1.4rem">'+meta.title+'</h2><div class="pf-sub">'+meta.sub+'</div></div></div>'
+   +'<div class="pf-sec open"><div class="pf-body">'+fields
+   +'<div class="calc-out" id="calcOut"><b>—</b><span>Enter the values above</span></div>'
+   +'<div class="calc-note" id="calcNote"></div>'
+   +'<div id="dvVisual" style="margin-top:16px"></div>'
+   +'<div id="dvGuide" style="margin-top:14px"></div>'
+   +'</div></div>'
+   +disclaimer
    +'</div>';
+}
+/* ---- draw-up (IM/SubQ/Intradermal) volume math ---- */
+function calcDrawUp(o){
+  var massUnits={mg:1000,mcg:1,g:1000000};
+  var concMass={'mg/mL':1000,'mcg/mL':1,'g/mL':1000000};
+  var doseIsMass=Object.prototype.hasOwnProperty.call(massUnits,o.doseUnit);
+  var concIsMass=Object.prototype.hasOwnProperty.call(concMass,o.concUnit);
+  if(doseIsMass!==concIsMass)return {ml:null,err:"Dose and concentration must measure the same thing (mass vs units).",totalDose:null,concPerMl:null};
+  var dose=o.dose,weight=o.weight,conc=o.conc,perkg=o.perkg;
+  if(dose==null||!(dose>0)||conc==null||!(conc>0))return {ml:null,err:null,totalDose:null,concPerMl:conc};
+  if(perkg==='perkg'&&(weight==null||!(weight>0)))return {ml:null,err:null,totalDose:null,concPerMl:conc};
+  var totalDose=(perkg==='perkg')?dose*weight:dose;
+  var normDose,normConc;
+  if(doseIsMass){normDose=totalDose*massUnits[o.doseUnit];normConc=conc*concMass[o.concUnit];}
+  else{normDose=totalDose;normConc=conc;}
+  var ml=normDose/normConc;
+  return {ml:ml,err:null,totalDose:totalDose,concPerMl:conc};
+}
+/* ---- syringe fill visual for draw-up routes ---- */
+function dvSyringe(ml,ref){
+  var frac=(ml!=null&&ml>0)?Math.min(ml/ref,1):0;
+  var over=(ml!=null&&ml>ref);
+  var W=320,H=64,bx=44,by=16,bw=214,bh=32; // barrel
+  var fw=bw*frac;
+  var fill='<defs><linearGradient id="dvfill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#28E8E2"/><stop offset="1" stop-color="#14B7B4"/></linearGradient></defs>';
+  var ticks='';
+  for(var i=1;i<4;i++){var tx=bx+bw*i/4;ticks+='<line x1="'+tx+'" y1="'+by+'" x2="'+tx+'" y2="'+(by+bh)+'" stroke="rgba(120,235,228,.28)" stroke-width="1"/>';}
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="max-width:340px;display:block" role="img" aria-label="syringe fill">'
+    +fill
+    // plunger rod (left)
+    +'<rect x="6" y="'+(by+bh/2-4)+'" width="30" height="8" rx="2" fill="rgba(198,238,238,.45)"/>'
+    +'<rect x="2" y="'+(by-4)+'" width="6" height="'+(bh+8)+'" rx="2" fill="rgba(198,238,238,.6)"/>'
+    // barrel
+    +'<rect x="'+bx+'" y="'+by+'" width="'+bw+'" height="'+bh+'" rx="5" fill="rgba(6,40,44,.7)" stroke="rgba(120,235,228,.5)" stroke-width="1.5"/>'
+    +'<rect x="'+bx+'" y="'+by+'" width="'+fw+'" height="'+bh+'" rx="5" fill="url(#dvfill)"/>'
+    +ticks
+    // needle hub + needle (right)
+    +'<rect x="'+(bx+bw)+'" y="'+(by+bh/2-6)+'" width="14" height="12" rx="2" fill="rgba(198,238,238,.55)"/>'
+    +'<line x1="'+(bx+bw+14)+'" y1="'+(by+bh/2)+'" x2="'+(W-2)+'" y2="'+(by+bh/2)+'" stroke="rgba(198,238,238,.7)" stroke-width="2"/>'
+    +'</svg>';
+  var cap=over
+    ? '<div style="font-size:.76rem;color:#FAD9CE;margin-top:6px">Exceeds one '+ref+' mL syringe — draw across more than one, or reassess.</div>'
+    : '<div style="font-size:.76rem;color:rgba(198,238,238,.75);margin-top:6px">'+(ml!=null&&ml>0?('Drawn: '+ml+' mL of a '+ref+' mL syringe'):('Reference syringe: '+ref+' mL'))+'</div>';
+  return '<div style="background:linear-gradient(160deg,#123F49,#0A2833);border:1px solid rgba(120,235,228,.2);border-radius:14px;padding:14px 16px">'+svg+cap+'</div>';
+}
+/* ---- route safety guidance for draw-up routes ---- */
+function dvGuidance(route,ml){
+  var base,warn='';
+  if(route==='im'){
+    base='Adult IM volume limits: deltoid ~1 mL; ventrogluteal or vastus lateralis up to ~2–3 mL in a well-developed adult. Split larger volumes across sites; choose needle length by body habitus.';
+    if(ml!=null&&ml>3)warn='Over the usual 3 mL IM maximum — split across sites or reassess.';
+    else if(ml!=null&&ml>1)warn='Above ~1 mL — the deltoid holds only ~1 mL; use the ventrogluteal or vastus lateralis site.';
+  }else if(route==='subq'){
+    base='Subcutaneous volumes are small — generally ≤1 mL (up to ~1.5 mL). Insulin is U-100 (100 units/mL), so mL = units ÷ 100. Rotate sites.';
+    if(ml!=null&&ml>1.5)warn='Large for a subcutaneous injection — confirm the concentration and consider splitting.';
+  }else{
+    base='Intradermal volumes are tiny — typically about 0.1 mL (e.g., a Mantoux TB test). Use a 1 mL tuberculin syringe and raise a wheal.';
+    if(ml!=null&&ml>0.5)warn='Too large for an intradermal injection — recheck the order and concentration.';
+  }
+  var html='<div style="background:linear-gradient(160deg,#134E58,#0A2C38);border:1px solid rgba(120,235,228,.22);border-radius:12px;padding:12px 14px;font-size:.82rem;line-height:1.55;color:rgba(234,247,247,.85)">'+base+'</div>';
+  if(warn)html+='<div class="rx-boxed" style="margin-top:10px">⚠︎ '+warn+'</div>';
+  return html;
 }
 function calcCompute(){
   if(el('rxCalcOut'))return rxCalcCompute();
+  var route=S.calcRoute||'iv';
+  if((route==='im'||route==='subq'||route==='id')&&el('calcOut')){
+    var out=el('calcOut'),note=el('calcNote');
+    function nv(id){var e=el(id);if(!e)return null;var v=parseFloat(e.value);return isNaN(v)?null:v;}
+    function rnd(ml){return ml<0.1?Math.round(ml*1000)/1000:Math.round(ml*100)/100;}
+    var ref={im:3,subq:1,id:1}[route];
+    var perkg=(el('dv_perkg')||{}).value||'flat';
+    var res=calcDrawUp({dose:nv('dv_dose'),doseUnit:(el('dv_du')||{}).value,perkg:perkg,weight:nv('dv_wt'),conc:nv('dv_conc'),concUnit:(el('dv_cu')||{}).value});
+    var vis=el('dvVisual'),guide=el('dvGuide');
+    if(res.err){
+      out.innerHTML='<b>—</b><span>'+res.err+'</span>';
+      if(note)note.textContent='';
+      if(vis)vis.innerHTML=dvSyringe(null,ref);
+      if(guide)guide.innerHTML=dvGuidance(route,null);
+      return;
+    }
+    if(res.ml==null){
+      out.innerHTML='<b>—</b><span>Enter dose and vial concentration'+(perkg==='perkg'?' and patient weight':'')+'</span>';
+      if(note)note.textContent='';
+      if(vis)vis.innerHTML=dvSyringe(null,ref);
+      if(guide)guide.innerHTML=dvGuidance(route,null);
+      return;
+    }
+    var mlR=rnd(res.ml);
+    out.innerHTML='<b>'+mlR+' mL</b><span>Volume to draw</span>';
+    if(note){
+      var du=(el('dv_du')||{}).value,cu=(el('dv_cu')||{}).value;
+      var f='';
+      if(perkg==='perkg')f=nv('dv_dose')+' '+du+' × '+nv('dv_wt')+' kg = '+res.totalDose+' '+du+'; ';
+      f+=res.totalDose+' '+du+' ÷ '+res.concPerMl+' '+cu+' = '+mlR+' mL';
+      note.textContent=f;
+    }
+    if(vis)vis.innerHTML=dvSyringe(mlR,ref);
+    if(guide)guide.innerHTML=dvGuidance(route,res.ml);
+    return;
+  }
   var mode=S.calcMode||'drip',out=el('calcOut'),note=el('calcNote');if(!out)return;
   function n(id){var e=el(id);if(!e)return null;var v=parseFloat(e.value);return isNaN(v)?null:v;}
   function r(x,d){var p=Math.pow(10,d||0);return Math.round(x*p)/p;}
