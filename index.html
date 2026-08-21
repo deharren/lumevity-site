@@ -73,9 +73,9 @@
   .hero-stats .st b{display:block;font-family:var(--serif);font-size:1.7rem;color:var(--champagne);}
   .hero-stats .st span{font-size:.82rem;color:rgba(251,250,246,.7);letter-spacing:.04em;}
   .hero-checks{list-style:none;margin:24px 0 4px;padding:0;display:grid;gap:12px;max-width:560px;}
-  .hero-checks li{display:flex;gap:12px;align-items:flex-start;font-size:1.02rem;color:#2A353B;font-weight:500;line-height:1.42;}
+  .hero-checks li{display:flex;gap:12px;align-items:flex-start;font-size:1.02rem;color:#EAF6F6;font-weight:600;line-height:1.42;}
   .hero-checks .ck{flex:0 0 auto;width:24px;height:24px;border-radius:50%;background:linear-gradient(150deg,#2FBFB6,#0E8A93);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;margin-top:1px;}
-  .hero-checks li b{font-weight:800;color:#17242B;}
+  .hero-checks li b{font-weight:800;color:#fff;}
 
   /* course preview mock */
   .preview{justify-self:center;width:330px;border-radius:24px;background:linear-gradient(160deg,#134E58,#0A2C38);border:1px solid rgba(120,235,228,.25);box-shadow:0 40px 90px rgba(0,0,0,.45);padding:22px 20px 24px;}
@@ -290,8 +290,12 @@
   .btn-gold:hover{box-shadow:0 14px 30px rgba(18,124,134,.36);}
   .btn-ghost{color:#0E7C86;border:1.5px solid #A6CFCF;} .btn-ghost:hover{border-color:#0E7C86;background:rgba(30,147,163,.06);}
   .pbtn.dark{background:#0E7C86;color:#fff;} .pbtn.ghost{color:#0E7C86;border:1.5px solid #A6CFCF;}
-  .hero{background:radial-gradient(1000px 560px at 85% -8%, rgba(30,147,163,.09), transparent 60%),#FFFFFF;color:#202A30;}
-  .hero h1{color:#17242B;} .hero p.lead{color:#4A555C;}
+  .hero{background:radial-gradient(560px 260px at 88% -12%, rgba(34,224,218,.14), transparent 60%),linear-gradient(150deg,#12525C 0%,#0A2C39 58%,#0A2430 100%);color:#EAF6F6;}
+  .hero h1{color:#fff;} .hero p.lead{color:#CFE6E8;}
+  .hero .sbeye{display:inline-block;font-weight:800;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#8FE9E0;background:rgba(34,224,218,.1);border:1px solid rgba(34,224,218,.28);padding:6px 14px;border-radius:999px;margin-bottom:16px;line-height:1.35;}
+  .hero h1 .g{color:#F1CB6B;}
+  .hero-trust{color:#8FB7BB;font-size:.9rem;margin-top:22px;display:flex;gap:18px;flex-wrap:wrap;align-items:center;}
+  .hero-trust b{color:#EAF6F6;font-weight:800;}
   .hero h1 .glow,.enroll h2 .glow{background:linear-gradient(120deg,#25B7B0,#0E7C86);-webkit-background-clip:text;background-clip:text;color:transparent;}
   .hero-stats .st b{color:#0E7C86;} .hero-stats .st span{color:#667079;}
   .features{background:#EEF1F4;color:#202A30;}
@@ -383,23 +387,18 @@
 <section class="hero" id="top">
   <div class="wrap hero-inner">
     <div class="hero-copy">
-      <span class="eyebrow" style="color:#0B6E76">Clinical Skills Training for Nursing Students, Medical Assistants &amp; Phlebotomists</span>
-      <h1>Confidence in <span class="glow">Every Procedure</span></h1>
-      <p class="lead">Master IV therapy, intramuscular, and subcutaneous injection through short video lessons, knowledge checks, and a shareable certificate. Built for nursing students, medical assistants, and phlebotomists.</p>
+      <span class="sbeye">Built for nursing students, medical assistants &amp; phlebotomists</span>
+      <h1>Hit the right layer. <span class="g">Every single time.</span></h1>
+      <p class="lead">IM, SubQ, IV, ID — master the exact angle, depth, and site for every route until it’s muscle memory. Walk into any shift knowing you’ll get it right the first time.</p>
       <ul class="hero-checks">
         <li><span class="ck">✓</span><span>Every route &amp; angle, drilled with <b>real clinical scenarios</b></span></li>
         <li><span class="ck">✓</span><span>Feedback that explains the <b>why</b> — not just right or wrong</span></li>
         <li><span class="ck">✓</span><span>Verifiable <b>certificates &amp; CE contact hours</b></span></li>
       </ul>
       <div class="hero-cta">
-        <a href="training.html" class="btn btn-gold">Open the Training Center</a>
-        <a href="#pricing" class="btn btn-ghost">See Pricing</a>
+        <a href="training.html" class="btn btn-gold">Start learning →</a>
       </div>
-      <div class="hero-stats">
-        <div class="st"><b>5</b><span>Core skill tracks</span></div>
-        <div class="st"><b>40+</b><span>Video &amp; interactive lessons</span></div>
-        <div class="st"><b>5</b><span>Certificates of completion</span></div>
-      </div>
+      <div class="hero-trust"><span><b>5</b> full courses</span><span><b>27</b> modules</span><span>Built by <b>Lacey Smith, FNP-C</b></span></div>
     </div>
   </div>
 </section>
@@ -412,7 +411,7 @@
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow" style="color:#0B6E76">Injection angles</span>
-      <h2>Hit the right layer, every time</h2>
+      <h2>Every route, on one clear cross-section</h2>
       <p>IM, SubQ, IV, ID — see the exact angle, depth, and target tissue for every route on one clear cross-section.</p>
     </div>
     <div class="angwrap">
