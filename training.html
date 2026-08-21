@@ -4237,9 +4237,9 @@ function ceHours(c){
    (nothing false is persisted server-side; verify/records stay truthful). Set
    CE_PREVIEW=false before go-live; real CE turns on via ce_activities.accredited=true. */
 var CE_PREVIEW=true;
-/* CE is Ohio-nurses-only. Only advertise/label CE for an Ohio-licensed nurse; everyone
-   else keeps the identical progress-fill screen with neutral "hours" wording. */
-function ceEligible(){try{return pfIsNurse()&&((P().licenseState||"")==="OH");}catch(e){return false;}}
+/* CE activates only for an RN or LPN/LVN with an Ohio address. Everyone else
+   keeps the identical progress-fill screen with neutral "hours" wording. */
+function ceEligible(){try{var p=P();var c=(p.credentials||"");return (c==="RN"||c==="LPN / LVN")&&((p.state||"")==="OH");}catch(e){return false;}}
 function ceIsAccredited(c){if(!ceEligible())return false;if(CE_PREVIEW)return true;var a=CE.acts[c];return !!(a&&a.accredited);}
 function ceRealAccredited(){for(var i=0;i<COURSE_IDS.length;i++){var a=CE.acts[COURSE_IDS[i]];if(a&&a.accredited)return true;}return false;}
 function ceAnyActive(){return CE_PREVIEW||ceRealAccredited();}
@@ -4330,7 +4330,7 @@ var PROFILE_SECTIONS=[
    {k:"isNurse",label:"Are you a licensed nurse?",type:"toggle",opts:[["yes","Yes, I'm licensed"],["no","Not yet / not a nurse"]],req:true,full:true},
    {k:"firstName",label:"First name",req:true},
    {k:"lastName",label:"Last name",req:true},
-   {k:"credentials",label:"Credential",type:"select",opts:["","RN","LPN","APRN","Nursing student","Other"],req:true,full:true}
+   {k:"credentials",label:"Your role / credential",type:"select",opts:["","Nursing student","Medical assistant","Phlebotomist","RN","LPN / LVN","APRN / NP","Other"],req:true,full:true}
  ]},
  {key:"license",title:"Your nursing license",icon:"📋",fields:[
    {k:"licenseNum",label:"License number",req:true},
