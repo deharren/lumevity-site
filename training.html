@@ -4918,28 +4918,32 @@ function vRxCalc(){
    +'<div style="margin-bottom:10px"><button class="btn btn-ghost" onclick="rxBack()">← '+esc(d.n||'drug')+'</button></div>'
    +'<div class="pf-hero" style="padding:18px 22px;gap:16px">'+toolIco('rx')+'<div class="pf-heromain"><span class="eyebrow" style="color:#7FE6F0">Weight-based dosing</span><h2 style="color:#fff;margin:2px 0 3px;font-family:\'Plus Jakarta Sans\',system-ui,sans-serif;font-size:1.3rem">'+esc(d.n||'Dosing calculator')+'</h2><div class="pf-sub">Enter the ordered dose, weight, and how often it is given.</div></div></div>'
    +'<div class="pf-sec open"><div class="pf-body">'
-   +'<div class="pf-grid">'+_cField('Dose','rc_dose','e.g. 25')+_cSel('Dose unit','rc_unit',[['mgkgday','mg/kg/day'],['mgkgdose','mg/kg/dose'],['mgday','mg/day (total)'],['mgdose','mg/dose']],'mgkgday')+'</div>'
-   +'<div class="pf-grid">'+_cField('Patient weight','rc_wt','e.g. 21.2')+_cSel('Weight unit','rc_wu',[['kg','kg'],['lb','lb']],'kg')+'</div>'
-   +_cField('Give every … hours','rc_freq','e.g. 12')
+   +_cCombo('Dose','rc_dose','e.g. 25','rc_unit',[['mgkgday','mg/kg/day'],['mgkgdose','mg/kg/dose'],['mgday','mg/day (total)'],['mgdose','mg/dose']],'mgkgday')
+   +_cCombo('Patient weight','rc_wt','e.g. 21.2','rc_wu',[['kg','kg'],['lb','lb']],'kg')
+   +_cField('Give every … hours','rc_freq','e.g. 12',true)
    +_cSel('Concentration (for liquid volume)','rc_conc',concOpts,'')
    +'<div id="rc_customwrap" style="display:none">'+'<div class="pf-grid">'+_cField('Custom: amount (mg)','rc_cmg','e.g. 400')+_cField('per volume (mL)','rc_cml','e.g. 5')+'</div></div>'
    +'<div class="calc-out" id="rxCalcOut"><b>—</b><span>Enter dose, weight, and frequency</span></div>'
    +'<div class="calc-note" id="rxCalcNote"></div>'
+   +'<div id="rxVisual" style="margin-top:16px"></div>'
+   +'<div id="rxGuide" style="margin-top:14px"></div>'
    +'</div></div>'
    +'<div class="rx-disc">Maximum-dose checking is not performed. Confirm the result is appropriate for available dosage forms and the ordered frequency.</div>'
    +'</div>';
 }
 function rxCalcCompute(){
   var out=el('rxCalcOut'),note=el('rxCalcNote');if(!out)return;
+  var vis=el('rxVisual'),guide=el('rxGuide');
+  function clearVis(){if(vis)vis.innerHTML='';if(guide)guide.innerHTML='';}
   var cw=el('rc_customwrap'),cs=el('rc_conc');if(cw&&cs)cw.style.display=(cs.value==='custom')?'block':'none';
   function n(id){var e=el(id);if(!e)return null;var v=parseFloat(e.value);return isNaN(v)?null:v;}
   function r(x,d){var p=Math.pow(10,d||0);return Math.round(x*p)/p;}
   var dose=n('rc_dose'),unit=(el('rc_unit')||{}).value,wt=n('rc_wt'),wu=(el('rc_wu')||{}).value,freq=n('rc_freq');
-  if(dose==null||!(dose>0)){out.innerHTML='<b>—</b><span>Enter valid dose, weight, and frequency</span>';if(note)note.textContent='';return;}
+  if(dose==null||!(dose>0)){out.innerHTML='<b>—</b><span>Enter valid dose, weight, and frequency</span>';if(note)note.textContent='';clearVis();return;}
   var wtKg=(wt==null?null:(wu==='lb'?wt*0.453592:wt));
   var perDay=null, perDose=null, dosesPerDay=(freq&&freq>0)?(24/freq):null;
-  if(unit==='mgkgday'){if(wtKg==null||!(wtKg>0)){out.innerHTML='<b>—</b><span>Enter valid patient weight</span>';return;}perDay=dose*wtKg;if(dosesPerDay)perDose=perDay/dosesPerDay;}
-  else if(unit==='mgkgdose'){if(wtKg==null||!(wtKg>0)){out.innerHTML='<b>—</b><span>Enter valid patient weight</span>';return;}perDose=dose*wtKg;if(dosesPerDay)perDay=perDose*dosesPerDay;}
+  if(unit==='mgkgday'){if(wtKg==null||!(wtKg>0)){out.innerHTML='<b>—</b><span>Enter valid patient weight</span>';clearVis();return;}perDay=dose*wtKg;if(dosesPerDay)perDose=perDay/dosesPerDay;}
+  else if(unit==='mgkgdose'){if(wtKg==null||!(wtKg>0)){out.innerHTML='<b>—</b><span>Enter valid patient weight</span>';clearVis();return;}perDose=dose*wtKg;if(dosesPerDay)perDay=perDose*dosesPerDay;}
   else if(unit==='mgday'){perDay=dose;if(dosesPerDay)perDose=perDay/dosesPerDay;}
   else{perDose=dose;if(dosesPerDay)perDay=perDose*dosesPerDay;}
   var cv=(el('rc_conc')||{}).value,cmg=null,cml=null;
@@ -4948,11 +4952,17 @@ function rxCalcCompute(){
   var lines=[];
   if(perDay!=null)lines.push('<b>'+r(perDay,1)+' mg</b><span>per day</span>');
   if(perDose!=null)lines.push('<b>'+r(perDose,1)+' mg</b><span>per dose'+(freq?(' every '+r(freq,0)+' h'):'')+'</span>');
-  var mlLine='';
-  if(perDose!=null&&cmg&&cml&&cmg>0&&cml>0){var mlDose=perDose/(cmg/cml);mlLine=r(mlDose,2)+' mL per dose';}
-  if(!lines.length){out.innerHTML='<b>—</b><span>Enter dose, weight, and frequency</span>';return;}
-  out.innerHTML=lines.join('<hr class="rx-outhr">')+(mlLine?'<hr class="rx-outhr"><b>'+mlLine.split(' ')[0]+' mL</b><span>per dose (at selected concentration)</span>':'');
+  var mlDose=null;
+  if(perDose!=null&&cmg&&cml&&cmg>0&&cml>0)mlDose=perDose/(cmg/cml);
+  if(!lines.length){out.innerHTML='<b>—</b><span>Enter dose, weight, and frequency</span>';clearVis();return;}
+  out.innerHTML=lines.join('<hr class="rx-outhr">')+(mlDose!=null?'<hr class="rx-outhr"><b>'+r(mlDose,2)+' mL</b><span>per dose (at selected concentration)</span>':'');
   if(note)note.textContent=(dosesPerDay?'':'Enter frequency (hours) to split into per-dose amounts. ')+'Max-dose checking is not performed — verify against labeling.';
+  // meaningful animation: fill a marked dosing syringe to the per-dose volume
+  if(mlDose!=null&&mlDose>0){
+    var ref=mlDose<=5?5:mlDose<=10?10:mlDose<=20?20:Math.min(60,Math.ceil(mlDose/10)*10);
+    if(vis)dvPaint(vis,r(mlDose,2),ref);
+    if(guide)guide.innerHTML='<div style="background:linear-gradient(160deg,#134E58,#0A2C38);border:1px solid rgba(120,235,228,.22);border-radius:12px;padding:12px 14px;font-size:.82rem;line-height:1.55;color:rgba(234,247,247,.85)">Measure liquid doses with a marked oral/dosing syringe — never a household spoon. Round to the nearest measurable amount and confirm against the product’s labeling and the ordered frequency.</div>';
+  } else { clearVis(); }
 }
 function vRxSearch(){
   return '<div class="pfwrap" style="max-width:600px">'
