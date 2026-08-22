@@ -4909,7 +4909,7 @@ var TOOL_ICONS={
   im:'https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787294631181.png',
   subq:'https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787294631159.png',
   id:'https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787296257351.png',
-  rx:'https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787295018513.png'
+  rx:'https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-rx-clean-2.png'
 };
 function toolIco(k){var alts={iv:'IV infusion',im:'IM injection',subq:'Subcutaneous injection',id:'Intradermal',rx:'Drug reference'};return '<img class="tool-ico" src="'+TOOL_ICONS[k]+'" alt="'+(alts[k]||'')+'"/>';}
 function vTools(){
@@ -5121,8 +5121,13 @@ function calcCompute(){
       return;
     }
     var mlR=rnd(res.ml);
-    out.innerHTML='<b>'+mlR+' mL</b><span>Volume to draw</span>';
-    if(route==='subq'){var uU=Math.round(mlR*100);out.innerHTML+='<span style="display:block;margin-top:7px;font-size:.86rem;font-weight:700;color:#8FE9E4">= '+uU+' units'+(uU>100?' — over one U-100 syringe':' on a U-100 insulin syringe')+'</span>';}
+    if(route==='subq'){
+      var uU=Math.round(mlR*100);
+      out.innerHTML='<b>'+uU+' units</b><span>'+(uU>100?'over one U-100 insulin syringe':'on a U-100 insulin syringe')+'</span>'
+        +'<span style="display:block;margin-top:8px;font-size:1rem;font-weight:700;color:#8FE9E4">= '+mlR+' mL to draw</span>';
+    }else{
+      out.innerHTML='<b>'+mlR+' mL</b><span>Volume to draw</span>';
+    }
     if(note){
       var du=(el('dv_du')||{}).value,cu=(el('dv_cu')||{}).value;
       var f='';
