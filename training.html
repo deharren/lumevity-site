@@ -599,6 +599,7 @@
   .gsheet .gfig{margin:16px 0 4px;background:var(--pearl);border:1px solid var(--stone);border-radius:14px;
     padding:12px;}
   .gsheet .gfig svg{width:100%;height:auto;display:block;}
+  .gsheet .gfig img.gfigimg{width:100%;max-width:420px;height:auto;display:block;margin:0 auto;border-radius:10px;}
   .gsheet .gwhy{margin-top:14px;background:var(--good-soft);border-left:3px solid var(--teal);
     border-radius:0 10px 10px 0;padding:11px 14px;font-size:.86rem;line-height:1.55;color:var(--head);}
   .gsheet .gwhy b{color:var(--teal-deep);}
@@ -2893,7 +2894,8 @@ function gSkin(hi){
 }
 function glossFigSVG(f){
   if(!f)return "";
-  if(/^https?:/.test(f))return figImg(f,"");   // hosted raster figure (full URL)
+  if(/^img:/.test(f))return '<img class="gfigimg" src="'+f.slice(4)+'" alt="" loading="lazy"/>'; // hosted raster, natural aspect
+  if(/^https?:/.test(f))return figImg(f,"");   // hosted raster figure (full URL, 3:2)
   var p=f.split(":");
   if(p.length===2){
     if(p[0]==="arm")return gArm(p[1]);
@@ -3025,9 +3027,12 @@ var GLOSSARY={
   venospasm:{t:"Venospasm",alt:["venospasm","vasospasm"],see:["tunica_media","tourniquet"],
     d:"Sudden constriction of the vein's smooth muscle in response to cold, pain or anxiety.",
     why:"A good vein can vanish under your fingers. Warmth, a calm patient and a swift first pass prevent it far better than a second attempt does."},
-  intradermal:{t:"Intradermal",alt:["intradermal"],see:["dermis","subcutaneous_tissue"],fig:"skin:dermis",
+  intradermal:{t:"Intradermal",alt:["intradermal"],see:["dermis","subcutaneous_tissue","wheal"],fig:"skin:dermis",
     d:"Injection into the dermis itself, raising a visible pale bleb or wheal.",
     why:"A different technique with a different purpose — TB and allergy testing. If a subcutaneous injection raises a bleb, the needle was too shallow."},
+  wheal:{t:"Wheal",alt:["wheal","wheals","bleb"],see:["intradermal","dermis"],fig:"img:https://lumevity-site.vercel.app/id-wheal-photo-v1.jpg",
+    d:"The small, pale, tense blister-like raised area that forms in the skin when fluid is deposited correctly within the dermis.",
+    why:"It is your immediate proof the injection reached the right depth. A properly raised wheal means the dose went intradermally; no wheal means the needle was too deep — into the subcutaneous tissue — and the test or dose may be invalid."},
   sharps:{t:"Sharps",alt:["sharps"],see:["sesip","needlestick"],
     d:"Any device that can cut or puncture — needles, stylets, lancets, scalpel blades and broken glass ampoules.",
     why:"Every sharp must go straight into a puncture-resistant container at the point of use. Never recap, never pass by hand, and never overfill the container."},
