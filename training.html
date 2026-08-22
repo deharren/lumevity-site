@@ -4411,7 +4411,7 @@ function profileSave(){
   if(p.credentials||p.licenseNum||p.licenseState){S.license={type:(/^(RN|LPN|APRN)$/.test(p.credentials||"")?p.credentials:((S.license&&S.license.type)||"")),num:p.licenseNum||"",state:p.licenseState||""};}
   try{persist();}catch(e){}
 }
-var PF_STATES=["OH","KY","IN","MI","PA","WV","IL","NY","CA","FL","TX","Other"];
+var PF_STATES=["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY","Other"];
 var PROFILE_SECTIONS=[
  {key:"identity",title:"Who you are",icon:"🩺",fields:[
    {k:"isNurse",label:"Are you a licensed nurse?",type:"toggle",opts:[["yes","Yes, I'm licensed"],["no","Not yet / not a nurse"]],req:true,full:true},
@@ -4436,7 +4436,10 @@ var PROFILE_SECTIONS=[
    {k:"employer",label:"Employer / practice (optional)",req:false,full:true}
  ]}
 ];
-function pfFilled(f){return !!((P()[f.k]||"").toString().trim());}
+function pfFilled(f){var v=(P()[f.k]||"").toString().trim();if(!v)return false;
+  if(f.k==="zip")return /^\d{5}(-?\d{4})?$/.test(v);                 // full ZIP before it counts
+  if(f.type==="email")return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);   // valid-ish email before it counts
+  return true;}
 function pfIsNurse(){return P().isNurse==="yes";}
 function pfSectionApplicable(sec){var key=(typeof sec==="string")?sec:sec.key;if(key==="license")return pfIsNurse();return true;}
 function pfApplicableSections(){return PROFILE_SECTIONS.filter(pfSectionApplicable);}
@@ -4562,10 +4565,11 @@ function pfTourFill(){
   if(!S.pfTour)return;var sec=pfApplicableSections()[S.pfTour.step];if(!sec)return;var src=_pfBackup||{};
   sec.fields.forEach(function(f,i){var v=(src[f.k]!=null&&src[f.k]!=="")?src[f.k]:(PF_DUMMY[f.k]||"");if(!v)return;if(f.type==="toggle"){setTimeout(function(){pfSetNurse(v);},i*300);return;}setTimeout(function(){pfTypeInto(f,v);},i*300);});
 }
-function pfSetNurse(v){P().isNurse=v;profileSave();if(profileComplete()){if(!_pfCele){_pfCele=true;celebrate("🎉","Profile complete",pfCompleteSub());}}else{_pfCele=false;}render();if(S.pfTour)pfTourScroll();}
+function pfSetNurse(v){var was=profileComplete();P().isNurse=v;profileSave();var now=profileComplete();if(now&&!was&&!_pfCele){_pfCele=true;celebrate("🎉","Profile complete",pfCompleteSub());}else if(!now){_pfCele=false;}render();if(S.pfTour)pfTourScroll();}
 window.addEventListener("resize",function(){});
 var _pfCele=false;
 function pfSet(k,v){
+  var wasComplete=profileComplete();
   P()[k]=v;profileSave();
   var pct=pfPct();
   var ring=el("pfRing");if(ring)ring.innerHTML=pfRing(pct)+'<div class="pct"><b>'+pct+'%</b><span>complete</span></div>';
@@ -4573,7 +4577,7 @@ function pfSet(k,v){
   var track=el("pfTrack");if(track)track.innerHTML=pfSegs();
   var wf=el("pfw-"+k);if(wf)wf.classList.toggle("ok",!!(v||"").toString().trim());
   PROFILE_SECTIONS.forEach(function(s){var c=el("pfc-"+s.key);if(c)c.classList.toggle("done",pfSectionDone(s));});
-  if(profileComplete()){if(!_pfCele){_pfCele=true;celebrate("🎉","Profile complete",pfCompleteSub());}}else{_pfCele=false;}
+  if(profileComplete()){if(!wasComplete&&!_pfCele){_pfCele=true;celebrate("🎉","Profile complete",pfCompleteSub());}}else{_pfCele=false;}
 }
 function pfDone(){profileSave();if(profileComplete())celebrate("✅","Saved",ceEligible()?"Your CE profile is ready":"Your profile is ready");go("home");}
 
