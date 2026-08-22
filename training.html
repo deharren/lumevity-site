@@ -5070,33 +5070,44 @@ function calcDrawUp(o){
    live animation update agree to the pixel. Needle on the RIGHT; the scale
    reads 0 at the needle/tip and climbs toward the plunger, like a real syringe. */
 var DVS={W:340,H:96,bx:46,by:22,bw:208,bh:34};
-function dvCapText(ml,ref){
-  if(ml!=null&&ml>ref)return['Exceeds one '+ref+' mL syringe — draw across more than one, or reassess.','#FAD9CE'];
-  if(ml!=null&&ml>0)return['Drawn: '+ml+' mL of a '+ref+' mL syringe','rgba(206,242,242,.78)'];
+function dvCapText(value,ref,kind,mlEq){
+  if(kind==='units'){
+    if(value!=null&&value>ref)return['Exceeds a '+ref+'-unit insulin syringe — split the dose or reassess.','#FAD9CE'];
+    if(value!=null&&value>0)return['Draw to '+value+' units ('+mlEq+' mL) on a '+ref+'-unit U-100 insulin syringe','rgba(206,242,242,.78)'];
+    return['Reference: '+ref+'-unit U-100 insulin syringe','rgba(206,242,242,.7)'];
+  }
+  if(value!=null&&value>ref)return['Exceeds one '+ref+' mL syringe — draw across more than one, or reassess.','#FAD9CE'];
+  if(value!=null&&value>0)return['Drawn: '+value+' mL of a '+ref+' mL syringe','rgba(206,242,242,.78)'];
   return['Reference syringe: '+ref+' mL','rgba(206,242,242,.7)'];
 }
-function dvSyringe(ml,ref){
+function dvRefKey(ref,kind){return (kind==='units'?'u':'')+ref;}
+function dvSyringe(value,ref,kind,mlEq){
+  var units=(kind==='units');
   var G=DVS,W=G.W,H=G.H,bx=G.bx,by=G.by,bw=G.bw,bh=G.bh,cx=by+bh/2;
-  var frac=(ml!=null&&ml>0)?Math.min(ml/ref,1):0;
+  var frac=(value!=null&&value>0)?Math.min(value/ref,1):0;
   // graduation ticks + numbers — 0 at the NEEDLE (right), increasing toward the plunger
-  var step=ref>=3?1:(ref>=1?0.2:ref/5), fmt=function(x){return (Math.round(x*100)/100).toString();};
+  var step=units?(ref>=100?10:5):(ref>=3?1:(ref>=1?0.2:ref/5));
+  var fmt=units?function(x){return Math.round(x).toString();}:function(x){return (Math.round(x*100)/100).toString();};
+  var lblSize=units?(ref>=100?9:10):10.5;
   var ticks='',labels='';
   for(var v=0;v<=ref+1e-9;v+=step){
     var vr=Math.round(v*100)/100,tx=bx+bw*(1-vr/ref),isEnd=(vr===0||Math.abs(vr-ref)<1e-9);
     ticks+='<line x1="'+tx.toFixed(1)+'" y1="'+by+'" x2="'+tx.toFixed(1)+'" y2="'+(by+bh)+'" stroke="rgba(150,240,235,'+(isEnd?'.6':'.32')+')" stroke-width="1"/>';
-    labels+='<text x="'+tx.toFixed(1)+'" y="'+(by+bh+15)+'" text-anchor="middle" font-family="Inter,system-ui" font-size="10.5" fill="rgba(206,242,242,.85)">'+fmt(vr)+'</text>';
+    labels+='<text x="'+tx.toFixed(1)+'" y="'+(by+bh+15)+'" text-anchor="middle" font-family="Inter,system-ui" font-size="'+lblSize+'" fill="rgba(206,242,242,.85)">'+fmt(vr)+'</text>';
   }
-  labels+='<text x="'+(bx+bw+22)+'" y="'+(by+bh+15)+'" text-anchor="start" font-family="Inter,system-ui" font-size="9.5" fill="rgba(206,242,242,.6)">mL</text>';
+  labels+='<text x="'+(bx+bw+22)+'" y="'+(by+bh+15)+'" text-anchor="start" font-family="Inter,system-ui" font-size="9.5" fill="rgba(206,242,242,.6)">'+(units?'units':'mL')+'</text>';
   var nx0=bx+bw,hubW=16;
   var stopX=bx+bw-bw*frac, rodFull=(bx+bw)-10, rodScale=rodFull>0?Math.max(0,(stopX-10)/rodFull):0;
   var TR='transition:transform .55s cubic-bezier(.45,.05,.2,1)';
+  var rodPaint=units?'url(#dvorange)':'url(#dvrod)';
   var defs='<defs>'
     +'<linearGradient id="dvfill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#5AF0EA"/><stop offset=".5" stop-color="#22D6D0"/><stop offset="1" stop-color="#0FA6A3"/></linearGradient>'
     +'<linearGradient id="dvmetal" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#7d8f97"/><stop offset=".45" stop-color="#f4f9fb"/><stop offset=".56" stop-color="#dbe8ec"/><stop offset="1" stop-color="#6f828a"/></linearGradient>'
     +'<linearGradient id="dvrod" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#e4f1f3"/><stop offset="1" stop-color="#9fb9bd"/></linearGradient>'
+    +'<linearGradient id="dvorange" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#FFC078"/><stop offset=".5" stop-color="#F5983A"/><stop offset="1" stop-color="#D9791C"/></linearGradient>'
     +'<linearGradient id="dvglass" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="rgba(255,255,255,.18)"/><stop offset=".5" stop-color="rgba(255,255,255,.02)"/><stop offset="1" stop-color="rgba(0,0,0,.14)"/></linearGradient>'
     +'</defs>';
-  var svg='<svg class="dvsyr" data-ref="'+ref+'" viewBox="0 0 '+W+' '+H+'" width="100%" style="max-width:340px;display:block;overflow:visible" role="img" aria-label="Syringe fill with millilitre graduations; zero at the needle tip">'
+  var svg='<svg class="dvsyr" data-ref="'+dvRefKey(ref,kind)+'" viewBox="0 0 '+W+' '+H+'" width="100%" style="max-width:340px;display:block;overflow:visible" role="img" aria-label="'+(units?'Insulin syringe fill in units; zero at the needle tip':'Syringe fill with millilitre graduations; zero at the needle tip')+'">'
     +defs
     // needle: metal shaft, highlight, bevel tip (right)
     +'<line x1="'+(nx0+hubW)+'" y1="'+cx+'" x2="'+(W-4)+'" y2="'+cx+'" stroke="url(#dvmetal)" stroke-width="3.2"/>'
@@ -5105,8 +5116,8 @@ function dvSyringe(ml,ref){
     // luer hub
     +'<path d="M'+nx0+' '+(cx-9)+' h'+hubW+' v18 h-'+hubW+' q4.5 -9 0 -18 z" fill="url(#dvmetal)" stroke="rgba(86,104,110,.55)" stroke-width=".8"/>'
     // plunger flange (far left) + rod that stretches to the stopper
-    +'<rect x="4" y="'+(by-6)+'" width="7" height="'+(bh+12)+'" rx="3" fill="url(#dvrod)"/>'
-    +'<rect id="dvrod" x="10" y="'+(cx-4)+'" width="'+rodFull.toFixed(1)+'" height="8" rx="3" fill="url(#dvrod)" style="transform-box:fill-box;transform-origin:0% 50%;transform:scaleX('+rodScale.toFixed(4)+');'+TR+'"/>'
+    +'<rect x="4" y="'+(by-6)+'" width="7" height="'+(bh+12)+'" rx="3" fill="'+rodPaint+'"/>'
+    +'<rect id="dvrod" x="10" y="'+(cx-4)+'" width="'+rodFull.toFixed(1)+'" height="8" rx="3" fill="'+rodPaint+'" style="transform-box:fill-box;transform-origin:0% 50%;transform:scaleX('+rodScale.toFixed(4)+');'+TR+'"/>'
     // barrel glass
     +'<rect x="'+bx+'" y="'+by+'" width="'+bw+'" height="'+bh+'" rx="7" fill="rgba(8,42,47,.5)" stroke="rgba(150,240,235,.5)" stroke-width="1.5"/>'
     // fluid (anchored at the needle/right, scales from there) + top sheen
@@ -5118,33 +5129,35 @@ function dvSyringe(ml,ref){
     +'<rect x="'+bx+'" y="'+by+'" width="'+bw+'" height="'+bh+'" rx="7" fill="url(#dvglass)" pointer-events="none"/>'
     +ticks+labels
     +'</svg>';
-  var c=dvCapText(ml,ref);
-  return '<div class="dvsyrwrap" data-ref="'+ref+'" style="background:linear-gradient(160deg,#123F49,#0A2833);border:1px solid rgba(120,235,228,.2);border-radius:14px;padding:14px 16px">'+svg
+  var c=dvCapText(value,ref,kind,mlEq);
+  return '<div class="dvsyrwrap" data-ref="'+dvRefKey(ref,kind)+'" style="background:linear-gradient(160deg,#123F49,#0A2833);border:1px solid rgba(120,235,228,.2);border-radius:14px;padding:14px 16px">'+svg
     +'<div class="dvcap" style="font-size:.76rem;color:'+c[1]+';margin-top:8px">'+c[0]+'</div></div>';
 }
 /* Update fluid/stopper/rod in place so the liquid animates when the value changes. */
-function dvSetFill(container,ml,ref){
+function dvSetFill(container,value,ref,kind,mlEq){
   var G=DVS,bx=G.bx,bw=G.bw,svg=container&&container.querySelector('svg.dvsyr'); if(!svg)return;
-  var frac=(ml!=null&&ml>0)?Math.min(ml/ref,1):0;
+  var frac=(value!=null&&value>0)?Math.min(value/ref,1):0;
   var stopX=bx+bw-bw*frac, rodFull=(bx+bw)-10, rodScale=rodFull>0?Math.max(0,(stopX-10)/rodFull):0;
   var f=svg.querySelector('#dvfluid'),fh=svg.querySelector('#dvfluidhi'),st=svg.querySelector('#dvstop'),rd=svg.querySelector('#dvrod');
   if(f)f.style.transform='scaleX('+frac.toFixed(4)+')';
   if(fh)fh.style.transform='scaleX('+frac.toFixed(4)+')';
   if(st)st.style.transform='translateX(-'+(bw*frac).toFixed(1)+'px)';
   if(rd)rd.style.transform='scaleX('+rodScale.toFixed(4)+')';
-  var cap=container.querySelector('.dvcap'),c=dvCapText(ml,ref);
+  var cap=container.querySelector('.dvcap'),c=dvCapText(value,ref,kind,mlEq);
   if(cap){cap.textContent=c[0];cap.style.color=c[1];}
 }
-/* Paint a syringe: reuse the SVG when the reference size is unchanged so the
-   fluid transitions smoothly; rebuild (and animate up from empty) otherwise. */
-function dvPaint(container,ml,ref){
+/* Paint a syringe: reuse the SVG when the reference size/kind is unchanged so the
+   fluid transitions smoothly; rebuild (and animate up from empty) otherwise.
+   kind: 'mL' (default) draws a mL-graduated syringe; 'units' draws a U-100 insulin
+   syringe graduated in units, with mlEq shown as the millilitre equivalent. */
+function dvPaint(container,value,ref,kind,mlEq){
   if(!container)return;
-  var wrap=container.querySelector('.dvsyrwrap');
-  if(!wrap||wrap.getAttribute('data-ref')!==String(ref)){
-    container.innerHTML=dvSyringe(0,ref);
-    requestAnimationFrame(function(){dvSetFill(container,ml,ref);});
+  var wrap=container.querySelector('.dvsyrwrap'),key=dvRefKey(ref,kind);
+  if(!wrap||wrap.getAttribute('data-ref')!==key){
+    container.innerHTML=dvSyringe(0,ref,kind,mlEq);
+    requestAnimationFrame(function(){dvSetFill(container,value,ref,kind,mlEq);});
   }else{
-    dvSetFill(container,ml,ref);
+    dvSetFill(container,value,ref,kind,mlEq);
   }
 }
 /* ---- route safety guidance for draw-up routes ---- */
@@ -5176,17 +5189,26 @@ function calcCompute(){
     var perkg=S.dvWeightOn?'perkg':'flat';
     var res=calcDrawUp({dose:nv('dv_dose'),doseUnit:(el('dv_du')||{}).value,perkg:perkg,weight:nv('dv_wt'),conc:nv('dv_conc'),concUnit:(el('dv_cu')||{}).value});
     var vis=el('dvVisual'),guide=el('dvGuide');
+    // SubQ draws on a U-100 insulin syringe (graduated in units); other routes use a mL syringe.
+    function paintVis(mlVal){
+      if(!vis)return;
+      if(route==='subq'){
+        var mlv=(mlVal!=null)?rnd(mlVal):null,u=(mlv!=null)?Math.round(mlv*100):null;
+        var refU=(u!=null&&u>0)?(u<=30?30:u<=50?50:100):30;
+        dvPaint(vis,u,refU,'units',mlv);
+      }else{ dvPaint(vis,(mlVal!=null?rnd(mlVal):null),ref); }
+    }
     if(res.err){
       out.innerHTML='<b>—</b><span>'+res.err+'</span>';
       if(note)note.textContent='';
-      if(vis)dvPaint(vis,null,ref);
+      paintVis(null);
       if(guide)guide.innerHTML=dvGuidance(route,null);
       return;
     }
     if(res.ml==null){
       out.innerHTML='<b>—</b><span>Enter dose and vial concentration'+(perkg==='perkg'?' and patient weight':'')+'</span>';
       if(note)note.textContent='';
-      if(vis)dvPaint(vis,null,ref);
+      paintVis(null);
       if(guide)guide.innerHTML=dvGuidance(route,null);
       return;
     }
@@ -5205,7 +5227,7 @@ function calcCompute(){
       f+=res.totalDose+' '+du+' ÷ '+res.concPerMl+' '+cu+' = '+mlR+' mL';
       note.textContent=f;
     }
-    if(vis)dvPaint(vis,mlR,ref);
+    paintVis(res.ml);
     if(guide)guide.innerHTML=dvGuidance(route,res.ml);
     return;
   }
