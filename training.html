@@ -5031,8 +5031,8 @@ function vCalc(){
   }[route];
   var wOn=!!S.dvWeightOn;
   var fields='<div class="pf-grid">'
-     +_cCombo('Ordered dose','dv_dose','e.g. 500','dv_du',[['mg','mg'],['mcg','mcg'],['g','g'],['units','units']],'mg')
-     +_cCombo('Vial concentration (per mL)','dv_conc','e.g. 250','dv_cu',[['mg/mL','mg/mL'],['mcg/mL','mcg/mL'],['g/mL','g/mL'],['units/mL','units/mL']],'mg/mL')
+     +_cCombo('Ordered dose','dv_dose','e.g. 500','dv_du',[['mg','mg'],['mcg','mcg'],['g','g'],['units','units'],['TU','TU']],'mg')
+     +_cCombo('Vial concentration (per mL)','dv_conc','e.g. 250','dv_cu',[['mg/mL','mg/mL'],['mcg/mL','mcg/mL'],['g/mL','g/mL'],['units/mL','units/mL'],['TU/mL','TU/mL']],'mg/mL')
      +'<div class="pf-f full"><label><span>Weight-based dose (per kg)</span><button type="button" id="dvSwitch" class="dv-switch'+(wOn?' on':'')+'" onclick="dvToggleWeight()" role="switch" aria-checked="'+(wOn?'true':'false')+'"><span class="dv-knob"></span></button></label></div>'
      +'<div id="dvWeightWrap" style="grid-column:1/-1;'+(wOn?'':'display:none;')+'">'+_cField('Patient weight (kg)','dv_wt','e.g. 20',true)+'</div>'
      +'</div>';
@@ -5055,6 +5055,7 @@ function calcDrawUp(o){
   var doseIsMass=Object.prototype.hasOwnProperty.call(massUnits,o.doseUnit);
   var concIsMass=Object.prototype.hasOwnProperty.call(concMass,o.concUnit);
   if(doseIsMass!==concIsMass)return {ml:null,err:"Dose and concentration must measure the same thing (mass vs units).",totalDose:null,concPerMl:null};
+  if(!doseIsMass&&o.doseUnit!==String(o.concUnit||'').replace('/mL',''))return {ml:null,err:"Dose and concentration units must match (e.g. TU with TU/mL).",totalDose:null,concPerMl:null};
   var dose=o.dose,weight=o.weight,conc=o.conc,perkg=o.perkg;
   if(dose==null||!(dose>0)||conc==null||!(conc>0))return {ml:null,err:null,totalDose:null,concPerMl:conc};
   if(perkg==='perkg'&&(weight==null||!(weight>0)))return {ml:null,err:null,totalDose:null,concPerMl:conc};
