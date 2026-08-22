@@ -3000,7 +3000,7 @@ var GLOSSARY={
   gauge:{t:"Gauge (G)",alt:["gauge"],see:["bevel","stylet"],
     d:"The measure of needle or catheter diameter. The scale runs <b>backwards</b>: a higher number means a <b>thinner</b> device — 24G is much finer than 18G.",
     why:"Choose the smallest gauge that will do the job. Oversized catheters fill the vein, restrict blood flow around the device, and drive up phlebitis rates."},
-  bevel:{t:"Bevel",alt:["bevel"],see:["gauge","flashback"],
+  bevel:{t:"Bevel",alt:["bevel"],see:["gauge","flashback"],fig:"img:https://lumevity-site.vercel.app/bevel-photo-v1.jpg",
     d:"The angled, sharpened cutting face at the needle tip.",
     why:"Insert <b>bevel up</b> for IV and IM: it gives the cleanest, least traumatic skin entry and lets you see flashback appear."},
   stylet:{t:"Stylet",alt:["stylet","introducer needle"],see:["cannulation","flashback"],
@@ -5112,6 +5112,7 @@ function dvSyringe(value,ref,kind,mlEq){
     +'<linearGradient id="dvrod" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#e4f1f3"/><stop offset="1" stop-color="#9fb9bd"/></linearGradient>'
     +'<linearGradient id="dvorange" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#FFC078"/><stop offset=".5" stop-color="#F5983A"/><stop offset="1" stop-color="#D9791C"/></linearGradient>'
     +'<linearGradient id="dvglass" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="rgba(255,255,255,.18)"/><stop offset=".5" stop-color="rgba(255,255,255,.02)"/><stop offset="1" stop-color="rgba(0,0,0,.14)"/></linearGradient>'
+    +'<clipPath id="dvbarrelclip"><rect x="'+(bx+1)+'" y="'+(by+1)+'" width="'+(bw-2)+'" height="'+(bh-2)+'" rx="6"/></clipPath>'
     +'</defs>';
   var svg='<svg class="dvsyr" data-ref="'+dvRefKey(ref,kind)+'" viewBox="0 0 '+W+' '+H+'" width="100%" style="max-width:340px;display:block;overflow:visible" role="img" aria-label="'+(units?'Insulin syringe fill in units; zero at the needle tip':'Syringe fill with millilitre graduations; zero at the needle tip')+'">'
     +defs
@@ -5126,9 +5127,11 @@ function dvSyringe(value,ref,kind,mlEq){
     +'<rect id="dvrod" x="10" y="'+(cx-4)+'" width="'+rodFull.toFixed(1)+'" height="8" rx="3" fill="'+rodPaint+'" style="transform-box:fill-box;transform-origin:0% 50%;transform:scaleX('+rodScale.toFixed(4)+');'+TR+'"/>'
     // barrel glass
     +'<rect x="'+bx+'" y="'+by+'" width="'+bw+'" height="'+bh+'" rx="7" fill="rgba(8,42,47,.5)" stroke="rgba(150,240,235,.5)" stroke-width="1.5"/>'
-    // fluid (anchored at the needle/right, scales from there) + top sheen
+    // fluid (anchored at the needle/right, scales from there) + top sheen — clipped to the barrel so corners never protrude
+    +'<g clip-path="url(#dvbarrelclip)">'
     +'<rect id="dvfluid" x="'+bx+'" y="'+(by+1.5)+'" width="'+bw+'" height="'+(bh-3)+'" rx="5.5" fill="url(#dvfill)" style="transform-box:fill-box;transform-origin:100% 50%;transform:scaleX('+frac.toFixed(4)+');'+TR+'"/>'
     +'<rect id="dvfluidhi" x="'+bx+'" y="'+(by+3)+'" width="'+bw+'" height="4" rx="2" fill="rgba(255,255,255,.34)" style="transform-box:fill-box;transform-origin:100% 50%;transform:scaleX('+frac.toFixed(4)+');'+TR+'"/>'
+    +'</g>'
     // rubber stopper at the plunger side of the fluid
     +'<rect id="dvstop" x="'+(bx+bw-6)+'" y="'+(by-1)+'" width="8" height="'+(bh+2)+'" rx="2.5" fill="#0C3238" stroke="rgba(206,242,242,.5)" stroke-width="1" style="transform:translateX(-'+(bw*frac).toFixed(1)+'px);'+TR+'"/>'
     // glass sheen over everything
