@@ -2093,7 +2093,7 @@ function vHome(){
   var h='<div class="hero"><div>'
     +'<span class="eyebrow">Professional clinical skills training</span>'
     +'<h1>Confidence in <span class="g">Every Procedure</span></h1>'
-    +'<p>Structured, evidence-based clinical procedure training for nursing students, medical assistants, and phlebotomists — learn, practice, and certify. Built by Lacey Smith, FNP-C.</p>'
+    +'<p>Structured, evidence-based clinical procedure training for nursing students, medical assistants, and phlebotomists — learn, practice, and earn CEs. Built by Lacey Smith, FNP-C.</p>'
     +'<div class="cta"><button class="btn btn-gold" onclick="continueLearning()">'+(doneCount?'Continue learning':'Start learning')+' →</button><button class="btn btn-ghost" onclick="go(\'pricing\')">View plans</button></div>'
     +'<div class="badges"><div><b>'+doneCount+'/'+TOTL+'</b><span>Lessons done</span></div><div><b>'+_visC.reduce(function(a,c){return a+((COURSES[c]&&COURSES[c].modules)?COURSES[c].modules.length:0);},0)+'</b><span>Modules</span></div><div><b>'+ov+'%</b><span>Complete</span></div></div>'
     +'</div><div><svg class="shield" viewBox="0 0 64 78" fill="none"><defs><linearGradient id="drpB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3AD8D2"/><stop offset=".5" stop-color="#12A0AE"/><stop offset="1" stop-color="#0B6472"/></linearGradient></defs><path d="M32 5C32 5 51 30 51 47A19 19 0 0 1 13 47C13 30 32 5 32 5Z" fill="url(#drpB)"/><path d="M40 22C45 30 46 40 42 48" stroke="#C9F5F3" stroke-width="2.4" stroke-linecap="round" opacity=".7"/><path d="M24 33C20.5 39.5 21 47 26 52C22.5 46 24.5 38.5 29 34.5C27.5 33.4 25.5 33 24 33Z" fill="#ffffff" opacity=".5"/><ellipse cx="32" cy="67" rx="16" ry="3" fill="#12A0AE" opacity=".22"/></svg></div></div>';
@@ -3027,7 +3027,7 @@ var GLOSSARY={
   venospasm:{t:"Venospasm",alt:["venospasm","vasospasm"],see:["tunica_media","tourniquet"],
     d:"Sudden constriction of the vein's smooth muscle in response to cold, pain or anxiety.",
     why:"A good vein can vanish under your fingers. Warmth, a calm patient and a swift first pass prevent it far better than a second attempt does."},
-  intradermal:{t:"Intradermal",alt:["intradermal"],see:["dermis","subcutaneous_tissue","wheal"],fig:"skin:dermis",
+  intradermal:{t:"Intradermal",alt:["intradermal"],see:["dermis","subcutaneous_tissue","wheal"],fig:"img:https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787296257351.png",
     d:"Injection into the dermis itself, raising a visible pale bleb or wheal.",
     why:"A different technique with a different purpose — TB and allergy testing. If a subcutaneous injection raises a bleb, the needle was too shallow."},
   wheal:{t:"Wheal",alt:["wheal","wheals","bleb"],see:["intradermal","dermis"],fig:"img:https://lumevity-site.vercel.app/id-wheal-photo-v1.jpg",
