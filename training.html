@@ -429,6 +429,31 @@
   .rx-calcbtn{margin-top:12px;width:100%;background:linear-gradient(135deg,#22E0DA,#14C9C6);border:none;color:#06312f;font:inherit;font-weight:800;font-size:.9rem;padding:12px;border-radius:11px;cursor:pointer;}
   .rx-outhr{border:none;border-top:1px solid rgba(34,224,218,.28);margin:10px 0;}
   .rx-disc{font-size:.72rem;color:var(--muted);margin:14px 2px 34px;line-height:1.55;}
+  .rx-seg{display:flex;gap:6px;background:rgba(10,44,56,.6);border:1px solid rgba(120,235,228,.2);border-radius:12px;padding:4px;margin:2px 0 14px;}
+  .rx-seg button{flex:1;background:none;border:none;color:rgba(198,238,238,.72);font:inherit;font-weight:700;font-size:.85rem;padding:9px 8px;border-radius:9px;cursor:pointer;transition:.15s;}
+  .rx-seg button.on{background:linear-gradient(135deg,#22E0DA,#14C9C6);color:#06312f;}
+  .ix-hint{color:rgba(198,238,238,.62);font-size:.82rem;line-height:1.5;margin:0 2px 12px;}
+  .ix-chips{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 14px;}
+  .ix-chip{display:inline-flex;align-items:center;gap:9px;background:linear-gradient(160deg,#175A66,#0B2F3C);border:1px solid rgba(120,235,228,.4);border-radius:999px;padding:8px 11px 8px 14px;color:#EAF7F7;font-weight:600;font-size:.9rem;text-transform:capitalize;}
+  .ix-chip button{background:rgba(120,235,228,.16);border:none;color:#BFF0EC;width:20px;height:20px;border-radius:99px;cursor:pointer;font-size:.72rem;line-height:1;display:flex;align-items:center;justify-content:center;flex:none;}
+  .ix-chip button:hover{background:rgba(240,120,90,.45);color:#fff;}
+  .ix-run{width:100%;background:linear-gradient(135deg,#22E0DA,#14C9C6);border:none;color:#06312f;font:inherit;font-weight:800;font-size:.95rem;padding:13px;border-radius:12px;cursor:pointer;}
+  .ix-run:disabled{opacity:.4;cursor:default;}
+  .ix-sel-h{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:#7FE6F0;font-weight:800;margin:6px 2px 8px;}
+  .ix-res{margin-top:18px;display:grid;gap:11px;}
+  .ix-resh{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:1.05rem;color:#fff;margin:2px 2px 2px;}
+  .ix-card{background:linear-gradient(160deg,#134E58,#0A2C38);border:1px solid rgba(120,235,228,.2);border-left-width:5px;border-radius:13px;padding:13px 15px;}
+  .ix-card.sev-high{border-left-color:#F0785A;} .ix-card.sev-mod{border-left-color:#F0C38C;}
+  .ix-pair{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:7px;}
+  .ix-pair b{color:#fff;font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:1rem;text-transform:capitalize;}
+  .ix-pair .amp{color:#7FE6F0;font-weight:800;}
+  .ix-sev{font-size:.62rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:99px;margin-left:auto;}
+  .ix-sev.sev-high{background:rgba(240,120,90,.22);color:#F0A98C;} .ix-sev.sev-mod{background:rgba(240,195,140,.18);color:#F0C38C;}
+  .ix-msg{color:rgba(222,244,244,.92);font-size:.85rem;line-height:1.5;margin:4px 0;padding-left:14px;position:relative;}
+  .ix-msg:before{content:"•";position:absolute;left:2px;color:#7FE6F0;}
+  .ix-msg .src{color:#7FE6F0;font-weight:700;text-transform:capitalize;}
+  .ix-ok{background:rgba(47,201,138,.1);border:1px solid rgba(47,201,138,.4);border-radius:12px;padding:15px 16px;color:#CFEFE6;font-size:.9rem;line-height:1.5;}
+  .ix-ok b{color:#7CE0B4;}
   .tools-grid{display:grid;grid-template-columns:1fr;gap:12px;}
   .tool-card{display:flex;align-items:center;gap:14px;background:linear-gradient(160deg,#134E58,#0A2C38);border:1px solid rgba(120,235,228,.2);border-radius:16px;padding:16px 18px;cursor:pointer;transition:.18s;}
   .tool-card:hover{border-color:rgba(34,224,218,.5);transform:translateY(-1px);}
@@ -4830,15 +4855,136 @@ function rxCalcCompute(){
     if(guide)guide.innerHTML='<div style="background:linear-gradient(160deg,#134E58,#0A2C38);border:1px solid rgba(120,235,228,.22);border-radius:12px;padding:12px 14px;font-size:.82rem;line-height:1.55;color:rgba(234,247,247,.85)">Measure liquid doses with a marked oral/dosing syringe — never a household spoon. Round to the nearest measurable amount and confirm against the product’s labeling and the ordered frequency.</div>';
   } else { clearVis(); }
 }
+function rxSegHTML(active){
+  return '<div class="rx-seg" role="tablist">'
+   +'<button role="tab" class="'+(active==='browse'?'on':'')+'" onclick="rxSetView(\'browse\')">Browse drugs</button>'
+   +'<button role="tab" class="'+(active==='ix'?'on':'')+'" onclick="rxSetView(\'ix\')">Interaction checker</button>'
+   +'</div>';
+}
+function rxSetView(v){S.rxView=v;S.rxDrug=null;render();try{window.scrollTo({top:0,behavior:'smooth'});}catch(_){}}
 function vRxSearch(){
   return '<div class="pfwrap" style="max-width:600px">'
    +'<div class="pf-hero" style="padding:18px 22px;gap:16px">'+toolIco('rx')+'<div class="pf-heromain"><span class="eyebrow" style="color:#7FE6F0">Clinical tools</span><h2 style="color:#fff;margin:2px 0 3px;font-family:\'Plus Jakarta Sans\',system-ui,sans-serif;font-size:1.4rem">Drug reference</h2><div class="pf-sub">Search a drug for indications, dosing, cautions, interactions, and a weight-based dose calculator.</div></div></div>'
+   +rxSegHTML('browse')
    +'<div class="rx-searchbar"><span>🔎</span><input id="rxSearchInp" type="text" aria-label="Search drugs" autocomplete="off" placeholder="Search a drug, brand, or class…" value="'+esc(S.rxQuery||'')+'" oninput="rxDoSearch(this.value)"/></div>'
    +'<div class="rx-list" id="rxList">'+rxListHTML()+'</div>'
-   +'<div class="rx-disc">Educational reference for training. Not a substitute for current labeling, your formulary, or clinical judgment. No allergy/interaction checking.</div>'
+   +'<div class="rx-disc">Educational reference for training. Not a substitute for current labeling, your formulary, or clinical judgment.</div>'
    +'</div>';
 }
-function vRxTool(){ return S.rxDrug?vRxMonograph():vRxSearch(); }
+/* ============ Interaction checker ============
+   Cross-references the interactions/contraindications noted in each selected drug's
+   monograph against the other selected drugs (by generic name, brand, or drug-class tag).
+   It surfaces what the monographs on file flag — it is NOT a validated interaction database. */
+var IX_CLASS_SYN=[
+ [['ace inhibitor'],['ace inhibitor','renin-angiotensin']],
+ [['angiotensin receptor','arb'],['arb','angiotensin receptor']],
+ [['fluoroquinolone'],['fluoroquinolone','quinolone']],
+ [['nsaid','nonsteroidal'],['nsaid','nonsteroidal']],
+ [['sulfonylurea'],['sulfonylurea']],
+ [['benzodiazepine'],['benzodiazepine']],
+ [['beta-block','beta block','beta blocker'],['beta-block','beta block']],
+ [['ssri'],['ssri']],
+ [['snri'],['snri']],
+ [['statin'],['statin']],
+ [['macrolide'],['macrolide']],
+ [['opioid','opiate'],['opioid','opiate']],
+ [['maoi','monoamine oxidase'],['maoi','monoamine oxidase']],
+ [['anticoagulant'],['anticoagulant']],
+ [['tricyclic'],['tricyclic']],
+ [['proton pump'],['proton pump','ppi']],
+ [['tetracycline'],['tetracycline']],
+ [['aminoglycoside'],['aminoglycoside']]
+];
+function ixTerms(k){
+  var d=RXDB[k],t=[]; var n=(d.n||'').toLowerCase();
+  t.push(n);
+  n.split(/[\/,+()\s]+/).forEach(function(w){if(w.length>=4)t.push(w);});
+  (d.brands||[]).forEach(function(b){b=(b||'').toLowerCase();if(b.length>=4)t.push(b);});
+  var cls=(d.cls||'').toLowerCase();
+  IX_CLASS_SYN.forEach(function(p){if(p[0].some(function(kw){return cls.indexOf(kw)>=0;}))p[1].forEach(function(tag){t.push(tag);});});
+  return t.filter(function(x,i,a){return x&&x.length>=4&&a.indexOf(x)===i;});
+}
+// entries in A's monograph that name drug B
+function ixHits(aKey,bKey){
+  var A=RXDB[aKey],bt=ixTerms(bKey),out=[];
+  (A.interx||[]).forEach(function(e){var el=(e||'').toLowerCase();if(bt.some(function(tm){return el.indexOf(tm)>=0;}))out.push({t:e,from:'interx'});});
+  (A.contra||[]).forEach(function(e){var el=(e||'').toLowerCase();if(bt.some(function(tm){return el.indexOf(tm)>=0;}))out.push({t:e,from:'contra'});});
+  return out;
+}
+function ixSeverity(hits){
+  for(var i=0;i<hits.length;i++){var e=hits[i];var s=(e.t||'').toLowerCase();
+    if(e.from==='contra'||/contraindicat|do not|avoid|fatal|torsades|serotonin syndrome|life-threat/.test(s))return 'high';}
+  return 'mod';
+}
+function rxSearchListIx(q){
+  q=(q||'').trim().toLowerCase();var sel=S.rxIx||[];
+  return RX_KEYS.filter(function(k){
+    if(sel.indexOf(k)>=0)return false; if(!q)return false;
+    var d=RXDB[k];
+    if(d.n.toLowerCase().indexOf(q)>=0)return true;
+    if((d.cls||'').toLowerCase().indexOf(q)>=0)return true;
+    return (d.brands||[]).some(function(b){return b.toLowerCase().indexOf(q)>=0;});
+  }).slice(0,12);
+}
+function ixListHTML(){
+  if(!S.rxIxQuery)return '';
+  var ks=rxSearchListIx(S.rxIxQuery);
+  if(!ks.length)return '<div class="rx-empty">No match. Try a generic name, brand, or class.</div>';
+  return ks.map(function(k){var d=RXDB[k];
+    return '<button type="button" class="rx-row" onclick="ixAdd(\''+k+'\')"><span class="rx-pill">+</span><span class="rx-rmain"><b>'+esc(d.n)+'</b><small>'+esc(d.cls)+(d.brands&&d.brands.length?' · '+esc(d.brands.slice(0,2).join(", ")):'')+'</small></span><span class="rx-chev">＋</span></button>';
+  }).join('');
+}
+function ixDoSearch(v){S.rxIxQuery=v;var l=el('rxIxList');if(l){l.innerHTML=ixListHTML();l.style.display=v?'grid':'none';}}
+function ixAdd(k){S.rxIx=(S.rxIx||[]);if(S.rxIx.indexOf(k)<0)S.rxIx.push(k);S.rxIxQuery='';S.ixRan=false;render();setTimeout(function(){var i=el('rxIxInp');if(i)i.focus();},30);}
+function ixRemove(k){S.rxIx=(S.rxIx||[]).filter(function(x){return x!==k;});S.ixRan=false;render();}
+function ixClear(){S.rxIx=[];S.ixRan=false;S.rxIxQuery='';render();}
+function ixRun(){if((S.rxIx||[]).length<2)return;S.ixRan=true;render();setTimeout(function(){var r=el('ixResBlock');if(r)r.scrollIntoView({behavior:'smooth',block:'start'});},40);}
+function ixResultsHTML(){
+  var sel=S.rxIx||[],cards=[];
+  for(var i=0;i<sel.length;i++)for(var j=i+1;j<sel.length;j++){
+    var a=sel[i],b=sel[j];
+    var hits=ixHits(a,b).concat(ixHits(b,a));
+    // dedupe by text
+    var seen={},uniq=[];hits.forEach(function(hentry){var key=(hentry.t||'').toLowerCase();if(!seen[key]){seen[key]=1;uniq.push(hentry);}});
+    if(!uniq.length)continue;
+    var sev=ixSeverity(uniq);
+    cards.push({a:a,b:b,sev:sev,hits:uniq});
+  }
+  cards.sort(function(x,y){return (x.sev==='high'?0:1)-(y.sev==='high'?0:1);});
+  var n=cards.length;
+  var head='<div class="ix-resh">'+(n?(n+' interaction'+(n===1?'':'s')+' flagged'):'No interactions flagged')+'</div>';
+  if(!n){
+    return head+'<div class="ix-ok"><b>Nothing flagged</b> among these '+sel.length+' drugs, based on the interaction notes in each drug’s monograph on file. This does <b>not</b> guarantee the combination is safe — always confirm against a full interaction reference and the current labeling.</div>';
+  }
+  var body=cards.map(function(c){
+    var sevLab=c.sev==='high'?'Avoid / caution':'Review';
+    return '<div class="ix-card sev-'+c.sev+'"><div class="ix-pair"><b>'+esc(RXDB[c.a].n)+'</b><span class="amp">+</span><b>'+esc(RXDB[c.b].n)+'</b><span class="ix-sev sev-'+c.sev+'">'+sevLab+'</span></div>'
+      +c.hits.map(function(hentry){return '<div class="ix-msg">'+esc(hentry.t)+'</div>';}).join('')+'</div>';
+  }).join('');
+  return head+body;
+}
+function vRxInteractions(){
+  var sel=S.rxIx||[];
+  var h='<div class="pfwrap" style="max-width:600px">'
+   +'<div class="pf-hero" style="padding:18px 22px;gap:16px">'+toolIco('rx')+'<div class="pf-heromain"><span class="eyebrow" style="color:#7FE6F0">Clinical tools</span><h2 style="color:#fff;margin:2px 0 3px;font-family:\'Plus Jakarta Sans\',system-ui,sans-serif;font-size:1.4rem">Interaction checker</h2><div class="pf-sub">Add each drug the patient is on, plus the one you’re considering, then check for flagged interactions.</div></div></div>'
+   +rxSegHTML('ix')
+   +'<div class="rx-searchbar"><span>🔎</span><input id="rxIxInp" type="text" aria-label="Add a drug" autocomplete="off" placeholder="Add a drug by name, brand, or class…" value="'+esc(S.rxIxQuery||'')+'" oninput="ixDoSearch(this.value)"/></div>'
+   +'<div class="rx-list" id="rxIxList" style="'+(S.rxIxQuery?'':'display:none')+'">'+ixListHTML()+'</div>';
+  if(sel.length){
+    h+='<div class="ix-sel-h">Selected — '+sel.length+' drug'+(sel.length===1?'':'s')+(sel.length>=2?'':' (add at least one more)')+'</div><div class="ix-chips">'
+     +sel.map(function(k){return '<span class="ix-chip">'+esc(RXDB[k].n)+'<button type="button" onclick="ixRemove(\''+k+'\')" aria-label="Remove">✕</button></span>';}).join('')
+     +'</div>';
+  } else {
+    h+='<p class="ix-hint">No drugs added yet. Search above and tap <b>＋</b> to add each one.</p>';
+  }
+  h+='<button class="ix-run" onclick="ixRun()"'+(sel.length<2?' disabled':'')+'>Check interactions'+(sel.length>=2?' — '+sel.length+' drugs':'')+'</button>';
+  h+='<div id="ixResBlock">'+(S.ixRan?'<div class="ix-res">'+ixResultsHTML()+'</div>':'')+'</div>';
+  if(sel.length){h+='<div style="margin-top:14px;text-align:center"><button class="ix-run" style="background:none;border:1px solid rgba(120,235,228,.3);color:#BFF0EC;width:auto;padding:8px 16px;font-size:.82rem" onclick="ixClear()">Clear all</button></div>';}
+  h+='<div class="rx-disc">This checks the interactions and contraindications recorded in each drug’s monograph — it is a training aid, not a validated interaction database, and does not check allergies, duplicate therapy, doses, or every possible pair. Always confirm against a full interaction reference and current labeling before acting.</div>';
+  h+='</div>';
+  return h;
+}
+function vRxTool(){ if(S.rxDrug)return vRxMonograph(); return S.rxView==='ix'?vRxInteractions():vRxSearch(); }
 function setTool(t){S.toolTab=t;render();if(t==='iv')setTimeout(calcCompute,20);if(t==='conv')setTimeout(function(){convSet('a');},20);}
 var TOOL_ICONS={
   iv:'https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787294631152.png',
