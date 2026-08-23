@@ -446,6 +446,8 @@
   .ixcart-lab small{display:block;font-weight:500;font-size:.72rem;color:rgba(198,238,238,.78);margin-top:1px;}
   .ixcart-go{flex:none;background:linear-gradient(135deg,#22E0DA,#14C9C6);border:none;color:#06312f;font:inherit;font-weight:800;font-size:.86rem;padding:10px 15px;border-radius:99px;cursor:pointer;white-space:nowrap;}
   .ixcart-pad{height:76px;}
+  .ix-clear{background:#fff;border:1.5px solid #0E8A93;color:#0B6E76;font:inherit;font-weight:700;font-size:.84rem;padding:9px 20px;border-radius:99px;cursor:pointer;transition:.14s;}
+  .ix-clear:hover{background:#0B6E76;border-color:#0B6E76;color:#fff;}
   .rx-seg{display:flex;gap:6px;background:rgba(10,44,56,.6);border:1px solid rgba(120,235,228,.2);border-radius:12px;padding:4px;margin:2px 0 14px;}
   .rx-seg button{flex:1;background:none;border:none;color:rgba(198,238,238,.72);font:inherit;font-weight:700;font-size:.85rem;padding:9px 8px;border-radius:9px;cursor:pointer;transition:.15s;}
   .rx-seg button.on{background:linear-gradient(135deg,#22E0DA,#14C9C6);color:#06312f;}
@@ -5213,7 +5215,7 @@ function vRxInteractions(){
   }
   h+='<button class="ix-run" onclick="ixRun()"'+(sel.length<2?' disabled':'')+'>Check interactions'+(sel.length>=2?' — '+sel.length+' drugs':'')+'</button>';
   h+='<div id="ixResBlock">'+(S.ixRan?'<div class="ix-res">'+ixResultsHTML()+'</div>':'')+'</div>';
-  if(sel.length){h+='<div style="margin-top:14px;text-align:center"><button class="ix-run" style="background:none;border:1px solid rgba(120,235,228,.3);color:#BFF0EC;width:auto;padding:8px 16px;font-size:.82rem" onclick="ixClear()">Clear all</button></div>';}
+  if(sel.length){h+='<div style="margin-top:14px;text-align:center"><button type="button" class="ix-clear" onclick="ixClear()">Clear all</button></div>';}
   h+='<div class="rx-disc">This checks the interactions and contraindications recorded in each drug’s monograph — it is a training aid, not a validated interaction database, and does not check allergies, duplicate therapy, doses, or every possible pair. Always confirm against a full interaction reference and current labeling before acting.</div>';
   h+='</div>';
   return h;
