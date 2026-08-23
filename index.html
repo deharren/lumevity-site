@@ -619,5 +619,214 @@
     else { n.style.display='flex';n.style.position='absolute';n.style.flexDirection='column';n.style.top='74px';n.style.right='0';n.style.left='0';n.style.background='rgba(0,0,0,.98)';n.style.padding='20px 28px';n.style.gap='18px'; }
   });
 </script>
+<!-- ===== Live review mode: browse the app and flag anything in place =====
+     Activated with ?review=1 (persists across in-app navigation via sessionStorage).
+     Exit with the toolbar button or ?review=0. Invisible to normal users. -->
+<script>
+(function(){
+  "use strict";
+  var SB_URL="https://dnjvsfwdrffzawrlrrma.supabase.co";
+  var SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRuanZzZndkcmZmemF3cmxycm1hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5MDgxMTgsImV4cCI6MjA5ODQ4NDExOH0.6coWHPrl5IHGWex_W0Q29NU5E3hA-lyfswxPCxtbThs";
+  var APP_SLUG="lumevity", TABLE="review_items", BUCKET="review-uploads";
+  var REVIEW_URL="/review";
+
+  var qp=new URLSearchParams(location.search);
+  var flag=qp.get("review");
+  try{
+    if(flag==="0"){sessionStorage.removeItem("lmv_review");return;}
+    if(flag==="1")sessionStorage.setItem("lmv_review","1");
+    if(sessionStorage.getItem("lmv_review")!=="1")return;
+  }catch(e){ if(flag!=="1")return; }
+
+  var picking=false, sent=0, target=null, shot=null;
+  function ls(k,v){try{ if(v===undefined)return localStorage.getItem(k); localStorage.setItem(k,v);}catch(e){return null;} }
+  function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+  function uid(){return "r"+Math.abs(Date.now()%1e9).toString(36)+Math.floor(Math.random()*1e6).toString(36);}
+  var BATCH=uid();
+
+  // ---------- styles ----------
+  var css=document.createElement("style");
+  css.textContent=
+  '.lmvrv-bar{position:fixed;right:14px;bottom:max(14px,calc(env(safe-area-inset-bottom,0px) + 14px));z-index:2147483000;display:flex;align-items:center;gap:8px;background:#0E4E58;border:1.5px solid #22E0DA;border-radius:999px;padding:8px 10px 8px 14px;box-shadow:0 10px 30px rgba(0,0,0,.45);font:600 13px Inter,system-ui,sans-serif;color:#EAF6F6;max-width:calc(100vw - 28px);}'
+ +'.lmvrv-dot{width:8px;height:8px;border-radius:99px;background:#22E0DA;flex:none;animation:lmvrvp 1.8s ease-in-out infinite;}'
+ +'@keyframes lmvrvp{0%,100%{opacity:1}50%{opacity:.35}}'
+ +'.lmvrv-lab{white-space:nowrap;font-weight:700;letter-spacing:.01em;}'
+ +'.lmvrv-cnt{font:700 11px "IBM Plex Mono",monospace;background:rgba(34,224,218,.2);color:#9FF3EF;border-radius:99px;padding:2px 8px;}'
+ +'.lmvrv-btn{background:#22E0DA;color:#052a2f;border:none;border-radius:99px;padding:8px 14px;font:800 13px Inter,system-ui,sans-serif;cursor:pointer;white-space:nowrap;}'
+ +'.lmvrv-btn:hover{background:#5BEFE9;}'
+ +'.lmvrv-btn.on{background:#F0785A;color:#2b0d06;}'
+ +'.lmvrv-x{background:transparent;border:none;color:#9FE9E6;font-size:15px;cursor:pointer;padding:5px 7px;line-height:1;}'
+ +'.lmvrv-x:hover{color:#fff;}'
+ +'.lmvrv-hl{position:absolute;z-index:2147482000;border:2px solid #22E0DA;background:rgba(34,224,218,.16);border-radius:6px;pointer-events:none;transition:all .06s linear;box-shadow:0 0 0 9999px rgba(4,20,25,.28);}'
+ +'.lmvrv-tip{position:fixed;left:50%;top:14px;transform:translateX(-50%);z-index:2147483000;background:#0E4E58;border:1.5px solid #22E0DA;border-radius:999px;padding:9px 18px;font:700 13px Inter,system-ui,sans-serif;color:#EAF6F6;box-shadow:0 8px 24px rgba(0,0,0,.4);white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis;}'
+ +'.lmvrv-mask{position:fixed;inset:0;z-index:2147483100;background:rgba(4,18,23,.66);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:18px;}'
+ +'.lmvrv-box{background:#0C3A44;border:1.5px solid rgba(120,235,228,.45);border-radius:18px;width:min(440px,100%);max-height:90vh;overflow:auto;padding:20px;box-shadow:0 20px 50px rgba(0,0,0,.5);font-family:Inter,system-ui,sans-serif;}'
+ +'.lmvrv-box h3{margin:0 0 4px;font:800 17px "Plus Jakarta Sans",Inter,system-ui,sans-serif;color:#fff;}'
+ +'.lmvrv-tgt{background:rgba(34,224,218,.1);border:1px solid rgba(120,235,228,.3);border-radius:10px;padding:9px 12px;margin:10px 0 14px;font:600 12.5px "IBM Plex Mono",monospace;color:#9FF3EF;word-break:break-word;line-height:1.45;}'
+ +'.lmvrv-tgt small{display:block;color:rgba(198,238,238,.65);font-weight:500;margin-top:3px;font-family:Inter,system-ui,sans-serif;font-size:11.5px;}'
+ +'.lmvrv-lbl{display:block;font:700 12.5px Inter,system-ui,sans-serif;color:#BFF0EC;margin-bottom:6px;}'
+ +'.lmvrv-box textarea,.lmvrv-box input[type=text]{width:100%;box-sizing:border-box;background:#08303A;border:1.5px solid rgba(120,235,228,.3);border-radius:11px;color:#EAF7F7;font:400 14px Inter,system-ui,sans-serif;padding:11px 13px;line-height:1.5;}'
+ +'.lmvrv-box textarea{min-height:92px;resize:vertical;}'
+ +'.lmvrv-box textarea:focus,.lmvrv-box input:focus{outline:none;border-color:#22E0DA;}'
+ +'.lmvrv-row{display:flex;gap:9px;align-items:center;margin-top:12px;flex-wrap:wrap;}'
+ +'.lmvrv-up{background:rgba(34,224,218,.12);border:1.5px dashed rgba(120,235,228,.45);color:#9FF3EF;border-radius:11px;padding:9px 13px;font:700 12.5px Inter,system-ui,sans-serif;cursor:pointer;}'
+ +'.lmvrv-prev{width:54px;height:54px;border-radius:9px;object-fit:cover;border:1px solid rgba(120,235,228,.4);}'
+ +'.lmvrv-act{display:flex;gap:9px;justify-content:flex-end;margin-top:16px;}'
+ +'.lmvrv-ghost{background:transparent;border:1.5px solid rgba(120,235,228,.35);color:#BFF0EC;border-radius:99px;padding:9px 16px;font:700 13px Inter,system-ui,sans-serif;cursor:pointer;}'
+ +'.lmvrv-msg{font:500 12px Inter,system-ui,sans-serif;color:#9FE9E6;margin-top:8px;min-height:16px;}'
+ +'.lmvrv-toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);z-index:2147483200;background:#0E4E58;border:1.5px solid #22E0DA;color:#EAF6F6;border-radius:999px;padding:11px 20px;font:700 13px Inter,system-ui,sans-serif;box-shadow:0 10px 28px rgba(0,0,0,.45);opacity:0;transition:.25s;pointer-events:none;max-width:90vw;text-align:center;}'
+ +'.lmvrv-toast.on{opacity:1;}'
+ +'.lmvrv-picking,.lmvrv-picking *{cursor:crosshair !important;}';
+  document.head.appendChild(css);
+
+  // ---------- toolbar ----------
+  var bar=document.createElement("div");
+  bar.className="lmvrv-bar";
+  bar.innerHTML='<span class="lmvrv-dot"></span><span class="lmvrv-lab">Review mode</span>'
+   +'<span class="lmvrv-cnt" id="lmvrvCnt">0</span>'
+   +'<button class="lmvrv-btn" id="lmvrvPick">📌 Flag something</button>'
+   +'<button class="lmvrv-x" id="lmvrvExit" title="Exit review mode" aria-label="Exit review mode">✕</button>';
+  function mount(){ if(document.body)document.body.appendChild(bar); else setTimeout(mount,60); }
+  mount();
+
+  var hl=document.createElement("div"); hl.className="lmvrv-hl"; hl.style.display="none";
+  var tip=document.createElement("div"); tip.className="lmvrv-tip"; tip.style.display="none";
+  tip.textContent="Click anything on the page to flag it — Esc to cancel";
+  function mount2(){ if(document.body){document.body.appendChild(hl);document.body.appendChild(tip);} else setTimeout(mount2,60); }
+  mount2();
+
+  function toast(m){
+    var t=document.createElement("div"); t.className="lmvrv-toast"; t.textContent=m;
+    document.body.appendChild(t); requestAnimationFrame(function(){t.classList.add("on");});
+    setTimeout(function(){t.classList.remove("on");setTimeout(function(){t.remove();},300);},2600);
+  }
+
+  // ---------- element description ----------
+  function describe(elm){
+    if(!elm||elm===document.body)return {sel:"page",txt:""};
+    var tag=elm.tagName.toLowerCase();
+    var cls=(elm.className&&typeof elm.className==="string")?elm.className.trim().split(/\s+/).filter(function(c){return c.indexOf("lmvrv")<0;}).slice(0,2):[];
+    var sel=tag+(elm.id?("#"+elm.id):"")+(cls.length?("."+cls.join(".")):"");
+    var txt=(elm.innerText||elm.textContent||"").replace(/\s+/g," ").trim().slice(0,90);
+    if(!txt&&elm.getAttribute&&elm.getAttribute("alt"))txt="[image] "+elm.getAttribute("alt");
+    if(!txt&&tag==="img")txt="[image] "+((elm.getAttribute("src")||"").split("/").pop());
+    return {sel:sel,txt:txt};
+  }
+  var LMVRV_TOOLS={rx:"Drug reference",iv:"IV infusion calculator",im:"IM calculator",subq:"SubQ calculator",id:"Intradermal calculator",conv:"Conversions"};
+  function whereLabel(){
+    var h=(location.hash||"").replace(/^#/,"");
+    var base=(location.pathname||"/").replace(/\.html$/,"");
+    base=(base==="/"||base==="")?"Homepage":base.replace(/^\//,"");
+    if(base==="training")base="App";
+    if(!h)return base;
+    var m=h.match(/^tool=(\w+)/);   if(m)return base+" · "+(LMVRV_TOOLS[m[1]]||("Tool: "+m[1]));
+    m=h.match(/^term=(.+)/);         if(m)return base+" · Glossary: "+decodeURIComponent(m[1]);
+    m=h.match(/^lesson=(.+)/);       if(m)return base+" · Lesson: "+decodeURIComponent(m[1]);
+    m=h.match(/^course=(.+)/);       if(m)return base+" · Course: "+decodeURIComponent(m[1]);
+    return base+" · #"+h;
+  }
+
+  // ---------- picking ----------
+  function setPicking(on){
+    picking=on;
+    document.documentElement.classList.toggle("lmvrv-picking",on);
+    var b=document.getElementById("lmvrvPick");
+    if(b){b.textContent=on?"✕ Cancel":"📌 Flag something";b.classList.toggle("on",on);}
+    tip.style.display=on?"block":"none";
+    if(!on){hl.style.display="none";}
+  }
+  function onMove(e){
+    if(!picking)return;
+    var elm=document.elementFromPoint(e.clientX,e.clientY);
+    if(!elm||bar.contains(elm)||elm===hl||elm===tip){hl.style.display="none";return;}
+    var r=elm.getBoundingClientRect();
+    if(!r.width||!r.height){hl.style.display="none";return;}
+    hl.style.display="block";
+    hl.style.top=(r.top+window.scrollY-2)+"px";
+    hl.style.left=(r.left+window.scrollX-2)+"px";
+    hl.style.width=r.width+"px"; hl.style.height=r.height+"px";
+  }
+  function onPick(e){
+    if(!picking)return;
+    if(bar.contains(e.target))return;
+    e.preventDefault(); e.stopPropagation();
+    var elm=document.elementFromPoint(e.clientX!=null?e.clientX:0,e.clientY!=null?e.clientY:0);
+    target=describe(elm);
+    setPicking(false);
+    openNote();
+  }
+  document.addEventListener("mousemove",onMove,true);
+  document.addEventListener("click",onPick,true);
+  document.addEventListener("keydown",function(e){ if(e.key==="Escape"&&picking)setPicking(false); },true);
+
+  // ---------- note dialog ----------
+  function openNote(){
+    shot=null;
+    var mask=document.createElement("div"); mask.className="lmvrv-mask";
+    var nm=ls("lmv_review_name")||"";
+    mask.innerHTML='<div class="lmvrv-box" role="dialog" aria-modal="true">'
+     +'<h3>Flag this</h3>'
+     +'<div class="lmvrv-tgt">'+esc(target.sel)+(target.txt?('<small>“'+esc(target.txt)+'”</small>'):'')+'<small>'+esc(whereLabel())+'</small></div>'
+     +(nm?'':'<label class="lmvrv-lbl" for="lmvrvNm">Your name</label><input type="text" id="lmvrvNm" placeholder="e.g. Dr. Sarah Chen" autocomplete="name" style="margin-bottom:12px"/>')
+     +'<label class="lmvrv-lbl" for="lmvrvNote">What’s wrong / what should change?</label>'
+     +'<textarea id="lmvrvNote" placeholder="Describe it. For a text fix, write the exact wording you want."></textarea>'
+     +'<div class="lmvrv-row"><label class="lmvrv-up" for="lmvrvFile">📷 Add a photo</label><input id="lmvrvFile" type="file" accept="image/*" style="display:none"/><span id="lmvrvPrev"></span></div>'
+     +'<div class="lmvrv-msg" id="lmvrvMsg"></div>'
+     +'<div class="lmvrv-act"><button class="lmvrv-ghost" id="lmvrvCancel">Cancel</button><button class="lmvrv-btn" id="lmvrvSend">Send to team</button></div>'
+     +'</div>';
+    document.body.appendChild(mask);
+    var ta=mask.querySelector("#lmvrvNote"); setTimeout(function(){ta.focus();},60);
+    mask.querySelector("#lmvrvCancel").onclick=function(){mask.remove();};
+    mask.addEventListener("click",function(e){if(e.target===mask)mask.remove();});
+
+    mask.querySelector("#lmvrvFile").onchange=function(){
+      var f=this.files&&this.files[0]; if(!f)return;
+      var msg=mask.querySelector("#lmvrvMsg"); msg.textContent="Uploading photo…";
+      var ext=(f.name.split(".").pop()||"png").toLowerCase();
+      var path=APP_SLUG+"/"+uid()+"."+ext;
+      fetch(SB_URL+"/storage/v1/object/"+BUCKET+"/"+path,{method:"POST",headers:{apikey:SB_KEY,Authorization:"Bearer "+SB_KEY,"Content-Type":f.type||"image/png","x-upsert":"true"},body:f})
+       .then(function(r){ if(!r.ok)throw new Error(r.status);
+         shot=SB_URL+"/storage/v1/object/public/"+BUCKET+"/"+path;
+         mask.querySelector("#lmvrvPrev").innerHTML='<img class="lmvrv-prev" src="'+esc(shot)+'"/>';
+         msg.textContent="";
+       }).catch(function(){ msg.textContent="Photo upload failed — you can still send the note."; });
+    };
+
+    mask.querySelector("#lmvrvSend").onclick=function(){
+      var note=(ta.value||"").trim();
+      var msg=mask.querySelector("#lmvrvMsg");
+      if(!note){ta.focus();msg.textContent="Add a short description first.";return;}
+      var nmIn=mask.querySelector("#lmvrvNm");
+      var who=nm||(nmIn&&nmIn.value.trim())||"Client";
+      if(nmIn&&nmIn.value.trim())ls("lmv_review_name",nmIn.value.trim());
+      var btn=this; btn.disabled=true; btn.textContent="Sending…"; msg.textContent="";
+      var row={app_slug:APP_SLUG,batch_id:BATCH,submitter:who,item_type:"screen",
+        item_ref:target.sel,
+        item_label:whereLabel()+(target.txt?(" — “"+target.txt.slice(0,50)+"”"):""),
+        item_link:location.href.replace(/([?&])review=1(&|$)/,"$1").replace(/[?&]$/,""),
+        verdict:"open",note:note,screenshot_url:shot||"",review_status:"pending"};
+      fetch(SB_URL+"/rest/v1/"+TABLE,{method:"POST",headers:{apikey:SB_KEY,Authorization:"Bearer "+SB_KEY,"Content-Type":"application/json",Prefer:"return=minimal"},body:JSON.stringify([row])})
+       .then(function(r){ if(!r.ok)throw new Error(r.status);
+         mask.remove(); sent++;
+         var c=document.getElementById("lmvrvCnt"); if(c)c.textContent=sent;
+         toast("Flagged ✓ — sent to the team");
+       }).catch(function(){ btn.disabled=false; btn.textContent="Send to team"; msg.textContent="Could not send — check your connection and try again."; });
+    };
+  }
+
+  // ---------- toolbar actions ----------
+  function wire(){
+    var p=document.getElementById("lmvrvPick"), x=document.getElementById("lmvrvExit");
+    if(!p||!x){setTimeout(wire,80);return;}
+    p.onclick=function(e){e.stopPropagation();setPicking(!picking);};
+    x.onclick=function(e){e.stopPropagation();
+      try{sessionStorage.removeItem("lmv_review");}catch(err){}
+      location.href=REVIEW_URL;
+    };
+  }
+  wire();
+})();
+</script>
+
 </body>
 </html>
