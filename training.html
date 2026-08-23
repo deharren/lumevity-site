@@ -5041,7 +5041,7 @@ function vRxSearch(){
    +'</div>';
 }
 function vRxTool(){ return S.rxDrug?vRxMonograph():vRxSearch(); }
-function setTool(t){S.toolTab=t;render();if(t==='iv')setTimeout(calcCompute,20);}
+function setTool(t){S.toolTab=t;render();if(t==='iv')setTimeout(calcCompute,20);if(t==='conv')setTimeout(function(){convSet('a');},20);}
 var TOOL_ICONS={
   iv:'https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787294631152.png',
   im:'https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787294631181.png',
@@ -5050,14 +5050,62 @@ var TOOL_ICONS={
   rx:'https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-rx-clean-2.png'
 };
 function toolIco(k){var alts={iv:'IV infusion',im:'IM injection',subq:'Subcutaneous injection',id:'Intradermal',rx:'Drug reference'};return '<img class="tool-ico" src="'+TOOL_ICONS[k]+'" alt="'+(alts[k]||'')+'"/>';}
+/* ============ Unit conversions ============ */
+var CONV={
+  mass:{units:[['mcg','mcg',1e-6],['mg','mg',1e-3],['g','g',1],['kg','kg',1000],['oz','oz',28.349523125],['lb','lb',453.59237]],from:'mg',to:'g'},
+  vol:{units:[['mL','mL',1],['L','L',1000],['tsp','tsp',4.92892159375],['tbsp','tbsp',14.78676478125],['floz','fl oz',29.5735295625],['cup','cup',236.5882365],['pt','pint',473.176473],['qt','quart',946.352946],['gal','gallon',3785.411784]],from:'mL',to:'L'}
+};
+function convFactor(cat,key){var u=CONV[cat].units;for(var i=0;i<u.length;i++)if(u[i][0]===key)return u[i][2];return 1;}
+function convLabel(cat,key){var u=CONV[cat].units;for(var i=0;i<u.length;i++)if(u[i][0]===key)return u[i][1];return key;}
+function convFmt(x){if(!isFinite(x)||isNaN(x))return '';if(x===0)return '0';return String(Number(x.toPrecision(6)));}
+function convSet(src){
+  var cat=S.convCat||'mass',a=el('cv_a'),b=el('cv_b');if(!a||!b)return;
+  var fa=convFactor(cat,(el('cv_ua')||{}).value),fb=convFactor(cat,(el('cv_ub')||{}).value);
+  if(src==='b'){var vb=parseFloat(b.value);a.value=isNaN(vb)?'':convFmt(vb*fb/fa);}
+  else{var va=parseFloat(a.value);b.value=isNaN(va)?'':convFmt(va*fa/fb);}
+  convEq();
+}
+function convEq(){
+  var cat=S.convCat||'mass',note=el('cvEq');if(!note)return;
+  var ua=(el('cv_ua')||{}).value,ub=(el('cv_ub')||{}).value;
+  var per=convFactor(cat,ua)/convFactor(cat,ub);
+  note.textContent='1 '+convLabel(cat,ua)+' = '+convFmt(per)+' '+convLabel(cat,ub);
+}
+function setConvCat(c){S.convCat=c;render();setTimeout(function(){convSet('a');},20);}
+function convSwap(){var ua=el('cv_ua'),ub=el('cv_ub');if(!ua||!ub)return;var t=ua.value;ua.value=ub.value;ub.value=t;convSet('a');}
+function vConvTool(){
+  var cat=S.convCat||'mass',C=CONV[cat];
+  var opts=function(sel){return C.units.map(function(u){return '<option value="'+u[0]+'"'+(u[0]===sel?' selected':'')+'>'+u[1]+'</option>';}).join('');};
+  var ctab=function(k,lab){return '<button class="calc-tab'+(cat===k?' on':'')+'" aria-pressed="'+(cat===k?'true':'false')+'" onclick="setConvCat(\''+k+'\')">'+lab+'</button>';};
+  var chooser='<div class="calc-tabs">'+ctab('mass','Weight / mass')+ctab('vol','Volume')+'</div>';
+  var icon='<div class="tool-ico" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,#134E58,#0A2C38);border:1px solid rgba(120,235,228,.25)"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#7FE6F0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h14l-3.5-3.5M20 16H6l3.5 3.5"/></svg></div>';
+  var ref=cat==='mass'
+    ? ['1 g = 1000 mg','1 mg = 1000 mcg','1 kg = 1000 g','1 kg = 2.2046 lb  ·  1 lb = 453.59 g','1 oz = 28.35 g']
+    : ['1 L = 1000 mL','1 tsp ≈ 5 mL','1 tbsp ≈ 15 mL  (3 tsp)','1 fl oz ≈ 30 mL','1 cup ≈ 240 mL  (8 fl oz)'];
+  var refHTML='<div style="background:linear-gradient(160deg,#134E58,#0A2C38);border:1px solid rgba(120,235,228,.22);border-radius:12px;padding:12px 14px;margin-top:16px"><div style="font:600 .7rem \'IBM Plex Mono\',ui-monospace,monospace;letter-spacing:.14em;color:#7FE6F0;text-transform:uppercase;margin-bottom:8px">Common equivalents</div><div style="font-size:.88rem;line-height:1.85;color:rgba(234,247,247,.86)">'+ref.map(function(x){return '• '+x;}).join('<br>')+'</div>'+(cat==='vol'?'<div style="font-size:.72rem;color:var(--muted);margin-top:10px;line-height:1.5">Household measures are approximate — measure medication with a marked oral/dosing syringe, never kitchen spoons.</div>':'')+'</div>';
+  return '<div class="pfwrap" style="max-width:560px">'
+   +chooser
+   +'<div class="pf-hero" style="padding:20px 24px;gap:18px">'+icon+'<div class="pf-heromain"><span class="eyebrow" style="color:#7FE6F0">Clinical tools</span><h2 style="color:#fff;margin:2px 0 3px;font-family:\'Plus Jakarta Sans\',system-ui,sans-serif;font-size:1.4rem">Unit conversions</h2><div class="pf-sub">Convert metric units and household measures. Type in either box.</div></div></div>'
+   +'<div class="pf-sec open"><div class="pf-body">'
+   +'<div class="pf-f full"><label><span>From</span></label><div class="pf-combo"><input id="cv_a" type="number" inputmode="decimal" step="any" placeholder="Enter a value" oninput="convSet(\'a\')"/><select id="cv_ua" aria-label="From unit" onchange="convSet(\'a\')">'+opts(C.from)+'</select></div></div>'
+   +'<div style="display:flex;justify-content:center;margin:4px 0"><button type="button" onclick="convSwap()" aria-label="Swap units" style="background:rgba(120,235,228,.1);border:1px solid rgba(120,235,228,.3);color:#7FE6F0;border-radius:999px;width:42px;height:42px;font-size:1.15rem;line-height:1;cursor:pointer">⇅</button></div>'
+   +'<div class="pf-f full"><label><span>To</span></label><div class="pf-combo"><input id="cv_b" type="number" inputmode="decimal" step="any" placeholder="Result" oninput="convSet(\'b\')"/><select id="cv_ub" aria-label="To unit" onchange="convSet(\'a\')">'+opts(C.to)+'</select></div></div>'
+   +'<div id="cvEq" class="calc-note" style="margin-top:12px"></div>'
+   +refHTML
+   +'</div></div>'
+   +'<div style="font-size:.72rem;color:var(--muted);margin:12px 2px 34px;line-height:1.55">Educational aid — confirm critical conversions independently before acting on them.</div>'
+   +'</div>';
+}
 function vTools(){
-  var inner=(S.toolTab||'rx')==='rx'?vToolsShell(vRxTool()):vToolsShell(vCalc());
+  var t=S.toolTab||'rx';
+  var inner=t==='rx'?vToolsShell(vRxTool()):t==='conv'?vToolsShell(vConvTool()):vToolsShell(vCalc());
   return '<div class="calcscreen">'+inner+'</div>';
 }
 function vToolsShell(inner){
   var t=S.toolTab||'rx';
+  var sw=function(k,lab){return '<button class="tsw'+(t===k?' on':'')+'" aria-pressed="'+(t===k?'true':'false')+'" onclick="setTool(\''+k+'\')">'+lab+'</button>';};
   return '<div class="calctop"><div style="margin-bottom:10px"><button class="btn btn-ghost" onclick="go(\'home\')">← Home</button></div>'
-   +'<div class="tool-switch"><button class="tsw'+(t==='rx'?' on':'')+'" aria-pressed="'+(t==='rx'?'true':'false')+'" onclick="setTool(\'rx\')">Drug reference</button><button class="tsw'+(t==='iv'?' on':'')+'" aria-pressed="'+(t==='iv'?'true':'false')+'" onclick="setTool(\'iv\')">Calculators</button></div></div>'
+   +'<div class="tool-switch">'+sw('rx','Drug reference')+sw('iv','Calculators')+sw('conv','Conversions')+'</div></div>'
    +inner;
 }
 function vCalc(){
