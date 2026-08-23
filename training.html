@@ -429,6 +429,23 @@
   .rx-calcbtn{margin-top:12px;width:100%;background:linear-gradient(135deg,#22E0DA,#14C9C6);border:none;color:#06312f;font:inherit;font-weight:800;font-size:.9rem;padding:12px;border-radius:11px;cursor:pointer;}
   .rx-outhr{border:none;border-top:1px solid rgba(34,224,218,.28);margin:10px 0;}
   .rx-disc{font-size:.72rem;color:var(--muted);margin:14px 2px 34px;line-height:1.55;}
+  /* add-to-interaction-check ("cart") */
+  .rx-ixbtn{width:100%;margin:0 0 14px;background:rgba(34,224,218,.14);border:1.5px solid rgba(14,138,147,.55);color:#0B6E76;font:inherit;font-weight:800;font-size:.92rem;padding:12px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.15s;}
+  .rx-ixbtn:hover{background:rgba(34,224,218,.26);}
+  .rx-ixbtn.on{background:rgba(47,201,138,.18);border-color:rgba(18,160,106,.65);color:#0E7A55;}
+  .rx-rowwrap{position:relative;}
+  .rx-rowwrap .rx-row{padding-right:58px;}
+  .rx-addbtn{position:absolute;right:11px;top:50%;transform:translateY(-50%);z-index:2;width:34px;height:34px;border-radius:10px;border:1.5px solid rgba(120,235,228,.45);background:rgba(34,224,218,.16);color:#7FE6F0;font:800 1.15rem/1 Inter,system-ui,sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:.14s;}
+  .rx-addbtn:hover{background:rgba(34,224,218,.34);color:#fff;}
+  .rx-addbtn.on{background:rgba(47,201,138,.3);border-color:rgba(47,201,138,.7);color:#9FEFC9;}
+  .ixcart{position:fixed;left:12px;right:12px;bottom:max(12px,calc(env(safe-area-inset-bottom,0px) + 12px));z-index:1100;max-width:560px;margin:0 auto;background:linear-gradient(135deg,#0E5A64,#0A3742);border:1.5px solid #22E0DA;border-radius:15px;box-shadow:0 12px 34px rgba(0,0,0,.42);display:flex;align-items:center;gap:10px;padding:10px 12px;}
+  .ixcart-main{flex:1;min-width:0;display:flex;align-items:center;gap:13px;background:none;border:none;color:#EAF7F7;font:inherit;font-weight:700;font-size:.9rem;cursor:pointer;text-align:left;padding:2px 0;}
+  .ixcart-ico{position:relative;flex:none;font-size:1.2rem;line-height:1;}
+  .ixcart-n{position:absolute;top:-7px;right:-10px;background:#22E0DA;color:#052a2f;font:800 10px 'IBM Plex Mono',ui-monospace,monospace;border-radius:99px;padding:1px 5px;}
+  .ixcart-lab{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .ixcart-lab small{display:block;font-weight:500;font-size:.72rem;color:rgba(198,238,238,.78);margin-top:1px;}
+  .ixcart-go{flex:none;background:linear-gradient(135deg,#22E0DA,#14C9C6);border:none;color:#06312f;font:inherit;font-weight:800;font-size:.86rem;padding:10px 15px;border-radius:99px;cursor:pointer;white-space:nowrap;}
+  .ixcart-pad{height:76px;}
   .rx-seg{display:flex;gap:6px;background:rgba(10,44,56,.6);border:1px solid rgba(120,235,228,.2);border-radius:12px;padding:4px;margin:2px 0 14px;}
   .rx-seg button{flex:1;background:none;border:none;color:rgba(198,238,238,.72);font:inherit;font-weight:700;font-size:.85rem;padding:9px 8px;border-radius:9px;cursor:pointer;transition:.15s;}
   .rx-seg button.on{background:linear-gradient(135deg,#22E0DA,#14C9C6);color:#06312f;}
@@ -4785,14 +4802,47 @@ function rxSearchList(q){
     return (d.brands||[]).some(function(b){return b.toLowerCase().indexOf(q)>=0;});
   });
 }
+/* ---- interaction "cart": collect drugs while browsing, then check them together ---- */
+function ixHas(k){return (S.rxIx||[]).indexOf(k)>=0;}
+function ixCartInner(){
+  var n=(S.rxIx||[]).length; if(!n)return '';
+  var names=(S.rxIx||[]).map(function(k){return RXDB[k]?RXDB[k].n:k;});
+  var lab=names.slice(0,2).join(', ')+(n>2?(' +'+(n-2)+' more'):'');
+  return '<div class="ixcart">'
+   +'<button type="button" class="ixcart-main" onclick="ixGoCheck()"><span class="ixcart-ico">🧪<span class="ixcart-n">'+n+'</span></span>'
+   +'<span class="ixcart-lab">'+esc(lab)+'<small>'+(n<2?'add one more to check':'ready to check')+'</small></span></button>'
+   +'<button type="button" class="ixcart-go" onclick="ixGoCheck()">'+(n<2?'Open':'Check →')+'</button></div>';
+}
+function ixCartHTML(){return '<div id="ixCartWrap">'+ixCartInner()+'</div>'+((S.rxIx||[]).length?'<div class="ixcart-pad"></div>':'');}
+function ixPaintCart(){var w=el('ixCartWrap');if(w)w.innerHTML=ixCartInner();}
+function ixGoCheck(){
+  S.rxView='ix';S.rxDrug=null;
+  if((S.rxIx||[]).length>=2)S.ixRan=true;
+  render();try{window.scrollTo({top:0,behavior:'smooth'});}catch(_){}
+}
+/* add/remove from anywhere in the drug reference. src='list' repaints in place so the
+   scroll position and search results are not lost mid-browse. */
+function ixToggleDrug(k,src){
+  S.rxIx=(S.rxIx||[]).slice();
+  var i=S.rxIx.indexOf(k);
+  if(i>=0)S.rxIx.splice(i,1); else S.rxIx.push(k);
+  S.ixRan=false;
+  if(src==='list'){
+    var l=el('rxList');if(l)l.innerHTML=rxListHTML();
+    ixPaintCart();
+  } else render();
+}
 function rxListHTML(){
   var ks=rxSearchList(S.rxQuery);
   if(!ks.length)return '<div class="rx-empty">No match. Try a generic name, brand, or drug class.</div>';
-  return ks.map(function(k){var d=RXDB[k];
-    return '<button type="button" class="rx-row" onclick="rxOpen(\''+k+'\')">'
+  return ks.map(function(k){var d=RXDB[k],inCart=ixHas(k);
+    return '<div class="rx-rowwrap">'
+      +'<button type="button" class="rx-row" onclick="rxOpen(\''+k+'\')">'
       +'<span class="rx-pill">Rx</span>'
       +'<span class="rx-rmain"><b>'+esc(d.n)+'</b><small>'+esc(d.cls)+(d.brands&&d.brands.length?' · '+esc(d.brands.slice(0,2).join(", ")):'')+'</small></span>'
-      +'<span class="rx-chev">›</span></button>';
+      +'</button>'
+      +'<button type="button" class="rx-addbtn'+(inCart?' on':'')+'" title="'+(inCart?'Remove from interaction check':'Add to interaction check')+'" aria-label="'+(inCart?'Remove ':'Add ')+esc(d.n)+' to interaction check" onclick="ixToggleDrug(\''+k+'\',\'list\')">'+(inCart?'✓':'+')+'</button>'
+      +'</div>';
   }).join('');
 }
 function rxOpen(k){S.rxDrug=k;S.rxSec="adult";S.rxCalcOn=false;render();try{window.scrollTo({top:0,behavior:'smooth'});}catch(_){}}
@@ -4834,8 +4884,11 @@ function vRxMonograph(){
    +'<div class="rx-head"><div class="rx-hname">'+esc(d.n)+'</div>'
      +'<div class="rx-hsub">'+(d.gen?'generic':'brand')+' · '+esc(d.cls)+'</div>'
      +(d.brands&&d.brands.length?'<div class="rx-brands">Brands: '+esc(d.brands.join(", "))+'</div>':'')+'</div>'
+   +'<button type="button" class="rx-ixbtn'+(ixHas(S.rxDrug)?' on':'')+'" onclick="ixToggleDrug(\''+S.rxDrug+'\')">'
+     +(ixHas(S.rxDrug)?'✓ In interaction check — tap to remove':'＋ Add to interaction check')+'</button>'
    +'<div class="rx-secs">'+secs+'</div>'
-   +'<div class="rx-disc">Educational reference only. Verify every dose against current product labeling, your institutional formulary, and clinical judgment before administering. Interaction/allergy checking is not performed here.</div>'
+   +'<div class="rx-disc">Educational reference only. Verify every dose against current product labeling, your institutional formulary, and clinical judgment before administering.</div>'
+   +ixCartHTML()
    +'</div>';
 }
 function rxCalcOpen(){S.rxCalcOn=true;render();try{window.scrollTo({top:0,behavior:'smooth'});}catch(_){}}
@@ -4905,7 +4958,8 @@ function vRxSearch(){
    +rxSegHTML('browse')
    +'<div class="rx-searchbar"><span>🔎</span><input id="rxSearchInp" type="text" aria-label="Search drugs" autocomplete="off" placeholder="Search a drug, brand, or class…" value="'+esc(S.rxQuery||'')+'" oninput="rxDoSearch(this.value)"/></div>'
    +'<div class="rx-list" id="rxList">'+rxListHTML()+'</div>'
-   +'<div class="rx-disc">Educational reference for training. Not a substitute for current labeling, your formulary, or clinical judgment.</div>'
+   +'<div class="rx-disc">Educational reference for training. Not a substitute for current labeling, your formulary, or clinical judgment. Tap <b>＋</b> on any drug to add it to the interaction check.</div>'
+   +ixCartHTML()
    +'</div>';
 }
 /* ============ Interaction checker ============
