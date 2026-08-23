@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Figure Review Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+ --bg:#eaf1f0; --surface:#ffffff; --surface2:#f4f9f8; --ink:#0b2e36; --muted:#57727a; --line:#d9e6e4;
+ --accent:#0e8a93; --accent2:#14c9c6;
+ --keep:#12a06a; --keep-bg:#e3f6ee; --needs:#c9821b; --needs-bg:#fbf1de; --redo:#d64a45; --redo-bg:#fbe6e4;
+ --shadow:0 10px 30px rgba(11,46,54,.10); --radius:16px;
+ --sans:'Plus Jakarta Sans',system-ui,sans-serif; --body:'Inter',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+ --bg:#07202700; --bg:#072027; --surface:#0e2b33; --surface2:#0b2530; --ink:#eaf7f7; --muted:#8caeb0; --line:#1b3c44;
+ --accent:#22e0da; --accent2:#14c9c6;
+ --keep:#2fc98a; --keep-bg:#0f3a30; --needs:#e6a94a; --needs-bg:#3a2f13; --redo:#f0726c; --redo-bg:#3a1f1e;
+ --shadow:0 12px 34px rgba(0,0,0,.4);
+}}
+:root[data-theme="dark"]{
+ --bg:#072027; --surface:#0e2b33; --surface2:#0b2530; --ink:#eaf7f7; --muted:#8caeb0; --line:#1b3c44;
+ --accent:#22e0da; --accent2:#14c9c6;
+ --keep:#2fc98a; --keep-bg:#0f3a30; --needs:#e6a94a; --needs-bg:#3a2f13; --redo:#f0726c; --redo-bg:#3a1f1e;
+ --shadow:0 12px 34px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.wrap{max-width:1120px;margin:0 auto;padding:20px 16px 120px}
+header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1120px;margin:0 auto;padding:14px 16px;display:flex;flex-wrap:wrap;gap:14px 18px;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.drop{width:30px;height:38px;flex:0 0 auto}
+h1{font-family:var(--sans);font-weight:800;font-size:1.22rem;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.sub{font-size:.8rem;color:var(--muted);margin-top:2px}
+.hbtns{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font-family:var(--sans);font-weight:700;font-size:.86rem;border-radius:999px;padding:10px 16px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;transition:.15s}
+.btn:hover{border-color:var(--accent)}
+.btn.pri{background:linear-gradient(135deg,var(--accent2),var(--accent));border-color:transparent;color:#06312f}
+.btn:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 55%,transparent);outline-offset:2px}
+.meter{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:.78rem;color:var(--muted)}
+.bar{width:150px;height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.bar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent2),var(--accent));transition:width .3s}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 8px}
+.chip{font-family:var(--mono);font-size:.72rem;letter-spacing:.02em;padding:7px 12px;border-radius:99px;border:1.5px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;display:inline-flex;gap:7px;align-items:center;transition:.15s}
+.chip .ct{font-weight:600;color:var(--ink)}
+.chip.on{border-color:var(--accent);color:var(--ink);background:var(--surface2)}
+.chip .dotc{width:9px;height:9px;border-radius:99px}
+.sec-h{font-family:var(--sans);font-weight:800;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:26px 2px 12px;display:flex;align-items:center;gap:10px}
+.sec-h .ln{flex:1;height:1px;background:var(--line)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:14px}
+.card{position:relative;background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:.15s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+.card:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 55%,transparent);outline-offset:2px}
+.thumb{position:relative;aspect-ratio:4/3;background:var(--surface2);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.num{position:absolute;top:8px;left:8px;font-family:var(--mono);font-weight:600;font-size:.72rem;background:rgba(6,20,24,.72);color:#fff;padding:3px 8px;border-radius:8px;backdrop-filter:blur(3px)}
+.stripe{height:5px;width:100%;background:var(--line)}
+.card.keep .stripe{background:var(--keep)} .card.needs .stripe{background:var(--needs)} .card.redo .stripe{background:var(--redo)}
+.cbody{padding:10px 12px 12px;display:flex;flex-direction:column;gap:7px;flex:1}
+.clabel{font-size:.82rem;font-weight:500;line-height:1.35;color:var(--ink)}
+.crow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto}
+.badge{font-family:var(--mono);font-size:.66rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
+.card.keep .badge{background:var(--keep-bg);color:var(--keep);border-color:transparent}
+.card.needs .badge{background:var(--needs-bg);color:var(--needs);border-color:transparent}
+.card.redo .badge{background:var(--redo-bg);color:var(--redo);border-color:transparent}
+.hasnote{width:16px;height:16px;color:var(--muted);flex:0 0 auto}
+.usedwrap{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.usedlink{font-family:var(--mono);font-size:.64rem;font-weight:600;letter-spacing:.02em;text-decoration:none;color:var(--accent);background:var(--surface2);border:1px solid var(--line);border-radius:99px;padding:3px 9px;display:inline-flex;align-items:center;gap:5px;transition:.12s;max-width:100%}
+.usedlink:hover{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,var(--surface2))}
+.usedlink svg{width:11px;height:11px;flex:0 0 auto;opacity:.8}
+.usedlink span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.usedmini{font-family:var(--mono);font-size:.62rem;color:var(--muted);display:flex;align-items:center;gap:5px;margin-top:1px}
+.usedmini b{color:var(--accent);font-weight:600}
+.pv-used-h{font-family:var(--sans);font-weight:700;font-size:.82rem;color:var(--ink);margin:0}
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:50;background:rgba(5,18,22,.72);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:18px}
+.lb.open{display:flex}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);width:min(960px,100%);max-height:92vh;overflow:auto;display:flex;flex-direction:column}
+.pv{position:relative;background:var(--surface2);display:flex;align-items:center;justify-content:center;min-height:280px;max-height:56vh;overflow:hidden;border-radius:20px 20px 0 0}
+.pv img{max-width:100%;max-height:56vh;object-fit:contain;display:block}
+.pv .num{font-size:.8rem}
+.pnav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:99px;border:none;background:rgba(6,20,24,.6);color:#fff;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.pnav:hover{background:rgba(6,20,24,.85)} .pnav.prev{left:12px} .pnav.next{right:12px}
+.pclose{position:absolute;top:12px;right:12px;width:40px;height:40px;border-radius:99px;border:none;background:rgba(6,20,24,.6);color:#fff;font-size:1.1rem;cursor:pointer}
+.pbody{padding:18px 20px 20px;display:flex;flex-direction:column;gap:14px}
+.psec{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.ptitle{font-family:var(--sans);font-weight:800;font-size:1.15rem;letter-spacing:-.01em;margin:0;text-wrap:balance}
+.rate{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.rbtn{font-family:var(--sans);font-weight:700;font-size:.92rem;padding:13px 8px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;transition:.12s;display:flex;flex-direction:column;align-items:center;gap:3px}
+.rbtn small{font-family:var(--mono);font-weight:500;font-size:.62rem;color:var(--muted)}
+.rbtn:hover{border-color:currentColor}
+.rbtn.keep.on{background:var(--keep-bg);border-color:var(--keep);color:var(--keep)}
+.rbtn.needs.on{background:var(--needs-bg);border-color:var(--needs);color:var(--needs)}
+.rbtn.redo.on{background:var(--redo-bg);border-color:var(--redo);color:var(--redo)}
+label.nl{font-family:var(--sans);font-weight:700;font-size:.82rem;color:var(--ink)}
+textarea{width:100%;min-height:84px;resize:vertical;border:1.5px solid var(--line);border-radius:12px;background:var(--surface2);color:var(--ink);font-family:var(--body);font-size:.92rem;padding:11px 13px;line-height:1.5}
+textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+.pfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.savenote{font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);font-family:var(--sans);font-weight:700;font-size:.86rem;padding:12px 20px;border-radius:99px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.25s;z-index:80}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.help{font-size:.8rem;color:var(--muted);margin:6px 2px 0;line-height:1.6}
+@media (max-width:560px){ h1{font-size:1.06rem} .bar{width:110px} .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))} .rate{grid-template-columns:1fr} }
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+ <div class="top-in">
+  <div class="brand">
+   <svg class="drop" viewBox="0 0 64 78" fill="none" aria-hidden="true"><defs><linearGradient id="d" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3AD8D2"/><stop offset=".5" stop-color="#12A0AE"/><stop offset="1" stop-color="#0B6472"/></linearGradient></defs><path d="M32 5C32 5 51 30 51 47A19 19 0 0 1 13 47C13 30 32 5 32 5Z" fill="url(#d)"/><path d="M40 22C45 30 46 40 42 48" stroke="#C9F5F3" stroke-width="2.4" stroke-linecap="round" opacity=".7"/></svg>
+   <div><h1>Figure Review Board</h1><div class="sub">IV Rejuve / Lumevity clinical figures &middot; mark each one, add notes</div></div>
+  </div>
+  <div class="meter"><div class="bar"><i id="barfill"></i></div><span id="metertext">0 / 0 reviewed</span></div>
+  <div class="hbtns">
+   <button class="btn" id="copyBtn" type="button">Copy summary</button>
+   <button class="btn pri" id="exportBtn" type="button">Export feedback</button>
+  </div>
+ </div>
+</header>
+<main class="wrap">
+ <div class="filters" id="filters"></div>
+ <p class="help">Tap any figure to open it, choose <b>Keep</b>, <b>Needs work</b>, or <b>Redo</b>, and type a note. Everything saves as you go. When finished, hit <b>Export feedback</b> (or <b>Copy summary</b>) and send it back &mdash; that file is what goes to the graphics team.</p>
+ <div id="board"></div>
+</main>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Figure detail">
+ <div class="panel">
+  <div class="pv">
+   <span class="num" id="pvnum"></span>
+   <img id="pvimg" alt=""/>
+   <button class="pnav prev" id="prev" type="button" aria-label="Previous">&#8249;</button>
+   <button class="pnav next" id="next" type="button" aria-label="Next">&#8250;</button>
+   <button class="pclose" id="close" type="button" aria-label="Close">&#10005;</button>
+  </div>
+  <div class="pbody">
+   <div class="psec" id="pvsec"></div>
+   <h2 class="ptitle" id="pvtitle"></h2>
+   <div id="pvusedbox" style="display:none;flex-direction:column;gap:7px">
+    <p class="pv-used-h">Where this appears in the app</p>
+    <div class="usedwrap" id="pvused"></div>
+   </div>
+   <div class="rate">
+    <button class="rbtn keep" data-s="keep" type="button">Keep<small>looks good</small></button>
+    <button class="rbtn needs" data-s="needs" type="button">Needs work<small>close, tweak it</small></button>
+    <button class="rbtn redo" data-s="redo" type="button">Redo<small>off-style / bad</small></button>
+   </div>
+   <label class="nl" for="note">Notes for the graphics team</label>
+   <textarea id="note" placeholder="e.g. wrong style, colors too warm, hand looks off, replace with a cleaner render..."></textarea>
+   <div class="pfoot"><span class="savenote" id="savenote">Saved automatically</span><span class="savenote" id="pos"></span></div>
+  </div>
+ </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script id="figures" type="application/json">[{"n":1,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787296257351.png","label":"Intradermal — tool icon / glossary","section":"Tool icon","file":"fig-1787296257351.png","used":[{"label":"Tool: Intradermal calculator","link":"https://lumevity.app/training.html#tool=id"},{"label":"Glossary: Venospasm","link":"https://lumevity.app/training.html#term=venospasm"},{"label":"Glossary: Intradermal","link":"https://lumevity.app/training.html#term=intradermal"}]},{"n":2,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-rx-clean-2.png","label":"Tool icon — Drug reference","section":"Tool icon","file":"fig-rx-clean-2.png","used":[{"label":"Tool: Drug reference","link":"https://lumevity.app/training.html#tool=rx"}]},{"n":3,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787294631181.png","label":"Tool icon — IM injection","section":"Tool icon","file":"fig-1787294631181.png","used":[{"label":"Tool: IM calculator","link":"https://lumevity.app/training.html#tool=im"}]},{"n":4,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787294631152.png","label":"Tool icon — IV infusion","section":"Tool icon","file":"fig-1787294631152.png","used":[{"label":"Tool: IV infusion calculator","link":"https://lumevity.app/training.html#tool=iv"}]},{"n":5,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787294631159.png","label":"Tool icon — SubQ injection","section":"Tool icon","file":"fig-1787294631159.png","used":[{"label":"Tool: SubQ calculator","link":"https://lumevity.app/training.html#tool=subq"}]},{"n":6,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787237386899.png","label":"Deltoid IM site","section":"Anatomy & site maps","file":"fig-1787237386899.png","used":[{"label":"Glossary: Median nerve","link":"https://lumevity.app/training.html#term=median_nerve"},{"label":"Glossary: Deltoid","link":"https://lumevity.app/training.html#term=deltoid"}]},{"n":7,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787242299294.png","label":"Dorsal metacarpal (hand) veins","section":"Anatomy & site maps","file":"fig-1787242299294.png","used":[{"label":"Glossary: Dorsal metacarpal veins","link":"https://lumevity.app/training.html#term=dorsal_metacarpal"}]},{"n":8,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787237386894.png","label":"Dorsogluteal site","section":"Anatomy & site maps","file":"fig-1787237386894.png","used":[{"label":"Glossary: Dorsogluteal site","link":"https://lumevity.app/training.html#term=dorsogluteal"}]},{"n":9,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787239418827.png","label":"IM injection sites — tap-the-site map","section":"Anatomy & site maps","file":"fig-1787239418827.png","used":[{"label":"Lesson: IM Injection — Sites (site picker)","link":"https://lumevity.app/training.html#lesson=im_sites"}]},{"n":10,"url":"https://lumevity-site.vercel.app/im-sites-v6.jpg","label":"IM injection sites (arm/hip/thigh)","section":"Anatomy & site maps","file":"im-sites-v6.jpg","used":[{"label":"Lesson: IM Injection — Anatomy","link":"https://lumevity.app/training.html#lesson=im_anatomy"},{"label":"Lesson: IM Injection — Sites","link":"https://lumevity.app/training.html#lesson=im_sites"},{"label":"Glossary: Vesicant","link":"https://lumevity.app/training.html#term=vesicant"},{"label":"Glossary: Iliac crest","link":"https://lumevity.app/training.html#term=iliac_crest"},{"label":"Glossary: Anterior superior iliac spine (ASIS)","link":"https://lumevity.app/training.html#term=asis"}]},{"n":11,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/skin-angles-v1.png","label":"Skin layers with injection angles (cross-section)","section":"Anatomy & site maps","file":"skin-angles-v1.png","used":[{"label":"Lesson: IM Injection — Procedure","link":"https://lumevity.app/training.html#lesson=im_procedure"},{"label":"Lesson: SubQ — Anatomy","link":"https://lumevity.app/training.html#lesson=sq_anatomy"},{"label":"Lesson: SubQ — Procedure","link":"https://lumevity.app/training.html#lesson=sq_procedure"},{"label":"Glossary: Sciatic nerve","link":"https://lumevity.app/training.html#term=sciatic"},{"label":"Glossary: Subcutaneous tissue","link":"https://lumevity.app/training.html#term=subcutaneous_tissue"}]},{"n":12,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/subq-sites-v1.png","label":"Subcutaneous injection sites","section":"Anatomy & site maps","file":"subq-sites-v1.png","used":[{"label":"Lesson: SubQ — Sites","link":"https://lumevity.app/training.html#lesson=sq_sites"}]},{"n":13,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/forearm-veins-v1.png","label":"Superficial veins of the forearm","section":"Anatomy & site maps","file":"forearm-veins-v1.png","used":[{"label":"Lesson: IV Insertion — Anatomy","link":"https://lumevity.app/training.html#lesson=iv_anatomy"},{"label":"Lesson: IV Insertion — Sites","link":"https://lumevity.app/training.html#lesson=iv_sites"},{"label":"Glossary: Cephalic vein","link":"https://lumevity.app/training.html#term=cephalic"},{"label":"Glossary: Basilic vein","link":"https://lumevity.app/training.html#term=basilic"},{"label":"Glossary: Median cubital vein","link":"https://lumevity.app/training.html#term=median_cubital"}]},{"n":14,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787237386913.png","label":"Vastus lateralis IM site","section":"Anatomy & site maps","file":"fig-1787237386913.png","used":[{"label":"Glossary: Vastus lateralis","link":"https://lumevity.app/training.html#term=vastus_lateralis"}]},{"n":15,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/vein-xsection-v1.png","label":"Vein wall cross-section","section":"Anatomy & site maps","file":"vein-xsection-v1.png","used":[{"label":"Lesson: IV Insertion — Anatomy","link":"https://lumevity.app/training.html#lesson=iv_anatomy"},{"label":"Glossary: Tunica intima","link":"https://lumevity.app/training.html#term=tunica_intima"},{"label":"Glossary: Tunica media","link":"https://lumevity.app/training.html#term=tunica_media"},{"label":"Glossary: Tunica adventitia","link":"https://lumevity.app/training.html#term=tunica_adventitia"}]},{"n":16,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787241524427.png","label":"Venous valve","section":"Anatomy & site maps","file":"fig-1787241524427.png","used":[{"label":"Glossary: Venous valve","link":"https://lumevity.app/training.html#term=venous_valve"}]},{"n":17,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-vg-hand-v2.png","label":"Ventrogluteal site landmark (corrected hand)","section":"Anatomy & site maps","file":"fig-vg-hand-v2.png","used":[{"label":"Glossary: Ventrogluteal site","link":"https://lumevity.app/training.html#term=ventrogluteal"},{"label":"Glossary: Gluteus medius","link":"https://lumevity.app/training.html#term=gluteus_medius"}]},{"n":18,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-volar-site-v2.png","label":"Volar forearm — intradermal site (with marker)","section":"Anatomy & site maps","file":"fig-volar-site-v2.png","used":[{"label":"Lesson: Intradermal — Sites","link":"https://lumevity.app/training.html#lesson=id_sites"}]},{"n":19,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787266185845.png","label":"1 mL tuberculin syringe","section":"Equipment","file":"fig-1787266185845.png","used":[{"label":"Lesson: Intradermal — Equipment","link":"https://lumevity.app/training.html#lesson=id_equipment"}]},{"n":20,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787239311413.png","label":"Filter needle & glass ampule","section":"Equipment","file":"fig-1787239311413.png","used":[{"label":"Lesson: IM Injection — Equipment","link":"https://lumevity.app/training.html#lesson=im_equipment"}]},{"n":21,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/gauge-flashback-v1.png","label":"IV catheter gauges & flashback","section":"Equipment","file":"gauge-flashback-v1.png","used":[{"label":"Lesson: IV Insertion — Equipment","link":"https://lumevity.app/training.html#lesson=iv_equipment"}]},{"n":22,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787239043999.png","label":"Needle length & gauge by patient/site","section":"Equipment","file":"fig-1787239043999.png","used":[{"label":"Lesson: IM Injection — Equipment","link":"https://lumevity.app/training.html#lesson=im_equipment"}]},{"n":23,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787237386906.png","label":"Adapting IV technique across ages (special populations)","section":"Lesson figure","file":"fig-1787237386906.png","used":[{"label":"Lesson: IV Insertion — Special","link":"https://lumevity.app/training.html#lesson=iv_special"}]},{"n":24,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/iv-doc-ehr-a-v1.png","label":"EHR documentation screen (IV insertion)","section":"Lesson figure","file":"iv-doc-ehr-a-v1.png","used":[{"label":"Lesson: IV Insertion — Documentation","link":"https://lumevity.app/training.html#lesson=iv_documentation"}]},{"n":25,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787265932281.png","label":"Intradermal injection into the dermis (wheal)","section":"Lesson figure","file":"fig-1787265932281.png","used":[{"label":"Lesson: Intradermal — Foundations","link":"https://lumevity.app/training.html#lesson=id_foundations"}]},{"n":26,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787265932300.png","label":"Intradermal technique — bevel up, wheal","section":"Lesson figure","file":"fig-1787265932300.png","used":[{"label":"Lesson: Intradermal — Technique","link":"https://lumevity.app/training.html#lesson=id_technique"}]},{"n":27,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787236752669.png","label":"Phlebitis grading scale (INS)","section":"Lesson figure","file":"fig-1787236752669.png","used":[{"label":"Lesson: IV Insertion — Complications","link":"https://lumevity.app/training.html#lesson=iv_complications"}]},{"n":28,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787265932284.png","label":"Reading a TB skin test (induration)","section":"Lesson figure","file":"fig-1787265932284.png","used":[{"label":"Lesson: Intradermal — Reading","link":"https://lumevity.app/training.html#lesson=id_reading"}]},{"n":29,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787252469745.png","label":"Venipuncture at the antecubital fossa","section":"Lesson figure","file":"fig-1787252469745.png","used":[{"label":"Lesson: Blood Draws — Technique","link":"https://lumevity.app/training.html#lesson=ph_technique"}]},{"n":30,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787240279980.png","label":"Z-track IM technique","section":"Lesson figure","file":"fig-1787240279980.png","used":[{"label":"Lesson: IM Injection — Procedure","link":"https://lumevity.app/training.html#lesson=im_procedure"}]},{"n":31,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-bevel-v2.png","label":"Glossary — Bevel (needle bevel close-up)","section":"Glossary figure","file":"fig-bevel-v2.png","used":[{"label":"Glossary: Gauge (G)","link":"https://lumevity.app/training.html#term=gauge"},{"label":"Glossary: Bevel","link":"https://lumevity.app/training.html#term=bevel"}]},{"n":32,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-dermis-v2.png","label":"Glossary — Dermis (intradermal cross-section)","section":"Glossary figure","file":"fig-dermis-v2.png","used":[{"label":"Glossary: Dermis","link":"https://lumevity.app/training.html#term=dermis"}]},{"n":33,"url":"https://lumevity-site.vercel.app/id-wheal-photo-v1.jpg","label":"Glossary — Wheal","section":"Glossary figure","file":"id-wheal-photo-v1.jpg","used":[{"label":"Glossary: Wheal","link":"https://lumevity.app/training.html#term=wheal"}]},{"n":34,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/iv-cx-airembolism-v1.png","label":"Complication — Air embolism","section":"Complications","file":"iv-cx-airembolism-v1.png","used":[{"label":"Lesson: IV Insertion — Complications","link":"https://lumevity.app/training.html#lesson=iv_complications"}]},{"n":35,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/iv-cx-extravasation-v1.png","label":"Complication — Extravasation","section":"Complications","file":"iv-cx-extravasation-v1.png","used":[{"label":"Lesson: IV Insertion — Complications","link":"https://lumevity.app/training.html#lesson=iv_complications"}]},{"n":36,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/iv-cx-hematoma-v1.png","label":"Complication — Hematoma","section":"Complications","file":"iv-cx-hematoma-v1.png","used":[{"label":"Lesson: IV Insertion — Complications","link":"https://lumevity.app/training.html#lesson=iv_complications"}]},{"n":37,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/iv-cx-infiltration-v1.png","label":"Complication — Infiltration","section":"Complications","file":"iv-cx-infiltration-v1.png","used":[{"label":"Lesson: IV Insertion — Complications","link":"https://lumevity.app/training.html#lesson=iv_complications"}]},{"n":38,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/iv-cx-phlebitis-v1.png","label":"Complication — Phlebitis","section":"Complications","file":"iv-cx-phlebitis-v1.png","used":[{"label":"Lesson: IV Insertion — Complications","link":"https://lumevity.app/training.html#lesson=iv_complications"}]},{"n":39,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/iv-cx-vasovagal-v1.png","label":"Complication — Vasovagal reaction","section":"Complications","file":"iv-cx-vasovagal-v1.png","used":[{"label":"Lesson: IV Insertion — Complications","link":"https://lumevity.app/training.html#lesson=iv_complications"}]},{"n":40,"url":"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/iv-complications-v1.png","label":"Infiltration vs phlebitis vs hematoma","section":"Complications","file":"iv-complications-v1.png","used":[{"label":"Lesson: IV Insertion — Complications","link":"https://lumevity.app/training.html#lesson=iv_complications"}]}]</script>
+<script>
+(function(){
+ "use strict";
+ var FIGS=JSON.parse(document.getElementById('figures').textContent);
+ var KEY='lumevity_fig_review_v1';
+ var STATUSES={keep:'Keep',needs:'Needs work',redo:'Redo'};
+ var state={};
+ try{state=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){state={};}
+ function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){} syncPublish();}
+ function fb(f){return state[f]||{status:'',note:''};}
+ var filter='all';
+ var board=document.getElementById('board');
+ var order=['Tool icon','Anatomy & site maps','Equipment','Lesson figure','Glossary figure','Complications','Other'];
+
+ function counts(){var c={all:FIGS.length,keep:0,needs:0,redo:0,none:0};FIGS.forEach(function(f){var s=fb(f.file).status;if(s==='keep')c.keep++;else if(s==='needs')c.needs++;else if(s==='redo')c.redo++;else c.none++;});return c;}
+ function reviewed(){var n=0;FIGS.forEach(function(f){if(fb(f.file).status)n++;});return n;}
+
+ function renderFilters(){
+  var c=counts();
+  var defs=[['all','All',null,c.all],['keep','Keep','var(--keep)',c.keep],['needs','Needs work','var(--needs)',c.needs],['redo','Redo','var(--redo)',c.redo],['none','Unreviewed','var(--line)',c.none]];
+  var el=document.getElementById('filters');el.innerHTML='';
+  defs.forEach(function(d){
+   var b=document.createElement('button');b.className='chip'+(filter===d[0]?' on':'');b.type='button';
+   b.innerHTML=(d[2]?'<span class="dotc" style="background:'+d[2]+'"></span>':'')+d[1]+' <span class="ct">'+d[3]+'</span>';
+   b.onclick=function(){filter=d[0];renderBoard();renderFilters();};
+   el.appendChild(b);
+  });
+ }
+ function meter(){
+  var r=reviewed(),t=FIGS.length;
+  document.getElementById('metertext').textContent=r+' / '+t+' reviewed';
+  document.getElementById('barfill').style.width=(t?Math.round(r/t*100):0)+'%';
+ }
+ function passFilter(f){var s=fb(f.file).status;if(filter==='all')return true;if(filter==='none')return !s;return s===filter;}
+ var NOTEICON='<svg class="hasnote" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M4 10h16M4 15h9"/></svg>';
+ var LINKICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1.5-1.5"/></svg>';
+ function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+ function usedMini(f){var u=f.used||[];if(!u.length)return '';return '<div class="usedmini">'+LINKICON+'<span>Used in <b>'+u.length+'</b> place'+(u.length>1?'s':'')+'</span></div>';}
+
+ function renderBoard(){
+  board.innerHTML='';
+  var groups={};FIGS.forEach(function(f){if(!passFilter(f))return;(groups[f.section]=groups[f.section]||[]).push(f);});
+  var secs=Object.keys(groups).sort(function(a,b){var ia=order.indexOf(a),ib=order.indexOf(b);return (ia<0?99:ia)-(ib<0?99:ib);});
+  if(!secs.length){board.innerHTML='<p class="help">No figures match this filter.</p>';return;}
+  secs.forEach(function(sec){
+   var hd=document.createElement('div');hd.className='sec-h';hd.innerHTML=sec+' <span class="ln"></span><span style="font-family:var(--mono);font-weight:500;color:var(--muted);font-size:.72rem">'+groups[sec].length+'</span>';
+   board.appendChild(hd);
+   var g=document.createElement('div');g.className='grid';
+   groups[sec].forEach(function(f){
+    var st=fb(f.file);
+    var card=document.createElement('button');card.type='button';card.className='card'+(st.status?' '+st.status:'');card.setAttribute('aria-label','Figure '+f.n+', '+f.label);
+    card.innerHTML='<div class="thumb"><span class="num">#'+f.n+'</span><img loading="lazy" src="'+f.url+'" alt="'+f.label.replace(/"/g,'&quot;')+'"/></div><div class="stripe"></div><div class="cbody"><div class="clabel">'+f.label+'</div>'+usedMini(f)+'<div class="crow"><span class="badge">'+(st.status?STATUSES[st.status]:'Not reviewed')+'</span>'+(st.note?NOTEICON:'')+'</div></div>';
+    card.onclick=function(){openLB(f.n);};
+    g.appendChild(card);
+   });
+   board.appendChild(g);
+  });
+ }
+
+ // lightbox
+ var lb=document.getElementById('lb'),cur=null;
+ function idxOf(n){for(var i=0;i<FIGS.length;i++)if(FIGS[i].n===n)return i;return 0;}
+ function openLB(n){cur=n;var f=FIGS[idxOf(n)];
+  document.getElementById('pvimg').src=f.url;document.getElementById('pvimg').alt=f.label;
+  document.getElementById('pvnum').textContent='#'+f.n;
+  document.getElementById('pvsec').textContent=f.section;
+  document.getElementById('pvtitle').textContent=f.label;
+  document.getElementById('note').value=fb(f.file).note||'';
+  var uw=document.getElementById('pvused'),ub=document.getElementById('pvusedbox');
+  var used=f.used||[];
+  if(used.length){uw.innerHTML=used.map(function(u){return '<a class="usedlink" href="'+esc(u.link)+'" target="_blank" rel="noopener">'+LINKICON+'<span>'+esc(u.label)+'</span></a>';}).join('');ub.style.display='flex';}
+  else{uw.innerHTML='';ub.style.display='none';}
+  document.getElementById('pos').textContent=f.n+' of '+FIGS.length;
+  paintRate();lb.classList.add('open');document.body.style.overflow='hidden';
+  document.getElementById('note').blur();
+ }
+ function closeLB(){lb.classList.remove('open');document.body.style.overflow='';cur=null;renderBoard();renderFilters();meter();}
+ function paintRate(){var s=fb(FIGS[idxOf(cur)].file).status;document.querySelectorAll('.rbtn').forEach(function(b){b.classList.toggle('on',b.dataset.s===s);});}
+ function setStatus(s){var f=FIGS[idxOf(cur)];var o=fb(f.file);if(o.status===s)s='';state[f.file]={status:s,note:document.getElementById('note').value};save();paintRate();flashSaved();}
+ function flashSaved(){var e=document.getElementById('savenote');e.textContent='Saved ✓';setTimeout(function(){e.textContent='Saved automatically';},1200);}
+ document.querySelectorAll('.rbtn').forEach(function(b){b.onclick=function(){setStatus(b.dataset.s);};});
+ var noteT;document.getElementById('note').addEventListener('input',function(){var f=FIGS[idxOf(cur)];var o=fb(f.file);state[f.file]={status:o.status||'',note:this.value};clearTimeout(noteT);noteT=setTimeout(function(){save();flashSaved();},350);});
+ document.getElementById('close').onclick=closeLB;
+ lb.addEventListener('click',function(e){if(e.target===lb)closeLB();});
+ function step(d){var i=idxOf(cur)+d;if(i<0)i=FIGS.length-1;if(i>=FIGS.length)i=0;openLB(FIGS[i].n);}
+ document.getElementById('prev').onclick=function(){step(-1);};
+ document.getElementById('next').onclick=function(){step(1);};
+ document.addEventListener('keydown',function(e){if(!lb.classList.contains('open'))return;if(e.key==='Escape')closeLB();else if(e.key==='ArrowLeft')step(-1);else if(e.key==='ArrowRight')step(1);else if(e.target.id!=='note'){if(e.key==='1')setStatus('keep');else if(e.key==='2')setStatus('needs');else if(e.key==='3')setStatus('redo');}});
+
+ // toast
+ var toastT;function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove('show');},2200);}
+
+ // export / copy
+ function buildReport(){
+  var lines=['LUMEVITY / IV REJUVE — FIGURE REVIEW','Generated: '+new Date().toLocaleString(),'Reviewed: '+reviewed()+' of '+FIGS.length,''];
+  ['redo','needs','keep',''].forEach(function(grp){
+   var label=grp==='redo'?'REDO (replace)':grp==='needs'?'NEEDS WORK (tweak)':grp==='keep'?'KEEP (approved)':'NOT REVIEWED';
+   var rows=FIGS.filter(function(f){return (fb(f.file).status||'')===grp;});
+   if(!rows.length)return;
+   lines.push(label+' — '+rows.length);
+   rows.forEach(function(f){var n=fb(f.file).note;lines.push('  #'+f.n+'  '+f.label+(n?'\n        note: '+n:''));lines.push('        '+f.url);(f.used||[]).forEach(function(u){lines.push('        used: '+u.label+' -> '+u.link);});});
+   lines.push('');
+  });
+  return lines.join('\n');
+ }
+ function buildJSON(){
+  return JSON.stringify({app:'lumevity',generated:new Date().toISOString(),reviewed:reviewed(),total:FIGS.length,
+   items:FIGS.map(function(f){var s=fb(f.file);return {n:f.n,label:f.label,section:f.section,file:f.file,url:f.url,used:f.used||[],status:s.status||'unreviewed',note:s.note||''};})},null,2);
+ }
+ document.getElementById('copyBtn').onclick=function(){var txt=buildReport();
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){toast('Summary copied — paste it into your text/email');},function(){fallbackCopy(txt);});}
+  else fallbackCopy(txt);
+ };
+ function fallbackCopy(txt){var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('Summary copied');}catch(e){toast('Press and hold to copy');}ta.remove();}
+ function blobDL(filename,data,type){
+  try{var blob=new Blob([data],{type:type||'text/plain'});var url=URL.createObjectURL(blob);
+   var a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();
+   setTimeout(function(){a.remove();URL.revokeObjectURL(url);},400);return true;}catch(e){return false;}
+ }
+ document.getElementById('exportBtn').onclick=async function(){
+  var stamp=new Date().toISOString().slice(0,10);
+  var did=false;
+  try{var dl=await (window.claude&&claude.use?claude.use('downloads'):Promise.resolve(null));
+   if(dl){ await dl.save({filename:'figure-review-'+stamp+'.txt',data:buildReport()});
+           await dl.save({filename:'figure-review-'+stamp+'.json',data:buildJSON()});
+           toast('Feedback exported — send both files back'); did=true; }
+  }catch(e){ if(e&&e.code==='declined'){return;} }
+  if(!did){ // plain website: download both files directly
+   var a=blobDL('figure-review-'+stamp+'.txt',buildReport(),'text/plain');
+   var b=blobDL('figure-review-'+stamp+'.json',buildJSON(),'application/json');
+   if(a||b){toast('Feedback downloaded — send both files back');}
+   else{document.getElementById('copyBtn').click();}
+  }
+ };
+
+ // best-effort sync to the shared artifact record (works when the reviewer can edit it)
+ var canPublish=true,pubT=null;
+ function syncPublish(){
+  if(!canPublish||!window.claude||!claude.use)return;
+  clearTimeout(pubT);
+  pubT=setTimeout(async function(){
+   try{var ar=await claude.use('artifact');if(!ar){canPublish=false;return;}
+    var s=document.getElementById('figures');// keep FIGS constant; store feedback in a second tag
+    var fbTag=document.getElementById('feedback')||(function(){var t=document.createElement('script');t.id='feedback';t.type='application/json';document.body.appendChild(t);return t;})();
+    fbTag.textContent=JSON.stringify(state);
+    if(lb.classList.contains('open')){/* leave DOM; init re-renders from data on reload */}
+    var doc='<!doctype html>\n'+document.documentElement.outerHTML;
+    await ar.publish(doc);
+   }catch(e){ if(e&&(e.code==='not_writer'||e.code==='not_granted'||e.code==='not_declared')){canPublish=false;} }
+  },1200);
+ }
+ // if a previously published version carried feedback, merge it (only if local is empty)
+ try{var ft=document.getElementById('feedback');if(ft){var prev=JSON.parse(ft.textContent||'{}');if(prev&&Object.keys(state).length===0){state=prev;localStorage.setItem(KEY,JSON.stringify(state));}}}catch(e){}
+
+ renderFilters();renderBoard();meter();
+})();
+</script>
+</body>
+</html>
