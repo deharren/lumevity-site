@@ -2615,7 +2615,10 @@ function figHashRoute(){
   try{var g=document.getElementById('demoLogin');if(g){g.classList.add('hide');g.style.display='none';}}catch(e){}
   try{
     if(kind==='term'){ if(typeof GLOSSARY!=='undefined'&&GLOSSARY[val]){ if(S.view!=='lesson')go('home'); openTerm(val); } }
-    else if(kind==='tool'){ go('tools'); try{setTool(val);}catch(e){} }
+    else if(kind==='tool'){ go('tools');
+      if(val==='rx'||val==='conv'){ try{setTool(val);}catch(e){} }
+      else { try{setTool('iv');}catch(e){} try{setCalcRoute(val);}catch(e){} }  // iv/im/subq/id are calculator sub-routes
+    }
     else if(kind==='course'){ go('home',val); }
     else if(kind==='lesson'){ _figRouteLesson(val,0); }
   }catch(e){}
