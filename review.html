@@ -104,6 +104,9 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
 .upprev{position:relative;width:74px;height:74px;border-radius:10px;overflow:hidden;border:1px solid var(--line);flex:0 0 auto}
 .upprev img{width:100%;height:100%;object-fit:cover}
 .upprev button{position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:99px;border:none;background:rgba(6,20,24,.78);color:#fff;font-size:.7rem;cursor:pointer;line-height:1}
+.hdr-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.livehdr{text-decoration:none;white-space:nowrap}
+@media (max-width:560px){.hdr-right{width:100%;justify-content:space-between}}
 /* live-annotate CTA */
 .livecta{background:linear-gradient(150deg,color-mix(in srgb,var(--accent) 16%,var(--surface)),var(--surface));border-color:color-mix(in srgb,var(--accent) 45%,var(--line));}
 .livecta-in{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
@@ -193,7 +196,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
    <svg class="drop" viewBox="0 0 64 78" fill="none" aria-hidden="true"><defs><linearGradient id="d" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3AD8D2"/><stop offset=".5" stop-color="#12A0AE"/><stop offset="1" stop-color="#0B6472"/></linearGradient></defs><path d="M32 5C32 5 51 30 51 47A19 19 0 0 1 13 47C13 30 32 5 32 5Z" fill="url(#d)"/></svg>
    <div><h1 id="appTitle">Review Console</h1><div class="sub" id="appSub">Loading…</div></div>
   </div>
-  <div class="who" id="whoBox"></div>
+  <div class="hdr-right"><a id="liveBtn" class="btn pri livehdr" style="display:none" target="_blank" rel="noopener">📌 Browse app &amp; flag</a><div class="who" id="whoBox"></div></div>
  </div>
 </header>
 <main class="wrap">
@@ -332,7 +335,14 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
    el.appendChild(b);
   });
  }
- function render(){renderTabs();renderWho();refreshSubbar();var v=document.getElementById('view');
+ function paintLiveBtn(){
+  var b=document.getElementById('liveBtn'); if(!b)return;
+  if(!APPURL){b.style.display='none';return;}
+  b.href=APPURL+(APPURL.indexOf('?')>=0?'&':'?')+'review=1';
+  b.style.display='inline-flex';
+  b.title='Opens '+APP+' in review mode — click anything in the app to flag it';
+ }
+ function render(){renderTabs();renderWho();refreshSubbar();paintLiveBtn();var v=document.getElementById('view');
   if(TAB==='figures')v.innerHTML=viewFigures();
   else if(TAB==='flag'){v.innerHTML=viewFlag();wireFlag();}
   else if(TAB==='comments'){v.innerHTML=viewComments();wireComments();}
