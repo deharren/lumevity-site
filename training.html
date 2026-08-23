@@ -1767,6 +1767,24 @@ function roleCourseIds(){
   return out.length?out:COURSE_IDS.slice();   // never blank out the app
 }
 function roleLessonIds(){var out=[];roleCourseIds().forEach(function(c){out=out.concat(courseLessons(c));});return out;}
+/* ===== Single combined certification exam =====
+   The exam/certificate now lives once at the END of the learner's whole role path
+   (not per course). A synthetic "role" course (RKEY) is assembled from every course
+   the chosen job type requires, so the existing exam → evaluation → certificate
+   pipeline runs unchanged against it. */
+var RKEY="__final__";
+var FINAL_MAX=20;   // cap the combined exam length; questions sampled evenly across role lessons
+function roleDisplayName(){var r=((P()&&P().credentials)||"").trim();return r||"Clinical";}
+function roleCourseLabel(){return roleCourseIds().map(function(cid){return (COURSES[cid]&&COURSES[cid].name)||cid;}).join(", ");}
+function ensureRoleCourse(){
+  var ids=roleCourseIds(),mods=[],hrs=0;
+  ids.forEach(function(cid){var C=COURSES[cid];if(!C)return;(C.modules||[]).forEach(function(m){mods.push(m);});hrs+=(parseFloat((C.hrs)||0)||0);});
+  COURSES[RKEY]={name:roleDisplayName()+" — "+roleCourseLabel(),tag:"Combined certification across your required courses.",hrs:(Math.round(hrs*100)/100).toString(),mini:"shield",modules:mods,_role:true};
+  return COURSES[RKEY];
+}
+function roleLessonsAllDone(){var ls=roleLessonIds();return ls.length>0&&ls.every(function(id){return S.done.has(id);});}
+function roleFinalDone(){return !!(S.exams[RKEY]&&S.exams[RKEY].passed);}
+function roleFinalReady(){ensureRoleCourse();return roleLessonsAllDone()&&examQuestions(RKEY).length>0;}
 function pfSetRole(r){P().credentials=r;profileSave();var vis=roleCourseIds();if(vis.indexOf(S.course)<0)S.course=vis[0];render();try{window.scrollTo(0,0);}catch(_){}}
 function roleGateHTML(){
   var cards=ROLE_LIST.map(function(r){
@@ -1833,12 +1851,14 @@ function ceGate(c,then){
   return true;
 }
 function go(view,arg){
+  if(arg===RKEY)ensureRoleCourse();   // assemble the synthetic role course before it is referenced
   // the disclosure must precede any part of the activity, not just lessons
   if(view==="exam"||view==="evaluation"||view==="rehearse"){
     var gc=arg||S.course;
-    if(!ceGate(gc,function(){go(view,arg);}))return;
+    // the combined final exam already sits behind every course's per-lesson disclosure, so it doesn't re-gate
+    if(gc!==RKEY&&!ceGate(gc,function(){go(view,arg);}))return;
   }
-  S.view=view;if(view==="home"&&arg)setCourse(arg);if(view==="exam"||view==="cert"){if(arg)setCourse(arg);}if(view==="profile")S.pfOpen=undefined;window.scrollTo(0,0);render();}
+  S.view=view;if(view==="home"&&arg)setCourse(arg);if(view==="exam"||view==="cert"||view==="evaluation"){if(arg)setCourse(arg);}if(view==="profile")S.pfOpen=undefined;window.scrollTo(0,0);render();}
 /* Resume support: remember the exact step a learner was on, so closing mid-lesson
    and returning picks up where they left off. Cleared once the lesson is completed. */
 /* Resume is a per-lesson map {lessonId:{step,n}} where n = step count fingerprint, so opening/reviewing
@@ -1856,6 +1876,7 @@ function lessonCourseOf(id){for(var i=0;i<COURSE_IDS.length;i++){if(courseLesson
 
 function render(){
   touchStreak();
+  if(S.course===RKEY)ensureRoleCourse();   // keep the synthetic role course available across re-renders
   var v={home:vHome,lesson:vLesson,exam:vExam,cert:vCert,pricing:vPricing,rehearse:vRehearse,evaluation:vEval,myce:vMyCE,verify:vVerify,profile:vProfile,tools:vTools}[S.view]||vHome;
   el("view").innerHTML=v();
   syncBar();
@@ -2111,7 +2132,40 @@ function vHome(){
   if(ceAnyActive())h+=ceVaultPanel();
   // focused lesson card with integrated course switcher (white pill row removed)
   h+=lessonCard(S.course);
+  // single combined certification exam + certificate at the very end of the role path
+  h+=roleFinalPanel();
   return h;
+}
+function roleFinalPanel(){
+  ensureRoleCourse();
+  var ls=roleLessonIds(),dn=0;ls.forEach(function(i){if(S.done.has(i))dn++;});
+  var ready=roleFinalReady(),done=roleFinalDone(),role=esc(roleDisplayName());
+  var qn=examQuestions(RKEY).length,need=Math.ceil(qn*0.8);
+  var seal='<svg viewBox="0 0 64 80" width="52" height="60" fill="none" style="flex:0 0 auto"><defs><radialGradient id="rfF" cx="50%" cy="42%" r="62%"><stop offset="0" stop-color="#E4EAEF"/><stop offset=".55" stop-color="#C3CDD6"/><stop offset="1" stop-color="#8A97A3"/></radialGradient></defs><path d="M29 44 L22 78 L27.5 71 L31 79 L34 50 Z" fill="#0B6E76"/><path d="M35 44 L42 78 L36.5 71 L33 79 L30 50 Z" fill="#12A0AE"/><circle cx="32" cy="29" r="22" fill="none" stroke="#8A97A3" stroke-width="6" stroke-dasharray="2 4.4" stroke-linecap="round"/><circle cx="32" cy="29" r="20" fill="url(#rfF)" stroke="#8A97A3" stroke-width="1"/><path d="M32 20 L45 25.5 L32 31 L19 25.5 Z" fill="#173A3E"/><path d="M24.5 28 L24.5 33.5 Q32 37.6 39.5 33.5 L39.5 28 L32 31 Z" fill="#0E5A66"/></svg>';
+  var title,sub,act,bd,bg;
+  if(done){
+    title='Certified — '+role;
+    sub='You passed the certification exam. View or print your '+role+' certificate any time.';
+    act='<button class="btn btn-gold" onclick="go(\'cert\',\''+RKEY+'\')">View certificate →</button>';
+    bg='linear-gradient(150deg,#12525b,#0c3540)';bd='rgba(120,235,228,.4)';
+  }else if(ready){
+    title='Final certification exam';
+    sub='Every lesson your '+role+' path requires is complete. Pass this one combined exam (80% — '+need+' of '+qn+') to earn your single certificate.';
+    act='<button class="btn btn-gold" onclick="go(\'exam\',\''+RKEY+'\')">Start certification exam →</button>';
+    bg='linear-gradient(150deg,#134E58,#0A2C38)';bd='rgba(120,235,228,.34)';
+  }else{
+    title='Certification exam &amp; certificate';
+    sub='Complete every lesson across your '+role+' path to unlock the single final exam and certificate. <b>'+dn+' of '+ls.length+'</b> lessons done.';
+    act='<button class="btn btn-ghost" onclick="flash()">🔒 Locked</button>';
+    bg='linear-gradient(150deg,#123F49,#0A2833)';bd='rgba(120,235,228,.18)';
+  }
+  return '<div class="lcardwrap"><div class="lc-eyebrow" style="margin:20px 0 12px">Certification</div>'
+    +'<div style="background:'+bg+';border:1px solid '+bd+';border-radius:18px;padding:20px 22px;display:flex;align-items:center;gap:18px;flex-wrap:wrap">'
+    +seal
+    +'<div style="flex:1 1 220px;min-width:200px"><div style="font:800 1.15rem/1.2 \'Plus Jakarta Sans\',system-ui,sans-serif;color:#fff;letter-spacing:-0.01em">'+title+'</div>'
+    +'<div style="font-size:.86rem;line-height:1.5;color:rgba(234,247,247,.82);margin-top:5px">'+sub+'</div></div>'
+    +'<div style="flex:0 0 auto">'+act+'</div>'
+    +'</div></div>';
 }
 function selCourse(c){setCourse(c);render();}
 function lastActiveCourse(){
@@ -2152,10 +2206,10 @@ function lessonCard(c){
     rows+='<div class="lc-les tap" onclick="startRehearsal(\''+c+'\')"><span class="lc-dot '+(rzDone?'done':'now')+'">'+(rzDone?'✓':'▶')+'</span>'
       +'<div><p>Skills rehearsal</p><small>'+(rzDone?'Completed — run it again any time':'Work a real patient case end to end before the exam')+'</small></div></div>';
   }
-  var examReady=allDone&&examQuestions(c).length>0;   // don't route to an exam that has no questions
-  var examOpen=examDone||examReady;
-  rows+='<div class="lc-les'+(examOpen?' tap':'')+'" onclick="'+(examOpen?'go(\''+(examDone?'cert':'exam')+'\',\''+c+'\')':'flash()')+'"><span class="lc-dot '+(examDone?'done':(examOpen?'now':'lock'))+'">'+(examDone?'✓':(examOpen?'★':'🔒'))+'</span>'
-    +'<div><p>Final exam &amp; certificate</p><small>'+(examDone?'Certified — view your certificate':(examReady?'All lessons done — take the exam':(allDone?'Exam coming soon — content in progress':'Finish every lesson to unlock')))+'</small></div></div>';
+  // Per-course exam/certificate removed — a single combined certification exam now
+  // lives at the end of the whole role path (see roleFinalPanel on the home screen).
+  rows+='<div class="lc-les"><span class="lc-dot '+(allDone?'done':'lock')+'">'+(allDone?'✓':'🔒')+'</span>'
+    +'<div><p>Course complete</p><small>'+(allDone?'All '+courseLessons(c).length+' lessons done — continue to your other courses, then take the final certification exam':'Finish every lesson in this course')+'</small></div></div>';
   var subLabel=curId?('Continue where you left off'):'Course complete';
   var tabs=roleCourseIds().map(function(cc){return '<button class="lc-tab'+(cc===c?' on':'')+'" onclick="selCourse(\''+cc+'\')">'+esc(COURSES[cc].name)+'</button>';}).join('');
   return '<div class="lcardwrap"><div class="lc-eyebrow" style="margin-bottom:12px">Continue your training</div><div class="lcard">'
@@ -2188,8 +2242,8 @@ function journeyMap(c){
       pos++;
     });
   });
-  var examDone=S.exams[c]&&S.exams[c].passed;
-  nodesHTML+='<div class="mk" data-ti="'+_ti({t:"Final exam & certificate",s:"Complete every lesson, then pass the final exam (80%) to earn your verifiable "+_cn+" certificate.",st:(examDone?"Certified":"Certification"),c:(examDone?"done":"")})+'"><div class="finish '+(doneN===totalN?'on':'')+'" '+(doneN===totalN?'onclick="go(\'exam\',\''+c+'\')"':'')+' style="cursor:'+(doneN===totalN?'pointer':'default')+'"><svg class="seal" viewBox="0 0 64 80" fill="none"><defs><radialGradient id="sealF" cx="50%" cy="42%" r="62%"><stop offset="0" stop-color="#E4EAEF"/><stop offset=".55" stop-color="#C3CDD6"/><stop offset="1" stop-color="#8A97A3"/></radialGradient></defs><path d="M29 44 L22 78 L27.5 71 L31 79 L34 50 Z" fill="#0B6E76"/><path d="M35 44 L42 78 L36.5 71 L33 79 L30 50 Z" fill="#12A0AE"/><circle cx="32" cy="29" r="22" fill="none" stroke="#8A97A3" stroke-width="6" stroke-dasharray="2 4.4" stroke-linecap="round"/><circle cx="32" cy="29" r="20" fill="url(#sealF)" stroke="#8A97A3" stroke-width="1"/><circle cx="32" cy="29" r="16.5" fill="none" stroke="#fff6d6" stroke-width="1.1" opacity=".65"/><path d="M32 20 L45 25.5 L32 31 L19 25.5 Z" fill="#173A3E"/><path d="M24.5 28 L24.5 33.5 Q32 37.6 39.5 33.5 L39.5 28 L32 31 Z" fill="#0E5A66"/><path d="M45 25.5 L45 33.4" stroke="#173A3E" stroke-width="1.4" stroke-linecap="round"/><circle cx="45" cy="35" r="1.9" fill="#173A3E"/></svg></div><div class="modlbl">'+(examDone?'CERTIFIED ✓':'FINAL EXAM')+'</div></div>';
+  var _cmpl=(doneN===totalN);
+  nodesHTML+='<div class="mk" data-ti="'+_ti({t:"Course complete",s:"Finish every lesson here, then head to your other required courses. The single certification exam and certificate wait at the end of your whole path.",st:(_cmpl?"Complete":"In progress"),c:(_cmpl?"done":"")})+'"><div class="finish '+(_cmpl?'on':'')+'" style="cursor:default"><svg class="seal" viewBox="0 0 64 80" fill="none"><defs><radialGradient id="sealF" cx="50%" cy="42%" r="62%"><stop offset="0" stop-color="#E4EAEF"/><stop offset=".55" stop-color="#C3CDD6"/><stop offset="1" stop-color="#8A97A3"/></radialGradient></defs><path d="M29 44 L22 78 L27.5 71 L31 79 L34 50 Z" fill="#0B6E76"/><path d="M35 44 L42 78 L36.5 71 L33 79 L30 50 Z" fill="#12A0AE"/><circle cx="32" cy="29" r="22" fill="none" stroke="#8A97A3" stroke-width="6" stroke-dasharray="2 4.4" stroke-linecap="round"/><circle cx="32" cy="29" r="20" fill="url(#sealF)" stroke="#8A97A3" stroke-width="1"/><circle cx="32" cy="29" r="16.5" fill="none" stroke="#fff6d6" stroke-width="1.1" opacity=".65"/><path d="M32 20 L45 25.5 L32 31 L19 25.5 Z" fill="#173A3E"/><path d="M24.5 28 L24.5 33.5 Q32 37.6 39.5 33.5 L39.5 28 L32 31 Z" fill="#0E5A66"/><path d="M45 25.5 L45 33.4" stroke="#173A3E" stroke-width="1.4" stroke-linecap="round"/><circle cx="45" cy="35" r="1.9" fill="#173A3E"/></svg></div><div class="modlbl">'+(_cmpl?'COMPLETE ✓':'COURSE END')+'</div></div>';
   var travel=Math.round(doneN/totalN*100);
   return '<div class="track" id="track"><div class="road"><div class="asphalt"></div><div class="traveled" style="width:calc('+travel+'% )"></div>'+nodesHTML+'</div></div>';
 }
@@ -2370,7 +2424,8 @@ function checkKCdone(host,qs){
 }
 function nextActionHTML(){
   var c=S.course,cd=courseDone(c);
-  if(cd.done===cd.total){return '<button class="btn btn-gold" style="margin-top:8px" onclick="go(\'exam\',\''+c+'\')">Take the final exam →</button>';}
+  // Only the very end of the whole role path routes to the single certification exam.
+  if(cd.done===cd.total&&roleFinalReady()&&!roleFinalDone()){return '<button class="btn btn-gold" style="margin-top:8px" onclick="go(\'exam\',\''+RKEY+'\')">Take your certification exam →</button>';}
   // return to the course chart in this same section so the student picks their next lesson
   return '<button class="btn btn-gold" style="margin-top:8px" onclick="backToCourse(\''+c+'\')">Complete ✓</button>';
 }
@@ -2378,7 +2433,12 @@ function nextActionHTML(){
 /* ============ FINAL EXAM ============ */
 function examQuestions(c){
   var ls=courseLessons(c);var qs=[];
-  ls.forEach(function(id){var L0=L[id];if(L0.quiz&&L0.quiz.length){var q=L0.quiz[0];qs.push({q:q.q,why:q.why,opts:shuffle(q.opts.map(function(o,i){return{o:o,c:i===q.a};}))});}});
+  ls.forEach(function(id){var L0=L[id];if(L0&&L0.quiz&&L0.quiz.length){var q=L0.quiz[0];qs.push({q:q.q,why:q.why,opts:shuffle(q.opts.map(function(o,i){return{o:o,c:i===q.a};}))});}});
+  if(c===RKEY&&qs.length>FINAL_MAX){   // sample evenly across every role lesson so the exam stays a reasonable length
+    var out=[],step=qs.length/FINAL_MAX;
+    for(var i=0;i<FINAL_MAX;i++)out.push(qs[Math.floor(i*step)]);
+    qs=out;
+  }
   return qs;
 }
 var _exam=null;
@@ -2387,7 +2447,10 @@ function vExam(){
   _exam={c:c,qs:examQuestions(c),ans:{},submitted:false};
   if(!_exam.qs.length){return '<div class="lesson"><div class="lhead"><div class="lcrumb"><a onclick="go(\'home\')">'+COURSES[c].name+'</a><span>›</span> Final exam</div><h2>'+COURSES[c].name+' — Final Exam</h2></div><div class="slidebox"><div class="reviewban" style="margin:16px">This exam is not available yet — no questions have been added for this course. Please check back once the content is complete.</div></div><div class="lnav"><button class="btn btn-ghost" onclick="go(\'home\')">← Exit</button></div></div>';}
   var need=Math.ceil(_exam.qs.length*0.8);
-  var h='<div class="lesson"><div class="lhead"><div class="lcrumb"><a onclick="go(\'home\')">'+COURSES[c].name+'</a><span>›</span> Final exam</div><h2>'+COURSES[c].name+' — Final Exam</h2><p class="lp" style="color:var(--muted)">One question per lesson, options shuffled. Score <b>80%</b> ('+need+' of '+_exam.qs.length+') to earn your certificate.</p></div>';
+  var _rx=(c===RKEY);
+  var _tit=_rx?(roleDisplayName()+' — Certification Exam'):(COURSES[c].name+' — Final Exam');
+  var _intro=_rx?('Questions drawn from across every course your path requires, options shuffled.'):('One question per lesson, options shuffled.');
+  var h='<div class="lesson"><div class="lhead"><div class="lcrumb"><a onclick="go(\'home\')">Home</a><span>›</span> '+(_rx?'Certification exam':'Final exam')+'</div><h2>'+_tit+'</h2><p class="lp" style="color:var(--muted)">'+_intro+' Score <b>80%</b> ('+need+' of '+_exam.qs.length+') to earn your certificate.</p></div>';
   h+='<div class="slidebox"><div class="exambody" id="examHost"></div></div>';
   h+='<div class="lnav"><button class="btn btn-ghost" onclick="go(\'home\')">← Exit</button><div class="sp"></div><button class="btn btn-gold" id="examSubmit" onclick="submitExam()">Submit exam</button></div></div>';
   return h;
@@ -2474,7 +2537,7 @@ function setName(){setCertDetails();}
 
 /* ============ CE transcript (learner CE wallet + Ohio renewal tracker) ============ */
 function vMyCE(){
-  var recs=[];COURSE_IDS.forEach(function(c){var r=CE.recs[c];if(r)recs.push({c:c,r:r});});
+  var recs=[];ensureRoleCourse();if(CE.recs[RKEY])recs.push({c:RKEY,r:CE.recs[RKEY]});COURSE_IDS.forEach(function(c){var r=CE.recs[c];if(r)recs.push({c:c,r:r});});
   var total=recs.reduce(function(s,x){return s+(parseFloat(x.r.contact_hours)||0);},0);
   var goal=24, pct=Math.min(100,Math.round(total/goal*100));
   var anyAccr=recs.some(function(x){return ceIsAccredited(x.c);});
