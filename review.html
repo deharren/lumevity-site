@@ -671,7 +671,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
     var id=b.dataset.sendask,inp=board.querySelector('[data-ask="'+id+'"]');
     var q=(inp.value||'').trim(); if(!q)return;
     b.disabled=true;b.textContent='…';
-    askQuestion(id,q).then(function(){toast('Question sent to the reviewer');}).catch(function(){b.disabled=false;b.textContent='Ask';toast('Could not send');});
+    askQuestion(id,q).then(function(){toast('Question sent to the reviewer');}).catch(function(){b.disabled=false;b.textContent='Send';toast('Could not send');});
   };});
   board.querySelectorAll('[data-sendans]').forEach(function(b){b.onclick=function(){
     var id=b.dataset.sendans,qi=+b.dataset.qi;
@@ -704,7 +704,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
      else if(!IS_ADMIN)h+='<div class="qa-form"><input type="text" placeholder="Type your answer…" data-ans="'+r.id+'" data-qi="'+qi+'"/><button class="btn pri" type="button" data-sendans="'+r.id+'" data-qi="'+qi+'">Send</button></div>';
      return h+'</div>';
    }).join('');
-   if(IS_ADMIN)qaHTML+='<div class="qa-form"><input type="text" placeholder="Ask the reviewer a question…" data-ask="'+r.id+'"/><button class="btn" type="button" data-sendask="'+r.id+'">Ask</button></div>';
+   if(IS_ADMIN)qaHTML+='<div class="qa-form"><input type="text" placeholder="Ask the reviewer a question…" data-ask="'+r.id+'"/><button class="btn" type="button" data-sendask="'+r.id+'">Send</button></div>';
    qaHTML+='</div>';
   }
   return '<div class="stcard '+r.review_status+'">'+thumb+'<div class="sc-main"><div class="sc-top"><span class="sc-type">'+typeIc+' '+esc(r.item_type)+'</span><span class="sc-t">'+esc(r.item_label||'Item')+(r.item_ref?(' #'+esc(r.item_ref)):'')+'</span>'+vp+'<span class="statusbadge '+r.review_status+'">'+STATUS_LABELS[r.review_status]+'</span>'+(openQ&&!IS_ADMIN?'<span class="qa-wait">'+openQ+' question'+(openQ>1?'s':'')+' for you</span>':'')+'</div>'+(r.note?'<div class="sc-note">'+esc(r.note)+'</div>':'')+adminNote+'<div class="sc-meta"><span>'+esc(r.submitter||'Anonymous')+'</span><span>'+when+'</span>'+link+'</div>'+admin+qaHTML+'</div></div>';
