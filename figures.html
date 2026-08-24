@@ -133,10 +133,17 @@ const ETHOS=`Medical atlas illustration plate in the style of a Netter or Thieme
 let ITEMS=[], OVERRIDES={}, TAB="needs";
 
 /* ---------- read the live app and pull out every figure it uses ---------- */
+const ACR={iv:"IV",im:"IM",id:"ID",ce:"CE",ehr:"EHR",asis:"ASIS",ins:"INS",tb:"TB",subq:"SubQ",ph:"Phlebotomy",vg:"Ventrogluteal",cx:"Complication",atl:"Atlas"};
+/* Filenames are a last resort for a label. Anything auto-named (fig-1787265932281)
+   carries no meaning, so those fall back to where the app actually uses the image. */
 function labelize(s){
-  return s.replace(/^https?:\/\/.*\//,"").replace(/\.(png|jpg|jpeg|svg)$/i,"")
-          .replace(/[-_]v?\d+$/,"").replace(/^(atl|fig)-/,"").replace(/[-_]/g," ")
-          .replace(/\b\w/g,c=>c.toUpperCase()).trim();
+  let n=s.replace(/^https?:\/\/.*\//,"").replace(/\.(png|jpe?g|svg)$/i,"");
+  if(/^fig[-_]\d{6,}$/i.test(n)) return "";
+  n=n.replace(/[-_]v\d+$/i,"").replace(/^(atl|fig)[-_]/i,"");
+  if(!n) return "";
+  return n.split(/[-_]/).filter(Boolean)
+          .map(w=>ACR[w.toLowerCase()]||(w.charAt(0).toUpperCase()+w.slice(1)))
+          .join(" ").trim();
 }
 function abs(u){ return /^https?:/.test(u) ? u : FIGBASE+u; }
 
@@ -146,9 +153,9 @@ async function scanApp(){
   const add=(url,label,use)=>{
     const u=abs(url);
     if(!/\.(png|jpe?g|svg)(\?|$)/i.test(u)) return;
-    if(!found.has(u)) found.set(u,{url:u,label:label||labelize(u),uses:[]});
+    if(!found.has(u)) found.set(u,{url:u,fname:labelize(u),label:label||labelize(u),uses:[]});
     const it=found.get(u);
-    if(label && (it.label===labelize(u))) it.label=label;
+    if(label && (!it.label || it.label===it.fname)) it.label=label;   // a caption or term title wins
     if(use && !it.uses.some(x=>x.href===use.href)) it.uses.push(use);
   };
 
@@ -169,6 +176,9 @@ async function scanApp(){
 
   // drop anything that is not actually an image we host or reference
   const list=[...found.values()].filter(x=>/^https?:\/\//.test(x.url));
+  list.forEach(x=>{
+    if(!x.label) x.label = x.uses.length ? x.uses[0].label.replace(/^(Lesson|Glossary)\s·\s/,"") : "Unnamed figure";
+  });
   return list;
 }
 
@@ -290,7 +300,7 @@ function drawGrid(){
       ${bar("White ground",it.m.whiteF)}${bar("Flat color",it.m.flatF)}
       ${bar("Small palette",1-it.m.palN)}${bar("No grain",1-it.m.noiseN)}</div>`:"";
     return `<div class="card" data-i="${ITEMS.indexOf(it)}">
-      <div class="thumb"><img loading="lazy" src="${shown}" alt=""></div>
+      <div class="thumb"><img src="${shown}" alt=""></div>
       <div class="cbody">
         <div class="crow"><span class="cname">${esc(it.label)}</span>
           <span class="pill p-${b}">${it.score==null?"n/a":it.score}</span></div>
