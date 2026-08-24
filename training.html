@@ -256,7 +256,23 @@
   @keyframes cevwave{from{transform:translateX(0)}to{transform:translateX(-64px)}}
   @keyframes cevfill{from{transform:translateY(150px)}to{transform:translateY(0)}}
   @keyframes cevrise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-  .cevault{position:relative;background:linear-gradient(160deg,#124C57,#0A2A37);border:1px solid rgba(120,235,228,.28);border-radius:22px;padding:22px 24px;margin:18px 0 0;box-shadow:0 30px 70px rgba(3,20,26,.35);display:grid;grid-template-columns:auto 1fr;gap:22px 26px;align-items:center;overflow:hidden;animation:cevrise .5s ease;}
+  .cevault{position:relative;background:linear-gradient(160deg,#124C57,#0A2A37);border:1px solid rgba(120,235,228,.28);border-radius:20px;padding:12px 14px;margin:18px 0 0;box-shadow:0 18px 44px rgba(3,20,26,.3);overflow:hidden;animation:cevrise .5s ease;}
+.cev-head{display:flex;align-items:center;gap:12px;width:100%;background:none;border:0;padding:2px 2px 10px;color:inherit;cursor:pointer;text-align:left;font:inherit;}
+.cev-headbag{flex:0 0 auto;line-height:0;filter:drop-shadow(0 4px 10px rgba(0,0,0,.3));}
+.cev-headtxt{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:3px;}
+.cev-headline{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#fff;font-size:1rem;line-height:1.15;}
+.cev-headline b{font-size:1.35rem;font-weight:800;letter-spacing:-.01em;}
+.cev-headline em{font-style:normal;color:#7FE6F0;font-weight:800;}
+.cev-headsub{font-size:.74rem;color:rgba(214,240,240,.78);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.cev-chev{flex:0 0 auto;display:flex;align-items:center;gap:6px;color:#8AE7EF;font-size:.7rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;}
+.cev-chev svg{transition:transform .22s ease;}
+.cevault.open .cev-chev svg{transform:rotate(180deg);}
+.cev-head:focus-visible{outline:2px solid #7FE6F0;outline-offset:3px;border-radius:12px;}
+.cev-slim{height:7px;border-radius:5px;background:rgba(255,255,255,.09);overflow:hidden;}
+.cev-slim i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#22E0DA,#7BF3EA);}
+.cev-more{display:none;}
+.cevault.open .cev-more{display:block;animation:cevrise .32s ease;}
+.cev-grid{display:grid;grid-template-columns:auto 1fr;gap:22px 26px;align-items:center;margin-top:18px;}
   .cevault::before{content:"";position:absolute;inset:0;background:radial-gradient(520px 220px at 88% -20%,rgba(34,224,218,.16),transparent 60%);pointer-events:none;}
   .cev-bagwrap{position:relative;width:118px;height:190px;filter:drop-shadow(0 10px 22px rgba(0,0,0,.35));}
   .cev-bagnum{position:absolute;left:0;right:6px;top:52%;transform:translateY(-50%);text-align:center;pointer-events:none;}
@@ -275,14 +291,14 @@
   .cev-bar i{display:block;height:100%;background:linear-gradient(90deg,#14C9C6,#22E0DA);border-radius:6px;box-shadow:0 0 12px rgba(34,224,218,.6);}
   .cev-ohio{margin-top:12px;font-size:.8rem;color:rgba(230,246,246,.8);}
   .cev-ohio b{color:#22E0DA;}
-  .cev-rewards{grid-column:1/-1;display:flex;gap:9px;flex-wrap:wrap;margin-top:4px;}
+  .cev-rewards{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px;}
   .cev-chip{display:flex;align-items:center;gap:7px;padding:8px 12px;border-radius:12px;background:rgba(230,246,246,.05);border:1px solid rgba(120,235,228,.14);font-size:.74rem;font-weight:700;color:rgba(234,247,247,.5);}
   .cev-chip .ic{font-size:1rem;filter:grayscale(1);opacity:.5;}
   .cev-chip.on{background:linear-gradient(150deg,rgba(34,224,218,.16),rgba(20,201,198,.06));border-color:rgba(34,224,218,.5);color:#EAFFFF;}
   .cev-chip.on .ic{filter:none;opacity:1;}
   .cev-chip.next{border-color:rgba(201,162,75,.55);color:#F2D399;}
-  .cev-foot{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:2px;}
-  @media(max-width:640px){.cevault{grid-template-columns:1fr;justify-items:center;text-align:center;}.cev-nextrow,.cev-main{width:100%;}.cev-eyebrow{justify-content:center;}.cev-foot{justify-content:center;}}
+  .cev-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;}
+  @media(max-width:640px){.cev-grid{grid-template-columns:1fr;justify-items:center;text-align:center;}.cev-nextrow,.cev-main{width:100%;}.cev-eyebrow{justify-content:center;}.cev-foot{justify-content:center;}}
   /* ===== CE profile + gamified onboarding ===== */
   .tbtn.prof{background:transparent;color:var(--muted);border:1px solid var(--stone);}
   @media(max-width:720px){.tbtn.prof{padding:8px 12px;}}
@@ -4557,6 +4573,28 @@ function ceBagSVG(pct){
    +'<circle cx="59" cy="186" r="2.5" fill="#22E0DA"/>'
    +'</svg>';
 }
+function cevOpen(){try{return Store.get("lmv_ce_open",false)===true;}catch(e){return false;}}
+function cevToggle(btn){
+  var box=btn.closest(".cevault");if(!box)return;
+  var open=!box.classList.contains("open");
+  box.classList.toggle("open",open);
+  btn.setAttribute("aria-expanded",open?"true":"false");
+  var lab=box.querySelector(".cev-chevlab");if(lab)lab.textContent=open?"Less":"More";
+  try{Store.set("lmv_ce_open",open);}catch(e){}
+}
+/* Compact bag glyph for the collapsed header. */
+function ceBagMiniSVG(pct){
+  var top=6,bot=34,range=bot-top,fy=bot-Math.max(0,Math.min(1,pct))*range;
+  return '<svg viewBox="0 0 26 46" width="26" height="46" aria-hidden="true">'
+   +'<defs><clipPath id="cevmclip"><rect x="4" y="6" width="18" height="28" rx="5"/></clipPath>'
+   +'<linearGradient id="cevmf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7BF3EA"/><stop offset="1" stop-color="#17A8B4"/></linearGradient></defs>'
+   +'<rect x="10" y="0" width="6" height="6" rx="2" fill="none" stroke="rgba(230,246,246,.45)" stroke-width="1.6"/>'
+   +'<rect x="4" y="6" width="18" height="28" rx="5" fill="rgba(255,255,255,.07)" stroke="rgba(180,240,240,.5)" stroke-width="1.5"/>'
+   +'<g clip-path="url(#cevmclip)"><rect x="4" y="'+fy+'" width="18" height="'+(range+10)+'" fill="url(#cevmf)"/></g>'
+   +'<rect x="11" y="34" width="4" height="4" fill="rgba(200,245,245,.5)"/>'
+   +'<line x1="13" y1="38" x2="13" y2="43" stroke="rgba(200,245,245,.4)" stroke-width="1.5"/>'
+   +'<circle cx="13" cy="44" r="1.6" fill="#22E0DA"/></svg>';
+}
 function ceVaultPanel(){
   var earned=ceEarnedHrs(),prog=ceProgramHrs(),pct=prog?earned/prog:0;
   var next=null,prev=null;
@@ -4569,17 +4607,32 @@ function ceVaultPanel(){
   var prevChip=(elig&&CE_PREVIEW&&!ceRealAccredited())?'<span class="cev-prev">Preview</span>':'';
   var eyebrow=elig?('CE contact hours '+prevChip):'Program progress';
   var footStat=elig?('<div class="cev-ohio">🎯 <b>'+ohio+'%</b> of your 24-hour Ohio renewal</div>'):('<div class="cev-ohio">🎯 <b>'+Math.round(pct*100)+'%</b> of the full training program</div>');
-  return '<div class="cevault">'
-   +'<div class="cev-bagwrap">'+ceBagSVG(pct)+'<div class="cev-bagnum"><b>'+earned.toFixed(2)+'</b><span>of '+prog.toFixed(1)+' '+U+'</span></div></div>'
-   +'<div class="cev-main">'
-     +'<div class="cev-eyebrow">'+eyebrow+'</div>'
-     +'<div class="cev-big"><b>'+earned.toFixed(2)+'</b> <span>/ '+prog.toFixed(2)+' '+unitLong+(elig?' earned':'')+'</span></div>'
-     +'<div class="cev-copy">'+copy+'</div>'
-     +(next?('<div class="cev-nextrow"><span>Next reward · '+esc(next.name)+'</span><span><b>'+next.h.toFixed(1)+' '+U+'</b></span></div><div class="cev-bar"><i style="width:'+seg+'%"></i></div>'):'')
-     +footStat
+  var open=cevOpen();
+  var headSub=next?('Next reward · '+esc(next.name)+' at '+next.h.toFixed(1)+' '+U):'All rewards unlocked';
+  return '<div class="cevault'+(open?' open':'')+'">'
+   +'<button class="cev-head" type="button" aria-expanded="'+(open?'true':'false')+'" onclick="cevToggle(this)">'
+     +'<span class="cev-headbag">'+ceBagMiniSVG(pct)+'</span>'
+     +'<span class="cev-headtxt">'
+       +'<span class="cev-headline"><b>'+earned.toFixed(2)+'</b> of '+prog.toFixed(1)+' '+U+' <em>· '+Math.round(pct*100)+'%</em></span>'
+       +'<span class="cev-headsub">'+headSub+'</span>'
+     +'</span>'
+     +'<span class="cev-chev"><span class="cev-chevlab">'+(open?'Less':'More')+'</span><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'
+   +'</button>'
+   +'<div class="cev-slim"><i style="width:'+seg+'%"></i></div>'
+   +'<div class="cev-more">'
+     +'<div class="cev-grid">'
+       +'<div class="cev-bagwrap">'+ceBagSVG(pct)+'<div class="cev-bagnum"><b>'+earned.toFixed(2)+'</b><span>of '+prog.toFixed(1)+' '+U+'</span></div></div>'
+       +'<div class="cev-main">'
+         +'<div class="cev-eyebrow">'+eyebrow+'</div>'
+         +'<div class="cev-big"><b>'+earned.toFixed(2)+'</b> <span>/ '+prog.toFixed(2)+' '+unitLong+(elig?' earned':'')+'</span></div>'
+         +'<div class="cev-copy">'+copy+'</div>'
+         +(next?('<div class="cev-nextrow"><span>Next reward · '+esc(next.name)+'</span><span><b>'+next.h.toFixed(1)+' '+U+'</b></span></div><div class="cev-bar"><i style="width:'+seg+'%"></i></div>'):'')
+         +footStat
+       +'</div>'
+     +'</div>'
+     +'<div class="cev-rewards">'+chips+'</div>'
+     +'<div class="cev-foot"><button class="btn btn-ghost" style="font-size:.8rem;padding:8px 14px" onclick="go(\'profile\')">'+(profileComplete()?(elig?'CE profile ✓':'Profile ✓'):((elig?'Complete your CE profile · ':'Complete your profile · ')+pfPct()+'%'))+'</button><button class="btn btn-ghost" style="font-size:.8rem;padding:8px 14px" onclick="go(\'myce\')">'+(elig?'View CE transcript →':'View my record →')+'</button></div>'
    +'</div>'
-   +'<div class="cev-rewards">'+chips+'</div>'
-   +'<div class="cev-foot"><button class="btn btn-ghost" style="font-size:.8rem;padding:8px 14px" onclick="go(\'profile\')">'+(profileComplete()?(elig?'CE profile ✓':'Profile ✓'):((elig?'Complete your CE profile · ':'Complete your profile · ')+pfPct()+'%'))+'</button><button class="btn btn-ghost" style="font-size:.8rem;padding:8px 14px" onclick="go(\'myce\')">'+(elig?'View CE transcript →':'View my record →')+'</button></div>'
    +'</div>';
 }
 function ceLessonReward(id){
