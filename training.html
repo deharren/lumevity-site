@@ -1164,7 +1164,23 @@ function illoSVG(k){return ({arm:svgArm(false),im:svgIM(false),subq:svgSubQ(fals
    gFlashback via figFor) and the interactive "sites" games (svg*(true)).
    Interactive figures render the photo with transparent .hot ellipse hitboxes. */
 var FIG_BASE="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/";
-function figURL(n){return /^https?:/.test(n)?n:FIG_BASE+n;}
+/* Every figure in the app resolves through figURL, so one lookup here is enough to
+   let the figure console at /figures swap an image without a redeploy. Approved
+   overrides are fetched once at boot; until they land the original is served. */
+var FIG_OVR={};
+function figURL(n){var u=/^https?:/.test(n)?n:FIG_BASE+n;return FIG_OVR[u]||u;}
+function figOvrLoad(){
+  try{
+    var url=SB_URL+"/rest/v1/figure_overrides?select=orig_url,new_url&status=eq.approved";
+    fetch(url,{headers:{apikey:SB_ANON,Authorization:"Bearer "+SB_ANON}})
+      .then(function(r){return r.ok?r.json():[];})
+      .then(function(rows){
+        if(!rows||!rows.length)return;
+        rows.forEach(function(r){ if(r.orig_url&&r.new_url)FIG_OVR[r.orig_url]=r.new_url; });
+        try{ if(typeof render==="function")render(); }catch(e){}
+      }).catch(function(){});
+  }catch(e){}
+}
 function figImg(n,alt){return '<svg class="figimg" viewBox="0 0 1536 1024" role="img" aria-label="'+(alt||'')+'"><image href="'+figURL(n)+'" x="0" y="0" width="1536" height="1024" preserveAspectRatio="xMidYMid meet"/></svg>';}
 function figHotspots(n,alt,spots){
   var s='<svg class="fighot" viewBox="0 0 1536 1024" role="img" aria-label="'+(alt||'')+'">'
@@ -6027,6 +6043,7 @@ function paintDemoMarket(){
   }catch(e){}
 }
 function bootRender(){ ceLoad();
+  try{figOvrLoad();}catch(e){}
   paintDemoMarket();
   try{ if(CE_PREVIEW)pfSeedDummy(false); }catch(e){}  // demo/preview: seed dummy CE profile data for testing (only if empty)
   // Public credential verification bypasses the learner login gate (employers/boards have no account)

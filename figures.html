@@ -1,126 +1,383 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex, nofollow">
-<title>IV Rejuve Clinical Figures</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="robots" content="noindex,nofollow"/>
+<title>Figure ethos console — Lumevity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{
-    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-    background:radial-gradient(1200px 600px at 50% -10%,#0E4E58 0%,#0A2C3A 55%,#071E28 100%);
-    color:#EAF6F6;min-height:100vh;padding:22px 16px 48px;
-  }
-  header{max-width:760px;margin:0 auto 22px;text-align:center}
-  .brand{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#5FD6D0;font-weight:700}
-  h1{font-size:26px;margin:6px 0 8px;font-weight:800;letter-spacing:-.01em}
-  .brand span{color:#8FE9E4}
-  .sub{color:#9FBFC4;font-size:14px;line-height:1.5;max-width:560px;margin:0 auto}
-  .grid{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
-  .card{
-    background:rgba(230,246,246,.05);
-    border:1px solid rgba(120,235,228,.22);
-    border-radius:16px;overflow:hidden;
-    box-shadow:0 8px 26px rgba(0,0,0,.28);
-    transition:transform .15s ease,border-color .15s ease;
-  }
-  .card:hover{transform:translateY(-3px);border-color:rgba(120,235,228,.5)}
-  .card a{display:block;background:#fff;line-height:0}
-  .card img{width:100%;height:auto;display:block}
-  .cap{padding:13px 16px 15px}
-  .cap .n{font-size:12px;color:#5FD6D0;font-weight:700;letter-spacing:.04em}
-  .cap h2{font-size:16px;font-weight:700;margin:3px 0 4px}
-  .cap p{font-size:13px;color:#9FBFC4;line-height:1.45}
-  .tap{display:inline-block;margin-top:9px;font-size:12px;font-weight:700;color:#8FE9E4}
-  footer{max-width:760px;margin:26px auto 0;text-align:center;color:#7FA0A6;font-size:12px;line-height:1.6}
+:root{
+  --ink:#0E2A2E;--ink2:#41605F;--muted:#6B8687;--line:#DCE7E6;--bg:#F4F8F7;--card:#fff;
+  --teal:#0E8A93;--teal-d:#0B6E76;--deep:#0C3D43;
+  --bad:#B4453F;--bad-bg:#FBECEA;--warn:#8A5A12;--warn-bg:#FBF2E2;--good:#0F7A52;--good-bg:#E7F4EE;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--teal-d)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+header{background:linear-gradient(160deg,#0C3D43,#0E5A61);color:#fff;padding:30px 0 26px}
+header h1{margin:0 0 6px;font-size:27px;font-weight:800;letter-spacing:-.01em}
+header p{margin:0;color:#B9DDDE;font-size:14.5px;max-width:70ch}
+.stamp{display:inline-block;font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:#7FD3D6;font-weight:700;margin-bottom:8px}
+.hbar{display:flex;gap:16px;flex-wrap:wrap;margin-top:16px;align-items:center}
+.hbtn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);color:#fff;text-decoration:none;padding:7px 13px;border-radius:999px;font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit}
+.hbtn:hover{background:rgba(255,255,255,.22)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 16px}
+.tab{background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 15px;font-size:13.5px;font-weight:600;color:var(--ink2);cursor:pointer;font-family:inherit}
+.tab.on{background:var(--teal-d);border-color:var(--teal-d);color:#fff}
+.tab b{font-weight:800}
+.note{background:#fff;border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:10px;padding:12px 15px;font-size:14px;color:var(--ink2);margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px;padding-bottom:50px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.thumb{background:#fff;border-bottom:1px solid var(--line);aspect-ratio:3/2;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.thumb img{max-width:100%;max-height:100%;display:block}
+.cbody{padding:13px 14px 14px;display:flex;flex-direction:column;gap:9px;flex:1}
+.crow{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.cname{font-size:14.5px;font-weight:650;line-height:1.3;word-break:break-word}
+.pill{flex:0 0 auto;font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:3px 8px;border-radius:6px;white-space:nowrap}
+.p-bad{color:var(--bad);background:var(--bad-bg)}
+.p-warn{color:var(--warn);background:var(--warn-bg)}
+.p-good{color:var(--good);background:var(--good-bg)}
+.p-na{color:var(--muted);background:#EEF3F3}
+.meta{font-size:12.5px;color:var(--muted)}
+.meta code{font-size:11.5px;background:#F1F6F6;padding:1px 5px;border-radius:4px}
+.bars{display:flex;flex-direction:column;gap:4px;margin-top:2px}
+.bar{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--muted)}
+.bar span{flex:0 0 74px}
+.bar i{flex:1;height:5px;border-radius:3px;background:#E9F0F0;overflow:hidden;display:block}
+.bar i b{display:block;height:100%;background:var(--teal);border-radius:3px}
+.acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:auto;padding-top:4px}
+.btn{font-family:inherit;font-size:13px;font-weight:650;padding:7px 12px;border-radius:8px;cursor:pointer;border:1px solid var(--teal);background:#fff;color:var(--teal-d)}
+.btn:hover:not(:disabled){background:var(--teal-d);border-color:var(--teal-d);color:#fff}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.pri{background:var(--teal-d);border-color:var(--teal-d);color:#fff}
+.btn.pri:hover:not(:disabled){background:var(--deep)}
+.btn.ghost{border-color:var(--line);color:var(--ink2)}
+.btn.warnb{border-color:#D9B25F;color:#8A5A12}
+.usedlinks{display:flex;gap:6px;flex-wrap:wrap}
+.usedlinks a{font-size:12px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:3px 9px;color:var(--teal-d)}
+.usedlinks a:hover{background:var(--teal-d);border-color:var(--teal-d);color:#fff}
+.status{font-size:12.5px;color:var(--ink2);min-height:1.2em}
+.status.err{color:var(--bad)}
+.ovr{font-size:11.5px;font-weight:800;color:var(--good);background:var(--good-bg);padding:2px 7px;border-radius:5px;display:inline-block}
+
+.mask{position:fixed;inset:0;background:rgba(8,28,32,.72);display:none;align-items:center;justify-content:center;padding:20px;z-index:60}
+.mask.on{display:flex}
+.dlg{background:#fff;border-radius:16px;max-width:1000px;width:100%;max-height:92vh;overflow:auto;padding:20px 22px}
+.dlg h3{margin:0 0 4px;font-size:19px}
+.dlg p.sub{margin:0 0 16px;color:var(--ink2);font-size:14px}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:700px){.cmp{grid-template-columns:1fr}}
+.cmp figure{margin:0}
+.cmp figcaption{font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;display:inline-block;padding:3px 8px;border-radius:5px}
+.cap-a{color:#8A5A2B;background:#F6EEE4}.cap-b{color:var(--good);background:var(--good-bg)}
+.cmp .box{border:1px solid var(--line);border-radius:9px;background:#fff;aspect-ratio:3/2;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.cmp .box img{max-width:100%;max-height:100%}
+.dlgacts{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px;align-items:center}
+footer{color:var(--muted);font-size:13px;padding:24px 0 60px;text-align:center}
+.spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(14,138,147,.25);border-top-color:var(--teal);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:6px}
+@keyframes sp{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
-  <header>
-    <div class="brand">IV Rejuve Academy</div>
-    <h1>Clinical <span>Figures</span></h1>
-    <p class="sub">The six AI generated illustrations now live in the training app. Tap any figure to open it full size.</p>
-  </header>
 
-  <main class="grid">
+<header><div class="wrap">
+  <div class="stamp">Lumevity · brand image ethos</div>
+  <h1>Figure ethos console</h1>
+  <p>Every image the app currently uses, read live from the app itself, scored against the vector atlas house style, worst first. Regenerate anything that is off brand, compare it side by side, and approve it to replace the original.</p>
+  <div class="hbar">
+    <a class="hbtn" href="https://lumevity.app/training" target="_blank" rel="noopener">Open the app</a>
+    <a class="hbtn" href="https://lumevity.app/changes" target="_blank" rel="noopener">Change log</a>
+    <button class="hbtn" id="reload">Rescan</button>
+    <span id="scanmsg" style="color:#B9DDDE;font-size:13px"></span>
+  </div>
+</div></header>
 
-    <div class="card">
-      <a href="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/forearm-veins-v1.png" target="_blank" rel="noopener">
-        <img loading="lazy" alt="Superficial veins of the forearm" src="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/forearm-veins-v1.png">
-      </a>
-      <div class="cap">
-        <div class="n">01</div>
-        <h2>Forearm superficial veins</h2>
-        <p>IV anatomy lesson and the "Choose the target" practice games.</p>
-        <a class="tap" href="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/forearm-veins-v1.png" target="_blank" rel="noopener">Open full size &rsaquo;</a>
-      </div>
-    </div>
+<div class="wrap">
+  <div class="tabs" id="tabs"></div>
+  <div class="note" id="legend">
+    <b>How the score works.</b> Each image is measured on four things that separate a flat vector atlas plate from a photograph: how much of it is clean white ground, how much of it is flat unbroken color, how small its palette is, and how little photographic grain it carries. Higher is more on brand. It is a first pass to sort the queue, not a verdict, so trust your eye over the number.
+  </div>
+  <div class="grid" id="grid"></div>
+</div>
 
-    <div class="card">
-      <a href="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/vein-xsection-v1.png" target="_blank" rel="noopener">
-        <img loading="lazy" alt="Vein wall cross section" src="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/vein-xsection-v1.png">
-      </a>
-      <div class="cap">
-        <div class="n">02</div>
-        <h2>Vein wall cross section</h2>
-        <p>Tunica adventitia, media, intima and lumen. IV anatomy illustration and glossary.</p>
-        <a class="tap" href="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/vein-xsection-v1.png" target="_blank" rel="noopener">Open full size &rsaquo;</a>
-      </div>
-    </div>
+<div class="mask" id="mask"><div class="dlg">
+  <h3 id="dtitle">Compare</h3>
+  <p class="sub" id="dsub"></p>
+  <div class="cmp">
+    <figure><figcaption class="cap-a">Currently in the app</figcaption><div class="box"><img id="dold" alt=""></div></figure>
+    <figure><figcaption class="cap-b">Regenerated, atlas style</figcaption><div class="box"><img id="dnew" alt=""></div></figure>
+  </div>
+  <div class="dlgacts">
+    <button class="btn pri" id="dapprove">Approve and replace the original</button>
+    <button class="btn" id="dretry">Generate another</button>
+    <button class="btn ghost" id="dclose">Cancel</button>
+    <span class="status" id="dstatus"></span>
+  </div>
+</div></div>
 
-    <div class="card">
-      <a href="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/subq-sites-v1.png" target="_blank" rel="noopener">
-        <img loading="lazy" alt="Subcutaneous injection sites" src="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/subq-sites-v1.png">
-      </a>
-      <div class="cap">
-        <div class="n">03</div>
-        <h2>Subcutaneous injection sites</h2>
-        <p>Abdomen with navel exclusion zone, back of upper arm and thigh. SubQ lesson and "Choose the site" game.</p>
-        <a class="tap" href="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/subq-sites-v1.png" target="_blank" rel="noopener">Open full size &rsaquo;</a>
-      </div>
-    </div>
+<footer>Internal tool · not linked from the app · <span id="foot"></span></footer>
 
-    <div class="card">
-      <a href="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/im-sites-v2.png" target="_blank" rel="noopener">
-        <img loading="lazy" alt="Intramuscular injection sites" src="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/im-sites-v2.png">
-      </a>
-      <div class="cap">
-        <div class="n">04</div>
-        <h2>Intramuscular injection sites</h2>
-        <p>Deltoid, ventrogluteal and vastus lateralis with landmarks. IM lesson and "Choose the site" game.</p>
-        <a class="tap" href="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/im-sites-v2.png" target="_blank" rel="noopener">Open full size &rsaquo;</a>
-      </div>
-    </div>
+<script>
+const SB="https://dnjvsfwdrffzawrlrrma.supabase.co";
+const KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRuanZzZndkcmZmemF3cmxycm1hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5MDgxMTgsImV4cCI6MjA5ODQ4NDExOH0.6coWHPrl5IHGWex_W0Q29NU5E3hA-lyfswxPCxtbThs";
+const FIGBASE=SB+"/storage/v1/object/public/figures/";
+const H={apikey:KEY,Authorization:"Bearer "+KEY};
 
-    <div class="card">
-      <a href="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/skin-angles-v1.png" target="_blank" rel="noopener">
-        <img loading="lazy" alt="Skin layers with injection needle angles" src="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/skin-angles-v1.png">
-      </a>
-      <div class="cap">
-        <div class="n">05</div>
-        <h2>Skin layers and needle angles</h2>
-        <p>Epidermis, dermis, subcutaneous fat and muscle with 90 degree IM and 45 degree SubQ needles.</p>
-        <a class="tap" href="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/skin-angles-v1.png" target="_blank" rel="noopener">Open full size &rsaquo;</a>
-      </div>
-    </div>
+/* ---------- house style, the one place the ethos is written down ---------- */
+const ETHOS=`Medical atlas illustration plate in the style of a Netter or Thieme anatomy textbook. This is a painted DRAWING, never a photograph and never a photorealistic 3D render. Flat plain white background with generous white margins on all four sides and no border or frame. Smooth airbrushed colour, soft gradients, clean contour lines, simplified idealized anatomy, a small restrained palette. Forbidden: photographic skin texture, visible pores, body hair, studio lighting, glossy specular highlights, cast shadows on a surface, depth-of-field blur, film grain. Thin black leader lines each ending in a small solid black anchor dot, with plain dark charcoal sans-serif labels; red reserved for warnings. Any hand must show exactly four fingers and one thumb, each properly formed. No bones drawn on top of skin. Nothing cropped; every label fully inside the frame and completely legible; omit any character that cannot render legibly rather than inventing one. No decorative extras.`;
 
-    <div class="card">
-      <a href="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/gauge-flashback-v1.png" target="_blank" rel="noopener">
-        <img loading="lazy" alt="IV catheter gauges and flashback" src="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/gauge-flashback-v1.png">
-      </a>
-      <div class="cap">
-        <div class="n">06</div>
-        <h2>IV catheter gauges and flashback</h2>
-        <p>14G to 24G with ISO color codes and a flashback chamber cutaway. Equipment glossary figures.</p>
-        <a class="tap" href="https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/gauge-flashback-v1.png" target="_blank" rel="noopener">Open full size &rsaquo;</a>
-      </div>
-    </div>
+let ITEMS=[], OVERRIDES={}, TAB="needs";
 
-  </main>
+/* ---------- read the live app and pull out every figure it uses ---------- */
+function labelize(s){
+  return s.replace(/^https?:\/\/.*\//,"").replace(/\.(png|jpg|jpeg|svg)$/i,"")
+          .replace(/[-_]v?\d+$/,"").replace(/^(atl|fig)-/,"").replace(/[-_]/g," ")
+          .replace(/\b\w/g,c=>c.toUpperCase()).trim();
+}
+function abs(u){ return /^https?:/.test(u) ? u : FIGBASE+u; }
 
-  <footer>
-    Generated with gpt-image-2 and hosted on Supabase. Live in the IV Rejuve training app.
-  </footer>
+async function scanApp(){
+  const src = await (await fetch("/training.html",{cache:"no-store"})).text();
+  const found = new Map();   // url -> {url,label,uses:[{label,href}]}
+  const add=(url,label,use)=>{
+    const u=abs(url);
+    if(!/\.(png|jpe?g|svg)(\?|$)/i.test(u)) return;
+    if(!found.has(u)) found.set(u,{url:u,label:label||labelize(u),uses:[]});
+    const it=found.get(u);
+    if(label && (it.label===labelize(u))) it.label=label;
+    if(use && !it.uses.some(x=>x.href===use.href)) it.uses.push(use);
+  };
+
+  // LESSON_FIGS: lessonId:[ {fig:"...",cap:"..."} ]
+  const lfBlock=(src.match(/LESSON_FIGS=\{([\s\S]*?)\n\};/)||[])[1]||"";
+  const lfRe=/(\w+):\s*\[([\s\S]*?)\]\s*(?:,|$)/g; let m;
+  while((m=lfRe.exec(lfBlock))){
+    const lesson=m[1], body=m[2];
+    const e=/fig:"([^"]+)"[^}]*?cap:"([^"]*)"/g; let e2;
+    while((e2=e.exec(body))) add(e2[1], e2[2], {label:"Lesson · "+lesson, href:"https://lumevity.app/training#lesson="+lesson});
+  }
+  // GLOSSARY: key:{t:"Title", ... fig:"..."}
+  const gRe=/(\w+):\{t:"([^"]*)"[^}]*?fig:"([^"]+)"/g;
+  while((m=gRe.exec(src))) add(m[3].replace(/^img:/,""), m[2], {label:"Glossary · "+m[2], href:"https://lumevity.app/training#term="+m[1]});
+  // illoSVG hosted map + any other bare figure literals
+  const anyRe=/['"]((?:https?:\/\/[^'"]+?|[\w.\-]+)\.(?:png|jpe?g))['"]/g;
+  while((m=anyRe.exec(src))) add(m[1],null,null);
+
+  // drop anything that is not actually an image we host or reference
+  const list=[...found.values()].filter(x=>/^https?:\/\//.test(x.url));
+  return list;
+}
+
+/* ---------- style scoring ---------- */
+function loadImg(url){
+  return new Promise((res,rej)=>{
+    const i=new Image(); i.crossOrigin="anonymous";
+    i.onload=()=>res(i); i.onerror=()=>rej(new Error("load"));
+    i.src=url+(url.includes("?")?"&":"?")+"cb=1";
+  });
+}
+function measure(img){
+  const W=170, H=Math.max(1,Math.round(W*img.naturalHeight/img.naturalWidth));
+  const c=document.createElement("canvas"); c.width=W; c.height=H;
+  const x=c.getContext("2d",{willReadFrequently:true});
+  x.drawImage(img,0,0,W,H);
+  let d;
+  try{ d=x.getImageData(0,0,W,H).data; }catch(e){ return null; }
+  let white=0, flat=0, lap=0, lapN=0; const pal=new Set();
+  const at=(px,py,k)=>d[((py*W+px)<<2)+k];
+  for(let py=0;py<H;py++)for(let px=0;px<W;px++){
+    const i=((py*W+px)<<2), r=d[i],g=d[i+1],b=d[i+2];
+    if(r>244&&g>244&&b>244) white++;
+    pal.add(((r>>3)<<10)|((g>>3)<<5)|(b>>3));
+    if(px>0&&py>0&&px<W-1&&py<H-1){
+      let mx=0;
+      for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){
+        const j=(((py+dy)*W+(px+dx))<<2);
+        mx=Math.max(mx,Math.abs(r-d[j])+Math.abs(g-d[j+1])+Math.abs(b-d[j+2]));
+      }
+      if(mx<10) flat++;
+      const l=Math.abs(4*r-at(px-1,py,0)-at(px+1,py,0)-at(px,py-1,0)-at(px,py+1,0));
+      lap+=l; lapN++;
+    }
+  }
+  const n=W*H;
+  const whiteF=white/n, flatF=flat/n;
+  const palN=Math.min(1,pal.size/3800), noiseN=Math.min(1,(lap/Math.max(1,lapN))/34);
+  const score=Math.round(100*Math.max(0,Math.min(1,
+      0.30*whiteF + 0.40*flatF + 0.20*(1-palN) + 0.10*(1-noiseN))));
+  return {score, whiteF, flatF, palN, noiseN, colors:pal.size};
+}
+function band(s){ return s==null?"na" : s>=62?"good" : s>=46?"warn" : "bad"; }
+function bandName(b){ return {good:"On brand",warn:"Borderline",bad:"Needs work",na:"Not scored"}[b]; }
+
+/* ---------- overrides ---------- */
+async function loadOverrides(){
+  const r=await fetch(SB+"/rest/v1/figure_overrides?select=*",{headers:H});
+  const rows=r.ok?await r.json():[];
+  OVERRIDES={}; rows.forEach(x=>OVERRIDES[x.orig_url]=x);
+}
+async function saveOverride(orig,nu,label,status){
+  await fetch(SB+"/rest/v1/figure_overrides",{
+    method:"POST",
+    headers:{...H,"Content-Type":"application/json",Prefer:"resolution=merge-duplicates,return=minimal"},
+    body:JSON.stringify([{orig_url:orig,new_url:nu,label:label||"",status:status||"approved",updated_at:new Date().toISOString()}])
+  });
+  await loadOverrides();
+}
+async function dropOverride(orig){
+  await fetch(SB+"/rest/v1/figure_overrides?orig_url=eq."+encodeURIComponent(orig),{method:"DELETE",headers:H});
+  await loadOverrides();
+}
+
+/* ---------- generation ---------- */
+async function generate(item){
+  const slug=(item.label||"figure").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40)||"figure";
+  const path="ethos-"+slug+"-"+Date.now().toString(36)+".png";
+  const prompt=ETHOS+"\n\nSubject of this plate: "+(item.label||"clinical figure")+
+    ". Keep the same clinical teaching point as the image it replaces, but redraw it entirely in the house style described above.";
+  await fetch(SB+"/functions/v1/generate-figure",{
+    method:"POST",headers:{...H,"Content-Type":"application/json"},
+    body:JSON.stringify({path,size:"1536x1024",quality:"high",prompt})
+  });
+  // the function writes straight to the bucket; poll for the object
+  const url=FIGBASE+path;
+  for(let i=0;i<70;i++){
+    await new Promise(r=>setTimeout(r,4000));
+    try{ const h=await fetch(url,{method:"HEAD",cache:"no-store"}); if(h.ok) return url; }catch(e){}
+  }
+  throw new Error("timed out waiting for the image");
+}
+
+/* ---------- render ---------- */
+function counts(){
+  const c={needs:0,border:0,good:0,swapped:0};
+  ITEMS.forEach(it=>{
+    if(OVERRIDES[it.url]&&OVERRIDES[it.url].status==="approved"){c.swapped++;return;}
+    const b=band(it.score);
+    if(b==="bad")c.needs++; else if(b==="warn")c.border++; else c.good++;
+  });
+  return c;
+}
+function drawTabs(){
+  const c=counts();
+  document.getElementById("tabs").innerHTML=[
+    ["needs","Needs work",c.needs],["border","Borderline",c.border],
+    ["good","On brand",c.good],["swapped","Replaced",c.swapped],["all","Everything",ITEMS.length]
+  ].map(([k,n,v])=>`<button class="tab${TAB===k?" on":""}" data-t="${k}">${n} <b>${v}</b></button>`).join("");
+  [...document.querySelectorAll(".tab")].forEach(b=>b.onclick=()=>{TAB=b.dataset.t;drawTabs();drawGrid();});
+}
+function drawGrid(){
+  const g=document.getElementById("grid");
+  let list=ITEMS.slice().sort((a,b)=>(a.score==null?999:a.score)-(b.score==null?999:b.score));
+  list=list.filter(it=>{
+    const sw=OVERRIDES[it.url]&&OVERRIDES[it.url].status==="approved";
+    if(TAB==="all")return true;
+    if(TAB==="swapped")return sw;
+    if(sw)return false;
+    const b=band(it.score);
+    return (TAB==="needs"&&b==="bad")||(TAB==="border"&&b==="warn")||(TAB==="good"&&(b==="good"||b==="na"));
+  });
+  if(!list.length){ g.innerHTML='<div class="note" style="grid-column:1/-1">Nothing in this group.</div>'; return; }
+  g.innerHTML=list.map((it,i)=>{
+    const ov=OVERRIDES[it.url], sw=ov&&ov.status==="approved";
+    const b=band(it.score);
+    const shown=sw?ov.new_url:it.url;
+    const bars=it.m?`<div class="bars">
+      ${bar("White ground",it.m.whiteF)}${bar("Flat color",it.m.flatF)}
+      ${bar("Small palette",1-it.m.palN)}${bar("No grain",1-it.m.noiseN)}</div>`:"";
+    return `<div class="card" data-i="${ITEMS.indexOf(it)}">
+      <div class="thumb"><img loading="lazy" src="${shown}" alt=""></div>
+      <div class="cbody">
+        <div class="crow"><span class="cname">${esc(it.label)}</span>
+          <span class="pill p-${b}">${it.score==null?"n/a":it.score}</span></div>
+        <div class="meta">${bandName(b)} · <code>${esc(shown.split("/").pop())}</code></div>
+        ${sw?'<div><span class="ovr">Replaced, live in the app</span></div>':""}
+        ${bars}
+        ${it.uses.length?`<div class="usedlinks">${it.uses.slice(0,3).map(u=>`<a href="${u.href}" target="_blank" rel="noopener">${esc(u.label)}</a>`).join("")}</div>`:""}
+        <div class="status" id="st${ITEMS.indexOf(it)}"></div>
+        <div class="acts">
+          ${sw?`<button class="btn warnb" data-act="revert" data-i="${ITEMS.indexOf(it)}">Put the original back</button>`
+              :`<button class="btn pri" data-act="gen" data-i="${ITEMS.indexOf(it)}">Regenerate in atlas style</button>`}
+          <a class="btn ghost" href="${shown}" target="_blank" rel="noopener" style="text-decoration:none">Full size</a>
+        </div>
+      </div></div>`;
+  }).join("");
+  [...g.querySelectorAll("[data-act]")].forEach(b=>{
+    b.onclick=()=> b.dataset.act==="gen" ? doGenerate(+b.dataset.i,b) : doRevert(+b.dataset.i,b);
+  });
+}
+function bar(name,v){ v=Math.max(0,Math.min(1,v||0));
+  return `<div class="bar"><span>${name}</span><i><b style="width:${Math.round(v*100)}%"></b></i></div>`; }
+function esc(s){ return String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+/* ---------- actions ---------- */
+let DLG={item:null,newUrl:null};
+async function doGenerate(i,btn){
+  const it=ITEMS[i], st=document.getElementById("st"+i);
+  btn.disabled=true; st.className="status"; st.innerHTML='<span class="spin"></span>Drawing a new plate, this takes a couple of minutes.';
+  try{
+    const u=await generate(it);
+    DLG={item:it,newUrl:u};
+    document.getElementById("dtitle").textContent=it.label;
+    document.getElementById("dsub").textContent="If this is right, approving it replaces the original everywhere the app uses it. No redeploy needed.";
+    document.getElementById("dold").src=it.url;
+    document.getElementById("dnew").src=u;
+    document.getElementById("dstatus").textContent="";
+    document.getElementById("mask").classList.add("on");
+    st.textContent="";
+  }catch(e){ st.className="status err"; st.textContent="Could not generate: "+e.message; }
+  btn.disabled=false;
+}
+async function doRevert(i,btn){
+  const it=ITEMS[i], st=document.getElementById("st"+i);
+  btn.disabled=true; st.textContent="Reverting…";
+  try{ await dropOverride(it.url); drawTabs(); drawGrid(); }
+  catch(e){ st.className="status err"; st.textContent="Could not revert."; btn.disabled=false; }
+}
+document.getElementById("dclose").onclick=()=>document.getElementById("mask").classList.remove("on");
+document.getElementById("dretry").onclick=async function(){
+  const s=document.getElementById("dstatus"); this.disabled=true;
+  s.innerHTML='<span class="spin"></span>Drawing another.';
+  try{ const u=await generate(DLG.item); DLG.newUrl=u; document.getElementById("dnew").src=u; s.textContent=""; }
+  catch(e){ s.textContent="Could not generate: "+e.message; }
+  this.disabled=false;
+};
+document.getElementById("dapprove").onclick=async function(){
+  const s=document.getElementById("dstatus"); this.disabled=true; s.innerHTML='<span class="spin"></span>Replacing.';
+  try{
+    await saveOverride(DLG.item.url,DLG.newUrl,DLG.item.label,"approved");
+    document.getElementById("mask").classList.remove("on");
+    drawTabs(); drawGrid();
+  }catch(e){ s.textContent="Could not save: "+e.message; }
+  this.disabled=false;
+};
+
+/* ---------- boot ---------- */
+async function boot(){
+  const msg=document.getElementById("scanmsg");
+  msg.innerHTML='<span class="spin"></span>Reading the app.';
+  try{
+    await loadOverrides();
+    ITEMS=await scanApp();
+    msg.innerHTML='<span class="spin"></span>Scoring '+ITEMS.length+' images.';
+    drawTabs(); drawGrid();
+    let done=0;
+    await Promise.all(ITEMS.map(async it=>{
+      try{ const img=await loadImg(it.url); const m=measure(img); if(m){it.m=m; it.score=m.score;} }
+      catch(e){ it.score=null; }
+      done++; if(done%6===0){ drawTabs(); drawGrid(); }
+    }));
+    drawTabs(); drawGrid();
+    msg.textContent=ITEMS.length+" images · scored "+ITEMS.filter(i=>i.score!=null).length;
+    document.getElementById("foot").textContent="Last scan "+new Date().toLocaleString();
+  }catch(e){ msg.textContent="Scan failed: "+e.message; }
+}
+document.getElementById("reload").onclick=boot;
+boot();
+</script>
 </body>
 </html>
