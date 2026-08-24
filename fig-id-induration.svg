@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900" role="img" aria-label="Atlas plate: a positive tuberculin skin test. A firm raised induration is measured across the forearm with a millimetre ruler whose zero mark sits on its left border and whose fifteen millimetre mark sits on its right border. The flat redness around it is not measured.">
+<title>Positive tuberculin skin test, induration 15 mm</title>
+<defs>
+  <linearGradient id="gSkin" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#F3CBA4"/><stop offset="0.55" stop-color="#EDBE91"/><stop offset="1" stop-color="#E3AC7B"/>
+  </linearGradient>
+  <radialGradient id="gEry" cx="0.5" cy="0.5" r="0.5">
+    <stop offset="0.30" stop-color="#DE7573" stop-opacity="0.85"/>
+    <stop offset="0.66" stop-color="#E07E7C" stop-opacity="0.62"/>
+    <stop offset="0.88" stop-color="#E89490" stop-opacity="0.3"/><stop offset="1" stop-color="#E89490" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="gDome" cx="0.38" cy="0.3" r="0.82">
+    <stop offset="0" stop-color="#EFC2BB"/><stop offset="0.62" stop-color="#E7AFA9"/>
+    <stop offset="0.9" stop-color="#D98D8C"/><stop offset="1" stop-color="#C87376"/>
+  </radialGradient>
+  <linearGradient id="gRule" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.62"/>
+    <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.42"/>
+    <stop offset="1" stop-color="#E8EDF0" stop-opacity="0.5"/>
+  </linearGradient>
+  <filter id="soft" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
+  <filter id="soft2" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="4"/></filter>
+  <clipPath id="clipPanel"><rect x="120" y="150" width="1000" height="520" rx="20"/></clipPath>
+</defs>
+
+<rect width="1400" height="900" fill="#FFFFFF"/>
+
+<rect x="120" y="150" width="1000" height="520" rx="20" fill="url(#gSkin)"/>
+<g clip-path="url(#clipPanel)">
+  <ellipse cx="520" cy="330" rx="310" ry="228" fill="url(#gEry)"/>
+  <ellipse cx="534" cy="360" rx="152" ry="104" fill="#8E5250" opacity="0.4" filter="url(#soft)"/>
+  <ellipse cx="520" cy="330" rx="150" ry="105" fill="url(#gDome)"/>
+  <path d="M370,330 a150,105 0 0 0 300,0 a150,105 0 0 0 -300,0 Z" fill="#B96A6C" opacity="0.28" filter="url(#soft2)"/>
+  <ellipse cx="520" cy="330" rx="150" ry="105" fill="none" stroke="#C0666A" stroke-width="3" opacity="0.9"/>
+  <ellipse cx="520" cy="330" rx="139" ry="95" fill="none" stroke="#FFFFFF" stroke-width="1.8" opacity="0.16"/>
+  <ellipse cx="500" cy="300" rx="104" ry="56" fill="#FFFFFF" opacity="0.14" filter="url(#soft)"/>
+</g>
+<rect x="120" y="150" width="1000" height="520" rx="20" fill="none" stroke="#D9A97C" stroke-width="2"/>
+
+<rect x="336" y="452" width="710" height="108" rx="8" fill="url(#gRule)" stroke="#8A9099" stroke-width="2"/>
+<rect x="336" y="452" width="710" height="5" fill="#FFFFFF" opacity="0.6"/>
+<rect x="368.7" y="458" width="2.6" height="46" fill="#243239"/><rect x="389.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="409.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="429.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="449.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="469.0" y="458" width="2.0" height="30" fill="#243239"/><rect x="489.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="509.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="529.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="549.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="568.7" y="458" width="2.6" height="46" fill="#243239"/><rect x="589.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="609.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="629.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="649.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="669.0" y="458" width="2.0" height="30" fill="#243239"/><rect x="689.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="709.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="729.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="749.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="768.7" y="458" width="2.6" height="46" fill="#243239"/><rect x="789.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="809.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="829.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="849.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="869.0" y="458" width="2.0" height="30" fill="#243239"/><rect x="889.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="909.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="929.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="949.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="968.7" y="458" width="2.6" height="46" fill="#243239"/><rect x="989.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="1009.2" y="458" width="1.5" height="18" fill="#243239"/><rect x="1029.2" y="458" width="1.5" height="18" fill="#243239"/>
+<text x="370.0" y="546" font-family="Helvetica,Arial,sans-serif" font-size="30" fill="#243239" text-anchor="middle">0</text><text x="570.0" y="546" font-family="Helvetica,Arial,sans-serif" font-size="30" fill="#243239" text-anchor="middle">1</text><text x="770.0" y="546" font-family="Helvetica,Arial,sans-serif" font-size="30" fill="#243239" text-anchor="middle">2</text><text x="970.0" y="546" font-family="Helvetica,Arial,sans-serif" font-size="30" fill="#243239" text-anchor="middle">3</text>
+
+<path d="M370,578 L370,614" stroke="#243239" stroke-width="2.2"/>
+<path d="M670,578 L670,614" stroke="#243239" stroke-width="2.2"/>
+<path d="M370,596 L670,596" stroke="#243239" stroke-width="2.2"/>
+<path d="M370,596 l14,-7 v14 Z" fill="#243239"/>
+<path d="M670,596 l-14,-7 v14 Z" fill="#243239"/>
+<text x="520" y="652" font-family="Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#243239" text-anchor="middle">15 mm</text>
+
+<path d="M268,116 L452,286" stroke="#243239" stroke-width="2.2" fill="none"/><circle cx="452" cy="286" r="5.4" fill="#243239"/>
+<text x="150" y="106" font-family="Helvetica,Arial,sans-serif" font-size="30" font-weight="400" fill="#243239" text-anchor="start">Induration, the firm raised area</text>
+<path d="M886,116 L760,258" stroke="#243239" stroke-width="2.2" fill="none"/><circle cx="760" cy="258" r="5.4" fill="#243239"/>
+<text x="878" y="106" font-family="Helvetica,Arial,sans-serif" font-size="30" font-weight="400" fill="#243239" text-anchor="start">Flat erythema, not measured</text>
+
+<text x="700" y="760" font-family="Helvetica,Arial,sans-serif" font-size="31" font-weight="700" fill="#243239" text-anchor="middle">Positive. The induration measures 15 mm, over the 5 mm cutoff.</text>
+<text x="700" y="806" font-family="Helvetica,Arial,sans-serif" font-size="27" font-weight="400" fill="#243239" text-anchor="middle">Measure the firm raised area across the forearm. Redness alone is recorded as 0 mm.</text>
+</svg>
