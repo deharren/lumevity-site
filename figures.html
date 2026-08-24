@@ -63,6 +63,7 @@ header p{margin:0;color:#B9DDDE;font-size:14.5px;max-width:70ch}
 .status{font-size:12.5px;color:var(--ink2);min-height:1.2em}
 .status.err{color:var(--bad)}
 .ovr{font-size:11.5px;font-weight:800;color:var(--good);background:var(--good-bg);padding:2px 7px;border-radius:5px;display:inline-block}
+.dis{font-size:11.5px;font-weight:800;color:var(--muted);background:#EEF3F3;padding:2px 7px;border-radius:5px;display:inline-block}
 
 .mask{position:fixed;inset:0;background:rgba(8,28,32,.72);display:none;align-items:center;justify-content:center;padding:20px;z-index:60}
 .mask.on{display:flex}
@@ -263,10 +264,16 @@ async function generate(item){
 }
 
 /* ---------- render ---------- */
+function stateOf(it){
+  const o=OVERRIDES[it.url];
+  return o ? (o.status==="approved"?"swapped":o.status==="dismissed"?"dismissed":"") : "";
+}
 function counts(){
-  const c={needs:0,border:0,good:0,swapped:0};
+  const c={needs:0,border:0,good:0,swapped:0,dismissed:0};
   ITEMS.forEach(it=>{
-    if(OVERRIDES[it.url]&&OVERRIDES[it.url].status==="approved"){c.swapped++;return;}
+    const st=stateOf(it);
+    if(st==="swapped"){c.swapped++;return;}
+    if(st==="dismissed"){c.dismissed++;return;}
     const b=band(it.score);
     if(b==="bad")c.needs++; else if(b==="warn")c.border++; else c.good++;
   });
@@ -276,7 +283,8 @@ function drawTabs(){
   const c=counts();
   document.getElementById("tabs").innerHTML=[
     ["needs","Needs work",c.needs],["border","Borderline",c.border],
-    ["good","On brand",c.good],["swapped","Replaced",c.swapped],["all","Everything",ITEMS.length]
+    ["good","On brand",c.good],["swapped","Replaced",c.swapped],
+    ["dismissed","Dismissed",c.dismissed],["all","Everything",ITEMS.length]
   ].map(([k,n,v])=>`<button class="tab${TAB===k?" on":""}" data-t="${k}">${n} <b>${v}</b></button>`).join("");
   [...document.querySelectorAll(".tab")].forEach(b=>b.onclick=()=>{TAB=b.dataset.t;drawTabs();drawGrid();});
 }
@@ -284,16 +292,17 @@ function drawGrid(){
   const g=document.getElementById("grid");
   let list=ITEMS.slice().sort((a,b)=>(a.score==null?999:a.score)-(b.score==null?999:b.score));
   list=list.filter(it=>{
-    const sw=OVERRIDES[it.url]&&OVERRIDES[it.url].status==="approved";
+    const st=stateOf(it);
     if(TAB==="all")return true;
-    if(TAB==="swapped")return sw;
-    if(sw)return false;
+    if(TAB==="swapped")return st==="swapped";
+    if(TAB==="dismissed")return st==="dismissed";
+    if(st)return false;                      // swapped and dismissed stay out of the working tabs
     const b=band(it.score);
     return (TAB==="needs"&&b==="bad")||(TAB==="border"&&b==="warn")||(TAB==="good"&&(b==="good"||b==="na"));
   });
   if(!list.length){ g.innerHTML='<div class="note" style="grid-column:1/-1">Nothing in this group.</div>'; return; }
   g.innerHTML=list.map((it,i)=>{
-    const ov=OVERRIDES[it.url], sw=ov&&ov.status==="approved";
+    const ov=OVERRIDES[it.url], st=stateOf(it), sw=st==="swapped", dis=st==="dismissed";
     const b=band(it.score);
     const shown=sw?ov.new_url:it.url;
     const bars=it.m?`<div class="bars">
@@ -306,18 +315,22 @@ function drawGrid(){
           <span class="pill p-${b}">${it.score==null?"n/a":it.score}</span></div>
         <div class="meta">${bandName(b)} · <code>${esc(shown.split("/").pop())}</code></div>
         ${sw?'<div><span class="ovr">Replaced, live in the app</span></div>':""}
+        ${dis?'<div><span class="dis">Dismissed, kept for later</span></div>':""}
         ${bars}
         ${it.uses.length?`<div class="usedlinks">${it.uses.slice(0,3).map(u=>`<a href="${u.href}" target="_blank" rel="noopener">${esc(u.label)}</a>`).join("")}</div>`:""}
         <div class="status" id="st${ITEMS.indexOf(it)}"></div>
         <div class="acts">
           ${sw?`<button class="btn warnb" data-act="revert" data-i="${ITEMS.indexOf(it)}">Put the original back</button>`
               :`<button class="btn pri" data-act="gen" data-i="${ITEMS.indexOf(it)}">Regenerate in atlas style</button>`}
+          ${dis?`<button class="btn warnb" data-act="undismiss" data-i="${ITEMS.indexOf(it)}">Bring back to the queue</button>`
+               :(sw?"":`<button class="btn ghost" data-act="dismiss" data-i="${ITEMS.indexOf(it)}">Dismiss</button>`)}
           <a class="btn ghost" href="${shown}" target="_blank" rel="noopener" style="text-decoration:none">Full size</a>
         </div>
       </div></div>`;
   }).join("");
+  const ACTS={gen:doGenerate,revert:doRevert,dismiss:doDismiss,undismiss:doUndismiss};
   [...g.querySelectorAll("[data-act]")].forEach(b=>{
-    b.onclick=()=> b.dataset.act==="gen" ? doGenerate(+b.dataset.i,b) : doRevert(+b.dataset.i,b);
+    b.onclick=()=>ACTS[b.dataset.act](+b.dataset.i,b);
   });
 }
 function bar(name,v){ v=Math.max(0,Math.min(1,v||0));
@@ -341,6 +354,20 @@ async function doGenerate(i,btn){
     st.textContent="";
   }catch(e){ st.className="status err"; st.textContent="Could not generate: "+e.message; }
   btn.disabled=false;
+}
+/* Dismissing parks an image without changing anything the app serves: the row is
+   stored with status "dismissed", and the app only ever applies "approved". */
+async function doDismiss(i,btn){
+  const it=ITEMS[i], st=document.getElementById("st"+i);
+  btn.disabled=true; st.className="status"; st.textContent="Dismissing…";
+  try{ await saveOverride(it.url,it.url,it.label,"dismissed"); drawTabs(); drawGrid(); }
+  catch(e){ st.className="status err"; st.textContent="Could not dismiss."; btn.disabled=false; }
+}
+async function doUndismiss(i,btn){
+  const it=ITEMS[i], st=document.getElementById("st"+i);
+  btn.disabled=true; st.className="status"; st.textContent="Bringing it back…";
+  try{ await dropOverride(it.url); drawTabs(); drawGrid(); }
+  catch(e){ st.className="status err"; st.textContent="Could not restore."; btn.disabled=false; }
 }
 async function doRevert(i,btn){
   const it=ITEMS[i], st=document.getElementById("st"+i);
