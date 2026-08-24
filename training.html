@@ -676,6 +676,7 @@
     padding:12px;}
   .gsheet .gfig svg{width:100%;height:auto;display:block;}
   .gsheet .gfig img.gfigimg{width:100%;max-width:420px;height:auto;min-height:120px;background:#F7FAFA;display:block;margin:0 auto;border-radius:10px;}
+.imgpanel{width:100%;max-width:340px;height:auto;display:block;margin:0 auto;}
   .gsheet .gwhy{margin-top:14px;background:var(--good-soft);border-left:3px solid var(--teal);
     border-radius:0 10px 10px 0;padding:11px 14px;font-size:.86rem;line-height:1.55;color:var(--head);}
   .gsheet .gwhy b{color:var(--teal-deep);}
@@ -1167,7 +1168,20 @@ var ILLO_OVERRIDE={iv_documentation:'documentation',iv_complications:'complicati
 var ILLO_HIDE={iv_equipment:1,im_assessment:1,im_asepsis:1};
 /* Glossary term figures -> hosted images (highlight-per-term is dropped in favor of atlas-quality art) */
 var gArm=function(){return figImg('forearm-veins-v1.png','Superficial veins of the forearm');};
-var gIM=function(){return figImg('https://lumevity-site.vercel.app/im-sites-v6.jpg','Intramuscular injection sites');};
+var IM_PLATE='https://lumevity-site.vercel.app/im-sites-v6.jpg';
+/* Crop one panel out of the three-panel IM plate. vb = viewBox of that panel; mask = white
+   rectangles that cover text bleeding in from the neighbouring panel (their labels overlap
+   horizontally, so a straight cut alone leaves fragments). */
+var IM_PANELS={
+  ventrogluteal:{vb:'496 60 507 860',mask:[[490,248,78,120]],alt:'Ventrogluteal site: the V-hand landmark between the iliac crest, the anterior superior iliac spine and the greater trochanter'}
+};
+function gIMPanel(pn){
+  var p=IM_PANELS[pn]; if(!p)return '';
+  var m=(p.mask||[]).map(function(r){return '<rect x="'+r[0]+'" y="'+r[1]+'" width="'+r[2]+'" height="'+r[3]+'" fill="#ffffff"/>';}).join('');
+  return '<svg class="figimg imgpanel" viewBox="'+p.vb+'" role="img" aria-label="'+p.alt+'">'
+    +'<image href="'+IM_PLATE+'" x="0" y="0" width="1536" height="1024" preserveAspectRatio="xMidYMid meet"/>'+m+'</svg>';
+}
+var gIM=function(which){ if(which&&IM_PANELS[which])return gIMPanel(which); return figImg(IM_PLATE,'Intramuscular injection sites'); };
 var gSkin=function(){return figImg('https://lumevity.app/fig-skin-layers.png','Skin in cross-section: epidermis, dermis, subcutaneous fat and muscle');};
 var gGauges=function(){return figImg('gauge-flashback-v1.png','IV catheter gauges and flashback');};
 var gFlashback=function(){return figImg('gauge-flashback-v1.png','IV catheter flashback');};
