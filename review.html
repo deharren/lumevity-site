@@ -686,7 +686,11 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
   var r=rowById(id); var qs=(r&&Array.isArray(r.questions)?r.questions.slice():[]);
   if(!qs[qi])return Promise.reject(new Error('missing question'));
   qs[qi]=Object.assign({},qs[qi],{a:a,answered_at:new Date().toISOString()});
-  return sbUpdate(id,{questions:qs}).then(function(){ if(r)r.questions=qs; paintStatus(); });
+  return sbUpdate(id,{questions:qs}).then(function(){ if(r)r.questions=qs; recountQ(); paintStatus(); });
+ }
+ function recountQ(){
+  var n=0;(statusData||[]).forEach(function(r){(Array.isArray(r.questions)?r.questions:[]).forEach(function(q){if(!q.a)n++;});});
+  openQCount=n; renderTabs(); paintQBanner();
  }
  function setStatus(id,val,sel){
   var msg=document.querySelector('[data-saved="'+id+'"]');if(msg)msg.innerHTML='<span class="spin"></span>';
