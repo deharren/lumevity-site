@@ -1178,9 +1178,16 @@ var IM_PANELS={
 };
 function gIMPanel(pn){
   var p=IM_PANELS[pn]; if(!p)return '';
+  var v=p.vb.split(/\s+/).map(Number);
+  var id='imclip_'+pn;
   var m=(p.mask||[]).map(function(r){return '<rect x="'+r[0]+'" y="'+r[1]+'" width="'+r[2]+'" height="'+r[3]+'" fill="#ffffff"/>';}).join('');
+  /* A viewBox alone does not clip: if the rendered box is wider than the panel's aspect the
+     neighbouring panels bleed back in. Clip to the panel rectangle explicitly. */
   return '<svg class="figimg imgpanel" viewBox="'+p.vb+'" role="img" aria-label="'+p.alt+'">'
-    +'<image href="'+IM_PLATE+'" x="0" y="0" width="1536" height="1024" preserveAspectRatio="xMidYMid meet"/>'+m+'</svg>';
+    +'<defs><clipPath id="'+id+'"><rect x="'+v[0]+'" y="'+v[1]+'" width="'+v[2]+'" height="'+v[3]+'"/></clipPath></defs>'
+    +'<g clip-path="url(#'+id+')">'
+      +'<image href="'+IM_PLATE+'" x="0" y="0" width="1536" height="1024" preserveAspectRatio="xMidYMid meet"/>'+m
+    +'</g></svg>';
 }
 var gIM=function(which){ if(which&&IM_PANELS[which])return gIMPanel(which); return figImg(IM_PLATE,'Intramuscular injection sites'); };
 var gSkin=function(){return figImg('https://lumevity.app/fig-skin-layers.png','Skin in cross-section: epidermis, dermis, subcutaneous fat and muscle');};
