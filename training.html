@@ -1228,7 +1228,7 @@ function gIMPanel(pn){
   return '<svg class="figimg imgpanel" viewBox="'+p.vb+'" role="img" aria-label="'+p.alt+'">'
     +'<defs><clipPath id="'+id+'"><rect x="'+v[0]+'" y="'+v[1]+'" width="'+v[2]+'" height="'+v[3]+'"/></clipPath></defs>'
     +'<g clip-path="url(#'+id+')">'
-      +'<image href="'+IM_PLATE+'" x="0" y="0" width="1536" height="1024" preserveAspectRatio="xMidYMid meet"/>'+m
+      +'<image href="'+figURL(IM_PLATE)+'" x="0" y="0" width="1536" height="1024" preserveAspectRatio="xMidYMid meet"/>'+m
     +'</g></svg>';
 }
 var gIM=function(which){ if(which&&IM_PANELS[which])return gIMPanel(which); return figImg(IM_PLATE,'Intramuscular injection sites'); };
@@ -3124,7 +3124,7 @@ function gSkin(hi){
 }
 function glossFigSVG(f){
   if(!f)return "";
-  if(/^img:/.test(f))return '<img class="gfigimg" src="'+f.slice(4)+'" alt=""/>'; // hosted raster, natural aspect
+  if(/^img:/.test(f))return '<img class="gfigimg" src="'+figURL(f.slice(4))+'" alt=""/>'; // hosted raster, natural aspect
   if(/^https?:/.test(f))return figImg(f,"");   // hosted raster figure (full URL, 3:2)
   var p=f.split(":");
   if(p.length===2){
