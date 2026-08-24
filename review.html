@@ -107,6 +107,10 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
 .hdr-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .livehdr{text-decoration:none;white-space:nowrap}
 @media (max-width:560px){.hdr-right{width:100%;justify-content:space-between}}
+.previewbtn{white-space:nowrap}
+.previewbar{background:var(--prog-bg);border:1.5px solid color-mix(in srgb,var(--prog) 55%,var(--line));border-radius:12px;padding:10px 14px;margin:12px 0 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.previewbar .pb-t{font-family:var(--sans);font-weight:800;font-size:.88rem;color:var(--prog);flex:1;min-width:180px}
+.previewbar .pb-t small{display:block;font-family:var(--body);font-weight:500;font-size:.76rem;color:var(--muted);margin-top:2px}
 /* clarify + Q&A */
 .qa{margin-top:10px;border-top:1px dashed var(--line);padding-top:10px;display:flex;flex-direction:column;gap:9px}
 .qa-row{background:var(--surface2);border:1px solid var(--line);border-left:3px solid var(--prog);border-radius:10px;padding:9px 11px}
@@ -216,10 +220,11 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
    <svg class="drop" viewBox="0 0 64 78" fill="none" aria-hidden="true"><defs><linearGradient id="d" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3AD8D2"/><stop offset=".5" stop-color="#12A0AE"/><stop offset="1" stop-color="#0B6472"/></linearGradient></defs><path d="M32 5C32 5 51 30 51 47A19 19 0 0 1 13 47C13 30 32 5 32 5Z" fill="url(#d)"/></svg>
    <div><h1 id="appTitle">Review Console</h1><div class="sub" id="appSub">Loading…</div></div>
   </div>
-  <div class="hdr-right"><a id="liveBtn" class="btn pri livehdr" style="display:none" target="_blank" rel="noopener">📌 Browse app &amp; flag</a><div class="who" id="whoBox"></div></div>
+  <div class="hdr-right"><button id="previewBtn" class="btn previewbtn" type="button" style="display:none"></button><a id="liveBtn" class="btn pri livehdr" style="display:none" target="_blank" rel="noopener">📌 Browse app &amp; flag</a><div class="who" id="whoBox"></div></div>
  </div>
 </header>
 <main class="wrap">
+ <div id="previewBar"></div>
  <div class="tabs" id="tabs"></div>
  <div id="qBanner"></div>
  <div id="view"></div>
@@ -285,7 +290,8 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
 
  // identity + admin
  var qs=new URLSearchParams(location.search);
- var IS_ADMIN = !!(ADMINKEY && qs.get('admin')===ADMINKEY);
+ var ADMIN_OK = !!(ADMINKEY && qs.get('admin')===ADMINKEY);
+ var IS_ADMIN = ADMIN_OK;                 // flipped by "View as reviewer" preview
  var store={}; try{store=JSON.parse(localStorage.getItem(LS)||'{}')||{};}catch(e){store={};}
  store.draft = store.draft || {figures:{},flags:[],comments:[]};
  function persist(){try{localStorage.setItem(LS,JSON.stringify(store));}catch(e){}}
@@ -366,7 +372,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
    +'<div class="livecta-t">'+openQCount+' question'+(openQCount>1?'s':'')+' from the team</div>'
    +'<div class="livecta-d">They need a quick clarification on something you sent so they can make the change correctly.</div>'
    +'</div><button class="btn pri livecta-btn" type="button" id="qBannerGo">Answer '+(openQCount>1?'them':'it')+' →</button></div></div>';
-  var b=document.getElementById('qBannerGo'); if(b)b.onclick=function(){TAB='status';statusFilter='all';render();};
+  var b=document.getElementById('qBannerGo'); if(b)b.onclick=function(){TAB='status';statusFilter='questions';render();try{window.scrollTo({top:0,behavior:'smooth'});}catch(e){}};
  }
  function renderTabs(){
   var el=document.getElementById('tabs');el.innerHTML='';
@@ -377,6 +383,26 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
    el.appendChild(b);
   });
  }
+ function paintPreview(){
+  var b=document.getElementById('previewBtn'); if(!b)return;
+  if(!ADMIN_OK){b.style.display='none';return;}
+  b.style.display='inline-flex';
+  b.textContent = IS_ADMIN ? '👁 View as reviewer' : '← Back to team view';
+  b.onclick=function(){
+   IS_ADMIN=!IS_ADMIN;
+   TAB = IS_ADMIN ? 'status' : 'figures';
+   statusData=null;
+   render();
+   if(!IS_ADMIN)checkOpenQuestions();
+   try{window.scrollTo({top:0,behavior:'smooth'});}catch(e){}
+  };
+  var host=document.getElementById('previewBar');
+  if(host)host.innerHTML = (ADMIN_OK && !IS_ADMIN)
+   ? '<div class="previewbar"><div class="pb-t">Previewing as the reviewer<small>This is exactly what your client sees. Anything you submit or answer here is saved for real.</small></div><button class="btn" type="button" id="pbBack">Back to team view</button></div>'
+   : '';
+  var back=document.getElementById('pbBack');
+  if(back)back.onclick=function(){IS_ADMIN=true;TAB='status';statusData=null;render();};
+ }
  function paintLiveBtn(){
   var b=document.getElementById('liveBtn'); if(!b)return;
   if(!APPURL){b.style.display='none';return;}
@@ -384,7 +410,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
   b.style.display='inline-flex';
   b.title='Opens '+APP+' in review mode — click anything in the app to flag it';
  }
- function render(){renderTabs();renderWho();refreshSubbar();paintLiveBtn();paintQBanner();var v=document.getElementById('view');
+ function render(){renderTabs();renderWho();refreshSubbar();paintPreview();paintLiveBtn();paintQBanner();var v=document.getElementById('view');
   if(TAB==='figures')v.innerHTML=viewFigures();
   else if(TAB==='flag'){v.innerHTML=viewFlag();wireFlag();}
   else if(TAB==='comments'){v.innerHTML=viewComments();wireComments();}
@@ -617,18 +643,25 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
   if(!HASBACKEND){document.getElementById('stBoard').innerHTML='<p class="empty">No live backend configured, so there’s no shared status board. Feedback is exported as a file instead.</p>';document.getElementById('stFilters').style.display='none';return;}
   sbSelect().then(function(rows){statusData=rows;paintStatus();}).catch(function(){document.getElementById('stBoard').innerHTML='<p class="empty">Could not load the board. Refresh to try again.</p>';});
  }
+ function openQOf(r){return (Array.isArray(r.questions)?r.questions:[]).filter(function(q){return !q.a;}).length;}
  function paintStatus(){
   var rows=statusData||[];
-  var counts={all:rows.length,pending:0,in_progress:0,done:0,wont_fix:0};
-  rows.forEach(function(r){counts[r.review_status]=(counts[r.review_status]||0)+1;});
+  var counts={all:rows.length,pending:0,in_progress:0,done:0,wont_fix:0,questions:0};
+  rows.forEach(function(r){counts[r.review_status]=(counts[r.review_status]||0)+1; if(openQOf(r))counts.questions++;});
   var ff=document.getElementById('stFilters');
-  ff.innerHTML=[['all','All',null],['pending','Pending','var(--pend)'],['in_progress','In progress','var(--prog)'],['done','Done','var(--done)'],['wont_fix',"Won't fix",'var(--wont)']].map(function(d){
+  var defs=[['all','All',null]];
+  if(counts.questions)defs.push(['questions',(IS_ADMIN?'Awaiting reply':'Questions for you'),'var(--needs)']);
+  defs=defs.concat([['pending','Pending','var(--pend)'],['in_progress','In progress','var(--prog)'],['done','Done','var(--done)'],['wont_fix',"Won't fix",'var(--wont)']]);
+  ff.innerHTML=defs.map(function(d){
    return '<button class="chip'+(statusFilter===d[0]?' on':'')+'" type="button" data-sf="'+d[0]+'">'+(d[2]?'<span class="dotc" style="background:'+d[2]+'"></span>':'')+d[1]+' <span class="ct">'+(counts[d[0]]||0)+'</span></button>';
   }).join('');
   ff.querySelectorAll('.chip[data-sf]').forEach(function(b){b.onclick=function(){statusFilter=b.dataset.sf;paintStatus();};});
   var board=document.getElementById('stBoard');
-  var list=rows.filter(function(r){return statusFilter==='all'||r.review_status===statusFilter;});
-  if(!list.length){board.innerHTML='<p class="empty">'+(rows.length?'Nothing in this status.':'No items submitted yet. Marked figures, screen flags, and comments show up here once the client hits Submit.')+'</p>';return;}
+  var list=rows.filter(function(r){ if(statusFilter==='all')return true; if(statusFilter==='questions')return openQOf(r)>0; return r.review_status===statusFilter; });
+  if(!list.length){
+   var msg = !rows.length ? 'No items submitted yet. Marked figures, screen flags, and comments show up here once the client hits Submit.'
+           : (statusFilter==='questions' ? 'No open questions right now.' : 'Nothing in this status.');
+   board.innerHTML='<p class="empty">'+msg+'</p>';return;}
   // order: pending, in_progress, done, wont_fix
   var ord={pending:0,in_progress:1,done:2,wont_fix:3};
   list.sort(function(a,b){return (ord[a.review_status]-ord[b.review_status])||(a.created_at<b.created_at?1:-1);});
