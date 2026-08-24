@@ -676,7 +676,7 @@
     padding:12px;}
   .gsheet .gfig svg{width:100%;height:auto;display:block;}
   .gsheet .gfig img.gfigimg{width:100%;max-width:420px;height:auto;min-height:120px;background:#F7FAFA;display:block;margin:0 auto;border-radius:10px;}
-.imgpanel{width:100%;max-width:340px;height:auto;display:block;margin:0 auto;}
+.imgpanel{max-width:100%;max-height:340px;width:auto;height:auto;display:block;margin:0 auto;}
   .gsheet .gwhy{margin-top:14px;background:var(--good-soft);border-left:3px solid var(--teal);
     border-radius:0 10px 10px 0;padding:11px 14px;font-size:.86rem;line-height:1.55;color:var(--head);}
   .gsheet .gwhy b{color:var(--teal-deep);}
@@ -1173,7 +1173,8 @@ var IM_PLATE='https://lumevity-site.vercel.app/im-sites-v6.jpg';
    rectangles that cover text bleeding in from the neighbouring panel (their labels overlap
    horizontally, so a straight cut alone leaves fragments). */
 var IM_PANELS={
-  ventrogluteal:{vb:'496 60 507 860',mask:[[490,248,78,120]],alt:'Ventrogluteal site: the V-hand landmark between the iliac crest, the anterior superior iliac spine and the greater trochanter'}
+  ventrogluteal:{vb:'496 60 507 860',mask:[[490,248,78,120]],alt:'Ventrogluteal site: the V-hand landmark between the iliac crest, the anterior superior iliac spine and the greater trochanter'},
+  vastus:{vb:'1056 60 470 900',mask:[],alt:'Vastus lateralis site: the outer mid-thigh, injected in the middle third between the greater trochanter and the knee'}
 };
 function gIMPanel(pn){
   var p=IM_PANELS[pn]; if(!p)return '';
@@ -3149,7 +3150,7 @@ var GLOSSARY={
   acromion:{t:"Acromion process",alt:["acromion process","acromion"],see:["deltoid"],
     d:"The bony ridge at the top of the shoulder blade, felt as the hard point at the tip of the shoulder.",
     why:"The landmark for the deltoid site: measure down from it rather than guessing, since injecting too high causes shoulder-injury-related complications."},
-  greater_trochanter:{t:"Greater trochanter",alt:["greater trochanter"],see:["ventrogluteal"],
+  greater_trochanter:{t:"Greater trochanter",fig:"im:ventrogluteal",alt:["greater trochanter"],see:["ventrogluteal"],
     d:"The prominent bony bump at the top-outer femur, easily felt on the side of the hip.",
     why:"The anchor point for ventrogluteal landmarking — your palm rests on it to build the V."},
   sciatic:{t:"Sciatic nerve",alt:["sciatic nerve","sciatic"],see:["dorsogluteal"],
