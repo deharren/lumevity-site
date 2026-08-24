@@ -111,7 +111,7 @@ footer{color:var(--muted);font-size:13px;padding:24px 0 60px;text-align:center}
   <p class="sub" id="dsub"></p>
   <div class="cmp">
     <figure><figcaption class="cap-a">Currently in the app</figcaption><div class="box"><img id="dold" alt=""></div></figure>
-    <figure><figcaption class="cap-b">Regenerated, atlas style</figcaption><div class="box"><img id="dnew" alt=""></div></figure>
+    <figure><figcaption class="cap-b">Restyled, same composition</figcaption><div class="box"><img id="dnew" alt=""></div></figure>
   </div>
   <div class="dlgacts">
     <button class="btn pri" id="dapprove">Approve and replace the original</button>
@@ -130,9 +130,9 @@ const FIGBASE=SB+"/storage/v1/object/public/figures/";
 const H={apikey:KEY,Authorization:"Bearer "+KEY};
 
 /* ---------- house style, the one place the ethos is written down ---------- */
-const ETHOS=`Medical atlas illustration plate in the style of a Netter or Thieme anatomy textbook. This is a painted DRAWING, never a photograph and never a photorealistic 3D render. Flat plain white background with generous white margins on all four sides and no border or frame. Smooth airbrushed colour, soft gradients, clean contour lines, simplified idealized anatomy, a small restrained palette. Forbidden: photographic skin texture, visible pores, body hair, studio lighting, glossy specular highlights, cast shadows on a surface, depth-of-field blur, film grain. Thin black leader lines each ending in a small solid black anchor dot, with plain dark charcoal sans-serif labels; red reserved for warnings. Any hand must show exactly four fingers and one thumb, each properly formed. No bones drawn on top of skin. Nothing cropped; every label fully inside the frame and completely legible; omit any character that cannot render legibly rather than inventing one. No decorative extras.`;
+const ETHOS=`Medical atlas illustration in the style of a Netter or Thieme anatomy textbook. A painted DRAWING, never a photograph and never a photorealistic 3D render. Smooth airbrushed colour, soft gradients, clean contour lines, simplified idealized anatomy, a restrained palette, flat plain white background where the source has a background. Forbidden: photographic skin texture, visible pores, body hair, studio lighting, glossy specular highlights, cast shadows, depth-of-field blur, film grain. If the source image has labels, redraw them as thin black leader lines each ending in a small solid anchor dot with plain dark charcoal sans-serif type, and keep the wording exactly as it is; never invent labels the source does not have. Any hand must show exactly four fingers and one thumb, each properly formed. No bones drawn on top of skin.`;
 
-let ITEMS=[], OVERRIDES={}, TAB="needs";
+let ITEMS=[], OVERRIDES={}, TAB="needs", LASTMODE="";
 
 /* ---------- read the live app and pull out every figure it uses ---------- */
 const ACR={iv:"IV",im:"IM",id:"ID",ce:"CE",ehr:"EHR",asis:"ASIS",ins:"INS",tb:"TB",subq:"SubQ",ph:"Phlebotomy",vg:"Ventrogluteal",cx:"Complication",atl:"Atlas"};
@@ -263,12 +263,22 @@ async function dropOverride(orig){
 async function generate(item){
   const slug=(item.label||"figure").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40)||"figure";
   const path="ethos-"+slug+"-"+Date.now().toString(36)+".png";
-  const prompt=ETHOS+"\n\nSubject of this plate: "+(item.label||"clinical figure")+
-    ". Keep the same clinical teaching point as the image it replaces, but redraw it entirely in the house style described above.";
-  await fetch(SB+"/functions/v1/generate-figure",{
+  /* This is a restyle, not a new illustration. The original is sent with the
+     request so the model redraws that picture instead of inventing a poster. */
+  const prompt=
+    "Redraw the attached image in the house style described below. This is a STYLE CHANGE ONLY.\n"+
+    "Keep exactly the same subject, the same composition, the same framing and crop, the same pose and viewing angle, "+
+    "the same number of panels, and the same labels and wording if it has any.\n"+
+    "Do NOT add a title, a heading, inset panels, example galleries, bullet lists, clinical notes, warning boxes, borders, "+
+    "captions, arrows or any text that is not already in the source image. Do not turn it into a teaching poster or an infographic. "+
+    "If the source has no text, the result must have no text. Change nothing but the rendering style.\n"+
+    (item.label?("For context, this figure is used as: "+item.label+". Do not add that as a caption.\n"):"")+
+    "\nHOUSE STYLE:\n"+ETHOS;
+  const res=await fetch(SB+"/functions/v1/generate-figure",{
     method:"POST",headers:{...H,"Content-Type":"application/json"},
-    body:JSON.stringify({path,size:"1536x1024",quality:"high",prompt})
+    body:JSON.stringify({path,size:"1536x1024",quality:"high",prompt,srcUrl:item.url})
   });
+  try{ const j=await res.json(); if(j&&j.error) throw new Error(j.error); LASTMODE=(j&&j.mode)||""; }catch(e){ if(e&&e.message&&/error/i.test(e.message)) throw e; }
   // the function writes straight to the bucket; poll for the object
   const url=FIGBASE+path;
   for(let i=0;i<70;i++){
@@ -361,7 +371,8 @@ async function doGenerate(i,btn){
     const u=await generate(it);
     DLG={item:it,newUrl:u};
     document.getElementById("dtitle").textContent=it.label;
-    document.getElementById("dsub").textContent="If this is right, approving it replaces the original everywhere the app uses it. No redeploy needed.";
+    document.getElementById("dsub").innerHTML="Same picture, redrawn in the house style. If this is right, approving it replaces the original everywhere the app uses it. No redeploy needed."+
+      (LASTMODE&&LASTMODE!=="edits"?' <b style="color:var(--warn)">The original could not be sent to the model, so this was drawn from scratch and may differ in composition. Check it carefully.</b>':"");
     document.getElementById("dold").src=it.url;
     document.getElementById("dnew").src=u;
     document.getElementById("dstatus").textContent="";
