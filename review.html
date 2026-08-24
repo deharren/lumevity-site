@@ -107,6 +107,26 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
 .hdr-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .livehdr{text-decoration:none;white-space:nowrap}
 @media (max-width:560px){.hdr-right{width:100%;justify-content:space-between}}
+/* clarify + Q&A */
+.qa{margin-top:10px;border-top:1px dashed var(--line);padding-top:10px;display:flex;flex-direction:column;gap:9px}
+.qa-row{background:var(--surface2);border:1px solid var(--line);border-left:3px solid var(--prog);border-radius:10px;padding:9px 11px}
+.qa-q{font-size:.85rem;color:var(--ink);line-height:1.45}
+.qa-q b{color:var(--prog)}
+.qa-a{font-size:.85rem;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 10px;margin-top:7px;line-height:1.45}
+.qa-a b{color:var(--keep)}
+.qa-form{display:flex;gap:7px;margin-top:7px;flex-wrap:wrap}
+.qa-form input{flex:1;min-width:170px;font-size:.86rem;padding:8px 11px}
+.qa-form button{flex:0 0 auto;font-size:.8rem;padding:8px 14px}
+.qa-wait{font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--needs);background:var(--needs-bg);border-radius:99px;padding:2px 8px}
+.needsyou{background:linear-gradient(150deg,color-mix(in srgb,var(--needs) 18%,var(--surface)),var(--surface));border-color:color-mix(in srgb,var(--needs) 50%,var(--line))}
+.needsyou .livecta-t{color:var(--ink)}
+/* clarity check modal */
+.clar-list{display:flex;flex-direction:column;gap:12px;margin:14px 0 4px;max-height:52vh;overflow:auto}
+.clar-item{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:11px 12px}
+.clar-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:7px}
+.clar-t{font-weight:700;font-size:.87rem;color:var(--ink)}
+.clar-why{font-family:var(--mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.04em;color:var(--needs);background:var(--needs-bg);border-radius:99px;padding:2px 8px}
+.clar-item textarea{min-height:60px;font-size:.88rem}
 /* live-annotate CTA */
 .livecta{background:linear-gradient(150deg,color-mix(in srgb,var(--accent) 16%,var(--surface)),var(--surface));border-color:color-mix(in srgb,var(--accent) 45%,var(--line));}
 .livecta-in{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
@@ -201,6 +221,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
 </header>
 <main class="wrap">
  <div class="tabs" id="tabs"></div>
+ <div id="qBanner"></div>
  <div id="view"></div>
 </main>
 
@@ -317,14 +338,35 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
 
  // ---------- TABS ----------
  var TAB=IS_ADMIN?'status':'figures';
+ var openQCount=0;   // questions from the team still awaiting this reviewer
  function tabsDef(){
   var d=store.draft;
   var t=[];
   if(FIGS.length) t.push(['figures','Figures',Object.keys(d.figures).length]);
   t.push(['flag','Flag a screen',d.flags.length]);
   t.push(['comments','Comments',d.comments.length]);
-  t.push(['status','Status board',null]);
+  t.push(['status','Status board',(!IS_ADMIN&&openQCount)?openQCount:null]);
   return t;
+ }
+ /* Look for unanswered questions on load so the reviewer sees them immediately,
+    whichever tab they land on. */
+ function checkOpenQuestions(){
+  if(!HASBACKEND||IS_ADMIN)return;
+  sbSelect().then(function(rows){
+   statusData=rows;
+   var n=0; rows.forEach(function(r){ (Array.isArray(r.questions)?r.questions:[]).forEach(function(q){ if(!q.a)n++; }); });
+   openQCount=n;
+   renderTabs(); paintQBanner();
+  }).catch(function(){});
+ }
+ function paintQBanner(){
+  var host=document.getElementById('qBanner'); if(!host)return;
+  if(!openQCount||IS_ADMIN){host.innerHTML='';return;}
+  host.innerHTML='<div class="panel needsyou"><div class="livecta-in"><div class="livecta-main">'
+   +'<div class="livecta-t">'+openQCount+' question'+(openQCount>1?'s':'')+' from the team</div>'
+   +'<div class="livecta-d">They need a quick clarification on something you sent so they can make the change correctly.</div>'
+   +'</div><button class="btn pri livecta-btn" type="button" id="qBannerGo">Answer '+(openQCount>1?'them':'it')+' →</button></div></div>';
+  var b=document.getElementById('qBannerGo'); if(b)b.onclick=function(){TAB='status';statusFilter='all';render();};
  }
  function renderTabs(){
   var el=document.getElementById('tabs');el.innerHTML='';
@@ -342,7 +384,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
   b.style.display='inline-flex';
   b.title='Opens '+APP+' in review mode — click anything in the app to flag it';
  }
- function render(){renderTabs();renderWho();refreshSubbar();paintLiveBtn();var v=document.getElementById('view');
+ function render(){renderTabs();renderWho();refreshSubbar();paintLiveBtn();paintQBanner();var v=document.getElementById('view');
   if(TAB==='figures')v.innerHTML=viewFigures();
   else if(TAB==='flag'){v.innerHTML=viewFlag();wireFlag();}
   else if(TAB==='comments'){v.innerHTML=viewComments();wireComments();}
@@ -488,10 +530,61 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
   return rows;
  }
  document.getElementById('sbClear').onclick=function(){if(!confirm('Clear all staged items on this device? This does not affect anything already submitted.'))return;store.draft={figures:{},flags:[],comments:[]};persist();render();};
+ /* Clarity check: catch vague or empty feedback BEFORE it is sent, while the reviewer
+    still remembers what they meant. Everything is optional — they can send as-is. */
+ function vagueReason(status,note){
+  var n=(note||'').trim();
+  if((status==='needs'||status==='redo')&&!n) return status==='redo'?'no reason given':'no detail given';
+  if(!n) return '';
+  if(n.length<12) return 'very short';
+  if(/^(fix|fix it|change|change it|redo|bad|no|nope|wrong|off|update|improve|better|meh|weird|ugly)\b/i.test(n)&&n.length<28) return 'needs specifics';
+  return '';
+ }
+ function clarityIssues(){
+  var out=[],d=store.draft;
+  Object.keys(d.figures).forEach(function(ref){
+   var f=d.figures[ref],why=vagueReason(f.status,f.note);
+   if(why)out.push({kind:'figure',key:ref,title:'#'+f.n+' '+f.label,why:why,note:f.note||''});
+  });
+  d.flags.forEach(function(fl){
+   var why=vagueReason('needs',fl.note);
+   if(why)out.push({kind:'flag',key:fl.id,title:fl.screen,why:why,note:fl.note||''});
+  });
+  return out;
+ }
+ function openClarity(issues,proceed){
+  var m=document.createElement('div');m.className='modal open';
+  m.innerHTML='<div class="mbox" style="width:min(560px,100%)"><h3>Quick check before this goes over</h3>'
+   +'<p>'+issues.length+' item'+(issues.length===1?'':'s')+' could use a line more detail so the team knows exactly what to change. Add it here, or send as-is.</p>'
+   +'<div class="clar-list">'+issues.map(function(it,i){
+      return '<div class="clar-item"><div class="clar-top"><span class="clar-t">'+esc(it.title)+'</span><span class="clar-why">'+esc(it.why)+'</span></div>'
+       +'<textarea data-ci="'+i+'" placeholder="What should change? Be as specific as you would be in person.">'+esc(it.note)+'</textarea></div>';
+    }).join('')+'</div>'
+   +'<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap">'
+   +'<button class="btn" id="clarSkip" type="button">Send as-is</button>'
+   +'<button class="btn pri" id="clarSave" type="button">Save &amp; send</button></div></div>';
+  document.body.appendChild(m);
+  function apply(){
+   m.querySelectorAll('textarea[data-ci]').forEach(function(ta){
+    var it=issues[+ta.dataset.ci],v=ta.value.trim();
+    if(!v)return;
+    if(it.kind==='figure'&&store.draft.figures[it.key])store.draft.figures[it.key].note=v;
+    else{var fl=store.draft.flags.filter(function(x){return x.id===it.key;})[0];if(fl)fl.note=v;}
+   });
+   persist();
+  }
+  m.querySelector('#clarSave').onclick=function(){apply();m.remove();proceed();};
+  m.querySelector('#clarSkip').onclick=function(){m.remove();proceed();};
+ }
  document.getElementById('sbSubmit').onclick=function(){
   if(draftCount()===0)return;
-  if(!store.submitter){openName(function(){doSubmit();});return;}
-  doSubmit();
+  var go=function(){
+   var issues=clarityIssues();
+   if(issues.length){openClarity(issues,doSubmit);return;}
+   doSubmit();
+  };
+  if(!store.submitter){openName(go);return;}
+  go();
  };
  function doSubmit(){
   if(!HASBACKEND){ // no backend: fall back to a downloadable file
@@ -541,6 +634,19 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
   list.sort(function(a,b){return (ord[a.review_status]-ord[b.review_status])||(a.created_at<b.created_at?1:-1);});
   board.innerHTML=list.map(stCard).join('');
   if(IS_ADMIN)board.querySelectorAll('.sc-status-sel').forEach(function(sel){sel.onchange=function(){setStatus(sel.dataset.id,sel.value,sel);};});
+  board.querySelectorAll('[data-sendask]').forEach(function(b){b.onclick=function(){
+    var id=b.dataset.sendask,inp=board.querySelector('[data-ask="'+id+'"]');
+    var q=(inp.value||'').trim(); if(!q)return;
+    b.disabled=true;b.textContent='…';
+    askQuestion(id,q).then(function(){toast('Question sent to the reviewer');}).catch(function(){b.disabled=false;b.textContent='Ask';toast('Could not send');});
+  };});
+  board.querySelectorAll('[data-sendans]').forEach(function(b){b.onclick=function(){
+    var id=b.dataset.sendans,qi=+b.dataset.qi;
+    var inp=board.querySelector('[data-ans="'+id+'"][data-qi="'+qi+'"]');
+    var a=(inp.value||'').trim(); if(!a)return;
+    b.disabled=true;b.textContent='…';
+    answerQuestion(id,qi,a).then(function(){toast('Thanks — answer sent to the team');}).catch(function(){b.disabled=false;b.textContent='Send';toast('Could not send');});
+  };});
  }
  function stCard(r){
   var typeIc=r.item_type==='figure'?'🖼':r.item_type==='screen'?'📍':'💬';
@@ -555,7 +661,32 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
      '</select><span class="mini" data-saved="'+r.id+'"></span></div>';
   }
   var adminNote=r.admin_note?'<div class="sc-adminnote">Team: '+esc(r.admin_note)+'</div>':'';
-  return '<div class="stcard '+r.review_status+'">'+thumb+'<div class="sc-main"><div class="sc-top"><span class="sc-type">'+typeIc+' '+esc(r.item_type)+'</span><span class="sc-t">'+esc(r.item_label||'Item')+(r.item_ref?(' #'+esc(r.item_ref)):'')+'</span>'+vp+'<span class="statusbadge '+r.review_status+'">'+STATUS_LABELS[r.review_status]+'</span></div>'+(r.note?'<div class="sc-note">'+esc(r.note)+'</div>':'')+adminNote+'<div class="sc-meta"><span>'+esc(r.submitter||'Anonymous')+'</span><span>'+when+'</span>'+link+'</div>'+admin+'</div></div>';
+  var qs=Array.isArray(r.questions)?r.questions:[];
+  var openQ=qs.filter(function(q){return !q.a;}).length;
+  var qaHTML='';
+  if(qs.length||IS_ADMIN){
+   qaHTML='<div class="qa">'+qs.map(function(q,qi){
+     var h='<div class="qa-row"><div class="qa-q"><b>'+esc(q.by||'Team')+' asked:</b> '+esc(q.q)+(q.a?'':' <span class="qa-wait">awaiting your reply</span>')+'</div>';
+     if(q.a)h+='<div class="qa-a"><b>'+esc(r.submitter||'Reviewer')+':</b> '+esc(q.a)+'</div>';
+     else if(!IS_ADMIN)h+='<div class="qa-form"><input type="text" placeholder="Type your answer…" data-ans="'+r.id+'" data-qi="'+qi+'"/><button class="btn pri" type="button" data-sendans="'+r.id+'" data-qi="'+qi+'">Send</button></div>';
+     return h+'</div>';
+   }).join('');
+   if(IS_ADMIN)qaHTML+='<div class="qa-form"><input type="text" placeholder="Ask the reviewer a question…" data-ask="'+r.id+'"/><button class="btn" type="button" data-sendask="'+r.id+'">Ask</button></div>';
+   qaHTML+='</div>';
+  }
+  return '<div class="stcard '+r.review_status+'">'+thumb+'<div class="sc-main"><div class="sc-top"><span class="sc-type">'+typeIc+' '+esc(r.item_type)+'</span><span class="sc-t">'+esc(r.item_label||'Item')+(r.item_ref?(' #'+esc(r.item_ref)):'')+'</span>'+vp+'<span class="statusbadge '+r.review_status+'">'+STATUS_LABELS[r.review_status]+'</span>'+(openQ&&!IS_ADMIN?'<span class="qa-wait">'+openQ+' question'+(openQ>1?'s':'')+' for you</span>':'')+'</div>'+(r.note?'<div class="sc-note">'+esc(r.note)+'</div>':'')+adminNote+'<div class="sc-meta"><span>'+esc(r.submitter||'Anonymous')+'</span><span>'+when+'</span>'+link+'</div>'+admin+qaHTML+'</div></div>';
+ }
+ function rowById(id){for(var i=0;i<(statusData||[]).length;i++)if(statusData[i].id===id)return statusData[i];return null;}
+ function askQuestion(id,q){
+  var r=rowById(id); var qs=(r&&Array.isArray(r.questions)?r.questions.slice():[]);
+  qs.push({q:q,by:(IS_ADMIN?'Team':'Reviewer'),at:new Date().toISOString(),a:''});
+  return sbUpdate(id,{questions:qs}).then(function(){ if(r)r.questions=qs; paintStatus(); });
+ }
+ function answerQuestion(id,qi,a){
+  var r=rowById(id); var qs=(r&&Array.isArray(r.questions)?r.questions.slice():[]);
+  if(!qs[qi])return Promise.reject(new Error('missing question'));
+  qs[qi]=Object.assign({},qs[qi],{a:a,answered_at:new Date().toISOString()});
+  return sbUpdate(id,{questions:qs}).then(function(){ if(r)r.questions=qs; paintStatus(); });
  }
  function setStatus(id,val,sel){
   var msg=document.querySelector('[data-saved="'+id+'"]');if(msg)msg.innerHTML='<span class="spin"></span>';
@@ -570,6 +701,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
  var toastT;function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove('show');},2400);}
 
  render();
+ checkOpenQuestions();
 })();
 </script>
 </body>
