@@ -671,14 +671,14 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
     var id=b.dataset.sendask,inp=board.querySelector('[data-ask="'+id+'"]');
     var q=(inp.value||'').trim(); if(!q)return;
     b.disabled=true;b.textContent='…';
-    askQuestion(id,q).then(function(){toast('Question sent to the reviewer');}).catch(function(){b.disabled=false;b.textContent='Send';toast('Could not send');});
+    askQuestion(id,q).then(function(){toast('Question sent to the reviewer');}).catch(function(){b.disabled=false;b.textContent='Send question';toast('Could not send');});
   };});
   board.querySelectorAll('[data-sendans]').forEach(function(b){b.onclick=function(){
     var id=b.dataset.sendans,qi=+b.dataset.qi;
     var inp=board.querySelector('[data-ans="'+id+'"][data-qi="'+qi+'"]');
     var a=(inp.value||'').trim(); if(!a)return;
     b.disabled=true;b.textContent='…';
-    answerQuestion(id,qi,a).then(function(){toast('Thanks — answer sent to the team');}).catch(function(){b.disabled=false;b.textContent='Send';toast('Could not send');});
+    answerQuestion(id,qi,a).then(function(){toast('Thanks — answer sent to the team');}).catch(function(){b.disabled=false;b.textContent='Send question';toast('Could not send');});
   };});
  }
  function stCard(r){
@@ -700,11 +700,11 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
   if(qs.length||IS_ADMIN){
    qaHTML='<div class="qa">'+qs.map(function(q,qi){
      var h='<div class="qa-row"><div class="qa-q"><b>'+esc(q.by||'Team')+' asked:</b> '+esc(q.q)+(q.a?'':' <span class="qa-wait">awaiting your reply</span>')+'</div>';
-     if(q.a)h+='<div class="qa-a"><b>'+esc(r.submitter||'Reviewer')+':</b> '+esc(q.a)+'</div>';
-     else if(!IS_ADMIN)h+='<div class="qa-form"><input type="text" placeholder="Type your answer…" data-ans="'+r.id+'" data-qi="'+qi+'"/><button class="btn pri" type="button" data-sendans="'+r.id+'" data-qi="'+qi+'">Send</button></div>';
+     if(q.a)h+='<div class="qa-a"><b>'+esc(q.answered_by||r.submitter||'Reviewer')+':</b> '+esc(q.a)+'</div>';
+     else h+='<div class="qa-form"><input type="text" placeholder="Answer this question…" data-ans="'+r.id+'" data-qi="'+qi+'"/><button class="btn pri" type="button" data-sendans="'+r.id+'" data-qi="'+qi+'">Send answer</button></div>';
      return h+'</div>';
    }).join('');
-   if(IS_ADMIN)qaHTML+='<div class="qa-form"><input type="text" placeholder="Ask the reviewer a question…" data-ask="'+r.id+'"/><button class="btn" type="button" data-sendask="'+r.id+'">Send</button></div>';
+   if(IS_ADMIN)qaHTML+='<div class="qa-form"><input type="text" placeholder="Ask a NEW question about this item…" data-ask="'+r.id+'"/><button class="btn" type="button" data-sendask="'+r.id+'">Send question</button></div>';
    qaHTML+='</div>';
   }
   return '<div class="stcard '+r.review_status+'">'+thumb+'<div class="sc-main"><div class="sc-top"><span class="sc-type">'+typeIc+' '+esc(r.item_type)+'</span><span class="sc-t">'+esc(r.item_label||'Item')+(r.item_ref?(' #'+esc(r.item_ref)):'')+'</span>'+vp+'<span class="statusbadge '+r.review_status+'">'+STATUS_LABELS[r.review_status]+'</span>'+(openQ&&!IS_ADMIN?'<span class="qa-wait">'+openQ+' question'+(openQ>1?'s':'')+' for you</span>':'')+'</div>'+(r.note?'<div class="sc-note">'+esc(r.note)+'</div>':'')+adminNote+'<div class="sc-meta"><span>'+esc(r.submitter||'Anonymous')+'</span><span>'+when+'</span>'+link+'</div>'+admin+qaHTML+'</div></div>';
@@ -718,7 +718,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
  function answerQuestion(id,qi,a){
   var r=rowById(id); var qs=(r&&Array.isArray(r.questions)?r.questions.slice():[]);
   if(!qs[qi])return Promise.reject(new Error('missing question'));
-  qs[qi]=Object.assign({},qs[qi],{a:a,answered_at:new Date().toISOString()});
+  qs[qi]=Object.assign({},qs[qi],{a:a,answered_at:new Date().toISOString(),answered_by:(store.submitter||(IS_ADMIN?'Team':'Reviewer'))});
   return sbUpdate(id,{questions:qs}).then(function(){ if(r)r.questions=qs; recountQ(); paintStatus(); });
  }
  function recountQ(){
