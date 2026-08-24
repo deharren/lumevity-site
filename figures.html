@@ -93,6 +93,7 @@ footer{color:var(--muted);font-size:13px;padding:24px 0 60px;text-align:center}
     <a class="hbtn" href="https://lumevity.app/training" target="_blank" rel="noopener">Open the app</a>
     <a class="hbtn" href="https://lumevity.app/changes" target="_blank" rel="noopener">Change log</a>
     <button class="hbtn" id="reload">Rescan</button>
+    <button class="hbtn" id="rescoreall">Re-score everything</button>
     <span id="scanmsg" style="color:#B9DDDE;font-size:13px"></span>
   </div>
 </div></header>
@@ -181,6 +182,20 @@ async function scanApp(){
     if(!x.label) x.label = x.uses.length ? x.uses[0].label.replace(/^(Lesson|Glossary)\s·\s/,"") : "Unnamed figure";
   });
   return list;
+}
+
+/* ---------- score cache ----------
+   Scoring reads every pixel of every image, so doing it on each load is slow and
+   pointless: an image at a given URL does not change. Scores are cached in this
+   browser and only images the console has never seen get measured. "Re-score
+   everything" forces a full pass when the scoring rules themselves change. */
+const CACHE_KEY="ethos_scores_v1";
+function cacheLoad(){ try{ return JSON.parse(localStorage.getItem(CACHE_KEY)||"{}")||{}; }catch(e){ return {}; } }
+function cacheSave(c){ try{ localStorage.setItem(CACHE_KEY,JSON.stringify(c)); }catch(e){} }
+function cachePrune(c,urls){
+  const keep=new Set(urls); let n=0;
+  Object.keys(c).forEach(k=>{ if(!keep.has(k)){ delete c[k]; n++; } });
+  return n;
 }
 
 /* ---------- style scoring ---------- */
@@ -387,6 +402,7 @@ document.getElementById("dapprove").onclick=async function(){
   const s=document.getElementById("dstatus"); this.disabled=true; s.innerHTML='<span class="spin"></span>Replacing.';
   try{
     await saveOverride(DLG.item.url,DLG.newUrl,DLG.item.label,"approved");
+    try{ const c=cacheLoad(); delete c[DLG.item.url]; cacheSave(c); }catch(e){}  // the swapped-in art is a different picture
     document.getElementById("mask").classList.remove("on");
     drawTabs(); drawGrid();
   }catch(e){ s.textContent="Could not save: "+e.message; }
@@ -394,26 +410,41 @@ document.getElementById("dapprove").onclick=async function(){
 };
 
 /* ---------- boot ---------- */
-async function boot(){
+async function boot(force){
   const msg=document.getElementById("scanmsg");
   msg.innerHTML='<span class="spin"></span>Reading the app.';
   try{
     await loadOverrides();
     ITEMS=await scanApp();
-    msg.innerHTML='<span class="spin"></span>Scoring '+ITEMS.length+' images.';
+
+    const cache = force ? {} : cacheLoad();
+    cachePrune(cache, ITEMS.map(i=>i.url));
+    let fresh=0;
+    ITEMS.forEach(it=>{ const c=cache[it.url]; if(c){ it.score=c.s; it.m=c.m; fresh++; } });
+
+    const todo=ITEMS.filter(it=>!(it.url in cache));
+    drawTabs(); drawGrid();                       // cached scores paint straight away
+
+    if(!todo.length){
+      msg.textContent=ITEMS.length+" images · nothing new to score";
+    }else{
+      msg.innerHTML='<span class="spin"></span>Scoring '+todo.length+' new image'+(todo.length===1?"":"s")+'.';
+      let done=0;
+      await Promise.all(todo.map(async it=>{
+        try{ const img=await loadImg(it.url); const m=measure(img); if(m){ it.m=m; it.score=m.score; } else it.score=null; }
+        catch(e){ it.score=null; }
+        cache[it.url]={s:it.score,m:it.m||null,t:Date.now()};
+        done++; if(done%4===0){ drawTabs(); drawGrid(); }
+      }));
+      msg.textContent=ITEMS.length+" images · "+todo.length+" newly scored, "+fresh+" from cache";
+    }
+    cacheSave(cache);
     drawTabs(); drawGrid();
-    let done=0;
-    await Promise.all(ITEMS.map(async it=>{
-      try{ const img=await loadImg(it.url); const m=measure(img); if(m){it.m=m; it.score=m.score;} }
-      catch(e){ it.score=null; }
-      done++; if(done%6===0){ drawTabs(); drawGrid(); }
-    }));
-    drawTabs(); drawGrid();
-    msg.textContent=ITEMS.length+" images · scored "+ITEMS.filter(i=>i.score!=null).length;
-    document.getElementById("foot").textContent="Last scan "+new Date().toLocaleString();
+    document.getElementById("foot").textContent="Last scan "+new Date().toLocaleString()+" · scores cached in this browser";
   }catch(e){ msg.textContent="Scan failed: "+e.message; }
 }
-document.getElementById("reload").onclick=boot;
+document.getElementById("reload").onclick=()=>boot(false);
+document.getElementById("rescoreall").onclick=()=>{ if(confirm("Measure every image again from scratch? This is only needed if the scoring rules changed.")) boot(true); };
 boot();
 </script>
 </body>
