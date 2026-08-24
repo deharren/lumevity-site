@@ -3,7 +3,7 @@
   "trailingSlash": false,
   "headers": [
     {
-      "source": "/(review|training|index|admin|edit|figures)(.html)?",
+      "source": "/(review|training|index|admin|edit|figures|changes)(.html)?",
       "headers": [
         {
           "key": "Cache-Control",
