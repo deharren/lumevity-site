@@ -116,6 +116,9 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
 .qa-row{background:var(--surface2);border:1px solid var(--line);border-left:3px solid var(--prog);border-radius:10px;padding:9px 11px}
 .qa-q{font-size:.85rem;color:var(--ink);line-height:1.45}
 .qa-q b{color:var(--prog)}
+.qa-img{display:block;margin:9px 0 2px;text-decoration:none}
+.qa-img img{width:100%;max-width:420px;border-radius:10px;border:1px solid var(--line);display:block;background:var(--surface)}
+.qa-img span{display:block;font-family:var(--mono);font-size:.64rem;color:var(--muted);margin-top:4px}
 .qa-a{font-size:.85rem;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 10px;margin-top:7px;line-height:1.45}
 .qa-a b{color:var(--keep)}
 .qa-form{display:flex;gap:7px;margin-top:7px;flex-wrap:wrap}
@@ -699,7 +702,8 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
   var qaHTML='';
   if(qs.length||IS_ADMIN){
    qaHTML='<div class="qa">'+qs.map(function(q,qi){
-     var h='<div class="qa-row"><div class="qa-q"><b>'+esc(q.by||'Team')+' asked:</b> '+esc(q.q)+(q.a?'':' <span class="qa-wait">awaiting your reply</span>')+'</div>';
+     var h='<div class="qa-row"><div class="qa-q"><b>'+esc(q.by||'Team')+':</b> '+esc(q.q)+(q.a?'':' <span class="qa-wait">awaiting your reply</span>')+'</div>';
+     if(q.img)h+='<a class="qa-img" href="'+esc(q.img)+'" target="_blank" rel="noopener"><img src="'+esc(q.img)+'" alt="Revised figure" loading="lazy"/><span>tap to view full size</span></a>';
      if(q.a)h+='<div class="qa-a"><b>'+esc(q.answered_by||r.submitter||'Reviewer')+':</b> '+esc(q.a)+'</div>';
      else h+='<div class="qa-form"><input type="text" placeholder="Answer this question…" data-ans="'+r.id+'" data-qi="'+qi+'"/><button class="btn pri" type="button" data-sendans="'+r.id+'" data-qi="'+qi+'">Send answer</button></div>';
      return h+'</div>';
