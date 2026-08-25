@@ -6318,7 +6318,7 @@ function bootRender(){ ceSyncMilestones(); ceLoad();
 
 <style id="i18nCSS">
 .lngsel{background:rgba(255,255,255,.06);border:1px solid rgba(227,206,154,.35);color:#E3CE9A;border-radius:999px;
-  padding:6px 10px;font:inherit;font-size:.78rem;font-weight:600;cursor:pointer}
+  padding:6px 10px;font:inherit;font-size:.78rem;font-weight:600;cursor:pointer;max-width:16rem}
 .lngsel option{background:#0B2B33;color:#F2E7CC}
 .i18nnote{background:#0B2B33;border-bottom:1px solid rgba(58,216,210,.30);color:#C9F5F3;
   font-size:.78rem;line-height:1.45;padding:7px 16px;text-align:center}
@@ -6602,7 +6602,8 @@ function mountPicker(){
   sel.id="lngSel"; sel.className="lngsel"; sel.setAttribute("aria-label","Language");
   sel.setAttribute("data-i18n-skip","1");
   sel.innerHTML=LANGS.map(function(l){
-    return '<option value="'+l.c+'">'+l.loc+'</option>';
+    var lbl=(l.c==="en"||l.loc===l.n)?l.n:(l.n+" \u00b7 "+l.loc);
+    return '<option value="'+l.c+'">'+lbl+'</option>';
   }).join("");
   sel.value=cur;
   sel.onchange=function(){ set(sel.value); };
