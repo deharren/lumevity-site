@@ -4638,9 +4638,23 @@ function ceCreditWord(c){return ceIsAccredited(c)?"CE contact hours":"contact ho
    24-hr / 2-yr renewal. The official CE record still issues at course completion. */
 function ceCourseHrs(c){return parseFloat((COURSES[c]&&COURSES[c].hrs)||(CE.acts[c]&&CE.acts[c].contact_hours)||0)||0;}
 function ceLessonHrs(id){var c=lessonCourseOf(id);var n=courseLessons(c).length||1;return ceCourseHrs(c)/n;}
+/* The last milestone has to sit exactly on the real program total, otherwise the
+   app congratulates people on finishing while whole courses are still locked.
+   Hours come from the curriculum, so pin it at runtime instead of hardcoding. */
+function ceSyncMilestones(){
+  try{
+    var total=ceProgramHrs();
+    if(!(total>0))return;
+    var last=CE_MILESTONES[CE_MILESTONES.length-1];
+    // drop the old finish line first, or a longer curriculum leaves two of them
+    var keep=CE_MILESTONES.slice(0,-1).filter(function(m){return m.h<total-0.001;});
+    keep.push({h:Math.round(total*100)/100,name:last.name,icon:last.icon});
+    CE_MILESTONES=keep;
+  }catch(e){}
+}
 function ceEarnedHrs(){var t=0;S.done.forEach(function(id){if(L[id])t+=ceLessonHrs(id);});return t;}
 function ceProgramHrs(){return COURSE_IDS.reduce(function(s,c){return s+ceCourseHrs(c);},0);}
-var CE_MILESTONES=[{h:0.5,name:"Line primed",icon:"💧"},{h:1,name:"Hour one",icon:"🩸"},{h:2,name:"In the flow",icon:"⚡"},{h:3.5,name:"IV credit",icon:"🏅"},{h:6,name:"Six on the board",icon:"🌟"},{h:8,name:"Program complete",icon:"🏆"}];
+var CE_MILESTONES=[{h:0.5,name:"Scrubbed in",icon:"🧤"},{h:1.5,name:"Foundations complete",icon:"📘"},{h:3.5,name:"First route down",icon:"💉"},{h:6.5,name:"Past the midpoint",icon:"🌗"},{h:9.5,name:"Final stretch",icon:"🔥"},{h:12.5,name:"Program complete",icon:"🏆"}];
 function ceBagSVG(pct){
   pct=Math.max(0,Math.min(1,pct));
   var topY=30,botY=164,range=botY-topY;var fy=botY-range*pct;
@@ -6016,6 +6030,7 @@ function applyCurriculum(list){
     if(COURSE_IDS.indexOf(S.course)<0) S.course=COURSE_IDS[0];
     // if the fallback already painted, repaint against the real curriculum -
     // otherwise every tile still calls openLesson() with a stale lesson id
+    try{ceSyncMilestones();}catch(e){}
     if(_booted){S.view="home";S.lesson=null;try{render();}catch(e){}}
     return true;
   }catch(e){ return false; }
@@ -6042,7 +6057,7 @@ function paintDemoMarket(){
     m.innerHTML=homeMarketingHTML();
   }catch(e){}
 }
-function bootRender(){ ceLoad();
+function bootRender(){ ceSyncMilestones(); ceLoad();
   try{figOvrLoad();}catch(e){}
   paintDemoMarket();
   try{ if(CE_PREVIEW)pfSeedDummy(false); }catch(e){}  // demo/preview: seed dummy CE profile data for testing (only if empty)

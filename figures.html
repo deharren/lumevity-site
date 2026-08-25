@@ -64,6 +64,11 @@ header p{margin:0;color:#B9DDDE;font-size:14.5px;max-width:70ch}
 .status.err{color:var(--bad)}
 .ovr{font-size:11.5px;font-weight:800;color:var(--good);background:var(--good-bg);padding:2px 7px;border-radius:5px;display:inline-block}
 .dis{font-size:11.5px;font-weight:800;color:var(--muted);background:#EEF3F3;padding:2px 7px;border-radius:5px;display:inline-block}
+.mine{font-size:11.5px;font-weight:800;color:var(--teal-d);background:#E4F3F4;padding:2px 7px;border-radius:5px;display:inline-block}
+.movebar{display:flex;align-items:center;gap:8px;margin-top:9px;padding-top:9px;border-top:1px solid var(--line)}
+.movebar label{font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.bandsel{flex:1;font-family:inherit;font-size:13px;padding:6px 9px;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer}
+.bandsel:focus{outline:2px solid var(--teal);outline-offset:1px}
 
 .mask{position:fixed;inset:0;background:rgba(8,28,32,.72);display:none;align-items:center;justify-content:center;padding:20px;z-index:60}
 .mask.on{display:flex}
@@ -101,8 +106,7 @@ footer{color:var(--muted);font-size:13px;padding:24px 0 60px;text-align:center}
 <div class="wrap">
   <div class="tabs" id="tabs"></div>
   <div class="note" id="legend">
-    <b>How the score works.</b> Each image is measured on four things that separate a flat vector atlas plate from a photograph: how much of it is clean white ground, how much of it is flat unbroken color, how small its palette is, and how little photographic grain it carries. Higher is more on brand. It is a first pass to sort the queue, not a verdict, so trust your eye over the number.
-  </div>
+    <b>How the score works.</b> An atlas plate sits on white with clean margins and no photographic grain; a photograph fills the frame edge to edge. Those three things are what the score measures, weighted toward white ground because it separates them most reliably. It is a sorting aid, not a verdict, and it can be fooled: a clean studio photograph on a pale backdrop can look flat to a machine. When it gets one wrong, set the category yourself on the card and your choice sticks.</div>
   <div class="grid" id="grid"></div>
 </div>
 
@@ -189,7 +193,7 @@ async function scanApp(){
    pointless: an image at a given URL does not change. Scores are cached in this
    browser and only images the console has never seen get measured. "Re-score
    everything" forces a full pass when the scoring rules themselves change. */
-const CACHE_KEY="ethos_scores_v1";
+const CACHE_KEY="ethos_scores_v2";
 function cacheLoad(){ try{ return JSON.parse(localStorage.getItem(CACHE_KEY)||"{}")||{}; }catch(e){ return {}; } }
 function cacheSave(c){ try{ localStorage.setItem(CACHE_KEY,JSON.stringify(c)); }catch(e){} }
 function cachePrune(c,urls){
@@ -213,31 +217,33 @@ function measure(img){
   x.drawImage(img,0,0,W,H);
   let d;
   try{ d=x.getImageData(0,0,W,H).data; }catch(e){ return null; }
-  let white=0, flat=0, lap=0, lapN=0; const pal=new Set();
-  const at=(px,py,k)=>d[((py*W+px)<<2)+k];
+  let white=0, bw=0, bn=0, lap=0, lapN=0;
   for(let py=0;py<H;py++)for(let px=0;px<W;px++){
     const i=((py*W+px)<<2), r=d[i],g=d[i+1],b=d[i+2];
-    if(r>244&&g>244&&b>244) white++;
-    pal.add(((r>>3)<<10)|((g>>3)<<5)|(b>>3));
+    const isW=(r>240&&g>240&&b>240);
+    if(isW)white++;
+    if(px<3||py<3||px>=W-3||py>=H-3){ bn++; if(isW)bw++; }
     if(px>0&&py>0&&px<W-1&&py<H-1){
-      let mx=0;
-      for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){
-        const j=(((py+dy)*W+(px+dx))<<2);
-        mx=Math.max(mx,Math.abs(r-d[j])+Math.abs(g-d[j+1])+Math.abs(b-d[j+2]));
-      }
-      if(mx<10) flat++;
-      const l=Math.abs(4*r-at(px-1,py,0)-at(px+1,py,0)-at(px,py-1,0)-at(px,py+1,0));
-      lap+=l; lapN++;
+      lap+=Math.abs(4*r-d[((py*W+px-1)<<2)]-d[((py*W+px+1)<<2)]-d[(((py-1)*W+px)<<2)]-d[(((py+1)*W+px)<<2)]);
+      lapN++;
     }
   }
   const n=W*H;
-  const whiteF=white/n, flatF=flat/n;
-  const palN=Math.min(1,pal.size/3800), noiseN=Math.min(1,(lap/Math.max(1,lapN))/34);
-  const score=Math.round(100*Math.max(0,Math.min(1,
-      0.30*whiteF + 0.40*flatF + 0.20*(1-palN) + 0.10*(1-noiseN))));
-  return {score, whiteF, flatF, palN, noiseN, colors:pal.size};
+  const whiteF=white/n, borderF=bw/Math.max(1,bn), noiseN=Math.min(1,(lap/Math.max(1,lapN))/34);
+  let raw=(0.55*whiteF + 0.30*borderF + 0.15*(1-noiseN));
+  if(false) raw = 1 - raw;
+  const score=Math.round(100*Math.max(0,Math.min(1,raw)));
+  return {score, whiteF, borderF, noiseN};
 }
-function band(s){ return s==null?"na" : s>=62?"good" : s>=46?"warn" : "bad"; }
+function autoBand(s){ return s==null?"na" : s>=66?"good" : s>=40?"warn" : "bad"; }
+/* A human filing an image beats the score, always. The number is a sorting aid;
+   the person looking at the picture is the authority. */
+const BANDMAP={needs:"bad",border:"warn",good:"good"};
+function manualBand(it){ const o=OVERRIDES[it.url]; return (o&&o.band&&BANDMAP[o.band])||null; }
+function band(it_or_score){
+  if(typeof it_or_score==="object"&&it_or_score) return manualBand(it_or_score)||autoBand(it_or_score.score);
+  return autoBand(it_or_score);
+}
 function bandName(b){ return {good:"On brand",warn:"Borderline",bad:"Needs work",na:"Not scored"}[b]; }
 
 /* ---------- overrides ---------- */
@@ -251,6 +257,14 @@ async function saveOverride(orig,nu,label,status){
     method:"POST",
     headers:{...H,"Content-Type":"application/json",Prefer:"resolution=merge-duplicates,return=minimal"},
     body:JSON.stringify([{orig_url:orig,new_url:nu,label:label||"",status:status||"approved",updated_at:new Date().toISOString()}])
+  });
+  await loadOverrides();
+}
+async function setBand(orig,label,band){
+  await fetch(SB+"/rest/v1/figure_overrides",{
+    method:"POST",
+    headers:{...H,"Content-Type":"application/json",Prefer:"resolution=merge-duplicates,return=minimal"},
+    body:JSON.stringify([{orig_url:orig,new_url:orig,label:label||"",status:"pending",band:band,updated_at:new Date().toISOString()}])
   });
   await loadOverrides();
 }
@@ -299,7 +313,7 @@ function counts(){
     const st=stateOf(it);
     if(st==="swapped"){c.swapped++;return;}
     if(st==="dismissed"){c.dismissed++;return;}
-    const b=band(it.score);
+    const b=band(it);
     if(b==="bad")c.needs++; else if(b==="warn")c.border++; else c.good++;
   });
   return c;
@@ -322,17 +336,17 @@ function drawGrid(){
     if(TAB==="swapped")return st==="swapped";
     if(TAB==="dismissed")return st==="dismissed";
     if(st)return false;                      // swapped and dismissed stay out of the working tabs
-    const b=band(it.score);
+    const b=band(it);
     return (TAB==="needs"&&b==="bad")||(TAB==="border"&&b==="warn")||(TAB==="good"&&(b==="good"||b==="na"));
   });
   if(!list.length){ g.innerHTML='<div class="note" style="grid-column:1/-1">Nothing in this group.</div>'; return; }
   g.innerHTML=list.map((it,i)=>{
     const ov=OVERRIDES[it.url], st=stateOf(it), sw=st==="swapped", dis=st==="dismissed";
-    const b=band(it.score);
+    const b=band(it);
     const shown=sw?ov.new_url:it.url;
     const bars=it.m?`<div class="bars">
-      ${bar("White ground",it.m.whiteF)}${bar("Flat color",it.m.flatF)}
-      ${bar("Small palette",1-it.m.palN)}${bar("No grain",1-it.m.noiseN)}</div>`:"";
+      ${bar("White ground",it.m.whiteF)}${bar("Clean margins",it.m.borderF)}
+      ${bar("No photo grain",1-it.m.noiseN)}</div>`:"";
     return `<div class="card" data-i="${ITEMS.indexOf(it)}">
       <div class="thumb"><img src="${shown}" alt=""></div>
       <div class="cbody">
@@ -341,6 +355,7 @@ function drawGrid(){
         <div class="meta">${bandName(b)} · <code>${esc(shown.split("/").pop())}</code></div>
         ${sw?'<div><span class="ovr">Replaced, live in the app</span></div>':""}
         ${dis?'<div><span class="dis">Dismissed, kept for later</span></div>':""}
+        ${manualBand(it)?'<div><span class="mine">Category set by you</span></div>':""}
         ${bars}
         ${it.uses.length?`<div class="usedlinks">${it.uses.slice(0,3).map(u=>`<a href="${u.href}" target="_blank" rel="noopener">${esc(u.label)}</a>`).join("")}</div>`:""}
         <div class="status" id="st${ITEMS.indexOf(it)}"></div>
@@ -351,8 +366,30 @@ function drawGrid(){
                :(sw?"":`<button class="btn ghost" data-act="dismiss" data-i="${ITEMS.indexOf(it)}">Dismiss</button>`)}
           <a class="btn ghost" href="${shown}" target="_blank" rel="noopener" style="text-decoration:none">Full size</a>
         </div>
+        <div class="movebar">
+          <label>Category</label>
+          <select class="bandsel" data-i="${ITEMS.indexOf(it)}">
+            <option value=""${manualBand(it)?"":" selected"}>Auto &middot; ${autoBand(it.score)==="na"?"not scored":bandName(autoBand(it.score))}</option>
+            <option value="needs"${(OVERRIDES[it.url]||{}).band==="needs"?" selected":""}>Needs work</option>
+            <option value="border"${(OVERRIDES[it.url]||{}).band==="border"?" selected":""}>Borderline</option>
+            <option value="good"${(OVERRIDES[it.url]||{}).band==="good"?" selected":""}>On brand</option>
+          </select>
+        </div>
       </div></div>`;
   }).join("");
+  [...g.querySelectorAll(".bandsel")].forEach(sel=>{
+    sel.onchange=async ()=>{
+      const it=ITEMS[+sel.dataset.i], st=document.getElementById("st"+sel.dataset.i);
+      sel.disabled=true; st.className="status"; st.textContent="Saving…";
+      try{
+        if(sel.value) await setBand(it.url,it.label,sel.value);
+        else { const o=OVERRIDES[it.url];
+               if(o&&o.status!=="approved"&&o.status!=="dismissed") await dropOverride(it.url);
+               else await setBand(it.url,it.label,null); }
+        drawTabs(); drawGrid();
+      }catch(e){ st.className="status err"; st.textContent="Could not save."; sel.disabled=false; }
+    };
+  });
   const ACTS={gen:doGenerate,revert:doRevert,dismiss:doDismiss,undismiss:doUndismiss};
   [...g.querySelectorAll("[data-act]")].forEach(b=>{
     b.onclick=()=>ACTS[b.dataset.act](+b.dataset.i,b);
