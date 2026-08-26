@@ -1230,6 +1230,7 @@ var IM_PLATE='https://lumevity-site.vercel.app/im-sites-v6.jpg';
    rectangles that cover text bleeding in from the neighbouring panel (their labels overlap
    horizontally, so a straight cut alone leaves fragments). */
 var IM_PANELS={
+  deltoid:{vb:'14 60 470 900',mask:[],alt:'Deltoid site: two to three finger widths below the acromion process, in the thickest part of the muscle'},
   ventrogluteal:{vb:'496 60 507 860',mask:[[490,248,78,120]],alt:'Ventrogluteal site: the V-hand landmark between the iliac crest, the anterior superior iliac spine and the greater trochanter'},
   vastus:{vb:'1056 60 470 900',mask:[],alt:'Vastus lateralis site: the outer mid-thigh, injected in the middle third between the greater trochanter and the knee'}
 };
@@ -3205,13 +3206,13 @@ var GLOSSARY={
     why:"Contact causes immediate sharp, electric, radiating pain or pins-and-needles. That is a stop signal: withdraw at once, as persisting risks lasting nerve injury."},
 
   /* --- muscle anatomy (IM) --- */
-  deltoid:{t:"Deltoid",fig:"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787237386899.png",alt:["deltoid muscle","deltoid"],see:["acromion","ventrogluteal"],
+  deltoid:{t:"Deltoid",fig:"im:deltoid",alt:["deltoid muscle","deltoid"],see:["acromion","ventrogluteal"],
     d:"The thick shoulder muscle. The injection site is the dense central triangle, roughly 2.5–5&nbsp;cm (1–2 inches) below the acromion process.",
     why:"Convenient and the standard adult vaccine site, but it is a small muscle — generally limited to about 1&nbsp;mL. Going too high risks the shoulder joint and the axillary nerve."},
-  ventrogluteal:{t:"Ventrogluteal site",pron:"ven-tro-GLOO-tee-al",fig:"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-vg-hand-v2.png",alt:["ventrogluteal site","ventrogluteal"],see:["greater_trochanter","dorsogluteal"],
+  ventrogluteal:{t:"Ventrogluteal site",pron:"ven-tro-GLOO-tee-al",fig:"im:ventrogluteal",alt:["ventrogluteal site","ventrogluteal"],see:["greater_trochanter","dorsogluteal"],
     d:"The gluteus medius/minimus site on the side of the hip, landmarked with the palm on the greater trochanter, index finger to the anterior superior iliac spine and middle finger spread along the iliac crest — you inject into the V.",
     why:"The preferred adult IM site: thick muscle, predictable depth, and no major nerves or vessels in the target. Tolerates larger volumes (commonly up to about 3&nbsp;mL)."},
-  vastus_lateralis:{t:"Vastus lateralis",fig:"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787237386913.png",alt:["vastus lateralis"],see:["ventrogluteal","deltoid"],
+  vastus_lateralis:{t:"Vastus lateralis",fig:"im:vastus",alt:["vastus lateralis"],see:["ventrogluteal","deltoid"],
     d:"The large muscle of the outer thigh; the site is the middle third of the muscle.",
     why:"The site of choice for infants and young children, and a good self-injection site in adults, because it is bulky, easy to find and has no significant nerves or vessels nearby."},
   dorsogluteal:{t:"Dorsogluteal site",fig:"https://dnjvsfwdrffzawrlrrma.supabase.co/storage/v1/object/public/figures/fig-1787237386894.png",alt:["dorsogluteal site","dorsogluteal"],see:["sciatic","ventrogluteal"],
@@ -3515,7 +3516,7 @@ function ixIMHot(){
     '<image href="'+IMG+'" x="0" y="0" width="1536" height="1024"/>'+
     h("deltoid",679,261)+
     h("dorso",705,492)+
-    h("ventro",850,500)+
+    h("ventro",835,431)+
     h("vastus",679,710)+
     '</svg>';
 }
@@ -6424,6 +6425,16 @@ var S={
 "Answer the practice step before moving on":{es:"Responde el paso de práctica antes de seguir",zh:"请先完成练习步骤再继续",tl:"Sagutin ang practice step bago magpatuloy",vi:"Hoàn thành bước thực hành trước khi tiếp tục",ar:"أكمل خطوة التدريب قبل المتابعة",fr:"Répondez à l'étape pratique avant de continuer",ko:"연습 단계를 완료한 뒤 진행하세요",ru:"Выполните практический шаг, прежде чем продолжить",ht:"Reponn etap pratik la anvan ou kontinye"},
 "Rank up":{es:"Subiste de rango",zh:"等级提升",tl:"Tumaas ang ranggo",vi:"Lên cấp",ar:"ترقية في الرتبة",fr:"Montée en rang",ko:"등급 상승",ru:"Повышение ранга",ht:"Ranj monte"},
 "Saved":{es:"Guardado",zh:"已保存",tl:"Na-save",vi:"Đã lưu",ar:"تم الحفظ",fr:"Enregistré",ko:"저장됨",ru:"Сохранено",ht:"Anrejistre"},
+"Tap to open (preview)":{es:"Toca para abrir (vista previa)",zh:"点按打开（预览）",tl:"I-tap para buksan (preview)",vi:"Chạm để mở (xem trước)",ar:"اضغط للفتح (معاينة)",fr:"Touchez pour ouvrir (aperçu)",ko:"탭하여 열기 (미리보기)",ru:"Нажмите, чтобы открыть (предпросмотр)",ht:"Peze pou ouvri (apèsi)"},
+"Ready — tap to start":{es:"Listo. Toca para empezar",zh:"准备就绪，点按开始",tl:"Handa na — i-tap para simulan",vi:"Sẵn sàng — chạm để bắt đầu",ar:"جاهز — اضغط للبدء",fr:"Prêt, touchez pour commencer",ko:"준비됨 — 탭하여 시작",ru:"Готово — нажмите, чтобы начать",ht:"Pare — peze pou kòmanse"},
+"Finish every lesson in this course":{es:"Termina todas las lecciones de este curso",zh:"完成本课程的所有课时",tl:"Tapusin ang lahat ng aralin sa kursong ito",vi:"Hoàn thành mọi bài học trong khóa này",ar:"أكمل كل دروس هذا المقرر",fr:"Terminez toutes les leçons de ce cours",ko:"이 과정의 모든 강의를 완료하세요",ru:"Завершите все уроки этого курса",ht:"Fini tout leson nan kou sa a"},
+"Certification exam & certificate":{es:"Examen de certificación y certificado",zh:"认证考试与证书",tl:"Certification exam at sertipiko",vi:"Bài thi chứng nhận và chứng chỉ",ar:"اختبار الشهادة والشهادة",fr:"Examen de certification et certificat",ko:"인증 시험 및 수료증",ru:"Сертификационный экзамен и сертификат",ht:"Egzamen sètifikasyon ak sètifika"},
+"IV Insertion":{es:"Inserción IV",zh:"静脉置管",tl:"IV Insertion",vi:"Đặt đường truyền tĩnh mạch",ar:"إدخال القسطرة الوريدية",fr:"Pose de perfusion IV",ko:"정맥 카테터 삽입",ru:"Постановка венозного катетера",ht:"Enstalasyon IV"},
+"IM Injection":{es:"Inyección IM",zh:"肌肉注射",tl:"IM Injection",vi:"Tiêm bắp",ar:"الحقن العضلي",fr:"Injection IM",ko:"근육 주사",ru:"Внутримышечная инъекция",ht:"Piki IM"},
+"SubQ Injection":{es:"Inyección subcutánea",zh:"皮下注射",tl:"SubQ Injection",vi:"Tiêm dưới da",ar:"الحقن تحت الجلد",fr:"Injection sous-cutanée",ko:"피하 주사",ru:"Подкожная инъекция",ht:"Piki anba po"},
+"Blood Draws":{es:"Extracción de sangre",zh:"采血",tl:"Blood Draws",vi:"Lấy máu",ar:"سحب الدم",fr:"Prélèvements sanguins",ko:"채혈",ru:"Забор крови",ht:"Pran san"},
+"Intradermal":{es:"Intradérmica",zh:"皮内注射",tl:"Intradermal",vi:"Trong da",ar:"داخل الأدمة",fr:"Intradermique",ko:"피내 주사",ru:"Внутрикожная инъекция",ht:"Entradèmik"},
+"The main IM sites at a glance":{es:"Los principales sitios IM de un vistazo",zh:"主要肌注部位一览",tl:"Ang pangunahing IM sites sa isang tingin",vi:"Các vị trí tiêm bắp chính",ar:"أهم مواقع الحقن العضلي في لمحة",fr:"Les principaux sites IM en un coup d'œil",ko:"주요 근육주사 부위 한눈에 보기",ru:"Основные места внутримышечных инъекций",ht:"Prensipal sit IM yo an yon koutje"},
 "Tools":{fr:"Outils",ko:"도구",ru:"Инструменты",es:"Herramientas",tl:"Mga Tool",zh:"工具",vi:"Công cụ",ht:"Zouti",ar:"الأدوات"},
 "Profile":{fr:"Profil",ko:"프로필",ru:"Профиль",es:"Perfil",tl:"Profile",zh:"个人资料",vi:"Hồ sơ",ht:"Pwofil",ar:"الملف الشخصي"},
 "⚡ Go Pro":{fr:"⚡ Passer à Pro",ko:"⚡ Pro 시작",ru:"⚡ Перейти на Pro",es:"⚡ Hazte Pro",tl:"⚡ Mag-Pro",zh:"⚡ 升级 Pro",vi:"⚡ Nâng cấp Pro",ht:"⚡ Pase Pro",ar:"⚡ الترقية إلى Pro"},
@@ -6526,6 +6537,7 @@ var S={
 
 /* patterns that carry a number, so an exact-string lookup cannot reach them */
 var RX=[
+ {r:/^(\d+) of (\d+) lessons done\.$/,t:{es:"$1 de $2 lecciones completadas.",zh:"\u5df2\u5b8c\u6210 $1/$2 \u8bfe\u3002",tl:"$1 sa $2 aralin ang tapos.",vi:"\u0110\u00e3 xong $1 tr\u00ean $2 b\u00e0i h\u1ecdc.",ar:"\u0623\u064f\u0646\u062c\u0632 $1 \u0645\u0646 $2 \u062f\u0631\u0633\u064b\u0627.",fr:"$1 le\u00e7ons sur $2 termin\u00e9es.",ko:"$2\uac1c \uc911 $1\uac1c \uac15\uc758 \uc644\ub8cc.",ru:"\u041f\u0440\u043e\u0439\u0434\u0435\u043d\u043e $1 \u0438\u0437 $2 \u0443\u0440\u043e\u043a\u043e\u0432.",ht:"$1 sou $2 leson fini."}},
  {r:/^Step (\d+) of (\d+)$/,t:{es:"Paso $1 de $2",zh:"\u7b2c $1 \u6b65\uff0c\u5171 $2 \u6b65",tl:"Hakbang $1 ng $2",vi:"B\u01b0\u1edbc $1 tr\u00ean $2",ar:"\u0627\u0644\u062e\u0637\u0648\u0629 $1 \u0645\u0646 $2",fr:"\u00c9tape $1 sur $2",ko:"$2\ub2e8\uacc4 \uc911 $1\ub2e8\uacc4",ru:"\u0428\u0430\u0433 $1 \u0438\u0437 $2",ht:"Etap $1 sou $2"}},
  {r:/^(IV|IM|SubQ) \u00b7 Module (\d+)$/,t:{es:"$1 \u00b7 M\u00f3dulo $2",zh:"$1 \u00b7 \u6a21\u5757 $2",tl:"$1 \u00b7 Modyul $2",vi:"$1 \u00b7 H\u1ecdc ph\u1ea7n $2",ar:"$1 \u00b7 \u0627\u0644\u0648\u062d\u062f\u0629 $2",fr:"$1 \u00b7 Module $2",ko:"$1 \u00b7 \ubaa8\ub4c8 $2",ru:"$1 \u00b7 \u041c\u043e\u0434\u0443\u043b\u044c $2",ht:"$1 \u00b7 Modil $2"}},
  {r:/^(IV|IM|SubQ) \u00b7 Graduation$/,t:{es:"$1 \u00b7 Graduaci\u00f3n",zh:"$1 \u00b7 \u7ed3\u4e1a",tl:"$1 \u00b7 Pagtatapos",vi:"$1 \u00b7 T\u1ed1t nghi\u1ec7p",ar:"$1 \u00b7 \u0627\u0644\u062a\u062e\u0631\u0651\u062c",fr:"$1 \u00b7 Fin de parcours",ko:"$1 \u00b7 \uc218\ub8cc",ru:"$1 \u00b7 \u0412\u044b\u043f\u0443\u0441\u043a",ht:"$1 \u00b7 Gradyasyon"}},
