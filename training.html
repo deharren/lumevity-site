@@ -1232,7 +1232,7 @@ illoSVG=function(k){var m={arm:'forearm-veins-v1.png',im:'https://lumevity-site.
 /* Per-lesson hero-image overrides. The live curriculum comes from Supabase and its
    lesson `illo` values can lag behind these updated figures, so force the right image
    by lesson id at render time (survives the DB curriculum swap). */
-var ILLO_OVERRIDE={iv_documentation:'documentation',iv_complications:'complications',iv_special:'special_pops',im_procedure:'ztrack',ph_technique:'venipuncture',id_foundations:'id_dermis',id_equipment:'id_syringe',id_sites:'id_volar',id_technique:'id_wheal',id_reading:'id_mantoux'};
+var ILLO_OVERRIDE={iv_documentation:'documentation',iv_complications:'complications',iv_special:'special_pops',im_special:'special_pops',im_documentation:'documentation',sq_documentation:'documentation',sq_special:'special_pops',im_procedure:'ztrack',ph_technique:'venipuncture',id_foundations:'id_dermis',id_equipment:'id_syringe',id_sites:'id_volar',id_technique:'id_wheal',id_reading:'id_mantoux'};
 /* Lessons whose overview (top) hero image should be hidden — e.g. iv_equipment already
    shows the gauge/flashback figure inline on the gauge-chart step, so drop the duplicate hero. */
 var ILLO_HIDE={iv_equipment:1,im_assessment:1,im_asepsis:1};
