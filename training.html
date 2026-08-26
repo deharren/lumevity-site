@@ -3308,7 +3308,7 @@ var GLOSSARY={
     why:"Single use only, with no preservative — draw through a filter needle and discard any remainder."},
 
   /* --- technique --- */
-  flashback:{t:"Flashback",alt:["flashback"],see:["cannulation","bevel"],
+  flashback:{t:"Flashback",fig:"img:https://lumevity.app/fig-flashback-v2.png",alt:["flashback"],see:["cannulation","bevel"],
     d:"The appearance of blood in the catheter's flashback chamber, confirming the needle tip has entered the vein lumen.",
     why:"It confirms the <b>needle</b> is in — not the catheter. Advance a few more millimetres to seat the catheter itself before threading, or the catheter will sit in tissue."},
   cannulation:{t:"Cannulation",alt:["cannulation","cannulate","cannulating"],see:["flashback","stylet"],
@@ -3772,7 +3772,9 @@ function ixFill(host,body,x){
     fillEl.setAttribute("width",w);
     plunger.setAttribute("x",px-3);
     rod.setAttribute("x",px+4);
-    rod.setAttribute("width",Math.max(0,BX+BW-px-6));
+    /* the rod must run under the thumb connector, not stop short of it.
+       Ending at BX+BW-2 left a sliver of barrel showing through as a white gap. */
+    rod.setAttribute("width",Math.max(0,BX+BW-px));
     read.textContent=val.toFixed(dec);
     if(!fromRange)rng.value=val;
   }
