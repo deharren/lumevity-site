@@ -573,7 +573,12 @@
   @media(max-width:520px){ .pgrid{grid-template-columns:1fr;} .cluster{grid-template-columns:1fr;} }
 
   /* Modal */
-  .modal{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(10,25,22,.55);backdrop-filter:blur(4px);z-index:210;display:none;align-items:center;justify-content:center;padding:20px 20px 46px;}
+  .modx{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:14px;z-index:4;
+  width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;
+  border:1px solid rgba(255,255,255,.4);cursor:pointer;font-size:1.15rem;line-height:1;
+  display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.modx:hover{background:rgba(255,255,255,.28);}
+.modal{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(10,25,22,.55);backdrop-filter:blur(4px);z-index:210;display:none;align-items:center;justify-content:center;padding:20px 20px 46px;}
   @supports(height:100dvh){.modal{height:100dvh;}}
   @supports(padding:max(0px)){.modal{padding-bottom:max(46px,calc(22px + env(safe-area-inset-bottom,0px)));}} .modal.show{display:flex;}
   .modal .box{background:var(--white);border-radius:18px;max-width:420px;padding:26px;text-align:center;border:1px solid var(--stone);max-height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;} .modal h3{color:var(--head);font-size:1.3rem;margin-bottom:8px;} .modal p{color:var(--muted);font-size:.9rem;margin-bottom:16px;}
@@ -697,9 +702,14 @@
   .gsheet .gwhy{margin-top:14px;background:var(--good-soft);border-left:3px solid var(--teal);
     border-radius:0 10px 10px 0;padding:11px 14px;font-size:.86rem;line-height:1.55;color:var(--head);}
   .gsheet .gwhy b{color:var(--teal-deep);}
-  .gsheet .gclose{position:absolute;top:14px;right:16px;width:32px;height:32px;border-radius:50%;
-    background:var(--pearl);color:var(--muted);font-size:1.1rem;line-height:1;display:flex;
-    align-items:center;justify-content:center;border:none;cursor:pointer;}
+  .gsheet /* sticky, not absolute. .gcard is the scrolling box, so an absolutely
+   positioned close scrolls away with the content and strands the user. */
+.gclose{position:sticky;top:0;float:right;margin:0 -8px 0 10px;z-index:6;
+    width:38px;height:38px;min-width:38px;border-radius:50%;
+    background:var(--pearl);color:var(--ink);font-size:1.15rem;line-height:1;display:flex;
+    align-items:center;justify-content:center;border:1px solid var(--stone);cursor:pointer;
+    box-shadow:0 2px 10px rgba(10,40,50,.14);}
+.gclose:hover{background:var(--stone);}
   .gsheet .gclose:hover{background:var(--stone);color:var(--head);}
   .gsheet .gsee{margin-top:16px;padding-top:14px;border-top:1px solid var(--stone);}
   .gsheet .gsee .gl{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;
@@ -862,8 +872,13 @@
   .mlb .mlbbox img,.mlb .mlbbox video{width:100%;max-height:76vh;object-fit:contain;display:block;
     border-radius:12px;background:#000;}
   .mlb .mlbcap{color:#dbeef0;font-size:.86rem;line-height:1.5;margin-top:12px;text-align:center;}
-  .mlb .mlbx{position:absolute;top:-46px;right:0;width:36px;height:36px;border-radius:50%;
-    background:rgba(255,255,255,.14);color:#fff;border:none;cursor:pointer;font-size:1.1rem;}
+  .mlb /* inside the box. At top:-46px a tall image pushed this off the top of a
+   phone screen, leaving no way out. */
+.mlbx{position:absolute;top:10px;right:10px;z-index:3;width:40px;height:40px;border-radius:50%;
+    background:rgba(8,26,30,.72);color:#fff;border:1px solid rgba(255,255,255,.34);
+    cursor:pointer;font-size:1.15rem;line-height:1;display:flex;align-items:center;justify-content:center;
+    backdrop-filter:blur(4px);}
+.mlbx:hover{background:rgba(8,26,30,.9);}
   .mlb .mlbx:hover{background:rgba(255,255,255,.26);}
   /* ===== CE: disclosure, evaluation, records ===== */
   .cebox{max-width:660px;margin:0 auto;}
@@ -1114,7 +1129,7 @@
 <div id="xpLayer"></div>
 <div class="confetti" id="confetti"></div>
 <div class="cele" id="cele"><div class="pop"><div class="ci" id="celeIcon">🎉</div><div class="ct" id="celeTitle">Unlocked</div><div class="cs" id="celeSub"></div></div></div>
-<div class="modal" id="modal" role="dialog" aria-modal="true"><div class="box" id="modalBox"></div></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true"><button class="modx" onclick="closeModal()" aria-label="Close">✕</button><div class="box" id="modalBox"></div></div>
 <div class="gsheet" id="gsheet"><div class="gback" onclick="closeTerm()"></div><div class="gcard" id="gcard"></div></div>
 <div class="mlb" id="mlb"><div class="mlbback" onclick="closeMedia()"></div><div class="mlbbox" id="mlbBox"></div></div>
 
@@ -2806,7 +2821,13 @@ window.addEventListener("resize",sizeModal);
 window.addEventListener("orientationchange",function(){setTimeout(sizeModal,250);});
 function openModal(html,cls){var b=el("modalBox");b.className="box"+(cls?" "+cls:"");b.innerHTML=html;el("modal").classList.add("show");sizeModal();setTimeout(sizeModal,60);}
 function closeModal(){el("modal").classList.remove("show");}
-document.addEventListener("keydown",function(e){if(e.key==="Escape"){var m=el("modal");if(m&&m.classList.contains("show"))closeModal();}});
+document.addEventListener("keydown",function(e){
+  if(e.key!=="Escape")return;
+  /* topmost first: media lightbox, then glossary sheet, then the modal */
+  var mlb=el("mlb"); if(mlb&&mlb.classList.contains("show")){closeMedia();return;}
+  var gs=el("gsheet"); if(gs&&gs.classList.contains("show")){closeTerm();return;}
+  var m=el("modal"); if(m&&m.classList.contains("show")){closeModal();return;}
+});
 el("modal").addEventListener("click",function(e){if(e.target===el("modal"))closeModal();});
 
 /* ============ Mascot (Vera, clinical assistant) ============ */
