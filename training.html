@@ -6048,6 +6048,48 @@ var SB_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZi
 var ORG_SLUG="lumevity";
 /* Shorten long course display names so tabs/headers fit (DB curriculum still says
    "Subcutaneous Injection"). Matches the app's own "SubQ" convention. */
+
+/* ============ lesson content translation ============
+   The lesson store L is REPLACED at boot by applyCurriculum() with rows from
+   the database, so translation cannot be baked into the literals above. It is
+   applied to whatever L ends up being, keyed by a hash of the English source.
+   Any string without a match falls through to English, so partial coverage
+   degrades safely instead of blanking content. */
+var L_EN=null, LT={}, LT_LANG="en";
+function h32(x){var h=0x811c9dc5;for(var i=0;i<x.length;i++){h^=x.charCodeAt(i);h=Math.imul(h,0x01000193)>>>0;}return h.toString(36);}
+function ltClone(o){return JSON.parse(JSON.stringify(o));}
+function ltMap(v){
+  if(typeof v==="string"){ var t=LT[h32(v)]; return t||v; }
+  if(Array.isArray(v))return v.map(ltMap);
+  if(v&&typeof v==="object"){var o={};for(var k in v)o[k]=ltMap(v[k]);return o;}
+  return v;
+}
+function ltSnapshot(){ try{ L_EN=ltClone(L); }catch(e){} }
+function ltApply(){
+  try{
+    if(!L_EN) ltSnapshot();
+    L = (LT_LANG==="en"||!LT||!Object.keys(LT).length) ? ltClone(L_EN) : ltMap(L_EN);
+    if(typeof render==="function") render();
+  }catch(e){}
+}
+function ltCoverage(){
+  var hit=0,miss=0;
+  (function walk(v){
+    if(typeof v==="string"){ if(!v.trim())return; (LT[h32(v)]?hit++:miss++); }
+    else if(Array.isArray(v))v.forEach(walk);
+    else if(v&&typeof v==="object")Object.keys(v).forEach(function(k){walk(v[k]);});
+  })(L_EN||L);
+  return {hit:hit,miss:miss,pct:Math.round(100*hit/Math.max(1,hit+miss))};
+}
+function ltLoad(lang){
+  LT_LANG=lang||"en";
+  if(LT_LANG==="en"){ LT={}; ltApply(); return; }
+  fetch("/lesson-i18n-"+LT_LANG+".json",{cache:"no-store"})
+    .then(function(r){ return r.ok?r.json():{}; })
+    .then(function(j){ LT=j||{}; ltApply(); })
+    .catch(function(){ LT={}; ltApply(); });
+}
+window.ltLoad=ltLoad; window.ltCoverage=ltCoverage;
 var COURSE_NAME_FIX={subq:"SubQ Injection"};
 function applyCurriculum(list){
   try{
@@ -6064,6 +6106,7 @@ function applyCurriculum(list){
     if(!ids.length) return false;
     var _booted=!!document.querySelector('#view *');
     COURSES=NC; L=NL; COURSE_IDS=ids; TOTAL_LESSONS=allLessons().length;
+    ltSnapshot(); if(LT_LANG!=="en"&&LT&&Object.keys(LT).length){ try{L=ltMap(L_EN);}catch(e){} }
     _figMapCache={};
     if(COURSE_IDS.indexOf(S.course)<0) S.course=COURSE_IDS[0];
     // if the fallback already painted, repaint against the real curriculum -
@@ -6358,7 +6401,7 @@ function bootRender(){ ceSyncMilestones(); ceLoad();
 .lngsel{background:rgba(255,255,255,.06);border:1px solid rgba(227,206,154,.35);color:#E3CE9A;border-radius:999px;
   padding:6px 10px;font:inherit;font-size:.78rem;font-weight:600;cursor:pointer;max-width:16rem}
 .lngsel option{background:#0B2B33;color:#F2E7CC}
-.i18nnote{background:#0B2B33;border-bottom:1px solid rgba(58,216,210,.30);color:#C9F5F3;
+.i18nnote{background:#4A3410;border-bottom:1px solid rgba(227,206,154,.45);color:#F6E6BF;
   font-size:.78rem;line-height:1.45;padding:7px 16px;text-align:center}
 .i18nnote b{color:#E3CE9A}
 html[lang="ko"] :is(.eyebrow,.lbl,.lc-eyebrow,.modlbl,.cev-eyebrow,.cev-chevlab,.sec,.cap,.tlbl),
@@ -6548,7 +6591,7 @@ var S={
 "Final stretch":{fr:"Dernière ligne droite",ko:"마지막 단계",ru:"Финишная прямая",es:"Recta final",tl:"Huling yugto",zh:"最后冲刺",vi:"Chặng cuối",ht:"Dènye etap la",ar:"المرحلة الأخيرة"},
 "Program complete":{fr:"Programme terminé",ko:"프로그램 완료",ru:"Программа завершена",es:"Programa completado",tl:"Kumpleto ang programa",zh:"全部课程完成",vi:"Hoàn thành chương trình",ht:"Pwogram nan fini",ar:"اكتمل البرنامج"},
 "Language":{fr:"Langue",ko:"언어",ru:"Язык",es:"Idioma",tl:"Wika",zh:"语言",vi:"Ngôn ngữ",ht:"Lang",ar:"اللغة"},
-"__notice":{fr:"Interface traduite. Le contenu clinique des leçons reste en anglais jusqu'à ce qu'un clinicien agréé en révise la traduction.",ko:"인터페이스가 번역되었습니다. 강의의 임상 콘텐츠는 면허를 소지한 임상 전문가가 번역을 검토할 때까지 영어로 유지됩니다.",ru:"Интерфейс переведён. Клиническое содержание уроков остаётся на английском, пока перевод не проверит лицензированный клиницист.",es:"Interfaz traducida. El contenido clínico de las lecciones permanece en inglés hasta que un profesional clínico con licencia revise la traducción.",tl:"Naisalin ang interface. Nananatiling nasa Ingles ang klinikal na nilalaman ng aralin hanggang masuri ng lisensyadong clinician ang salin.",zh:"界面已翻译。课程的临床内容仍为英文，需由持照临床人员审核译文后才会翻译。",vi:"Giao diện đã được dịch. Nội dung lâm sàng của bài học vẫn giữ tiếng Anh cho đến khi một chuyên viên lâm sàng có giấy phép rà soát bản dịch.",ht:"Entèfas la tradui. Kontni klinik leson yo rete an anglè jiskaske yon klinisyen ki gen lisans revize tradiksyon an.",ar:"تمت ترجمة الواجهة. يبقى المحتوى السريري للدروس بالإنجليزية إلى أن يراجع الترجمة اختصاصي سريري مرخّص."}
+"__notice":{es:"Interfaz y lecciones traducidas automáticamente. Aún no revisadas por un profesional clínico con licencia: consulta el original en inglés antes de actuar sobre el contenido clínico.",zh:"界面与课程为机器翻译，尚未经持照临床人员审核。在依据临床内容操作前，请核对英文原文。",tl:"Awtomatikong isinalin ang interface at mga aralin. Hindi pa nasusuri ng lisensyadong clinician: tingnan ang orihinal na Ingles bago kumilos batay sa klinikal na nilalaman.",vi:"Giao diện và bài học được dịch tự động, chưa được chuyên viên lâm sàng có giấy phép rà soát. Hãy đối chiếu bản tiếng Anh trước khi thực hiện theo nội dung lâm sàng.",ar:"تمت ترجمة الواجهة والدروس آليًا ولم يراجعها بعد اختصاصي سريري مرخّص. راجع النص الإنجليزي قبل العمل بأي محتوى سريري.",fr:"Interface et leçons traduites automatiquement, pas encore relues par un clinicien agréé. Vérifiez la version anglaise avant d'appliquer un contenu clinique.",ko:"인터페이스와 강의는 자동 번역되었으며 아직 면허 임상 전문가의 검토를 받지 않았습니다. 임상 내용을 실제로 적용하기 전에 영어 원문을 확인하세요.",ru:"Интерфейс и уроки переведены машинно и ещё не проверены лицензированным клиницистом. Сверяйтесь с английским оригиналом, прежде чем применять клинические указания.",ht:"Entèfas la ak leson yo tradui otomatikman, yon klinisyen ki gen lisans poko revize yo. Tcheke vèsyon anglè a anvan ou aplike okenn kontni klinik."}
 };
 
 /* patterns that carry a number, so an exact-string lookup cannot reach them */
@@ -6666,6 +6709,7 @@ function set(c){
   document.documentElement.setAttribute("lang",m.html||m.c);
   document.documentElement.setAttribute("dir",m.rtl?"rtl":"ltr");
   var sel=document.getElementById("lngSel"); if(sel&&sel.value!==c)sel.value=c;
+  try{ if(typeof window.ltLoad==="function") window.ltLoad(c); }catch(e){}
   apply();
 }
 
